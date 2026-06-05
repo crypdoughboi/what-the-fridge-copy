@@ -1,0 +1,17 @@
+{
+  "name": "What The Fridge",
+  "short_name": "WTF",
+  "description": "Dinner from what you already bought.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fcf8f0",
+  "theme_color": "#fcf8f0",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
