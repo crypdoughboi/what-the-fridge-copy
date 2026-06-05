@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Apple, ArrowRight, Mail, ShieldCheck } from 'lucide-react';
+import { Apple, Mail, ShieldCheck } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Logo } from '../components/BrandMark';
@@ -8,20 +8,29 @@ export function AuthScreen({
   onApple,
   onGmail,
   onEmail,
+  errorMessage,
 }: {
   onApple: () => Promise<void>;
   onGmail: () => Promise<void>;
   onEmail: (email: string) => Promise<void>;
+  errorMessage?: string | null;
 }) {
   const [email, setEmail] = useState('');
   const [busy, setBusy] = useState<'apple' | 'gmail' | 'email' | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
 
   async function run(provider: 'apple' | 'gmail' | 'email') {
-    setBusy(provider);
-    if (provider === 'apple') await onApple();
-    if (provider === 'gmail') await onGmail();
-    if (provider === 'email') await onEmail(email);
-    setBusy(null);
+    try {
+      setLocalError(null);
+      setBusy(provider);
+      if (provider === 'apple') await onApple();
+      if (provider === 'gmail') await onGmail();
+      if (provider === 'email') await onEmail(email);
+    } catch (error) {
+      setLocalError(error instanceof Error ? error.message : 'Sign-in failed. Try again.');
+    } finally {
+      setBusy(null);
+    }
   }
 
   async function submitEmail(event: FormEvent) {
@@ -82,6 +91,11 @@ export function AuthScreen({
             {busy === 'email' ? 'Saving' : 'Email'}
           </Button>
         </form>
+        {(localError || errorMessage) && (
+          <div className="rounded-2xl bg-tomato/10 px-4 py-3 text-sm font-bold leading-relaxed text-tomato">
+            {localError || errorMessage}
+          </div>
+        )}
       </Card>
 
       <Card className="mt-5">
@@ -106,14 +120,9 @@ export function AuthScreen({
         ))}
       </div>
 
-      <button
-        className="mt-5 inline-flex items-center gap-2 text-sm font-black text-herb"
-        onClick={() => run('gmail')}
-        disabled={busy !== null}
-      >
-        Use the demo grocery brain
-        <ArrowRight className="h-4 w-4" />
-      </button>
+      <p className="mt-5 text-sm font-bold leading-relaxed text-steel">
+        Start with email if Google or Apple setup is still pending.
+      </p>
     </main>
   );
 }

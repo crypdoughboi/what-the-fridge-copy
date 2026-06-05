@@ -1,49 +1,97 @@
+import { User } from '@supabase/supabase-js';
 import { AuthProvider, UserAccount } from '../types';
+import { getAuthRedirectUrl, isSupabaseConfigured, supabase } from './supabaseClient';
 
-export async function signInWithAppleId(): Promise<UserAccount> {
-  // Future integration points:
-  // - Apple sign-in for iPhone and web.
-  // - Private relay email handling.
-  // - Account linking if the same user later signs in with Gmail.
-  await wait(650);
-  return createMockAccount('apple', 'Josh', 'josh.private@icloud.example');
+export async function signInWithAppleId(): Promise<void> {
+  ensureSupabaseConfigured();
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'apple',
+    options: {
+      redirectTo: getAuthRedirectUrl(),
+    },
+  });
+  if (error) throw error;
 }
 
-export async function signInWithGmail(): Promise<UserAccount> {
-  // Future integration points:
-  // - Google OAuth with Gmail identity.
-  // - Profile image and household invite matching.
-  // - Account linking if the same email already exists.
-  await wait(650);
-  return createMockAccount('gmail', 'Josh', 'josh.demo@gmail.example');
+export async function signInWithGmail(): Promise<void> {
+  ensureSupabaseConfigured();
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: getAuthRedirectUrl(),
+      queryParams: {
+        prompt: 'select_account',
+      },
+    },
+  });
+  if (error) throw error;
 }
 
-export async function signInWithEmailMagicLink(email: string): Promise<UserAccount> {
-  // Future integration points:
-  // - Supabase Auth or Firebase Auth.
-  // - Email magic link for web.
-  // - Apple sign-in later for iPhone.
-  await wait(500);
-  return createMockAccount('email', nameFromEmail(email), email);
-}
-
-export async function signOut(): Promise<{ ok: true }> {
-  await wait(300);
-  return { ok: true };
-}
-
-function createMockAccount(provider: AuthProvider, name: string, email: string): UserAccount {
-  return {
-    id: `wtf-${provider}-${email.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-    name,
+export async function signInWithEmailMagicLink(email: string): Promise<void> {
+  ensureSupabaseConfigured();
+  const { error } = await supabase.auth.signInWithOtp({
     email,
+    options: {
+      emailRedirectTo: getAuthRedirectUrl(),
+      shouldCreateUser: true,
+    },
+  });
+  if (error) throw error;
+}
+
+export async function getCurrentUserAccount(): Promise<UserAccount | null> {
+  if (!isSupabaseConfigured) return null;
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data.user) return null;
+  return userToAccount(data.user);
+}
+
+export function listenForAuthChanges(onChange: (account: UserAccount | null) => void): () => void {
+  if (!isSupabaseConfigured) return () => undefined;
+  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    onChange(session?.user ? userToAccount(session.user) : null);
+  });
+  return () => data.subscription.unsubscribe();
+}
+
+export async function signOut(): Promise<void> {
+  ensureSupabaseConfigured();
+  const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+}
+
+function userToAccount(user: User): UserAccount {
+  const provider = providerFromUser(user);
+  const metadata = user.user_metadata ?? {};
+  const name =
+    stringValue(metadata.full_name) ||
+    stringValue(metadata.name) ||
+    stringValue(metadata.given_name) ||
+    nameFromEmail(user.email ?? '') ||
+    'WTF user';
+
+  return {
+    id: user.id,
+    name,
+    email: user.email ?? 'private email',
     provider,
-    createdAt: new Date().toISOString(),
+    createdAt: user.created_at ?? new Date().toISOString(),
   };
 }
 
+function providerFromUser(user: User): AuthProvider {
+  const provider = user.app_metadata?.provider;
+  if (provider === 'google') return 'gmail';
+  if (provider === 'apple') return 'apple';
+  return 'email';
+}
+
+function stringValue(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
 function nameFromEmail(email: string): string {
-  const local = email.split('@')[0] || 'You';
+  const local = email.split('@')[0] || '';
   return local
     .split(/[._-]+/)
     .filter(Boolean)
@@ -51,6 +99,8 @@ function nameFromEmail(email: string): string {
     .join(' ');
 }
 
-function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => window.setTimeout(resolve, ms));
+function ensureSupabaseConfigured(): void {
+  if (!isSupabaseConfigured) {
+    throw new Error('Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in Vercel.');
+  }
 }

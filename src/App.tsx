@@ -36,6 +36,8 @@ const fridgeLoadingSteps = [
   'Finding dinner in the chaos...',
 ];
 
+const authLoadingSteps = ['Checking your account...', 'Finding your grocery brain...', 'Keeping receipts private...'];
+
 export default function App() {
   const app = useGroceryAppState();
   const [screen, setScreen] = useState<Screen>('auth');
@@ -105,6 +107,10 @@ export default function App() {
   }
 
   function renderScreen() {
+    if (!app.authReady) {
+      return <LoadingState title="Opening WTF" steps={authLoadingSteps} />;
+    }
+
     if (!app.account) {
       return (
         <AuthScreen
@@ -120,6 +126,7 @@ export default function App() {
             await app.createAccountWithEmail(email);
             setScreen('onboarding');
           }}
+          errorMessage={app.authError}
         />
       );
     }

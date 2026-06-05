@@ -21,9 +21,16 @@ import {
   updateLocalStateAfterUserAction,
 } from '../utils/groceryLogic';
 import { getMealsForMode } from '../services/mealGenerationService';
-import { signInWithAppleId, signInWithEmailMagicLink, signInWithGmail, signOut } from '../services/authService';
+import {
+  getCurrentUserAccount,
+  listenForAuthChanges,
+  signInWithAppleId,
+  signInWithEmailMagicLink,
+  signInWithGmail,
+  signOut,
+} from '../services/authService';
 
-const accountStorageKey = 'wtf.account.v1';
+const legacyAccountStorageKey = 'wtf.account.v1';
 
 type PersonalizedState = {
   completedOnboarding: boolean;
@@ -47,17 +54,17 @@ const emptyBehavior: BehaviorState = {
 };
 
 export function useGroceryAppState() {
-  const storedAccount = readStorage<UserAccount>(accountStorageKey);
-  const storedPersonalization = storedAccount ? readStorage<PersonalizedState>(personalizedStorageKey(storedAccount.id)) : null;
-  const [account, setAccount] = useState<UserAccount | null>(storedAccount);
-  const [completedOnboarding, setCompletedOnboarding] = useState(storedPersonalization?.completedOnboarding ?? false);
-  const [profile, setProfile] = useState<OnboardingProfile>(storedPersonalization?.profile ?? defaultProfile);
-  const [memory, setMemory] = useState<GroceryMemoryItem[]>(storedPersonalization?.memory ?? groceryMemory);
-  const [behavior, setBehavior] = useState<BehaviorState>(storedPersonalization?.behavior ?? emptyBehavior);
+  const [account, setAccount] = useState<UserAccount | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [completedOnboarding, setCompletedOnboarding] = useState(false);
+  const [profile, setProfile] = useState<OnboardingProfile>(defaultProfile);
+  const [memory, setMemory] = useState<GroceryMemoryItem[]>(groceryMemory);
+  const [behavior, setBehavior] = useState<BehaviorState>(emptyBehavior);
   const [toast, setToast] = useState<string | null>(null);
-  const [savedMealIds, setSavedMealIds] = useState<string[]>(storedPersonalization?.savedMealIds ?? []);
-  const [cookedMealIds, setCookedMealIds] = useState<string[]>(storedPersonalization?.cookedMealIds ?? []);
-  const [recommendedItems, setRecommendedItems] = useState<string[]>(storedPersonalization?.recommendedItems ?? []);
+  const [savedMealIds, setSavedMealIds] = useState<string[]>([]);
+  const [cookedMealIds, setCookedMealIds] = useState<string[]>([]);
+  const [recommendedItems, setRecommendedItems] = useState<string[]>([]);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -77,12 +84,40 @@ export function useGroceryAppState() {
   );
 
   useEffect(() => {
-    if (account) {
-      writeStorage(accountStorageKey, account);
-      return;
-    }
-    window.localStorage.removeItem(accountStorageKey);
-  }, [account]);
+    window.localStorage.removeItem(legacyAccountStorageKey);
+
+    let mounted = true;
+
+    getCurrentUserAccount()
+      .then((currentAccount) => {
+        if (!mounted) return;
+        if (currentAccount) {
+          activateAccount(currentAccount);
+        }
+        setAuthReady(true);
+      })
+      .catch((error) => {
+        if (!mounted) return;
+        setAuthError(error instanceof Error ? error.message : 'Could not check your account.');
+        setAuthReady(true);
+      });
+
+    const unsubscribe = listenForAuthChanges((nextAccount) => {
+      if (!mounted) return;
+      if (nextAccount) {
+        activateAccount(nextAccount);
+      } else {
+        setAccount(null);
+        applyPersonalizedState(defaultPersonalizedState());
+      }
+      setAuthReady(true);
+    });
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!account) return;
@@ -98,28 +133,27 @@ export function useGroceryAppState() {
   }, [account, completedOnboarding, profile, memory, behavior, savedMealIds, cookedMealIds, recommendedItems]);
 
   async function createAccountWithApple() {
-    const nextAccount = await signInWithAppleId();
-    activateAccount(nextAccount);
-    showToast('Apple ID connected. Grocery brain has a home.');
+    setAuthError(null);
+    await signInWithAppleId();
   }
 
   async function createAccountWithGmail() {
-    const nextAccount = await signInWithGmail();
-    activateAccount(nextAccount);
-    showToast('Gmail connected. Your grocery memory will stick around.');
+    setAuthError(null);
+    await signInWithGmail();
   }
 
   async function createAccountWithEmail(email: string) {
-    const nextAccount = await signInWithEmailMagicLink(email);
-    activateAccount(nextAccount);
-    showToast('Account created. Receipts stay tied to this profile.');
+    setAuthError(null);
+    await signInWithEmailMagicLink(email);
+    showToast('Check your email. WTF sent the sign-in link.');
   }
 
   async function signOutAccount() {
     await signOut();
     setAccount(null);
     setCompletedOnboarding(false);
-    showToast('Signed out. Grocery memory stays saved locally.');
+    applyPersonalizedState(defaultPersonalizedState());
+    showToast('Signed out. Grocery memory stays tied to your account.');
   }
 
   function activateAccount(nextAccount: UserAccount) {
@@ -333,6 +367,8 @@ export function useGroceryAppState() {
   return {
     completedOnboarding,
     account,
+    authReady,
+    authError,
     profile,
     memory,
     groceryList,
@@ -434,6 +470,18 @@ function unique(values: string[]): string[] {
 
 function personalizedStorageKey(accountId: string): string {
   return `wtf.personalized.${accountId}.v1`;
+}
+
+function defaultPersonalizedState(): PersonalizedState {
+  return {
+    completedOnboarding: false,
+    profile: defaultProfile,
+    memory: groceryMemory,
+    behavior: emptyBehavior,
+    savedMealIds: [],
+    cookedMealIds: [],
+    recommendedItems: [],
+  };
 }
 
 function readStorage<T>(key: string): T | null {

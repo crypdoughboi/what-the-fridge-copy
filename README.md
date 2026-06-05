@@ -46,6 +46,39 @@ src/
 
 ## Where To Plug In Real Services
 
+## Real Auth Setup
+
+This build uses Supabase Auth for account creation and sign-in.
+
+Required Vercel environment variables:
+
+```text
+VITE_SUPABASE_URL=https://bviwecxzrvlfnojhakim.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your Supabase publishable key
+```
+
+Local development can use `.env.local`. Do not commit `.env.local`.
+
+Supabase configuration:
+
+- `Authentication > URL Configuration`
+- Site URL: your Vercel URL
+- Redirect URLs:
+  - `https://what-the-fridge-theta.vercel.app`
+  - `https://what-the-fridge-theta.vercel.app/auth/callback`
+  - `http://localhost:5173`
+  - `http://localhost:5173/auth/callback`
+
+Auth providers:
+
+- Email magic links work through Supabase Email provider.
+- Gmail uses Supabase Google OAuth.
+- Apple uses Supabase Apple OAuth, but requires Apple Developer setup and a valid Apple client secret JWT.
+
+The app includes `vercel.json` so `/auth/callback` loads the Vite SPA after OAuth or email magic-link redirects.
+
+Current personalization is stored per Supabase user in browser storage. To sync across devices, add a Supabase table for user app state and move the existing local persistence into that table.
+
 Receipt OCR lives in `src/services/receiptOcrService.ts`.
 
 Good future options:
