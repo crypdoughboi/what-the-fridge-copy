@@ -1,4 +1,4 @@
-export type Tab = 'home' | 'list' | 'scan' | 'meals' | 'spend';
+export type Tab = 'home' | 'list' | 'meals' | 'spend';
 
 export type Screen =
   | 'auth'

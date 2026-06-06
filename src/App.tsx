@@ -36,7 +36,7 @@ const fridgeLoadingSteps = [
   'Finding dinner in the chaos...',
 ];
 
-const authLoadingSteps = ['Checking your account...', 'Finding your grocery brain...', 'Keeping receipts private...'];
+const authLoadingSteps = ['Checking your account...', 'Loading your saved setup...', 'Keeping receipts private...'];
 
 export default function App() {
   const app = useGroceryAppState();
@@ -63,20 +63,25 @@ export default function App() {
   }
 
   function openReceiptScan() {
-    setActiveTab('scan');
+    setActiveTab('list');
     setReceiptPreviewUrl(null);
     setScreen('receiptScan');
   }
 
   function openFridgeScan() {
-    setActiveTab('scan');
+    setActiveTab('list');
     setFridgePreviewUrl(null);
     setScreen('fridgeScan');
   }
 
+  function openListHelpers() {
+    setActiveTab('list');
+    setScreen('scan');
+  }
+
   async function startReceiptScan(file?: File | null) {
     if (file) setReceiptPreviewUrl(URL.createObjectURL(file));
-    setActiveTab('scan');
+    setActiveTab('list');
     setScreen('receiptScan');
     setReceiptLoading(true);
     const extraction = await normalizeReceiptItems(await scanReceiptImage(file));
@@ -87,7 +92,7 @@ export default function App() {
 
   async function startFridgeScan(file?: File | null) {
     if (file) setFridgePreviewUrl(URL.createObjectURL(file));
-    setActiveTab('scan');
+    setActiveTab('list');
     setScreen('fridgeScan');
     setFridgeLoading(true);
     const items = await scanFridgeOrPantryImage(file);
@@ -98,7 +103,7 @@ export default function App() {
 
   function confirmReceipt(extraction: ReceiptExtraction) {
     app.confirmReceipt(extraction);
-    setScreen('receiptSuccess');
+    navigateTab('list');
   }
 
   function updateFromFridge(items: VisionItem[]) {
@@ -157,8 +162,10 @@ export default function App() {
           hasReceiptHistory={app.hasReceiptHistory}
           onOpenMeal={openMeal}
           onAddMissing={app.addMealMissingItems}
+          onAddUsuals={app.addUsualsToList}
           onGoList={() => navigateTab('list')}
-          onGoScan={() => navigateTab('scan')}
+          onGoMeals={() => navigateTab('meals')}
+          onPasteOldList={openListHelpers}
           onScanReceipt={openReceiptScan}
           onCheckFridge={openFridgeScan}
           onSettings={() => setScreen('settings')}
@@ -177,6 +184,10 @@ export default function App() {
           onAddUsuals={app.addUsualsToList}
           onAddMealUnlocks={app.addMealUnlockItems}
           onRebuild={app.rebuildList}
+          onScanReceipt={openReceiptScan}
+          onSnapFridge={openFridgeScan}
+          onPasteOldList={openListHelpers}
+          onGoMeals={() => navigateTab('meals')}
         />
       );
     }
@@ -184,6 +195,7 @@ export default function App() {
     if (screen === 'scan') {
       return (
         <ScanScreen
+          onBack={() => navigateTab('list')}
           onReceiptFile={startReceiptScan}
           onReceiptSample={() => startReceiptScan(null)}
           onFridgeFile={startFridgeScan}
@@ -199,7 +211,7 @@ export default function App() {
       return receiptLoading ? (
         <LoadingState title="Scanning receipt" steps={receiptLoadingSteps} />
       ) : (
-        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => navigateTab('scan')} onFile={startReceiptScan} onSample={() => startReceiptScan(null)} />
+        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => navigateTab('list')} onFile={startReceiptScan} onSample={() => startReceiptScan(null)} />
       );
     }
 
@@ -215,7 +227,7 @@ export default function App() {
       return fridgeLoading ? (
         <LoadingState title="Checking fridge" steps={fridgeLoadingSteps} />
       ) : (
-        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => navigateTab('scan')} onFile={startFridgeScan} onSample={() => startFridgeScan(null)} />
+        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => navigateTab('list')} onFile={startFridgeScan} onSample={() => startFridgeScan(null)} />
       );
     }
 
@@ -224,7 +236,15 @@ export default function App() {
     }
 
     if (screen === 'meals') {
-      return <MealsScreen hasGroceryData={app.hasGroceryData} onOpenMeal={openMeal} onAddMissing={app.addMealMissingItems} onScanReceipt={openReceiptScan} />;
+      return (
+        <MealsScreen
+          hasGroceryData={app.hasGroceryData}
+          onOpenMeal={openMeal}
+          onAddMissing={app.addMealMissingItems}
+          onBuildList={() => navigateTab('list')}
+          onScanReceipt={openReceiptScan}
+        />
+      );
     }
 
     if (screen === 'mealDetail' && selectedMeal) {

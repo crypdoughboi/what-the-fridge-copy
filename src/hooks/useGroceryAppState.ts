@@ -11,7 +11,7 @@ import {
   UserAccount,
   VisionItem,
 } from '../types';
-import { defaultProfile, mealSuggestions, spendingInsight } from '../data/mockData';
+import { defaultProfile, spendingInsight } from '../data/mockData';
 import {
   categorizeGroceryItem,
   detectUsuals,
@@ -135,6 +135,8 @@ export function useGroceryAppState() {
       mounted = false;
       unsubscribe();
     };
+    // Auth subscription should be installed once for the app session.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

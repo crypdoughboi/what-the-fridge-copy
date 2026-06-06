@@ -6,7 +6,7 @@ export async function scanFridgeOrPantryImage(_file?: File | null): Promise<Visi
   // - OpenAI vision with structured JSON output.
   // - Image classification tuned for grocery and pantry items.
   // - Confidence thresholds for "clearly seen", "maybe low", and "could not tell".
-  // - Household grocery memory to avoid claiming perfect inventory.
+  // - Household purchase and list history to avoid claiming perfect inventory.
   await wait(1700);
   return fridgeScanItems;
 }

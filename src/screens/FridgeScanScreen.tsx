@@ -17,21 +17,21 @@ export function FridgeScanScreen({
 }) {
   return (
     <main className="screen-enter space-y-5">
-      <button className="inline-flex items-center gap-2 text-sm font-black text-steel" onClick={onBack}>
-        <ArrowLeft className="h-4 w-4" />
-        Scan hub
+      <button className="inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
+        <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
+        Back to List
       </button>
       <section>
-        <p className="text-[12px] font-black uppercase text-herb">Fridge check</p>
-        <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">Finding dinner in the chaos.</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
-          Take a fridge or pantry photo. WTF will be honest about what it can and cannot see.
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Snap fridge</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Add from a fridge photo.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
+          Take a fridge or pantry photo. WTF will spot what you may already have.
         </p>
       </section>
 
       <Card>
         {previewUrl ? (
-          <img src={previewUrl} alt="Uploaded fridge or pantry preview" className="h-72 w-full rounded-[20px] object-cover shadow-card" />
+          <img src={previewUrl} alt="Uploaded fridge or pantry preview" className="h-72 w-full rounded-lg object-cover shadow-sm" />
         ) : (
           <SampleFridgeVisual />
         )}

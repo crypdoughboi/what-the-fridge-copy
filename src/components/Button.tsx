@@ -7,16 +7,18 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variants = {
-  primary: 'bg-ink text-cream shadow-card active:scale-[0.98]',
-  secondary: 'bg-white/85 text-ink border border-ink/10 shadow-card active:scale-[0.98]',
-  ghost: 'bg-transparent text-ink hover:bg-ink/5 active:bg-ink/10',
-  danger: 'bg-tomato text-white shadow-card active:scale-[0.98]',
+  primary: 'bg-ink text-paper shadow-sm active:scale-[0.98]',
+  secondary: 'border border-line bg-surface text-ink shadow-sm active:scale-[0.98]',
+  ghost: 'bg-transparent text-ink-soft active:bg-line/40 active:scale-[0.98]',
+  danger: 'bg-ink text-paper shadow-sm active:scale-[0.98]',
 };
 
 export function Button({ children, className = '', variant = 'primary', icon, full, ...props }: ButtonProps) {
   return (
     <button
-      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition ${variants[variant]} ${
+      className={`inline-flex min-h-[52px] items-center justify-center gap-2 rounded-md px-4 py-3 text-[15px] font-semibold leading-none transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-45 ${
+        variants[variant]
+      } ${
         full ? 'w-full' : ''
       } ${className}`}
       {...props}

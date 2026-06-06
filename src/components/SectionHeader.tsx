@@ -1,9 +1,22 @@
-export function SectionHeader({ eyebrow, title, action }: { eyebrow?: string; title: string; action?: React.ReactNode }) {
+import { Eyebrow } from './Eyebrow';
+
+export function SectionHeader({
+  eyebrow,
+  title,
+  subhead,
+  action,
+}: {
+  eyebrow?: string;
+  title: string;
+  subhead?: string;
+  action?: React.ReactNode;
+}) {
   return (
-    <div className="mb-3 mt-6 flex items-end justify-between gap-3">
+    <div className="mb-3 flex items-end justify-between gap-3">
       <div>
-        {eyebrow && <p className="mb-1 text-[11px] font-black uppercase text-herb">{eyebrow}</p>}
-        <h2 className="text-xl font-black text-ink">{title}</h2>
+        {eyebrow && <Eyebrow muted={eyebrow.toLowerCase().includes('maybe') || eyebrow.toLowerCase().includes('check')}>{eyebrow}</Eyebrow>}
+        <h2 className="mt-1 font-display text-[21px] font-bold leading-[1.15] tracking-[-0.02em] text-ink">{title}</h2>
+        {subhead && <p className="mt-1 text-[14px] font-medium leading-snug text-muted">{subhead}</p>}
       </div>
       {action}
     </div>

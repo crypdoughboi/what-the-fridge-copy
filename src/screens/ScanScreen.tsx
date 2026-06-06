@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { ClipboardList, FileText, Refrigerator, Wand2 } from 'lucide-react';
+import { ArrowLeft, ClipboardList, FileText, Refrigerator, Wand2 } from 'lucide-react';
 import { GroceryListEntry } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { FileUploadButton } from '../components/FileUploadButton';
+import { Textarea } from '../components/Input';
 import { SampleFridgeVisual, SampleReceiptVisual } from '../components/SampleVisuals';
+import { SectionHeader } from '../components/SectionHeader';
 import { importOldGroceryList } from '../services/oldListImportService';
 
 export function ScanScreen({
@@ -15,7 +17,9 @@ export function ScanScreen({
   onOpenReceipt,
   onOpenFridge,
   onImportItems,
+  onBack,
 }: {
+  onBack: () => void;
   onReceiptFile: (file: File) => void;
   onReceiptSample: () => void;
   onFridgeFile: (file: File) => void;
@@ -38,22 +42,26 @@ export function ScanScreen({
   function addImported() {
     onImportItems(importedItems);
     setImportedItems([]);
+    setOldListText('');
   }
 
   return (
-    <main className="screen-enter space-y-5">
-      <section>
-        <p className="text-[12px] font-black uppercase text-herb">Inputs</p>
-        <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">Feed the grocery brain.</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
-          Receipts, fridge checks, pantry checks, and old lists. No manual pantry homework.
-        </p>
+    <main className="screen-enter space-y-8">
+      <button className="section-enter inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
+        <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
+        Back to List
+      </button>
+
+      <section className="section-enter">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Add methods</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Add to your list.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Receipts, fridge photos, and old lists fill the list faster than typing.</p>
       </section>
 
       <ScanCard
-        icon={<FileText className="h-5 w-5" />}
-        title="Scan receipt"
-        text="Turn receipts into grocery memory."
+        icon={<FileText className="h-6 w-6" strokeWidth={1.75} />}
+        title="Scan a receipt"
+        text="Pull grocery items from a recent receipt."
         visual={<SampleReceiptVisual />}
         onOpen={onOpenReceipt}
         upload={<FileUploadButton label="Upload" onFile={onReceiptFile} />}
@@ -63,9 +71,9 @@ export function ScanScreen({
       />
 
       <ScanCard
-        icon={<Refrigerator className="h-5 w-5" />}
-        title="Check fridge or pantry"
-        text="See what you probably already have."
+        icon={<Refrigerator className="h-6 w-6" strokeWidth={1.75} />}
+        title="Snap your fridge"
+        text="Spot what you already have before you buy it again."
         visual={<SampleFridgeVisual />}
         onOpen={onOpenFridge}
         upload={<FileUploadButton label="Upload" onFile={onFridgeFile} />}
@@ -76,39 +84,36 @@ export function ScanScreen({
 
       <Card>
         <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-saffron/16 text-ink">
-            <ClipboardList className="h-5 w-5" />
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <ClipboardList className="h-5 w-5" strokeWidth={1.75} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-ink">Import old list</h2>
-            <p className="mt-1 text-sm font-semibold leading-relaxed text-steel">Paste from Notes, Reminders, screenshots, or texts.</p>
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Paste an old list</h2>
+            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Paste from Notes, Reminders, screenshots, or texts.</p>
           </div>
         </div>
-        <textarea
+        <Textarea
           value={oldListText}
           onChange={(event) => setOldListText(event.target.value)}
           placeholder={'bananas\nchicken thighs\nspinach\npaper towels'}
-          className="mt-4 min-h-36 w-full resize-none rounded-2xl border border-ink/10 bg-white/86 px-4 py-3 text-sm font-semibold leading-relaxed outline-none focus:border-herb"
+          className="mt-4"
         />
-        <Button className="mt-3" full icon={<Wand2 className={`h-4 w-4 ${importing ? 'animate-spin' : ''}`} />} onClick={parseList} disabled={!oldListText.trim()}>
-          {importing ? 'Importing the chaos' : 'Parse list'}
+        <Button className="mt-3" full icon={<Wand2 className={`h-5 w-5 ${importing ? 'animate-spin' : ''}`} strokeWidth={1.75} />} onClick={parseList} disabled={!oldListText.trim()}>
+          {importing ? 'Reading list' : 'Parse list'}
         </Button>
         {importedItems.length > 0 && (
-          <div className="mt-4 rounded-2xl bg-linen/72 p-3">
-            <p className="mb-2 text-[11px] font-black uppercase text-steel">Imported items</p>
-            <div className="space-y-2">
+          <div className="mt-4 rounded-md bg-paper p-3">
+            <SectionHeader eyebrow="Imported" title={`${importedItems.length} items`} />
+            <div className="mt-3 space-y-2">
               {importedItems.map((item) => (
-                <div key={item.id} className="flex items-center justify-between rounded-xl bg-white/72 px-3 py-2 text-sm font-bold">
+                <div key={item.id} className="flex items-center justify-between rounded-sm bg-surface px-3 py-2 text-[14px] font-semibold">
                   <span>{item.name}</span>
-                  <span className="text-[11px] text-steel">{item.category}</span>
+                  <span className="text-[13px] text-muted">{item.category}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-sm font-semibold text-steel">
-              Likely usuals: {importedItems.slice(0, 4).map((item) => item.name).join(', ')}
-            </p>
             <Button className="mt-3" full onClick={addImported}>
-              Add to grocery memory
+              Add to List
             </Button>
           </div>
         )}
@@ -142,10 +147,10 @@ function ScanCard({
     <Card>
       <button className="w-full text-left" onClick={onOpen}>
         <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-herb/12 text-herb">{icon}</div>
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
           <div>
-            <h2 className="text-xl font-black text-ink">{title}</h2>
-            <p className="mt-1 text-sm font-semibold leading-relaxed text-steel">{text}</p>
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">{title}</h2>
+            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{text}</p>
           </div>
         </div>
         <div className="mt-4">{visual}</div>

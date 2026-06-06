@@ -10,7 +10,7 @@ export async function generateMealsFromGroceryMemory(
   // Future integration points:
   // - AI model with chef rules, not generic recipe filler.
   // - User preference profile and dietary constraints.
-  // - Household grocery memory, recent receipt data, and fridge scan data.
+  // - Household purchase and list history, recent receipt data, and fridge scan data.
   // - Structured output with ingredients, steps, chef note, and missing items.
   await wait(500);
   return getMealsForMode(mode);

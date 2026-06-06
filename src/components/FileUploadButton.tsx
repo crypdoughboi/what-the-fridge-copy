@@ -22,9 +22,9 @@ export function FileUploadButton({
   return (
     <label
       htmlFor={id}
-      className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-ink/10 bg-white/85 px-4 py-2.5 text-sm font-semibold text-ink shadow-card transition active:scale-[0.98]"
+      className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-3 text-[15px] font-semibold text-ink shadow-sm transition duration-150 ease-out active:scale-[0.98]"
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-5 w-5" strokeWidth={1.75} />
       {label}
       <input id={id} type="file" accept="image/*" capture={camera ? 'environment' : undefined} className="sr-only" onChange={handleChange} />
     </label>

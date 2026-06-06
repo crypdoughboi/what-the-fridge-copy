@@ -16,27 +16,27 @@ export function MealCard({
   compact?: boolean;
 }) {
   return (
-    <Card className="transition active:scale-[0.99]">
+    <Card className="transition duration-150 ease-out active:scale-[0.99]">
       <button className="w-full text-left" onClick={() => onOpen(meal)}>
         <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-herb/12 text-herb">
-            <Utensils className="h-5 w-5" />
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <Utensils className="h-5 w-5" strokeWidth={1.75} />
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-[17px] font-black leading-tight text-ink">{meal.name}</h3>
+            <h3 className="font-display text-[19px] font-bold leading-tight tracking-[-0.02em] text-ink">{meal.name}</h3>
             <div className="mt-2 flex flex-wrap gap-2">
               <Pill tone="green">{meal.time}</Pill>
-              <Pill tone="gold">{meal.effort}</Pill>
-              <Pill tone="blue">{meal.healthAngle}</Pill>
+              <Pill>{meal.effort}</Pill>
+              <Pill>{meal.healthAngle}</Pill>
             </div>
           </div>
         </div>
         {!compact && (
           <div className="mt-4 space-y-3">
             <InfoLine label="Uses" values={meal.uses} />
-            <InfoLine label="Buy" values={meal.buy} tone="red" />
-            <p className="rounded-2xl bg-linen/70 p-3 text-sm font-semibold leading-relaxed text-ink/78">{meal.whyThisWorks}</p>
-            <p className="text-sm font-bold leading-relaxed text-steel">Chef note: {meal.chefNote}</p>
+            <InfoLine label="Buy" values={meal.buy} />
+            <p className="rounded-md bg-paper p-3 text-[14px] font-medium leading-relaxed text-ink-soft">{meal.whyThisWorks}</p>
+            <p className="text-[14px] font-semibold leading-relaxed text-ink-soft">Chef note: {meal.chefNote}</p>
           </div>
         )}
       </button>
@@ -44,7 +44,7 @@ export function MealCard({
         <Button variant="secondary" onClick={() => onOpen(meal)}>
           Cook this
         </Button>
-        <Button variant="primary" icon={<Plus className="h-4 w-4" />} onClick={() => onAddMissing(meal)}>
+        <Button variant="primary" icon={<Plus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onAddMissing(meal)}>
           Add missing
         </Button>
       </div>
@@ -52,13 +52,13 @@ export function MealCard({
   );
 }
 
-function InfoLine({ label, values, tone = 'green' }: { label: string; values: string[]; tone?: 'green' | 'red' }) {
+function InfoLine({ label, values }: { label: string; values: string[] }) {
   return (
     <div>
-      <p className="mb-2 text-[11px] font-black uppercase text-steel">{label}</p>
+      <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">{label}</p>
       <div className="flex flex-wrap gap-2">
         {values.map((value) => (
-          <Pill key={value} tone={tone}>
+          <Pill key={value}>
             {value}
           </Pill>
         ))}

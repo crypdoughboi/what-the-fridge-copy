@@ -3,8 +3,8 @@ import { Camera, NotebookPen, RefreshCw, ShieldCheck } from 'lucide-react';
 import { ScanConfidence, VisionItem } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { Textarea } from '../components/Input';
 import { Pill } from '../components/Pill';
-import { scanConfidenceLabel } from '../utils/groceryLogic';
 
 export function FridgeResultScreen({
   items,
@@ -22,19 +22,19 @@ export function FridgeResultScreen({
     setLocalItems((current) => current.map((item) => (item.id === id ? { ...item, confidence } : item)));
   }
 
-  const groups: Array<{ label: string; confidence: ScanConfidence; tone: 'green' | 'gold' | 'red' }> = [
+  const groups: Array<{ label: string; confidence: ScanConfidence; tone: 'green' | 'neutral' }> = [
     { label: 'Clearly seen', confidence: 'clearlySeen', tone: 'green' },
-    { label: 'Maybe low', confidence: 'maybeLow', tone: 'gold' },
-    { label: 'Could not tell', confidence: 'couldNotTell', tone: 'red' },
+    { label: 'Maybe low', confidence: 'maybeLow', tone: 'neutral' },
+    { label: 'Could not tell', confidence: 'couldNotTell', tone: 'neutral' },
   ];
 
   return (
-    <main className="screen-enter space-y-5">
+    <main className="screen-enter space-y-8">
       <section>
-        <p className="text-[12px] font-black uppercase text-herb">Fridge result</p>
-        <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">Fridge says no.</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
-          We found likely items. We are not pretending your drawer is a database.
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Fridge photo</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Fridge says no.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
+          We found likely items. Review confidence before updating your list.
         </p>
       </section>
 
@@ -44,24 +44,24 @@ export function FridgeResultScreen({
         return (
           <Card key={group.confidence}>
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-xl font-black text-ink">{group.label}</h2>
+              <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">{group.label}</h2>
               <Pill tone={group.tone}>{groupItems.length}</Pill>
             </div>
             <div className="space-y-2">
               {groupItems.map((item) => (
-                <div key={item.id} className="rounded-2xl bg-linen/72 p-3">
+                <div key={item.id} className="rounded-md bg-paper p-3">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-[15px] font-black text-ink">{item.name}</p>
-                      <p className="mt-1 text-xs font-semibold leading-relaxed text-steel">{item.note}</p>
+                      <p className="text-[16px] font-semibold text-ink">{item.name}</p>
+                      <p className="mt-1 text-[13px] font-medium leading-relaxed text-muted">{item.note}</p>
                     </div>
-                    <Pill tone="blue">{item.category}</Pill>
+                    <Pill>{item.category}</Pill>
                   </div>
                   <div className="mt-3 grid grid-cols-2 gap-2">
-                    <Button variant="secondary" className="min-h-10 text-xs" onClick={() => setConfidence(item.id, 'clearlySeen')}>
+                    <Button variant="secondary" className="min-h-10 text-[13px]" onClick={() => setConfidence(item.id, 'clearlySeen')}>
                       Mark have
                     </Button>
-                    <Button variant="secondary" className="min-h-10 text-xs" onClick={() => setConfidence(item.id, 'maybeLow')}>
+                    <Button variant="secondary" className="min-h-10 text-[13px]" onClick={() => setConfidence(item.id, 'maybeLow')}>
                       Mark low
                     </Button>
                   </div>
@@ -74,30 +74,30 @@ export function FridgeResultScreen({
 
       <Card>
         <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-tile text-steel">
-            <NotebookPen className="h-5 w-5" />
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <NotebookPen className="h-5 w-5" strokeWidth={1.75} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-ink">Photo note</h2>
-            <p className="mt-1 text-sm font-semibold leading-relaxed text-steel">Optional. Useful if the freezer is doing freezer things.</p>
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Photo note</h2>
+            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Optional. Useful if the freezer is doing freezer things.</p>
           </div>
         </div>
-        <textarea
+        <Textarea
           value={note}
           onChange={(event) => setNote(event.target.value)}
           placeholder="Top shelf is mostly leftovers. Oat milk looked low."
-          className="mt-4 min-h-24 w-full resize-none rounded-2xl border border-ink/10 bg-white/86 px-4 py-3 text-sm font-semibold outline-none focus:border-herb"
+          className="mt-4 min-h-24"
         />
       </Card>
 
       <div className="grid gap-2">
-        <Button icon={<ShieldCheck className="h-4 w-4" />} onClick={() => onUpdateList(localItems)}>
-          Update my list
+        <Button icon={<ShieldCheck className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onUpdateList(localItems)}>
+          Update List
         </Button>
-        <Button variant="secondary" icon={<Camera className="h-4 w-4" />} onClick={onScanPantry}>
+        <Button variant="secondary" icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onScanPantry}>
           Scan pantry too
         </Button>
-        <Button variant="ghost" icon={<RefreshCw className="h-4 w-4" />} onClick={() => setLocalItems(items)}>
+        <Button variant="ghost" icon={<RefreshCw className="h-5 w-5" strokeWidth={1.75} />} onClick={() => setLocalItems(items)}>
           Reset result
         </Button>
       </div>

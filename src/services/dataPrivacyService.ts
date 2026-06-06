@@ -8,7 +8,7 @@ export async function exportUserData(): Promise<{ ok: true; filename: string }> 
 
 export async function deleteUserData(): Promise<{ ok: true }> {
   // Future integration points:
-  // - Delete account and all private grocery memory.
+  // - Delete account and all private purchase and list history.
   // - Delete storage objects for receipt, fridge, and pantry images.
   // - Retain only legally required payment records if needed.
   await wait(700);

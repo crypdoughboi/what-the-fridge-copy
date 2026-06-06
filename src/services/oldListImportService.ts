@@ -5,7 +5,7 @@ export async function importOldGroceryList(text: string): Promise<GroceryListEnt
   // Future integration points:
   // - Notes, Reminders, screenshots, email, and text import.
   // - OCR for screenshot lists.
-  // - Deduping against existing household grocery memory.
+  // - Deduping against existing household purchase and list history.
   await wait(700);
   return parseOldListText(text);
 }

@@ -1,14 +1,14 @@
 type LogoSize = 'sm' | 'md' | 'lg';
 
 const iconSizes = {
-  sm: 'h-12 w-12 rounded-[18px]',
-  md: 'h-16 w-16 rounded-[22px]',
-  lg: 'h-24 w-24 rounded-[30px]',
+  sm: 'h-11 w-11 rounded-md',
+  md: 'h-14 w-14 rounded-lg',
+  lg: 'h-16 w-16 rounded-lg',
 };
 
 export function WtfFridgeIcon({ size = 'md' }: { size?: LogoSize }) {
   return (
-    <div className={`relative shrink-0 overflow-hidden bg-[#0869d5] shadow-card ${iconSizes[size]}`}>
+    <div className={`relative shrink-0 overflow-hidden bg-[#0869d5] shadow-sm ${iconSizes[size]}`}>
       <svg viewBox="0 0 120 120" className="h-full w-full" role="img" aria-label="WTF fridge logo">
         <defs>
           <linearGradient id={`fridge-blue-${size}`} x1="16" x2="96" y1="4" y2="116" gradientUnits="userSpaceOnUse">
@@ -43,13 +43,12 @@ export function WtfFridgeIcon({ size = 'md' }: { size?: LogoSize }) {
 
 export function Logo({ compact = false, hero = false }: { compact?: boolean; hero?: boolean }) {
   return (
-    <div className={`flex items-center ${hero ? 'gap-4' : 'gap-3'}`}>
+    <div className={`flex items-center ${hero ? 'gap-3' : 'gap-3'}`}>
       <WtfFridgeIcon size={hero ? 'lg' : 'sm'} />
       {!compact && (
         <div className="leading-tight">
-          <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#1171d8]">WTF</div>
-          <div className={`${hero ? 'text-[28px]' : 'text-[18px]'} font-black text-ink`}>What The Fridge</div>
-          {hero && <div className="mt-1 h-0.5 w-24 rounded-full bg-[#1171d8]" />}
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">WTF</div>
+          <div className={`${hero ? 'text-[22px]' : 'text-[18px]'} font-display font-extrabold tracking-[-0.02em] text-ink`}>What The Fridge</div>
         </div>
       )}
     </div>

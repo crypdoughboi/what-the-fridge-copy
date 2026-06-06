@@ -4,7 +4,9 @@ import { OnboardingProfile, UserAccount } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { FriendRebuys } from '../components/FriendRebuys';
+import { Input } from '../components/Input';
 import { Pill } from '../components/Pill';
+import { SectionHeader } from '../components/SectionHeader';
 import { friendRebuys } from '../data/mockData';
 import { exportUserData, deleteUserData } from '../services/dataPrivacyService';
 import { inviteHouseholdMember } from '../services/householdSharingService';
@@ -54,7 +56,7 @@ export function SettingsScreen({
     setBusy('delete');
     await deleteUserData();
     setBusy(null);
-    onToast('Delete flow mocked. Real version wipes private grocery memory.');
+    onToast('Delete flow mocked. Real version removes your private data.');
   }
 
   async function subscribe() {
@@ -65,67 +67,66 @@ export function SettingsScreen({
   }
 
   return (
-    <main className="screen-enter space-y-5">
-      <button className="inline-flex items-center gap-2 text-sm font-black text-steel" onClick={onBack}>
-        <ArrowLeft className="h-4 w-4" />
+    <main className="screen-enter space-y-8">
+      <button className="inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
+        <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
         Back
       </button>
       <section>
-        <p className="text-[12px] font-black uppercase text-herb">Profile</p>
-        <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">Receipts are private by default.</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">You choose what to share. Spending totals never leave the kitchen.</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Profile</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Receipts are private by default.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">You choose what to share. Spending totals never leave the kitchen.</p>
       </section>
 
       <Card>
-        <h2 className="text-xl font-black text-ink">Account</h2>
-        <div className="mt-3 rounded-2xl bg-linen/72 p-3">
-          <p className="text-[15px] font-black text-ink">{account.name}</p>
-          <p className="mt-1 text-sm font-bold text-steel">{account.email}</p>
-          <p className="mt-2 text-[11px] font-black uppercase text-herb">Signed in with {account.provider === 'apple' ? 'Apple ID' : account.provider === 'gmail' ? 'Gmail' : 'email'}</p>
+        <SectionHeader eyebrow="Account" title={account.name} />
+        <div className="mt-3 rounded-md bg-paper p-3">
+          <p className="text-[15px] font-semibold text-ink">{account.email}</p>
+          <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Signed in with {account.provider === 'apple' ? 'Apple ID' : account.provider === 'gmail' ? 'Gmail' : 'email'}</p>
         </div>
-        <p className="mt-3 text-sm font-semibold leading-relaxed text-steel">
+        <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">
           Receipts, usuals, saved meals, and list behavior are saved to this profile on this device.
         </p>
       </Card>
 
       <Card>
-        <h2 className="text-xl font-black text-ink">Household</h2>
-        <p className="mt-2 text-sm font-semibold text-steel">{profile.householdSize}. Main stores: {profile.stores.join(', ')}.</p>
+        <SectionHeader eyebrow="Household" title={profile.householdSize} />
+        <p className="mt-2 text-[14px] font-medium text-ink-soft">Main stores: {profile.stores.length ? profile.stores.join(', ') : 'None selected yet'}.</p>
         <div className="mt-4 flex gap-2">
-          <input
+          <Input
             value={inviteEmail}
             onChange={(event) => setInviteEmail(event.target.value)}
             placeholder="person@example.com"
-            className="min-h-11 flex-1 rounded-2xl border border-ink/10 bg-white/86 px-4 text-sm font-semibold outline-none focus:border-herb"
+            className="min-w-0 flex-1"
           />
-          <Button className="px-3" icon={<UserPlus className={`h-4 w-4 ${busy === 'invite' ? 'animate-pulse' : ''}`} />} onClick={invite}>
+          <Button className="px-3" icon={<UserPlus className={`h-5 w-5 ${busy === 'invite' ? 'animate-pulse' : ''}`} strokeWidth={1.75} />} onClick={invite}>
             Invite
           </Button>
         </div>
       </Card>
 
       <Card>
-        <h2 className="text-xl font-black text-ink">Food settings</h2>
+        <SectionHeader eyebrow="Food" title="Preferences" />
         <div className="mt-3 flex flex-wrap gap-2">
           {profile.dietaryPreferences.map((preference) => (
             <Pill key={preference} tone="green">
               {preference}
             </Pill>
           ))}
-          <Pill tone="gold">{profile.cookingStyle}</Pill>
-          <Pill tone="blue">{profile.weeklyGoal}</Pill>
+          <Pill>{profile.cookingStyle}</Pill>
+          <Pill>{profile.weeklyGoal}</Pill>
         </div>
-        {profile.foodsToAvoid && <p className="mt-3 text-sm font-bold text-steel">Avoid: {profile.foodsToAvoid}</p>}
+        {profile.foodsToAvoid && <p className="mt-3 text-[14px] font-semibold text-ink-soft">Avoid: {profile.foodsToAvoid}</p>}
       </Card>
 
       <Card>
         <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-herb/12 text-herb">
-            <Shield className="h-5 w-5" />
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <Shield className="h-5 w-5" strokeWidth={1.75} />
           </div>
           <div>
-            <h2 className="text-xl font-black text-ink">Privacy controls</h2>
-            <div className="mt-3 space-y-2 text-sm font-bold leading-relaxed text-steel">
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Privacy controls</h2>
+            <div className="mt-3 space-y-2 text-[14px] font-medium leading-relaxed text-ink-soft">
               <p>Receipts are private by default.</p>
               <p>You choose what to share.</p>
               <p>Spending totals are never shared.</p>
@@ -137,10 +138,10 @@ export function SettingsScreen({
       </Card>
 
       <Card>
-        <h2 className="text-xl font-black text-ink">Receipt history</h2>
+        <SectionHeader eyebrow="History" title="Receipt history" />
         <div className="mt-3 space-y-2">
           {["Trader Joe's - $86.42 - today", 'Whole Foods - $48.13 - 4 days ago', 'Target - $38.05 - 9 days ago'].map((receipt) => (
-            <div key={receipt} className="rounded-2xl bg-linen/72 p-3 text-sm font-black text-ink">
+            <div key={receipt} className="rounded-md bg-paper p-3 text-[14px] font-semibold text-ink">
               {receipt}
             </div>
           ))}
@@ -156,22 +157,22 @@ export function SettingsScreen({
       />
 
       <Card>
-        <h2 className="text-xl font-black text-ink">Data and subscription</h2>
+        <SectionHeader eyebrow="Data" title="Data and subscription" />
         <div className="mt-4 grid gap-2">
-          <Button variant="secondary" icon={<Download className="h-4 w-4" />} onClick={exportData}>
+          <Button variant="secondary" icon={<Download className="h-5 w-5" strokeWidth={1.75} />} onClick={exportData}>
             {busy === 'export' ? 'Preparing export' : 'Export data'}
           </Button>
           <Button variant="secondary" onClick={subscribe}>
             {busy === 'subscribe' ? 'Opening checkout' : 'Subscription placeholder'}
           </Button>
-          <Button variant="danger" icon={<Trash2 className="h-4 w-4" />} onClick={deleteData}>
+          <Button variant="danger" icon={<Trash2 className="h-5 w-5" strokeWidth={1.75} />} onClick={deleteData}>
             {busy === 'delete' ? 'Deleting data' : 'Delete data'}
           </Button>
         </div>
-        <p className="mt-4 text-xs font-bold text-steel">App version 0.1.0. Built for mobile web now, ready for an iPhone wrapper later.</p>
+        <p className="mt-4 text-[13px] font-medium text-muted">App version 0.1.0. Built for mobile web now, ready for an iPhone wrapper later.</p>
       </Card>
 
-      <Button variant="ghost" full icon={<LogOut className="h-4 w-4" />} onClick={onSignOut}>
+      <Button variant="ghost" full icon={<LogOut className="h-5 w-5" strokeWidth={1.75} />} onClick={onSignOut}>
         Sign out
       </Button>
     </main>

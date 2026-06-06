@@ -1,8 +1,10 @@
 import { FormEvent, useState } from 'react';
-import { Apple, Mail, ShieldCheck } from 'lucide-react';
+import { Apple, Mail } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Logo } from '../components/BrandMark';
+import { Eyebrow } from '../components/Eyebrow';
+import { Input } from '../components/Input';
 
 export function AuthScreen({
   onApple,
@@ -41,22 +43,21 @@ export function AuthScreen({
 
   return (
     <main className="screen-enter app-scroll pb-8">
-      <section className="pt-2">
+      <section className="section-enter pt-1">
         <Logo hero />
-        <div className="mt-8">
-          <p className="text-[12px] font-black uppercase text-herb">Personal grocery brain</p>
-          <h1 className="mt-2 text-[36px] font-black leading-[1.02] text-ink">Save dinner ideas to your own fridge.</h1>
-          <p className="mt-4 text-[16px] font-semibold leading-relaxed text-steel">
-            Sign up once. WTF remembers your receipts, usuals, overbuys, and the dinners you actually cook.
+        <div className="mt-7">
+          <Eyebrow>What The Fridge</Eyebrow>
+          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Grocery lists, basically automatic.</h1>
+          <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
+            Snap a receipt or your fridge and WTF builds your list. Then it turns what you're buying into dinner ideas.
           </p>
         </div>
       </section>
 
-      <Card className="mt-7 space-y-3">
+      <Card className="section-enter stagger-1 mt-7 space-y-3">
         <Button
           full
-          className="bg-black text-white"
-          icon={<Apple className="h-5 w-5" />}
+          icon={<Apple className="h-5 w-5" strokeWidth={1.75} />}
           disabled={busy !== null}
           onClick={() => run('apple')}
         >
@@ -65,8 +66,7 @@ export function AuthScreen({
         <Button
           full
           variant="secondary"
-          className="bg-white"
-          icon={<span className="grid h-5 w-5 place-items-center rounded-full bg-[#0d86df] text-xs font-black text-white">G</span>}
+          icon={<span className="grid h-5 w-5 place-items-center rounded-pill border border-line text-xs font-semibold text-ink">G</span>}
           disabled={busy !== null}
           onClick={() => run('gmail')}
         >
@@ -74,55 +74,41 @@ export function AuthScreen({
         </Button>
 
         <div className="flex items-center gap-3 py-1">
-          <div className="h-px flex-1 bg-ink/10" />
-          <span className="text-[11px] font-black uppercase text-steel">or</span>
-          <div className="h-px flex-1 bg-ink/10" />
+          <div className="h-px flex-1 bg-line" />
+          <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">or</span>
+          <div className="h-px flex-1 bg-line" />
         </div>
 
         <form className="flex gap-2" onSubmit={submitEmail}>
-          <input
+          <Input
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="you@example.com"
-            className="min-h-12 flex-1 rounded-2xl border border-ink/10 bg-white/86 px-4 text-sm font-semibold outline-none focus:border-herb"
+            className="min-w-0 flex-1"
           />
-          <Button type="submit" className="px-4" icon={<Mail className="h-4 w-4" />} disabled={!email.trim() || busy !== null}>
+          <Button type="submit" variant="secondary" className="px-4" icon={<Mail className="h-5 w-5" strokeWidth={1.75} />} disabled={!email.trim() || busy !== null}>
             {busy === 'email' ? 'Saving' : 'Email'}
           </Button>
         </form>
         {(localError || errorMessage) && (
-          <div className="rounded-2xl bg-tomato/10 px-4 py-3 text-sm font-bold leading-relaxed text-tomato">
+          <div className="rounded-md bg-paper px-4 py-3 text-sm font-semibold leading-relaxed text-ink-soft">
             {localError || errorMessage}
           </div>
         )}
+        <p className="pt-1 text-[13px] font-medium leading-relaxed text-muted">Private by default. Your receipts and spending stay yours.</p>
       </Card>
 
-      <Card className="mt-5">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-herb/12 text-herb">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <div>
-            <h2 className="text-xl font-black text-ink">Private by default.</h2>
-            <p className="mt-2 text-sm font-semibold leading-relaxed text-steel">
-              Receipts, spending, and exact purchase history stay private. Friend Rebuys only shares what you choose.
-            </p>
-          </div>
+      <Card className="section-enter stagger-2 mt-5">
+        <div className="grid grid-cols-3 gap-3">
+          {['Snap a receipt or your fridge', 'Your list fills itself', 'Get dinner ideas from it'].map((item, index) => (
+            <div key={item} className="min-w-0">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-accent-soft text-[13px] font-semibold text-accent">{index + 1}</span>
+              <p className="mt-2 text-[13px] font-semibold leading-snug text-ink-soft">{item}</p>
+            </div>
+          ))}
         </div>
       </Card>
-
-      <div className="mt-5 grid grid-cols-2 gap-2">
-        {['Scan receipts', 'Fridge photos', 'Smart insights', 'Better dinners'].map((item) => (
-          <div key={item} className="rounded-2xl bg-white/72 px-3 py-3 text-center text-xs font-black text-steel shadow-card">
-            {item}
-          </div>
-        ))}
-      </div>
-
-      <p className="mt-5 text-sm font-bold leading-relaxed text-steel">
-        Start with email if Google or Apple setup is still pending.
-      </p>
     </main>
   );
 }

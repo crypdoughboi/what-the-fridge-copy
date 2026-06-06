@@ -16,10 +16,11 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 ## What Is Built
 
 - Short onboarding for household size, stores, diet preferences, avoid list, cooking style, and weekly goal.
-- Account creation screen with mock Apple ID, Gmail, and email sign-up.
-- Local per-user personalization storage for profile, grocery memory, list behavior, saved meals, cooked meals, and recommendations.
-- Home screen that immediately suggests dinner, use-soon items, next-shop guidance, and spend insight.
-- Smart grocery list with Buy Now, Maybe Buy, Probably Already Have, meal unlocks, and overbuy warnings.
+- Account creation screen wired for Supabase Apple ID, Gmail, and email magic-link sign-up.
+- Local per-user personalization storage for profile, purchase and list history, list behavior, saved meals, cooked meals, and recommendations.
+- Home screen focused on building the list with receipt and fridge-photo actions plus a clear path to Meals.
+- Four-tab navigation: Home, List, Meals, Spend. Scan is folded into Home/List as an add method.
+- Smart grocery list with live checkoff circles, Buy Now, Maybe Buy, Probably Already Have, meal unlocks, and overbuy warnings.
 - Receipt scanner flow with real `input type="file"` controls, `accept="image/*"`, and camera capture support.
 - Receipt OCR loading, extracted item review, edit/remove/not-grocery actions, and confirmation.
 - Fridge and pantry scanner flow with file upload, camera capture, mock recognition, confidence groups, and list update.
@@ -36,7 +37,7 @@ All data is local mock data. No backend is required.
 ```text
 src/
   components/   Reusable UI pieces
-  data/         Realistic mock grocery memory, receipts, scans, meals, spend
+  data/         Realistic mock purchase and list history, receipts, scans, meals, spend
   hooks/        Local app state and user actions
   screens/      Product screens and flows
   services/     API-shaped stubs for future integrations
@@ -94,14 +95,14 @@ Good future options:
 - OpenAI vision
 - Image classification
 - Structured JSON output with confidence labels
-- Household grocery memory for conservative results
+- Household purchase and list history for conservative results
 
 Meal generation lives in `src/services/mealGenerationService.ts`.
 
 The real version should pass:
 - chef rules
 - user preference profile
-- household grocery memory
+- household purchase and list history
 - dietary constraints
 - recent receipt data
 - fridge scan data
@@ -111,7 +112,7 @@ Smart list generation lives in `src/services/groceryListService.ts` and `src/uti
 ## Backend Later
 
 Supabase or Firebase can plug in behind:
-- grocery memory
+- purchase and list history
 - receipt history
 - household profiles
 - scan image storage

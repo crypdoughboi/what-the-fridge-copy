@@ -3,6 +3,7 @@ import { Check, Edit3, Trash2, X } from 'lucide-react';
 import { ReceiptExtraction, ReceiptItem } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { Input } from '../components/Input';
 import { Pill } from '../components/Pill';
 import { formatFullDate } from '../utils/date';
 import { categorizeGroceryItem, normalizeReceiptItemName, sectionForCategory } from '../utils/groceryLogic';
@@ -57,44 +58,44 @@ export function ReceiptReviewScreen({
   }
 
   return (
-    <main className="screen-enter space-y-5">
+    <main className="screen-enter space-y-8">
       <section>
-        <p className="text-[12px] font-black uppercase text-herb">Receipt review</p>
-        <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">We found {extraction.itemCount} items. Anything wrong?</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Receipt review</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">We found {extraction.itemCount} items.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
           {extraction.store}, {formatFullDate(extraction.date)}. Total ${extraction.total.toFixed(2)}.
         </p>
       </section>
 
       <Card className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className={`rounded-2xl border p-3 ${item.isGrocery ? 'border-ink/8 bg-white/76' : 'border-tomato/20 bg-tomato/8'}`}>
+          <div key={item.id} className={`rounded-md border p-3 ${item.isGrocery ? 'border-line bg-surface' : 'border-line bg-paper'}`}>
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1">
-                <p className="font-mono text-[11px] font-black uppercase text-steel">{item.rawName}</p>
+                <p className="font-mono text-[11px] font-semibold uppercase text-muted">{item.rawName}</p>
                 {editingId === item.id ? (
                   <div className="mt-2 flex gap-2">
-                    <input
+                    <Input
                       value={editValue}
                       onChange={(event) => setEditValue(event.target.value)}
-                      className="min-h-10 flex-1 rounded-xl border border-ink/10 bg-white px-3 text-sm font-bold outline-none focus:border-herb"
+                      className="min-h-10 flex-1 text-[14px]"
                     />
-                    <button className="grid h-10 w-10 place-items-center rounded-xl bg-herb text-white" onClick={() => saveEdit(item)} aria-label="Save item">
-                      <Check className="h-4 w-4" />
+                    <button className="grid h-10 w-10 place-items-center rounded-md bg-accent text-surface" onClick={() => saveEdit(item)} aria-label="Save item">
+                      <Check className="h-4 w-4" strokeWidth={1.75} />
                     </button>
                   </div>
                 ) : (
-                  <p className="mt-1 text-[16px] font-black text-ink">{item.normalizedName}</p>
+                  <p className="mt-1 text-[16px] font-semibold text-ink">{item.normalizedName}</p>
                 )}
                 <div className="mt-2 flex gap-2">
-                  <Pill tone={item.isGrocery ? 'green' : 'red'}>{item.isGrocery ? item.category : 'not grocery'}</Pill>
-                  <Pill tone="blue">${item.price.toFixed(2)}</Pill>
+                  <Pill tone={item.isGrocery ? 'green' : 'neutral'}>{item.isGrocery ? item.category : 'not grocery'}</Pill>
+                  <Pill>${item.price.toFixed(2)}</Pill>
                 </div>
               </div>
               <div className="flex gap-1">
-                <IconButton label="Edit item" onClick={() => startEdit(item)} icon={<Edit3 className="h-4 w-4" />} />
-                <IconButton label="Remove item" onClick={() => removeItem(item.id)} icon={<Trash2 className="h-4 w-4" />} />
-                <IconButton label="Mark not grocery" onClick={() => markNotGrocery(item.id)} icon={<X className="h-4 w-4" />} />
+                <IconButton label="Edit item" onClick={() => startEdit(item)} icon={<Edit3 className="h-4 w-4" strokeWidth={1.75} />} />
+                <IconButton label="Remove item" onClick={() => removeItem(item.id)} icon={<Trash2 className="h-4 w-4" strokeWidth={1.75} />} />
+                <IconButton label="Mark not grocery" onClick={() => markNotGrocery(item.id)} icon={<X className="h-4 w-4" strokeWidth={1.75} />} />
               </div>
             </div>
           </div>
@@ -105,7 +106,7 @@ export function ReceiptReviewScreen({
         <Button variant="secondary" onClick={onBack}>
           Scan again
         </Button>
-        <Button onClick={() => onConfirm({ ...extraction, items })}>Looks good</Button>
+        <Button onClick={() => onConfirm({ ...extraction, items })}>Add to List</Button>
       </div>
     </main>
   );
@@ -113,7 +114,7 @@ export function ReceiptReviewScreen({
 
 function IconButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
   return (
-    <button className="grid h-9 w-9 place-items-center rounded-xl bg-linen text-ink active:bg-ink/10" onClick={onClick} aria-label={label} title={label}>
+    <button className="grid h-9 w-9 place-items-center rounded-sm bg-paper text-ink active:bg-line/60" onClick={onClick} aria-label={label} title={label}>
       {icon}
     </button>
   );

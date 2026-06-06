@@ -7,7 +7,7 @@ export async function buildSmartGroceryList(
   meals: MealSuggestion[],
 ): Promise<GroceryList> {
   // Future integration points:
-  // - Supabase or Firebase for household grocery memory.
+  // - Supabase or Firebase for household purchase and list history.
   // - Server-side list scoring based on receipts, deletes, adds, and scans.
   // - Store-specific aisle ordering.
   await wait(500);

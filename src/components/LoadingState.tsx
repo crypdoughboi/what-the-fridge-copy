@@ -14,15 +14,15 @@ export function LoadingState({ title, steps }: { title: string; steps: string[] 
 
   return (
     <div className="screen-enter flex min-h-[62vh] items-center">
-      <Card className="w-full p-6 text-center">
-        <div className="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-[24px] bg-herb/12 text-herb">
-          <ChefHat className="soft-pulse h-8 w-8" strokeWidth={2.2} />
+      <Card className="w-full text-center">
+        <div className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-lg bg-accent-soft text-accent">
+          <ChefHat className="soft-pulse h-7 w-7" strokeWidth={1.75} />
         </div>
-        <h1 className="text-2xl font-black text-ink">{title}</h1>
-        <p className="mt-3 min-h-10 text-[15px] font-semibold text-steel">{steps[index]}</p>
+        <h1 className="font-display text-[24px] font-extrabold tracking-[-0.02em] text-ink">{title}</h1>
+        <p className="mt-3 min-h-10 text-[15px] font-medium text-ink-soft">{steps[index]}</p>
         <div className="mt-5 flex justify-center gap-2">
           {steps.map((step, stepIndex) => (
-            <span key={step} className={`h-2 rounded-full transition-all ${stepIndex === index ? 'w-7 bg-herb' : 'w-2 bg-ink/12'}`} />
+            <span key={step} className={`h-2 rounded-pill transition-all ${stepIndex === index ? 'w-7 bg-accent' : 'w-2 bg-line'}`} />
           ))}
         </div>
       </Card>
