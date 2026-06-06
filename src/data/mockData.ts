@@ -12,9 +12,9 @@ import { daysAgo } from '../utils/date';
 import { buildReceiptItems, calculateSpendingInsights } from '../utils/groceryLogic';
 
 export const defaultProfile: OnboardingProfile = {
-  householdSize: 'Two people',
-  stores: ["Trader Joe's", 'Whole Foods'],
-  dietaryPreferences: ['High protein', 'Healthy-ish'],
+  householdSize: 'Just me',
+  stores: [],
+  dietaryPreferences: ['No restrictions'],
   foodsToAvoid: '',
   cookingStyle: 'Lazy but good',
   weeklyGoal: 'Make dinner easier',

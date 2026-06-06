@@ -7,13 +7,46 @@ import { ProgressBar } from '../components/ProgressBar';
 
 export function SpendScreen({
   spending,
+  hasReceiptHistory,
   onGoList,
+  onScanReceipt,
   onExport,
 }: {
   spending: SpendingInsight;
+  hasReceiptHistory: boolean;
   onGoList: () => void;
+  onScanReceipt: () => void;
   onExport: () => void;
 }) {
+  if (!hasReceiptHistory) {
+    return (
+      <main className="screen-enter space-y-5">
+        <section>
+          <p className="text-[12px] font-black uppercase text-herb">Spend</p>
+          <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">No receipt data yet.</h1>
+          <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
+            Scan a grocery receipt and WTF will start tracking spend without making you type prices.
+          </p>
+        </section>
+
+        <Card className="bg-ink text-cream">
+          <p className="text-[12px] font-black uppercase text-butter">First scan</p>
+          <h2 className="mt-2 text-2xl font-black leading-tight">One receipt unlocks the useful stuff.</h2>
+          <p className="mt-3 text-sm font-semibold leading-relaxed text-cream/72">
+            Store totals, repeat items, overbuy warnings, and the "why did snacks do that" moment.
+          </p>
+          <Button className="mt-5 bg-cream text-ink" full onClick={onScanReceipt}>
+            Scan receipt
+          </Button>
+        </Card>
+
+        <Button variant="secondary" icon={<ListChecks className="h-4 w-4" />} onClick={onGoList}>
+          Open list
+        </Button>
+      </main>
+    );
+  }
+
   const maxStore = Math.max(...spending.storeSpend.map((store) => store.amount));
   const maxCategory = Math.max(...spending.categorySpend.map((category) => category.amount));
 

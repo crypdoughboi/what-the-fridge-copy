@@ -101,6 +101,7 @@ export type GroceryList = {
   buyNow: GroceryListEntry[];
   maybeBuy: GroceryListEntry[];
   probablyAlreadyHave: GroceryListEntry[];
+  checkedOff: GroceryListEntry[];
   mealUnlocks: {
     title: string;
     items: GroceryListEntry[];
@@ -118,6 +119,7 @@ export type BehaviorState = {
   fridgeSeen: Record<string, ScanConfidence>;
   addCounts: Record<string, number>;
   deleteCounts: Record<string, number>;
+  checkedOffEntries: GroceryListEntry[];
 };
 
 export type ChefMode =

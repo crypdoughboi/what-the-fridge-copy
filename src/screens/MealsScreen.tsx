@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { RefreshCw } from 'lucide-react';
+import { ReceiptText, RefreshCw } from 'lucide-react';
 import { ChefMode, MealSuggestion } from '../types';
 import { chefModes } from '../data/mockData';
 import { Button } from '../components/Button';
@@ -8,11 +8,15 @@ import { MealCard } from '../components/MealCard';
 import { getMealsForMode } from '../services/mealGenerationService';
 
 export function MealsScreen({
+  hasGroceryData,
   onOpenMeal,
   onAddMissing,
+  onScanReceipt,
 }: {
+  hasGroceryData: boolean;
   onOpenMeal: (meal: MealSuggestion) => void;
   onAddMissing: (meal: MealSuggestion) => void;
+  onScanReceipt: () => void;
 }) {
   const [mode, setMode] = useState<ChefMode>('Lazy but good');
   const [generating, setGenerating] = useState(false);
@@ -29,8 +33,23 @@ export function MealsScreen({
       <section>
         <p className="text-[12px] font-black uppercase text-herb">Meals</p>
         <h1 className="mt-1 text-[32px] font-black leading-tight text-ink">WTF should I make?</h1>
-        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">Dinner ideas from what you already bought.</p>
+        <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
+          {hasGroceryData ? 'Dinner ideas from what you already bought.' : 'Starter dinner ideas. Scan a receipt to make them personal.'}
+        </p>
       </section>
+
+      {!hasGroceryData && (
+        <Card className="bg-ink text-cream">
+          <p className="text-[12px] font-black uppercase text-butter">Make this smarter</p>
+          <h2 className="mt-2 text-2xl font-black leading-tight">WTF needs grocery clues.</h2>
+          <p className="mt-3 text-sm font-semibold leading-relaxed text-cream/72">
+            Scan one receipt and these stop being generic weeknight ideas.
+          </p>
+          <Button className="mt-5 bg-cream text-ink" full icon={<ReceiptText className="h-4 w-4" />} onClick={onScanReceipt}>
+            Scan receipt
+          </Button>
+        </Card>
+      )}
 
       <Card>
         <div className="mb-3 flex items-center justify-between">

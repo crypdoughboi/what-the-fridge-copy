@@ -181,6 +181,7 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     buyNow: sortListEntries(buyNow).slice(0, 12),
     maybeBuy: sortListEntries(maybeBuy).slice(0, 10),
     probablyAlreadyHave: sortListEntries(probablyAlreadyHave).slice(0, 12),
+    checkedOff: behavior.checkedOffEntries,
     mealUnlocks: {
       title: 'Buy these 5 things to unlock 4 dinners.',
       items: mealUnlockItems,

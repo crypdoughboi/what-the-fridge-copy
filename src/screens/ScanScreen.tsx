@@ -24,7 +24,7 @@ export function ScanScreen({
   onOpenFridge: () => void;
   onImportItems: (items: GroceryListEntry[]) => void;
 }) {
-  const [oldListText, setOldListText] = useState('bananas\nchicken\nspinach\npaper towels\nGreek yogurt\neggs\ncoffee\noat milk');
+  const [oldListText, setOldListText] = useState('');
   const [importedItems, setImportedItems] = useState<GroceryListEntry[]>([]);
   const [importing, setImporting] = useState(false);
 
@@ -87,9 +87,10 @@ export function ScanScreen({
         <textarea
           value={oldListText}
           onChange={(event) => setOldListText(event.target.value)}
+          placeholder={'bananas\nchicken thighs\nspinach\npaper towels'}
           className="mt-4 min-h-36 w-full resize-none rounded-2xl border border-ink/10 bg-white/86 px-4 py-3 text-sm font-semibold leading-relaxed outline-none focus:border-herb"
         />
-        <Button className="mt-3" full icon={<Wand2 className={`h-4 w-4 ${importing ? 'animate-spin' : ''}`} />} onClick={parseList}>
+        <Button className="mt-3" full icon={<Wand2 className={`h-4 w-4 ${importing ? 'animate-spin' : ''}`} />} onClick={parseList} disabled={!oldListText.trim()}>
           {importing ? 'Importing the chaos' : 'Parse list'}
         </Button>
         {importedItems.length > 0 && (

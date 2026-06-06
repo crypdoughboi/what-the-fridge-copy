@@ -11,7 +11,7 @@ import {
   UserAccount,
   VisionItem,
 } from '../types';
-import { defaultProfile, groceryMemory, mealSuggestions, spendingInsight } from '../data/mockData';
+import { defaultProfile, mealSuggestions, spendingInsight } from '../data/mockData';
 import {
   categorizeGroceryItem,
   detectUsuals,
@@ -40,6 +40,9 @@ type PersonalizedState = {
   savedMealIds: string[];
   cookedMealIds: string[];
   recommendedItems: string[];
+  receiptCount: number;
+  fridgeScanCount: number;
+  importCount: number;
 };
 
 const emptyBehavior: BehaviorState = {
@@ -51,6 +54,7 @@ const emptyBehavior: BehaviorState = {
   fridgeSeen: {},
   addCounts: {},
   deleteCounts: {},
+  checkedOffEntries: [],
 };
 
 export function useGroceryAppState() {
@@ -59,12 +63,15 @@ export function useGroceryAppState() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [completedOnboarding, setCompletedOnboarding] = useState(false);
   const [profile, setProfile] = useState<OnboardingProfile>(defaultProfile);
-  const [memory, setMemory] = useState<GroceryMemoryItem[]>(groceryMemory);
+  const [memory, setMemory] = useState<GroceryMemoryItem[]>([]);
   const [behavior, setBehavior] = useState<BehaviorState>(emptyBehavior);
   const [toast, setToast] = useState<string | null>(null);
   const [savedMealIds, setSavedMealIds] = useState<string[]>([]);
   const [cookedMealIds, setCookedMealIds] = useState<string[]>([]);
   const [recommendedItems, setRecommendedItems] = useState<string[]>([]);
+  const [receiptCount, setReceiptCount] = useState(0);
+  const [fridgeScanCount, setFridgeScanCount] = useState(0);
+  const [importCount, setImportCount] = useState(0);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -74,6 +81,17 @@ export function useGroceryAppState() {
   const baseMeals = useMemo(() => getMealsForMode(profile.cookingStyle as ChefMode), [profile.cookingStyle]);
   const groceryList = useMemo(() => generateGroceryList(memory, behavior, baseMeals), [memory, behavior, baseMeals]);
   const usuals = useMemo(() => detectUsuals(memory), [memory]);
+  const hasGroceryData = useMemo(
+    () =>
+      memory.length > 0 ||
+      behavior.manuallyAddedNames.length > 0 ||
+      behavior.mealAddedNames.length > 0 ||
+      Object.keys(behavior.fridgeSeen).length > 0 ||
+      receiptCount > 0 ||
+      fridgeScanCount > 0 ||
+      importCount > 0,
+    [memory, behavior.manuallyAddedNames, behavior.mealAddedNames, behavior.fridgeSeen, receiptCount, fridgeScanCount, importCount],
+  );
   const useSoon = useMemo(
     () =>
       memory
@@ -129,8 +147,23 @@ export function useGroceryAppState() {
       savedMealIds,
       cookedMealIds,
       recommendedItems,
+      receiptCount,
+      fridgeScanCount,
+      importCount,
     });
-  }, [account, completedOnboarding, profile, memory, behavior, savedMealIds, cookedMealIds, recommendedItems]);
+  }, [
+    account,
+    completedOnboarding,
+    profile,
+    memory,
+    behavior,
+    savedMealIds,
+    cookedMealIds,
+    recommendedItems,
+    receiptCount,
+    fridgeScanCount,
+    importCount,
+  ]);
 
   async function createAccountWithApple() {
     setAuthError(null);
@@ -159,29 +192,25 @@ export function useGroceryAppState() {
   function activateAccount(nextAccount: UserAccount) {
     setAccount(nextAccount);
     const savedState = readStorage<PersonalizedState>(personalizedStorageKey(nextAccount.id));
+    window.localStorage.removeItem(`wtf.personalized.${nextAccount.id}.v1`);
     if (savedState) {
       applyPersonalizedState(savedState);
       return;
     }
-    applyPersonalizedState({
-      completedOnboarding: false,
-      profile: defaultProfile,
-      memory: groceryMemory,
-      behavior: emptyBehavior,
-      savedMealIds: [],
-      cookedMealIds: [],
-      recommendedItems: [],
-    });
+    applyPersonalizedState(defaultPersonalizedState());
   }
 
   function applyPersonalizedState(state: PersonalizedState) {
     setCompletedOnboarding(state.completedOnboarding);
     setProfile(state.profile);
     setMemory(state.memory);
-    setBehavior(state.behavior);
+    setBehavior(normalizeBehavior(state.behavior));
     setSavedMealIds(state.savedMealIds);
     setCookedMealIds(state.cookedMealIds);
     setRecommendedItems(state.recommendedItems);
+    setReceiptCount(state.receiptCount ?? 0);
+    setFridgeScanCount(state.fridgeScanCount ?? 0);
+    setImportCount(state.importCount ?? 0);
   }
 
   function completeOnboarding(nextProfile: OnboardingProfile) {
@@ -205,7 +234,7 @@ export function useGroceryAppState() {
 
   function markEntryBought(entry: GroceryListEntry) {
     if (entry.itemId) {
-      setBehavior((current) => updateLocalStateAfterUserAction(current, 'bought', entry.itemId!));
+      setBehavior((current) => addCheckedEntry(updateLocalStateAfterUserAction(current, 'bought', entry.itemId!), entry));
       setMemory((current) => current.map((item) => (item.id === entry.itemId ? updateBoughtMemoryItem(item) : item)));
     } else {
       setMemory((current) => [createMemoryItemFromName(entry.name), ...current]);
@@ -213,21 +242,29 @@ export function useGroceryAppState() {
         ...current,
         manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
         mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
+        checkedOffEntries: addCheckedEntry(current, entry).checkedOffEntries,
       }));
     }
     showToast(`${entry.name} marked bought. Grocery brain updated.`);
   }
 
   function removeEntry(entry: GroceryListEntry) {
-    if (entry.itemId) {
-      setBehavior((current) => updateLocalStateAfterUserAction(current, 'removed', entry.itemId!));
-    } else {
-      setBehavior((current) => ({
-        ...current,
-        manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-        mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-      }));
-    }
+    setBehavior((current) => {
+      const next = entry.itemId
+        ? updateLocalStateAfterUserAction(current, 'removed', entry.itemId)
+        : {
+            ...current,
+            manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
+            mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
+          };
+
+      return {
+        ...next,
+        checkedOffEntries: next.checkedOffEntries.filter(
+          (checked) => checked.id !== entry.id && checked.name.toLowerCase() !== entry.name.toLowerCase(),
+        ),
+      };
+    });
     showToast(`${entry.name} removed. WTF took the hint.`);
   }
 
@@ -237,6 +274,7 @@ export function useGroceryAppState() {
     setBehavior((current) => ({
       ...current,
       manuallyAddedNames: unique([...current.manuallyAddedNames, normalized]),
+      checkedOffEntries: current.checkedOffEntries.filter((entry) => entry.name.toLowerCase() !== normalized.toLowerCase()),
       addCounts: {
         ...current.addCounts,
         [normalized.toLowerCase()]: (current.addCounts[normalized.toLowerCase()] ?? 0) + 1,
@@ -250,6 +288,10 @@ export function useGroceryAppState() {
       .filter((item) => !behavior.alreadyHaveIds.includes(item.id))
       .slice(0, 4)
       .map((item) => item.name);
+    if (usualNames.length === 0) {
+      showToast('No usuals yet. Scan a receipt first.');
+      return;
+    }
     setBehavior((current) => ({
       ...current,
       manuallyAddedNames: unique([...current.manuallyAddedNames, ...usualNames]),
@@ -286,8 +328,9 @@ export function useGroceryAppState() {
     setBehavior((current) => ({
       ...current,
       removedIds: [],
+      checkedOffEntries: [],
     }));
-    showToast('Your list is ready. Fridge says no to rice.');
+    showToast(memory.length > 0 ? 'Your list is ready.' : 'Start with a receipt or old list.');
   }
 
   function confirmReceipt(extraction: ReceiptExtraction) {
@@ -296,7 +339,9 @@ export function useGroceryAppState() {
       ...current,
       boughtIds: [],
       removedIds: [],
+      checkedOffEntries: [],
     }));
+    setReceiptCount((current) => current + 1);
     showToast('Receipt added. Grocery brain updated.');
   }
 
@@ -315,7 +360,7 @@ export function useGroceryAppState() {
     }));
 
     setMemory((current) =>
-      current.map((item) =>
+      mergeFridgeItemsIntoMemory(current, items).map((item) =>
         seen[item.name.toLowerCase()] === 'clearlySeen'
           ? {
               ...item,
@@ -325,6 +370,7 @@ export function useGroceryAppState() {
           : item,
       ),
     );
+    setFridgeScanCount((current) => current + 1);
     showToast("List updated. Fridge says don't buy eggs.");
   }
 
@@ -341,6 +387,7 @@ export function useGroceryAppState() {
         current.addCounts,
       ),
     }));
+    setImportCount((current) => current + 1);
     showToast("Old list imported. We'll use this to learn your usuals.");
   }
 
@@ -373,6 +420,8 @@ export function useGroceryAppState() {
     memory,
     groceryList,
     spendingInsight,
+    hasGroceryData,
+    hasReceiptHistory: receiptCount > 0,
     useSoon,
     behavior,
     toast,
@@ -425,6 +474,23 @@ function mergeReceiptIntoMemory(current: GroceryMemoryItem[], extraction: Receip
   return next;
 }
 
+function mergeFridgeItemsIntoMemory(current: GroceryMemoryItem[], items: VisionItem[]): GroceryMemoryItem[] {
+  const existingNames = new Set(current.map((item) => item.name.toLowerCase()));
+  const newItems = items
+    .filter((item) => item.confidence !== 'couldNotTell' && !existingNames.has(item.name.toLowerCase()))
+    .map((item) => ({
+      ...createMemoryItemFromName(item.name),
+      id: `vision-${item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`,
+      category: item.category,
+      section: item.section,
+      likelyStillHave: item.confidence === 'clearlySeen',
+      confidence: item.confidence === 'clearlySeen' ? ('high' as const) : ('low' as const),
+      suggestionPriority: item.confidence === 'maybeLow' ? 74 : 45,
+    }));
+
+  return [...current, ...newItems];
+}
+
 function updateBoughtMemoryItem(item: GroceryMemoryItem, price = item.currentPrice, store = item.store): GroceryMemoryItem {
   return {
     ...item,
@@ -469,18 +535,47 @@ function unique(values: string[]): string[] {
 }
 
 function personalizedStorageKey(accountId: string): string {
-  return `wtf.personalized.${accountId}.v1`;
+  return `wtf.personalized.${accountId}.v2`;
 }
 
 function defaultPersonalizedState(): PersonalizedState {
   return {
     completedOnboarding: false,
     profile: defaultProfile,
-    memory: groceryMemory,
+    memory: [],
     behavior: emptyBehavior,
     savedMealIds: [],
     cookedMealIds: [],
     recommendedItems: [],
+    receiptCount: 0,
+    fridgeScanCount: 0,
+    importCount: 0,
+  };
+}
+
+function normalizeBehavior(behavior: BehaviorState): BehaviorState {
+  return {
+    ...emptyBehavior,
+    ...behavior,
+    checkedOffEntries: behavior.checkedOffEntries ?? [],
+  };
+}
+
+function addCheckedEntry(behavior: BehaviorState, entry: GroceryListEntry): BehaviorState {
+  const checkedEntry: GroceryListEntry = {
+    ...entry,
+    reason: 'Checked off while shopping.',
+    priority: 0,
+  };
+
+  return {
+    ...behavior,
+    checkedOffEntries: [
+      checkedEntry,
+      ...behavior.checkedOffEntries.filter(
+        (current) => current.id !== entry.id && current.name.toLowerCase() !== entry.name.toLowerCase(),
+      ),
+    ].slice(0, 20),
   };
 }
 

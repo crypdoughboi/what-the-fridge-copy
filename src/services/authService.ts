@@ -3,8 +3,8 @@ import { AuthProvider, UserAccount } from '../types';
 import { getAuthRedirectUrl, isSupabaseConfigured, supabase } from './supabaseClient';
 
 export async function signInWithAppleId(): Promise<void> {
-  ensureSupabaseConfigured();
-  const { error } = await supabase.auth.signInWithOAuth({
+  const client = getSupabaseClient();
+  const { error } = await client.auth.signInWithOAuth({
     provider: 'apple',
     options: {
       redirectTo: getAuthRedirectUrl(),
@@ -14,8 +14,8 @@ export async function signInWithAppleId(): Promise<void> {
 }
 
 export async function signInWithGmail(): Promise<void> {
-  ensureSupabaseConfigured();
-  const { error } = await supabase.auth.signInWithOAuth({
+  const client = getSupabaseClient();
+  const { error } = await client.auth.signInWithOAuth({
     provider: 'google',
     options: {
       redirectTo: getAuthRedirectUrl(),
@@ -28,8 +28,8 @@ export async function signInWithGmail(): Promise<void> {
 }
 
 export async function signInWithEmailMagicLink(email: string): Promise<void> {
-  ensureSupabaseConfigured();
-  const { error } = await supabase.auth.signInWithOtp({
+  const client = getSupabaseClient();
+  const { error } = await client.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: getAuthRedirectUrl(),
@@ -40,14 +40,14 @@ export async function signInWithEmailMagicLink(email: string): Promise<void> {
 }
 
 export async function getCurrentUserAccount(): Promise<UserAccount | null> {
-  if (!isSupabaseConfigured) return null;
+  if (!isSupabaseConfigured || !supabase) return null;
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return null;
   return userToAccount(data.user);
 }
 
 export function listenForAuthChanges(onChange: (account: UserAccount | null) => void): () => void {
-  if (!isSupabaseConfigured) return () => undefined;
+  if (!isSupabaseConfigured || !supabase) return () => undefined;
   const { data } = supabase.auth.onAuthStateChange((_event, session) => {
     onChange(session?.user ? userToAccount(session.user) : null);
   });
@@ -55,8 +55,8 @@ export function listenForAuthChanges(onChange: (account: UserAccount | null) => 
 }
 
 export async function signOut(): Promise<void> {
-  ensureSupabaseConfigured();
-  const { error } = await supabase.auth.signOut();
+  const client = getSupabaseClient();
+  const { error } = await client.auth.signOut();
   if (error) throw error;
 }
 
@@ -100,7 +100,15 @@ function nameFromEmail(email: string): string {
 }
 
 function ensureSupabaseConfigured(): void {
-  if (!isSupabaseConfigured) {
+  if (!isSupabaseConfigured || !supabase) {
     throw new Error('Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in Vercel.');
   }
+}
+
+function getSupabaseClient() {
+  ensureSupabaseConfigured();
+  if (!supabase) {
+    throw new Error('Supabase is not configured. Add VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in Vercel.');
+  }
+  return supabase;
 }

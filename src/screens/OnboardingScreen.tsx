@@ -97,10 +97,10 @@ export function OnboardingSuccessScreen({ onContinue }: { onContinue: () => void
         <Logo />
         <h1 className="mt-6 text-[30px] font-black leading-tight text-ink">Cool. We will start learning from your receipts, lists, and fridge checks.</h1>
         <p className="mt-3 text-[15px] font-semibold leading-relaxed text-steel">
-          First move: see dinner from what you probably already have.
+          First move: give WTF one clue. A receipt is usually enough.
         </p>
         <Button className="mt-6" full icon={<ArrowRight className="h-4 w-4" />} onClick={onContinue}>
-          Show me dinner
+          Start fresh
         </Button>
       </Card>
     </main>

@@ -151,11 +151,14 @@ export default function App() {
         <HomeScreen
           meals={homeMeals}
           useSoon={app.useSoon}
+          list={app.groceryList}
           spending={app.spendingInsight}
+          hasGroceryData={app.hasGroceryData}
+          hasReceiptHistory={app.hasReceiptHistory}
           onOpenMeal={openMeal}
           onAddMissing={app.addMealMissingItems}
           onGoList={() => navigateTab('list')}
-          onGoMeals={() => navigateTab('meals')}
+          onGoScan={() => navigateTab('scan')}
           onScanReceipt={openReceiptScan}
           onCheckFridge={openFridgeScan}
           onSettings={() => setScreen('settings')}
@@ -221,7 +224,7 @@ export default function App() {
     }
 
     if (screen === 'meals') {
-      return <MealsScreen onOpenMeal={openMeal} onAddMissing={app.addMealMissingItems} />;
+      return <MealsScreen hasGroceryData={app.hasGroceryData} onOpenMeal={openMeal} onAddMissing={app.addMealMissingItems} onScanReceipt={openReceiptScan} />;
     }
 
     if (screen === 'mealDetail' && selectedMeal) {
@@ -242,7 +245,9 @@ export default function App() {
       return (
         <SpendScreen
           spending={app.spendingInsight}
+          hasReceiptHistory={app.hasReceiptHistory}
           onGoList={() => navigateTab('list')}
+          onScanReceipt={openReceiptScan}
           onExport={() => app.showToast('Spend snapshot exported locally. Real data export is in Settings.')}
         />
       );
