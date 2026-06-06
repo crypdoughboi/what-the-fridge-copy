@@ -1,48 +1,34 @@
-import { Camera, ChefHat, ListPlus, ReceiptText, Settings } from 'lucide-react';
-import { GroceryList, GroceryMemoryItem, MealSuggestion, SpendingInsight } from '../types';
+import { Camera, ChefHat, ListChecks, ScanLine, Settings } from 'lucide-react';
+import { GroceryList, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Logo } from '../components/BrandMark';
 import { Eyebrow } from '../components/Eyebrow';
 import { Pill } from '../components/Pill';
 import { SectionHeader } from '../components/SectionHeader';
-import { getDaysSince } from '../utils/date';
 
 export function HomeScreen({
-  meals,
-  useSoon,
+  plannedMeals,
   list,
-  spending,
-  hasGroceryData,
-  hasReceiptHistory,
-  onOpenMeal,
-  onAddMissing,
-  onAddUsuals,
-  onGoList,
+  onStartMealIdeas,
   onGoMeals,
-  onPasteOldList,
+  onGoList,
+  onGoScan,
   onScanReceipt,
   onCheckFridge,
   onSettings,
 }: {
-  meals: MealSuggestion[];
-  useSoon: GroceryMemoryItem[];
+  plannedMeals: MealIdea[];
   list: GroceryList;
-  spending: SpendingInsight;
-  hasGroceryData: boolean;
-  hasReceiptHistory: boolean;
-  onOpenMeal: (meal: MealSuggestion) => void;
-  onAddMissing: (meal: MealSuggestion) => void;
-  onAddUsuals: () => void;
-  onGoList: () => void;
+  onStartMealIdeas: () => void;
   onGoMeals: () => void;
-  onPasteOldList: () => void;
+  onGoList: () => void;
+  onGoScan: () => void;
   onScanReceipt: () => void;
   onCheckFridge: () => void;
   onSettings: () => void;
 }) {
-  const bestMeal = meals[0];
-  const nextItems = list.buyNow.slice(0, 4);
+  const needToBuy = [...list.buyNow, ...list.maybeBuy].slice(0, 4);
 
   return (
     <main className="screen-enter space-y-8">
@@ -59,116 +45,72 @@ export function HomeScreen({
       </div>
 
       <section className="section-enter stagger-1">
-        <Eyebrow muted>Welcome</Eyebrow>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Build your list.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Snap, tap, or type. WTF does the rest.</p>
+        <Eyebrow muted>Home</Eyebrow>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">What are we making?</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Start with dinner, your list, or a quick scan.</p>
+        <Button className="mt-5" full icon={<ChefHat className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartMealIdeas}>
+          WTF should I make?
+        </Button>
       </section>
 
-      <section className="section-enter stagger-2 space-y-3">
-        <div className="grid grid-cols-2 gap-3">
-          <Button icon={<ReceiptText className="h-5 w-5" strokeWidth={1.75} />} onClick={onScanReceipt}>
-            Scan a receipt
-          </Button>
-          <Button icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onCheckFridge}>
-            Snap your fridge
-          </Button>
-        </div>
-        <div className="flex flex-wrap items-center gap-1">
-          <Button variant="ghost" className="min-h-10 px-2 text-[14px]" onClick={onAddUsuals}>
-            Add usuals
-          </Button>
-          <Button variant="ghost" className="min-h-10 px-2 text-[14px]" onClick={onGoList}>
-            Type it out
-          </Button>
-          <Button variant="ghost" className="min-h-10 px-2 text-[14px]" onClick={onPasteOldList}>
-            Paste an old list
-          </Button>
-        </div>
+      <section className="section-enter stagger-2 grid grid-cols-2 gap-3">
+        <Button variant="secondary" icon={<ListChecks className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoList}>
+          Open List
+        </Button>
+        <Button variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoScan}>
+          Add food
+        </Button>
       </section>
 
       <Card className="section-enter stagger-3">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <ChefHat className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div className="min-w-0">
-            <h2 className="font-display text-[21px] font-bold leading-tight tracking-[-0.02em] text-ink">Need dinner ideas?</h2>
-            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">
-              Meals turns your list and recent scans into something worth cooking.
-            </p>
-          </div>
+        <SectionHeader eyebrow="This week" title={plannedMeals.length ? `${plannedMeals.length} meal${plannedMeals.length === 1 ? '' : 's'} planned` : 'No meals planned yet'} />
+        <div className="mt-4 space-y-2">
+          {plannedMeals.length ? (
+            plannedMeals.slice(0, 2).map((meal) => (
+              <div key={meal.id} className="rounded-md bg-paper p-3">
+                <p className="text-[15px] font-semibold text-ink">{meal.name}</p>
+                <p className="mt-1 text-[13px] font-medium leading-relaxed text-muted">{meal.description}</p>
+              </div>
+            ))
+          ) : (
+            <p className="rounded-md bg-paper p-3 text-[14px] font-medium leading-relaxed text-ink-soft">Pick a meal and WTF will build the list from what is missing.</p>
+          )}
         </div>
         <Button className="mt-4" variant="secondary" full onClick={onGoMeals}>
-          See Meals
+          Go to Meals
         </Button>
       </Card>
 
-      {hasGroceryData && (
-        <Card className="section-enter stagger-4">
-          <SectionHeader eyebrow="Live list" title={nextItems.length > 0 ? `${nextItems.length} things to buy now` : 'Your list is getting started'} />
-          <div className="mt-4 space-y-2">
-            {nextItems.length > 0 ? (
-              nextItems.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 rounded-md bg-paper px-3 py-2.5">
-                  <span className="h-5 w-5 rounded-pill border-2 border-ink-soft bg-surface" />
-                  <div className="min-w-0">
-                    <p className="text-[15px] font-semibold text-ink">{item.name}</p>
-                    <p className="text-[13px] font-medium text-muted">{item.section}</p>
-                  </div>
+      <Card>
+        <SectionHeader eyebrow="List preview" title={needToBuy.length ? `${needToBuy.length} things to buy` : 'List is quiet'} />
+        <div className="mt-4 space-y-2">
+          {needToBuy.length ? (
+            needToBuy.map((item) => (
+              <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-paper px-3 py-2.5">
+                <div className="min-w-0">
+                  <p className="text-[15px] font-semibold text-ink">{item.name}</p>
+                  {item.usedForMeals?.length ? <p className="text-[13px] font-medium text-muted">Used for {item.usedForMeals.join(', ')}</p> : null}
                 </div>
-              ))
-            ) : (
-              <p className="rounded-md bg-paper p-3 text-[14px] font-medium leading-relaxed text-ink-soft">
-                Pick a meal or add an item. WTF will keep the list tidy.
-              </p>
-            )}
-          </div>
-          <Button className="mt-4" variant="secondary" full icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoList}>
-            Open List
+                <Pill>{item.section}</Pill>
+              </div>
+            ))
+          ) : (
+            <p className="rounded-md bg-paper p-3 text-[14px] font-medium leading-relaxed text-ink-soft">Choose meals first or add what you have. Either path works.</p>
+          )}
+        </div>
+      </Card>
+
+      <Card>
+        <SectionHeader eyebrow="Quick scan" title="Add food data fast" subhead="Receipts and fridge photos help the list stay useful." />
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <Button variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onScanReceipt}>
+            Receipt
           </Button>
-        </Card>
-      )}
-
-      {useSoon.length > 0 && <UseSoonCard items={useSoon} />}
-
-      {hasGroceryData && bestMeal && (
-        <Card>
-          <SectionHeader eyebrow="Dinner" title={bestMeal.name} subhead={bestMeal.time} />
-          <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">{bestMeal.whyThisWorks}</p>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <Button variant="secondary" onClick={() => onOpenMeal(bestMeal)}>
-              Cook this
-            </Button>
-            <Button onClick={() => onAddMissing(bestMeal)}>Add missing</Button>
-          </div>
-        </Card>
-      )}
-
-      {hasReceiptHistory && (
-        <Card>
-          <SectionHeader eyebrow="Spend" title={`$${spending.monthlySpend} this month`} />
-          <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">{spending.plainEnglishInsight}</p>
-        </Card>
-      )}
+          <Button variant="secondary" icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onCheckFridge}>
+            Fridge
+          </Button>
+        </div>
+      </Card>
     </main>
-  );
-}
-
-function UseSoonCard({ items }: { items: GroceryMemoryItem[] }) {
-  return (
-    <Card>
-      <SectionHeader eyebrow="Use soon" title="Use these first" />
-      <div className="mt-4 grid gap-2">
-        {items.map((item) => (
-          <div key={item.id} className="flex items-center justify-between gap-3 rounded-md bg-paper px-3 py-2.5">
-            <div>
-              <p className="text-[15px] font-semibold text-ink">{item.name}</p>
-              <p className="text-[13px] font-medium text-muted">Bought {getDaysSince(item.lastBoughtDate)} days ago</p>
-            </div>
-            <Pill>{item.estimatedShelfLifeDays} days</Pill>
-          </div>
-        ))}
-      </div>
-    </Card>
   );
 }

@@ -1,4 +1,4 @@
-export type Tab = 'home' | 'list' | 'meals' | 'spend';
+export type Tab = 'home' | 'list' | 'meals' | 'scan';
 
 export type Screen =
   | 'auth'
@@ -10,6 +10,9 @@ export type Screen =
   | 'meals'
   | 'spend'
   | 'settings'
+  | 'dinnerLanePicker'
+  | 'mealIdeas'
+  | 'ingredientReview'
   | 'receiptScan'
   | 'receiptReview'
   | 'receiptSuccess'
@@ -95,6 +98,7 @@ export type GroceryListEntry = {
   reason: string;
   source: ListSource;
   priority: number;
+  usedForMeals?: string[];
 };
 
 export type GroceryList = {
@@ -112,6 +116,7 @@ export type GroceryList = {
 
 export type BehaviorState = {
   alreadyHaveIds: string[];
+  alreadyHaveNames: string[];
   removedIds: string[];
   boughtIds: string[];
   manuallyAddedNames: string[];
@@ -120,6 +125,45 @@ export type BehaviorState = {
   addCounts: Record<string, number>;
   deleteCounts: Record<string, number>;
   checkedOffEntries: GroceryListEntry[];
+  usedForMeals: Record<string, string[]>;
+  skippedMealIds: string[];
+  selectedDinnerLanes: string[];
+  likedTags: string[];
+  dislikedTags: string[];
+  mealFeedback: Record<string, MealFeedback>;
+};
+
+export type MealStatus = 'suggested' | 'saved' | 'planned' | 'made';
+
+export type MealIdea = {
+  id: string;
+  name: string;
+  description: string;
+  dinnerLanes: string[];
+  cuisineInfluence: string;
+  format: string;
+  timeMinutes: number;
+  effort: string;
+  tags: string[];
+  ingredients: string[];
+  optionalIngredients: string[];
+  pantryIngredients: string[];
+  instructionsPreview?: string[];
+  status?: MealStatus;
+};
+
+export type IngredientReviewStatus = 'alreadyHave' | 'needToBuy' | 'optional';
+
+export type ReviewedIngredient = {
+  name: string;
+  status: IngredientReviewStatus;
+  optional?: boolean;
+  pantry?: boolean;
+};
+
+export type MealFeedback = {
+  rating: 'Loved it' | 'Good enough' | 'Not again';
+  chips: string[];
 };
 
 export type ChefMode =

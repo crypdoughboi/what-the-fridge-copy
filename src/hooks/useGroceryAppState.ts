@@ -4,9 +4,12 @@ import {
   ChefMode,
   GroceryListEntry,
   GroceryMemoryItem,
+  MealFeedback,
+  MealIdea,
   MealSuggestion,
   OnboardingProfile,
   ReceiptExtraction,
+  ReviewedIngredient,
   ScanConfidence,
   UserAccount,
   VisionItem,
@@ -16,11 +19,12 @@ import {
   categorizeGroceryItem,
   detectUsuals,
   generateGroceryList,
+  normalizeIngredientKey,
   normalizeReceiptItemName,
   sectionForCategory,
   updateLocalStateAfterUserAction,
 } from '../utils/groceryLogic';
-import { getMealsForMode } from '../services/mealGenerationService';
+import { getMealIdeaById, getMealsForMode, getRankedMealIdeas } from '../services/mealGenerationService';
 import {
   getCurrentUserAccount,
   listenForAuthChanges,
@@ -38,6 +42,7 @@ type PersonalizedState = {
   memory: GroceryMemoryItem[];
   behavior: BehaviorState;
   savedMealIds: string[];
+  plannedMealIds: string[];
   cookedMealIds: string[];
   recommendedItems: string[];
   receiptCount: number;
@@ -47,6 +52,7 @@ type PersonalizedState = {
 
 const emptyBehavior: BehaviorState = {
   alreadyHaveIds: [],
+  alreadyHaveNames: [],
   removedIds: [],
   boughtIds: [],
   manuallyAddedNames: [],
@@ -55,6 +61,12 @@ const emptyBehavior: BehaviorState = {
   addCounts: {},
   deleteCounts: {},
   checkedOffEntries: [],
+  usedForMeals: {},
+  skippedMealIds: [],
+  selectedDinnerLanes: [],
+  likedTags: [],
+  dislikedTags: [],
+  mealFeedback: {},
 };
 
 export function useGroceryAppState() {
@@ -67,6 +79,7 @@ export function useGroceryAppState() {
   const [behavior, setBehavior] = useState<BehaviorState>(emptyBehavior);
   const [toast, setToast] = useState<string | null>(null);
   const [savedMealIds, setSavedMealIds] = useState<string[]>([]);
+  const [plannedMealIds, setPlannedMealIds] = useState<string[]>([]);
   const [cookedMealIds, setCookedMealIds] = useState<string[]>([]);
   const [recommendedItems, setRecommendedItems] = useState<string[]>([]);
   const [receiptCount, setReceiptCount] = useState(0);
@@ -81,16 +94,24 @@ export function useGroceryAppState() {
   const baseMeals = useMemo(() => getMealsForMode(profile.cookingStyle as ChefMode), [profile.cookingStyle]);
   const groceryList = useMemo(() => generateGroceryList(memory, behavior, baseMeals), [memory, behavior, baseMeals]);
   const usuals = useMemo(() => detectUsuals(memory), [memory]);
+  const knownIngredientNames = useMemo(() => getKnownIngredientNames(memory, behavior), [memory, behavior]);
+  const plannedMeals = useMemo(() => idsToMealIdeas(plannedMealIds), [plannedMealIds]);
+  const savedMeals = useMemo(
+    () => idsToMealIdeas(savedMealIds).filter((meal) => !plannedMealIds.includes(meal.id) && !cookedMealIds.includes(meal.id)),
+    [savedMealIds, plannedMealIds, cookedMealIds],
+  );
+  const madeMeals = useMemo(() => idsToMealIdeas(cookedMealIds), [cookedMealIds]);
   const hasGroceryData = useMemo(
     () =>
       memory.length > 0 ||
+      behavior.alreadyHaveNames.length > 0 ||
       behavior.manuallyAddedNames.length > 0 ||
       behavior.mealAddedNames.length > 0 ||
       Object.keys(behavior.fridgeSeen).length > 0 ||
       receiptCount > 0 ||
       fridgeScanCount > 0 ||
       importCount > 0,
-    [memory, behavior.manuallyAddedNames, behavior.mealAddedNames, behavior.fridgeSeen, receiptCount, fridgeScanCount, importCount],
+    [memory, behavior.alreadyHaveNames, behavior.manuallyAddedNames, behavior.mealAddedNames, behavior.fridgeSeen, receiptCount, fridgeScanCount, importCount],
   );
   const useSoon = useMemo(
     () =>
@@ -147,6 +168,7 @@ export function useGroceryAppState() {
       memory,
       behavior,
       savedMealIds,
+      plannedMealIds,
       cookedMealIds,
       recommendedItems,
       receiptCount,
@@ -160,6 +182,7 @@ export function useGroceryAppState() {
     memory,
     behavior,
     savedMealIds,
+    plannedMealIds,
     cookedMealIds,
     recommendedItems,
     receiptCount,
@@ -188,7 +211,7 @@ export function useGroceryAppState() {
     setAccount(null);
     setCompletedOnboarding(false);
     applyPersonalizedState(defaultPersonalizedState());
-    showToast('Signed out. Grocery memory stays tied to your account.');
+    showToast('Signed out. Your saved setup stays tied to your account.');
   }
 
   function activateAccount(nextAccount: UserAccount) {
@@ -207,9 +230,10 @@ export function useGroceryAppState() {
     setProfile(state.profile);
     setMemory(state.memory);
     setBehavior(normalizeBehavior(state.behavior));
-    setSavedMealIds(state.savedMealIds);
-    setCookedMealIds(state.cookedMealIds);
-    setRecommendedItems(state.recommendedItems);
+    setSavedMealIds(state.savedMealIds ?? []);
+    setPlannedMealIds(state.plannedMealIds ?? []);
+    setCookedMealIds(state.cookedMealIds ?? []);
+    setRecommendedItems(state.recommendedItems ?? []);
     setReceiptCount(state.receiptCount ?? 0);
     setFridgeScanCount(state.fridgeScanCount ?? 0);
     setImportCount(state.importCount ?? 0);
@@ -224,14 +248,28 @@ export function useGroceryAppState() {
     if (entry.itemId) {
       setBehavior((current) => updateLocalStateAfterUserAction(current, 'alreadyHave', entry.itemId!));
     } else {
+      const key = normalizeIngredientKey(entry.name);
       setBehavior((current) => ({
         ...current,
-        manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-        mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
+        alreadyHaveNames: unique([...current.alreadyHaveNames, entry.name]),
+        manuallyAddedNames: current.manuallyAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
+        mealAddedNames: current.mealAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
         fridgeSeen: { ...current.fridgeSeen, [entry.name.toLowerCase()]: 'clearlySeen' },
       }));
     }
     showToast(`${entry.name} moved to probably already have.`);
+  }
+
+  function markEntryNeedToBuy(entry: GroceryListEntry) {
+    const key = normalizeIngredientKey(entry.name);
+    setBehavior((current) => ({
+      ...current,
+      alreadyHaveIds: entry.itemId ? current.alreadyHaveIds.filter((id) => id !== entry.itemId) : current.alreadyHaveIds,
+      alreadyHaveNames: current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+      manuallyAddedNames: unique([...current.manuallyAddedNames, entry.name]),
+      fridgeSeen: Object.fromEntries(Object.entries(current.fridgeSeen).filter(([name]) => normalizeIngredientKey(name) !== key)),
+    }));
+    showToast(`${entry.name} moved to Need to Buy.`);
   }
 
   function markEntryBought(entry: GroceryListEntry) {
@@ -247,7 +285,7 @@ export function useGroceryAppState() {
         checkedOffEntries: addCheckedEntry(current, entry).checkedOffEntries,
       }));
     }
-    showToast(`${entry.name} marked bought. Grocery brain updated.`);
+    showToast(`${entry.name} marked bought. WTF updated your list.`);
   }
 
   function removeEntry(entry: GroceryListEntry) {
@@ -273,9 +311,11 @@ export function useGroceryAppState() {
   function addManualItem(name: string) {
     const normalized = normalizeReceiptItemName(name);
     if (!normalized) return;
+    const key = normalizeIngredientKey(normalized);
     setBehavior((current) => ({
       ...current,
       manuallyAddedNames: unique([...current.manuallyAddedNames, normalized]),
+      alreadyHaveNames: current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key),
       checkedOffEntries: current.checkedOffEntries.filter((entry) => entry.name.toLowerCase() !== normalized.toLowerCase()),
       addCounts: {
         ...current.addCounts,
@@ -283,6 +323,24 @@ export function useGroceryAppState() {
       },
     }));
     showToast(`${normalized} added.`);
+  }
+
+  function addAlreadyHaveItem(name: string) {
+    const normalized = normalizeReceiptItemName(name);
+    if (!normalized) return;
+    const key = normalizeIngredientKey(normalized);
+    setBehavior((current) => ({
+      ...current,
+      alreadyHaveNames: unique([...current.alreadyHaveNames, normalized]),
+      manuallyAddedNames: current.manuallyAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
+      mealAddedNames: current.mealAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
+      checkedOffEntries: current.checkedOffEntries.filter((entry) => normalizeIngredientKey(entry.name) !== key),
+      addCounts: {
+        ...current.addCounts,
+        [key]: (current.addCounts[key] ?? 0) + 1,
+      },
+    }));
+    showToast(`${normalized} added to Already Have.`);
   }
 
   function addUsualsToList() {
@@ -337,14 +395,16 @@ export function useGroceryAppState() {
 
   function confirmReceipt(extraction: ReceiptExtraction) {
     setMemory((current) => mergeReceiptIntoMemory(current, extraction));
+    const purchasedNames = extraction.items.filter((item) => item.isGrocery).map((item) => item.normalizedName);
     setBehavior((current) => ({
       ...current,
+      alreadyHaveNames: unique([...current.alreadyHaveNames, ...purchasedNames]),
       boughtIds: [],
       removedIds: [],
       checkedOffEntries: [],
     }));
     setReceiptCount((current) => current + 1);
-    showToast('Receipt added. Grocery brain updated.');
+    showToast('Receipt added. Your list knows what you bought.');
   }
 
   function updateListFromFridge(items: VisionItem[]) {
@@ -352,9 +412,18 @@ export function useGroceryAppState() {
       acc[item.name.toLowerCase()] = item.confidence;
       return acc;
     }, {});
+    const haveNames = items.filter((item) => item.confidence === 'clearlySeen').map((item) => item.name);
+    const needNames = items.filter((item) => item.confidence === 'maybeLow').map((item) => item.name);
+    const haveKeys = new Set(haveNames.map(normalizeIngredientKey));
 
     setBehavior((current) => ({
       ...current,
+      alreadyHaveNames: unique([...current.alreadyHaveNames, ...haveNames]),
+      manuallyAddedNames: unique([
+        ...current.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+        ...needNames,
+      ]),
+      mealAddedNames: current.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
       fridgeSeen: {
         ...current.fridgeSeen,
         ...seen,
@@ -373,7 +442,7 @@ export function useGroceryAppState() {
       ),
     );
     setFridgeScanCount((current) => current + 1);
-    showToast("List updated. Fridge says don't buy eggs.");
+    showToast('List updated from your fridge photo.');
   }
 
   function addImportedItems(entries: GroceryListEntry[]) {
@@ -400,7 +469,96 @@ export function useGroceryAppState() {
 
   function markMealCooked(mealId: string) {
     setCookedMealIds((current) => unique([...current, mealId]));
-    showToast('Cooked. Grocery brain learned dinner.');
+    setPlannedMealIds((current) => current.filter((id) => id !== mealId));
+    showToast('Marked made. We will remember it.');
+  }
+
+  function saveMealIdea(meal: MealIdea) {
+    setSavedMealIds((current) => unique([...current, meal.id]));
+    setBehavior((current) => ({
+      ...current,
+      likedTags: unique([...current.likedTags, ...meal.tags]),
+    }));
+    showToast(`${meal.name} saved.`);
+  }
+
+  function skipMealIdea(meal: MealIdea) {
+    setBehavior((current) => ({
+      ...current,
+      skippedMealIds: unique([...current.skippedMealIds, meal.id]),
+    }));
+    showToast('Skipped. No list changes.');
+  }
+
+  function rememberDinnerLanes(lanes: string[]) {
+    setBehavior((current) => ({
+      ...current,
+      selectedDinnerLanes: unique([...current.selectedDinnerLanes, ...lanes]),
+    }));
+  }
+
+  function planMealWithIngredients(meal: MealIdea, reviewed: ReviewedIngredient[]) {
+    const needNames = reviewed.filter((item) => item.status === 'needToBuy').map((item) => normalizeReceiptItemName(item.name));
+    const haveNames = reviewed.filter((item) => item.status === 'alreadyHave').map((item) => normalizeReceiptItemName(item.name));
+    const haveKeys = new Set(haveNames.map(normalizeIngredientKey));
+
+    setPlannedMealIds((current) => unique([...current, meal.id]));
+    setSavedMealIds((current) => unique([...current, meal.id]));
+    setBehavior((current) => {
+      const nextUsedFor = { ...current.usedForMeals };
+      needNames.forEach((name) => {
+        const key = normalizeIngredientKey(name);
+        nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), meal.name]);
+      });
+
+      return {
+        ...current,
+        alreadyHaveNames: unique([...current.alreadyHaveNames, ...haveNames]),
+        manuallyAddedNames: current.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+        mealAddedNames: unique([
+          ...current.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+          ...needNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+        ]),
+        usedForMeals: nextUsedFor,
+        likedTags: unique([...current.likedTags, ...meal.tags]),
+      };
+    });
+    showToast(`${meal.name} planned. Missing ingredients added once.`);
+  }
+
+  function makeMealAgain(meal: MealIdea) {
+    setPlannedMealIds((current) => unique([...current, meal.id]));
+    showToast(`${meal.name} is back on This Week.`);
+  }
+
+  function rateMeal(mealId: string, feedback: MealFeedback) {
+    setBehavior((current) => {
+      const meal = getMealIdeaById(mealId);
+      const likedTags = feedback.rating === 'Loved it' && meal ? unique([...current.likedTags, ...meal.tags]) : current.likedTags;
+      const dislikedTags = feedback.rating === 'Not again' && meal ? unique([...current.dislikedTags, ...meal.tags]) : current.dislikedTags;
+      return {
+        ...current,
+        likedTags,
+        dislikedTags,
+        mealFeedback: {
+          ...current.mealFeedback,
+          [mealId]: feedback,
+        },
+      };
+    });
+    showToast('Feedback saved.');
+  }
+
+  function rankMealIdeas(selectedLanes: string[] = []) {
+    return getRankedMealIdeas({
+      knownIngredients: knownIngredientNames,
+      selectedLanes: selectedLanes.length ? selectedLanes : behavior.selectedDinnerLanes,
+      skippedMealIds: behavior.skippedMealIds,
+      savedMealIds,
+      madeMealIds: cookedMealIds,
+      likedTags: behavior.likedTags,
+      dislikedTags: behavior.dislikedTags,
+    });
   }
 
   function recommendItem(itemName: string) {
@@ -423,6 +581,7 @@ export function useGroceryAppState() {
     groceryList,
     spendingInsight,
     hasGroceryData,
+    knownIngredientNames,
     hasReceiptHistory: receiptCount > 0,
     useSoon,
     behavior,
@@ -433,14 +592,20 @@ export function useGroceryAppState() {
     createAccountWithEmail,
     signOutAccount,
     savedMealIds,
+    plannedMealIds,
     cookedMealIds,
+    plannedMeals,
+    savedMeals,
+    madeMeals,
     recommendedItems,
     completeOnboarding,
     setProfile,
     markEntryAlreadyHave,
+    markEntryNeedToBuy,
     markEntryBought,
     removeEntry,
     addManualItem,
+    addAlreadyHaveItem,
     addUsualsToList,
     addMealMissingItems,
     addMealUnlockItems,
@@ -450,6 +615,13 @@ export function useGroceryAppState() {
     addImportedItems,
     saveMeal,
     markMealCooked,
+    saveMealIdea,
+    skipMealIdea,
+    rememberDinnerLanes,
+    planMealWithIngredients,
+    makeMealAgain,
+    rateMeal,
+    rankMealIdeas,
     recommendItem,
     keepPrivate,
   };
@@ -547,6 +719,7 @@ function defaultPersonalizedState(): PersonalizedState {
     memory: [],
     behavior: emptyBehavior,
     savedMealIds: [],
+    plannedMealIds: [],
     cookedMealIds: [],
     recommendedItems: [],
     receiptCount: 0,
@@ -559,6 +732,13 @@ function normalizeBehavior(behavior: BehaviorState): BehaviorState {
   return {
     ...emptyBehavior,
     ...behavior,
+    alreadyHaveNames: behavior.alreadyHaveNames ?? [],
+    usedForMeals: behavior.usedForMeals ?? {},
+    skippedMealIds: behavior.skippedMealIds ?? [],
+    selectedDinnerLanes: behavior.selectedDinnerLanes ?? [],
+    likedTags: behavior.likedTags ?? [],
+    dislikedTags: behavior.dislikedTags ?? [],
+    mealFeedback: behavior.mealFeedback ?? {},
     checkedOffEntries: behavior.checkedOffEntries ?? [],
   };
 }
@@ -579,6 +759,41 @@ function addCheckedEntry(behavior: BehaviorState, entry: GroceryListEntry): Beha
       ),
     ].slice(0, 20),
   };
+}
+
+function idsToMealIdeas(ids: string[]): MealIdea[] {
+  return ids.map((id) => getMealIdeaById(id)).filter(Boolean) as MealIdea[];
+}
+
+function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: BehaviorState): string[] {
+  const memoryNames = memory
+    .filter(
+      (item) =>
+        item.likelyStillHave ||
+        behavior.alreadyHaveIds.includes(item.id) ||
+        behavior.fridgeSeen[item.name.toLowerCase()] === 'clearlySeen',
+    )
+    .map((item) => item.name);
+
+  const scanNames = Object.entries(behavior.fridgeSeen)
+    .filter(([, confidence]) => confidence === 'clearlySeen')
+    .map(([name]) => name);
+
+  const all = [
+    ...memoryNames,
+    ...scanNames,
+    ...behavior.alreadyHaveNames,
+    ...behavior.manuallyAddedNames,
+    ...behavior.mealAddedNames,
+  ];
+
+  const seen = new Set<string>();
+  return all.filter((name) => {
+    const key = normalizeIngredientKey(name);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function readStorage<T>(key: string): T | null {

@@ -2,7 +2,7 @@
 
 What The Fridge, shorthand WTF, is a mobile-first grocery and dinner prototype.
 
-The promise is simple: dinner from what you already bought. The app turns receipts, fridge and pantry checks, old lists, and household behavior into a smart grocery list, chef-guided meal ideas, overbuy warnings, and grocery spending insights.
+The promise is simple: meals can create the list, and the list can improve meals. The app turns meal choices, receipts, fridge and pantry checks, and household behavior into a smart grocery list and chef-guided dinner ideas.
 
 ## Run It
 
@@ -18,15 +18,14 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 - Short onboarding for household size, stores, diet preferences, avoid list, cooking style, and weekly goal.
 - Account creation screen wired for Supabase Apple ID, Gmail, and email magic-link sign-up.
 - Local per-user personalization storage for profile, purchase and list history, list behavior, saved meals, cooked meals, and recommendations.
-- Home screen focused on building the list with receipt and fridge-photo actions plus a clear path to Meals.
-- Four-tab navigation: Home, List, Meals, Spend. Scan is folded into Home/List as an add method.
-- Smart grocery list with live checkoff circles, Buy Now, Maybe Buy, Probably Already Have, meal unlocks, and overbuy warnings.
+- Home screen focused on the main command: WTF should I make?, with planned meals, list, and scan previews.
+- Four-tab navigation: Home, List, Meals, Scan. Spend is kept out of primary navigation for now.
+- Meals flow with dinner-lane picker, one-at-a-time meal ideas, Save, Skip, Make this week, ingredient review, This Week, Saved, and Made Before states.
+- Smart grocery list with live checkoff circles, Need to Buy, Already Have, ingredient deduping, and Used For meal metadata.
 - Receipt scanner flow with real `input type="file"` controls, `accept="image/*"`, and camera capture support.
 - Receipt OCR loading, extracted item review, edit/remove/not-grocery actions, and confirmation.
 - Fridge and pantry scanner flow with file upload, camera capture, mock recognition, confidence groups, and list update.
-- Old grocery list import from pasted text.
-- Chef-guided meal screen with mode switching and meal detail pages.
-- Grocery spend dashboard with store and category charts.
+- Scan tab with receipt scan, fridge or pantry scan, and manual item entry into Already Have or Need to Buy.
 - Settings/profile with privacy controls, receipt history, data export/delete placeholders, subscription placeholder, and Friend Rebuys preview.
 - Web-native WTF fridge logo treatment based on the provided blue fridge mark, used in the app header, auth screen, and PWA icon.
 

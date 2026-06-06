@@ -1,108 +1,187 @@
-import { useEffect, useMemo, useState } from 'react';
-import { ListPlus, RefreshCw } from 'lucide-react';
-import { ChefMode, MealSuggestion } from '../types';
-import { chefModes } from '../data/mockData';
+import { ChefHat, Plus, RotateCcw, ScanLine, Star, Utensils } from 'lucide-react';
+import { ReactNode, useState } from 'react';
+import { MealFeedback, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { MealCard } from '../components/MealCard';
+import { Pill } from '../components/Pill';
 import { SectionHeader } from '../components/SectionHeader';
-import { getMealsForMode } from '../services/mealGenerationService';
 
 export function MealsScreen({
-  hasGroceryData,
-  onOpenMeal,
-  onAddMissing,
-  onBuildList,
+  plannedMeals,
+  savedMeals,
+  madeMeals,
+  onStartIdeas,
+  onAddWhatIHave,
+  onMakeThisWeek,
+  onMarkMade,
+  onMakeAgain,
+  onRateMeal,
 }: {
-  hasGroceryData: boolean;
-  onOpenMeal: (meal: MealSuggestion) => void;
-  onAddMissing: (meal: MealSuggestion) => void;
-  onBuildList: () => void;
-  onScanReceipt: () => void;
+  plannedMeals: MealIdea[];
+  savedMeals: MealIdea[];
+  madeMeals: MealIdea[];
+  onStartIdeas: () => void;
+  onAddWhatIHave: () => void;
+  onMakeThisWeek: (meal: MealIdea) => void;
+  onMarkMade: (meal: MealIdea) => void;
+  onMakeAgain: (meal: MealIdea) => void;
+  onRateMeal: (mealId: string, feedback: MealFeedback) => void;
 }) {
-  const [mode, setMode] = useState<ChefMode>('Lazy but good');
-  const [generating, setGenerating] = useState(false);
-  const meals = useMemo(() => getMealsForMode(mode), [mode]);
+  const [feedbackMeal, setFeedbackMeal] = useState<MealIdea | null>(null);
+  const [feedbackChips, setFeedbackChips] = useState<string[]>([]);
 
-  useEffect(() => {
-    setGenerating(true);
-    const timer = window.setTimeout(() => setGenerating(false), 420);
-    return () => window.clearTimeout(timer);
-  }, [mode]);
+  function markMade(meal: MealIdea) {
+    onMarkMade(meal);
+    setFeedbackMeal(meal);
+    setFeedbackChips([]);
+  }
 
   return (
     <main className="screen-enter space-y-8">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Meals</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Dinner from the list.</h1>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">WTF should I make?</h1>
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
-          {hasGroceryData ? 'Ideas tied to what you added, scanned, or probably already have.' : 'Add a few items and WTF will suggest dinners you can make.'}
+          Start with meal ideas now, or add what you have for smarter suggestions.
         </p>
+        <div className="mt-5 grid gap-2">
+          <Button full icon={<ChefHat className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartIdeas}>
+            WTF should I make?
+          </Button>
+          <Button full variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onAddWhatIHave}>
+            Add what I have
+          </Button>
+        </div>
       </section>
 
-      {!hasGroceryData ? (
-        <Card className="section-enter stagger-1">
-          <h2 className="font-display text-[22px] font-bold tracking-[-0.02em] text-ink">Add a few items first.</h2>
-          <p className="mt-2 text-[15px] font-medium leading-relaxed text-ink-soft">Build a quick list, then come back for dinner ideas that actually fit.</p>
-          <Button className="mt-5" full icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={onBuildList}>
-            Build List
-          </Button>
+      <MealSection
+        eyebrow="This week"
+        title="Meals you plan to cook"
+        emptyTitle="No meals planned yet."
+        emptyText="Tap WTF should I make, then choose Make this week. Only those meals affect your grocery list."
+        meals={plannedMeals}
+        actionLabel="Mark made"
+        actionIcon={<Utensils className="h-5 w-5" strokeWidth={1.75} />}
+        onAction={markMade}
+      />
+
+      {feedbackMeal && (
+        <Card className="section-enter">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Quick note</p>
+          <h2 className="mt-2 font-display text-[22px] font-bold tracking-[-0.02em] text-ink">How was it?</h2>
+          <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{feedbackMeal.name}</p>
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            {(['Loved it', 'Good enough', 'Not again'] as const).map((rating) => (
+              <button
+                key={rating}
+                className="min-h-10 rounded-md border border-line bg-paper px-2 text-[13px] font-semibold text-ink-soft active:bg-line/60"
+                onClick={() => {
+                  onRateMeal(feedbackMeal.id, { rating, chips: feedbackChips });
+                  setFeedbackMeal(null);
+                }}
+              >
+                {rating}
+              </button>
+            ))}
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {['Too much work', 'Needed more acid', 'Needed more heat', 'Too heavy', 'Great leftovers', 'More sauce next time', 'Make it crispier'].map((chip) => {
+              const active = feedbackChips.includes(chip);
+              return (
+                <button
+                  key={chip}
+                  className={`rounded-pill border px-3 py-2 text-[12px] font-semibold transition ${
+                    active ? 'border-ink bg-ink text-paper' : 'border-line bg-paper text-muted'
+                  }`}
+                  onClick={() => setFeedbackChips((current) => (active ? current.filter((item) => item !== chip) : [...current, chip]))}
+                >
+                  {chip}
+                </button>
+              );
+            })}
+          </div>
+        </Card>
+      )}
+
+      <MealSection
+        eyebrow="Saved"
+        title="Meals parked for later"
+        emptyTitle="Nothing saved yet."
+        emptyText="Save ideas you like. They stay out of the grocery list until you make them this week."
+        meals={savedMeals}
+        actionLabel="Make this week"
+        actionIcon={<Plus className="h-5 w-5" strokeWidth={1.75} />}
+        onAction={onMakeThisWeek}
+      />
+
+      <MealSection
+        eyebrow="Made before"
+        title="Worth repeating"
+        emptyTitle="No cooked meals yet."
+        emptyText="After you mark a planned meal made, it will show up here for easy repeats."
+        meals={madeMeals}
+        actionLabel="Make again"
+        actionIcon={<RotateCcw className="h-5 w-5" strokeWidth={1.75} />}
+        onAction={onMakeAgain}
+      />
+    </main>
+  );
+}
+
+function MealSection({
+  eyebrow,
+  title,
+  emptyTitle,
+  emptyText,
+  meals,
+  actionLabel,
+  actionIcon,
+  onAction,
+}: {
+  eyebrow: string;
+  title: string;
+  emptyTitle: string;
+  emptyText: string;
+  meals: MealIdea[];
+  actionLabel: string;
+  actionIcon: ReactNode;
+  onAction: (meal: MealIdea) => void;
+}) {
+  return (
+    <section className="section-enter space-y-3">
+      <SectionHeader eyebrow={eyebrow} title={title} />
+      {meals.length === 0 ? (
+        <Card>
+          <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">{emptyTitle}</h2>
+          <p className="mt-2 text-[14px] font-medium leading-relaxed text-ink-soft">{emptyText}</p>
         </Card>
       ) : (
-        <>
-          <Card className="section-enter stagger-1">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">Chef mode</p>
-              {generating && (
-                <span className="inline-flex items-center gap-1 text-[12px] font-semibold text-accent">
-                  <RefreshCw className="h-4 w-4 animate-spin" strokeWidth={1.75} />
-                  Finding dinner
-                </span>
-              )}
-            </div>
-            <div className="flex gap-2 overflow-x-auto pb-1">
-              {chefModes.map((chefMode) => (
-                <button
-                  key={chefMode}
-                  className={`min-h-10 shrink-0 rounded-pill border px-3 py-2 text-[14px] font-semibold transition ${
-                    mode === chefMode ? 'border-ink bg-ink text-paper' : 'border-line bg-surface text-ink active:bg-line/40'
-                  }`}
-                  onClick={() => setMode(chefMode)}
-                >
-                  {chefMode}
-                </button>
-              ))}
-            </div>
-          </Card>
-
-          {generating ? (
-            <Card>
-              <div className="space-y-3">
-                {[0, 1, 2].map((item) => (
-                  <div key={item} className="h-24 rounded-md bg-paper soft-pulse" />
-                ))}
-              </div>
-            </Card>
-          ) : (
-            <div className="space-y-3">
-              {meals.map((meal) => (
-                <MealCard key={meal.id} meal={meal} onOpen={onOpenMeal} onAddMissing={onAddMissing} />
-              ))}
-            </div>
-          )}
-
-          <Card>
-            <SectionHeader eyebrow="Chef rules" title="How WTF chooses dinner" />
-            <div className="mt-3 grid gap-2">
-              {['Use what expires first.', 'Add acid or freshness when dinner gets heavy.', 'Avoid random ingredient soup.', 'Texture matters. Crunch earns its spot.'].map((rule) => (
-                <div key={rule} className="rounded-md bg-paper px-3 py-2 text-[14px] font-medium text-ink-soft">
-                  {rule}
+        <div className="space-y-3">
+          {meals.map((meal) => (
+            <Card key={meal.id}>
+              <div className="flex items-start gap-3">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+                  <Star className="h-5 w-5" strokeWidth={1.75} />
                 </div>
-              ))}
-            </div>
-          </Card>
-        </>
+                <div className="min-w-0">
+                  <h3 className="font-display text-[21px] font-bold leading-tight tracking-[-0.02em] text-ink">{meal.name}</h3>
+                  <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{meal.description}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Pill tone="green">{meal.timeMinutes} min</Pill>
+                    <Pill>{meal.effort}</Pill>
+                    {meal.tags.slice(0, 2).map((tag) => (
+                      <Pill key={tag}>{tag}</Pill>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <Button className="mt-4" variant="secondary" full icon={actionIcon} onClick={() => onAction(meal)}>
+                {actionLabel}
+              </Button>
+            </Card>
+          ))}
+        </div>
       )}
-    </main>
+    </section>
   );
 }

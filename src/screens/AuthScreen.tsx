@@ -47,9 +47,9 @@ export function AuthScreen({
         <Logo hero />
         <div className="mt-7">
           <Eyebrow>What The Fridge</Eyebrow>
-          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Grocery lists, basically automatic.</h1>
+          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that writes itself.</h1>
           <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
-            Snap a receipt or your fridge and WTF builds your list. Then it turns what you're buying into dinner ideas.
+            Take a picture of your fridge or a receipt. WTF builds your list, keeps track of what you have, and helps turn it into dinner.
           </p>
         </div>
       </section>

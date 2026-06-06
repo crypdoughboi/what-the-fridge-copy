@@ -45,16 +45,62 @@ export function normalizeReceiptItemName(rawName: string): string {
     .trim();
 }
 
+export function normalizeIngredientKey(name: string): string {
+  const normalized = normalizeReceiptItemName(name)
+    .toLowerCase()
+    .replace(/\b(optional|fresh|whole|large|small|mini|quick|herby|toasted|grated|sliced|diced|chopped)\b/g, '')
+    .replace(/\b(cutlets|thighs|breasts)\b/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const direct: Record<string, string> = {
+    lemons: 'lemon',
+    limes: 'lime',
+    tomatoes: 'tomato',
+    potatoes: 'potato',
+    carrots: 'carrot',
+    cucumbers: 'cucumber',
+    scallions: 'scallion',
+    onions: 'onion',
+    peppers: 'pepper',
+    berries: 'berry',
+    eggs: 'egg',
+    noodles: 'noodle',
+    tortillas: 'tortilla',
+    olives: 'olive',
+    thighs: 'chicken',
+    'chicken thighs': 'chicken',
+    'chicken cutlets': 'chicken',
+    'ground chicken': 'chicken',
+    'ground turkey': 'turkey',
+    'jasmine rice': 'rice',
+    'frozen jasmine rice': 'rice',
+    'greek yogurt': 'greek yogurt',
+  };
+
+  if (direct[normalized]) return direct[normalized];
+  if (normalized.endsWith('ies') && normalized.length > 4) return `${normalized.slice(0, -3)}y`;
+  if (normalized.endsWith('es') && normalized.length > 4) return normalized.slice(0, -2);
+  if (normalized.endsWith('s') && normalized.length > 3 && !normalized.endsWith('ss')) return normalized.slice(0, -1);
+  return normalized;
+}
+
 export function categorizingRules(name: string): Category {
   const item = name.toLowerCase();
-  if (/(banana|spinach|romaine|avocado|cucumber|berries|scallion|lemon|lime|onion|cilantro|broccoli|pepper|tomato|zucchini|cabbage)/.test(item)) return 'Produce';
-  if (/(chicken|turkey|salmon|tuna|tofu|steak|protein)/.test(item)) return 'Protein';
+  if (
+    /(apple|apricot|artichoke|arugula|asparagus|avocado|banana|basil|bean sprout|beet|berries|berry|bok choy|broccoli|brussels|cabbage|carrot|cauliflower|celery|cilantro|corn|cucumber|eggplant|fennel|garlic|ginger|grape|green bean|herb|kale|leek|lemon|lettuce|lime|mango|melon|mushroom|okra|onion|orange|parsley|pea|peach|pear|pepper|pineapple|plum|potato|radish|romaine|scallion|shallot|spinach|squash|tomato|zucchini)/.test(
+      item,
+    )
+  ) {
+    return 'Produce';
+  }
+  if (/(chicken|turkey|salmon|tuna|tofu|steak|protein|fish|lamb|beef|pork|shrimp|ground meat)/.test(item)) return 'Protein';
   if (/(yogurt|egg|milk|feta|cheese|dairy)/.test(item)) return 'Dairy';
   if (/(frozen)/.test(item)) return 'Frozen';
-  if (/(rice|coffee|tortilla|pasta|beans|sourdough|peanut butter|bread|marinara)/.test(item)) return 'Pantry';
+  if (/(rice|coffee|tortilla|pasta|beans|lentil|couscous|orzo|noodle|breadcrumb|flour|sourdough|peanut butter|bread|marinara|curry block|coconut milk|tomato paste)/.test(item)) return 'Pantry';
   if (/(chip|snack|bar|cracker)/.test(item)) return 'Snacks';
   if (/(paper towel|foil|soap|trash)/.test(item)) return 'Household';
-  if (/(oil|salsa|hummus|chili crisp|spread|sauce|garlic)/.test(item)) return 'Condiments';
+  if (/(oil|salsa|hummus|chili crisp|spread|sauce|harissa|gochujang|chipotle|tahini|olive|pickle|capers|butter|soy|sesame|spice|cumin|paprika|cinnamon|cardamom|salt|pepper)/.test(item)) return 'Condiments';
   if (/(coffee|seltzer|juice)/.test(item)) return 'Drinks';
   return 'Other';
 }
@@ -90,7 +136,7 @@ export function calculateProbablyDueSoon(item: GroceryMemoryItem): 'buyNow' | 'm
   return 'neutral';
 }
 
-function entryFromMemory(item: GroceryMemoryItem, reason: string, source: GroceryListEntry['source']): GroceryListEntry {
+function entryFromMemory(item: GroceryMemoryItem, reason: string, source: GroceryListEntry['source'], usedForMeals: string[] = []): GroceryListEntry {
   return {
     id: `list-${item.id}`,
     itemId: item.id,
@@ -100,46 +146,52 @@ function entryFromMemory(item: GroceryMemoryItem, reason: string, source: Grocer
     reason,
     source,
     priority: item.suggestionPriority,
+    usedForMeals,
   };
 }
 
-function entryFromName(name: string, source: GroceryListEntry['source'], reason: string, priority = 80): GroceryListEntry {
+function entryFromName(name: string, source: GroceryListEntry['source'], reason: string, priority = 80, usedForMeals: string[] = []): GroceryListEntry {
   const category = categorizeGroceryItem(name);
   return {
-    id: `${source}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    id: `${source}-${normalizeIngredientKey(name).replace(/[^a-z0-9]+/g, '-')}`,
     name,
     category,
     section: sectionForCategory(category),
     reason,
     source,
     priority,
+    usedForMeals,
   };
 }
 
 function hasName(entries: GroceryListEntry[], name: string): boolean {
-  return entries.some((entry) => entry.name.toLowerCase() === name.toLowerCase());
+  const key = normalizeIngredientKey(name);
+  return entries.some((entry) => normalizeIngredientKey(entry.name) === key);
 }
 
 export function generateGroceryList(items: GroceryMemoryItem[], behavior: BehaviorState, mealSuggestions: MealSuggestion[]): GroceryList {
   const buyNow: GroceryListEntry[] = [];
   const maybeBuy: GroceryListEntry[] = [];
   const probablyAlreadyHave: GroceryListEntry[] = [];
+  const alreadyHaveKeys = new Set(behavior.alreadyHaveNames.map(normalizeIngredientKey));
+  const usedFor = (name: string) => behavior.usedForMeals[normalizeIngredientKey(name)] ?? [];
 
   items.forEach((item) => {
     const wasRemoved = behavior.removedIds.includes(item.id);
     const wasBought = behavior.boughtIds.includes(item.id);
     const markedAlreadyHave = behavior.alreadyHaveIds.includes(item.id);
     const scanStatus = behavior.fridgeSeen[item.name.toLowerCase()];
+    const itemKey = normalizeIngredientKey(item.name);
     if (wasRemoved || wasBought) return;
 
-    if (markedAlreadyHave || scanStatus === 'clearlySeen') {
+    if (markedAlreadyHave || alreadyHaveKeys.has(itemKey) || scanStatus === 'clearlySeen') {
       const reason = scanStatus === 'clearlySeen' ? 'Seen in your fridge check.' : 'You marked this as already have.';
-      probablyAlreadyHave.push(entryFromMemory(item, reason, 'scan'));
+      probablyAlreadyHave.push(entryFromMemory(item, reason, 'scan', usedFor(item.name)));
       return;
     }
 
     if (scanStatus === 'maybeLow') {
-      maybeBuy.push(entryFromMemory(item, 'Fridge scan saw it, but it looked low.', 'scan'));
+      maybeBuy.push(entryFromMemory(item, 'Fridge scan saw it, but it looked low.', 'scan', usedFor(item.name)));
       return;
     }
 
@@ -149,26 +201,32 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     const adjusted = { ...item, suggestionPriority: priority };
 
     if (dueState === 'buyNow') {
-      buyNow.push(entryFromMemory(adjusted, `${capitalize(item.name)} ${verbForItem(item.name)} usually due every ${item.averageDaysBetweenPurchases} days. Last bought ${daysSince} days ago.`, 'due'));
+      buyNow.push(entryFromMemory(adjusted, `${capitalize(item.name)} ${verbForItem(item.name)} usually due every ${item.averageDaysBetweenPurchases} days. Last bought ${daysSince} days ago.`, 'due', usedFor(item.name)));
     } else if (dueState === 'maybeBuy') {
-      maybeBuy.push(entryFromMemory(adjusted, `Last bought ${daysSince} days ago. Check before committing.`, 'usual'));
+      maybeBuy.push(entryFromMemory(adjusted, `Last bought ${daysSince} days ago. Check before committing.`, 'usual', usedFor(item.name)));
     } else if (dueState === 'alreadyHave') {
       const reason = item.perishable
         ? `${capitalize(item.name)} showed up recently and may still be around.`
         : `${capitalize(item.name)} ${pastVerbForItem(item.name)} bought recently and usually lasts.`;
-      probablyAlreadyHave.push(entryFromMemory(adjusted, reason, 'overbuy'));
+      probablyAlreadyHave.push(entryFromMemory(adjusted, reason, 'overbuy', usedFor(item.name)));
+    }
+  });
+
+  behavior.alreadyHaveNames.forEach((name) => {
+    if (!hasName(probablyAlreadyHave, name)) {
+      probablyAlreadyHave.push(entryFromName(name, 'manual', 'Marked as already have.', 75, usedFor(name)));
     }
   });
 
   behavior.manuallyAddedNames.forEach((name) => {
-    if (!hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
-      buyNow.push(entryFromName(name, 'manual', 'Added by you.', 95));
+    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
+      buyNow.push(entryFromName(name, 'manual', 'Added by you.', 95, usedFor(name)));
     }
   });
 
   behavior.mealAddedNames.forEach((name) => {
-    if (!hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
-      buyNow.push(entryFromName(name, 'meal', 'Needed for a dinner you picked.', 90));
+    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
+      buyNow.push(entryFromName(name, 'meal', 'Needed for a dinner you picked.', 90, usedFor(name)));
     }
   });
 
@@ -178,9 +236,9 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
   const overbuyAlerts = identifyLikelyOverbuys(items, { buyNow, maybeBuy }, behavior);
 
   return {
-    buyNow: sortListEntries(buyNow).slice(0, 12),
-    maybeBuy: sortListEntries(maybeBuy).slice(0, 10),
-    probablyAlreadyHave: sortListEntries(probablyAlreadyHave).slice(0, 12),
+    buyNow: dedupeEntries(sortListEntries(buyNow)).slice(0, 18),
+    maybeBuy: dedupeEntries(sortListEntries(maybeBuy)).slice(0, 10),
+    probablyAlreadyHave: dedupeEntries(sortListEntries(probablyAlreadyHave)).slice(0, 18),
     checkedOff: behavior.checkedOffEntries,
     mealUnlocks: {
       title: 'Buy these 5 things to unlock 4 dinners.',
@@ -189,6 +247,24 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     },
     overbuyAlerts,
   };
+}
+
+function dedupeEntries(entries: GroceryListEntry[]): GroceryListEntry[] {
+  const byKey = new Map<string, GroceryListEntry>();
+  entries.forEach((entry) => {
+    const key = normalizeIngredientKey(entry.name);
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, entry);
+      return;
+    }
+    byKey.set(key, {
+      ...existing,
+      priority: Math.max(existing.priority, entry.priority),
+      usedForMeals: unique([...(existing.usedForMeals ?? []), ...(entry.usedForMeals ?? [])]),
+    });
+  });
+  return Array.from(byKey.values());
 }
 
 export function groupListItemsByStoreSection(entries: GroceryListEntry[]): Record<StoreSection, GroceryListEntry[]> {
@@ -203,7 +279,7 @@ export function groupListItemsByStoreSection(entries: GroceryListEntry[]): Recor
 }
 
 export function identifyLikelyOverbuys(items: GroceryMemoryItem[], list: Pick<GroceryList, 'buyNow' | 'maybeBuy'>, behavior: BehaviorState): string[] {
-  const candidateNames = new Set([...list.buyNow, ...list.maybeBuy].map((entry) => entry.name.toLowerCase()));
+  const candidateNames = new Set([...list.buyNow, ...list.maybeBuy].map((entry) => normalizeIngredientKey(entry.name)));
   const alerts: string[] = [];
 
   items.forEach((item) => {
@@ -213,7 +289,7 @@ export function identifyLikelyOverbuys(items: GroceryMemoryItem[], list: Pick<Gr
       alerts.push(`Check ${item.name} before buying. ${seenSentenceSubject(item.name)} seen in your fridge scan.`);
       return;
     }
-    if (candidateNames.has(item.name.toLowerCase()) && !item.perishable && daysSince < item.averageDaysBetweenPurchases / 2) {
+    if (candidateNames.has(normalizeIngredientKey(item.name)) && !item.perishable && daysSince < item.averageDaysBetweenPurchases / 2) {
       alerts.push(`Don't buy ${item.name}. You bought it ${daysSince} days ago and usually buy it every ${item.averageDaysBetweenPurchases} days.`);
     }
   });
