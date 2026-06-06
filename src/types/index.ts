@@ -138,6 +138,7 @@ export type MealStatus = 'suggested' | 'saved' | 'planned' | 'made';
 export type MealIdea = {
   id: string;
   name: string;
+  category: string;
   description: string;
   dinnerLanes: string[];
   cuisineInfluence: string;
@@ -149,7 +150,7 @@ export type MealIdea = {
   optionalIngredients: string[];
   pantryIngredients: string[];
   instructionsPreview?: string[];
-  status?: MealStatus;
+  status: MealStatus;
 };
 
 export type IngredientReviewStatus = 'alreadyHave' | 'needToBuy' | 'optional';
