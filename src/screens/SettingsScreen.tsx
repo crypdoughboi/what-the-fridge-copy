@@ -66,6 +66,9 @@ export function SettingsScreen({
     onToast('Subscription checkout placeholder opened.');
   }
 
+  const providerLabel =
+    account.provider === 'apple' ? 'Apple ID' : account.provider === 'gmail' ? 'Gmail' : account.provider === 'guest' ? 'guest mode' : 'email';
+
   return (
     <main className="screen-enter space-y-8">
       <button className="inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
@@ -82,10 +85,12 @@ export function SettingsScreen({
         <SectionHeader eyebrow="Account" title={account.name} />
         <div className="mt-3 rounded-md bg-paper p-3">
           <p className="text-[15px] font-semibold text-ink">{account.email}</p>
-          <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Signed in with {account.provider === 'apple' ? 'Apple ID' : account.provider === 'gmail' ? 'Gmail' : 'email'}</p>
+          <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Signed in with {providerLabel}</p>
         </div>
         <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">
-          Receipts, usuals, saved meals, and list behavior are saved to this profile on this device.
+          {account.provider === 'guest'
+            ? 'Guest sessions are temporary. Create an account when you want WTF to save your list, meals, and scans.'
+            : 'Receipts, usuals, saved meals, and list behavior are saved to this profile on this device.'}
         </p>
       </Card>
 

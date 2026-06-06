@@ -1,4 +1,4 @@
-import { Camera, ChefHat, ListChecks, ScanLine, Settings } from 'lucide-react';
+import { Camera, ChefHat, CircleUserRound, ListChecks, ScanLine } from 'lucide-react';
 import { GroceryList, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -37,16 +37,18 @@ export function HomeScreen({
         <button
           className="grid h-12 w-12 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
           onClick={onSettings}
-          aria-label="Settings"
-          title="Settings"
+          aria-label="Account"
+          title="Account"
         >
-          <Settings className="h-6 w-6" strokeWidth={1.75} />
+          <CircleUserRound className="h-6 w-6" strokeWidth={1.75} />
         </button>
       </div>
 
       <section className="section-enter stagger-1">
         <Eyebrow muted>Home</Eyebrow>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">What are we making?</h1>
+        <h1 className="mt-2 font-display text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">
+          A grocery list that knows what's in your fridge. A dinner plan that knows how you cook.
+        </h1>
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Start with dinner, your list, or a quick scan.</p>
         <Button className="mt-5" full icon={<ChefHat className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartMealIdeas}>
           WTF should I make?

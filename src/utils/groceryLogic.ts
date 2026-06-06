@@ -45,6 +45,20 @@ export function normalizeReceiptItemName(rawName: string): string {
     .trim();
 }
 
+export function parseManualItemNames(value: string): string[] {
+  const seen = new Set<string>();
+  return value
+    .split(/[\n,;]+/)
+    .map((item) => normalizeReceiptItemName(item))
+    .filter((item) => {
+      if (!item) return false;
+      const key = normalizeIngredientKey(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
 export function normalizeIngredientKey(name: string): string {
   const normalized = normalizeReceiptItemName(name)
     .toLowerCase()

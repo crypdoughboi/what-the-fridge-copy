@@ -1,23 +1,20 @@
 import { FormEvent, useState } from 'react';
-import { Camera, Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
+import { Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { FileUploadButton } from '../components/FileUploadButton';
 import { Input } from '../components/Input';
 import { SampleFridgeVisual, SampleReceiptVisual } from '../components/SampleVisuals';
+import { parseManualItemNames } from '../utils/groceryLogic';
 
 export function ScanScreen({
   onReceiptFile,
-  onReceiptSample,
   onFridgeFile,
-  onFridgeSample,
   onAddNeed,
   onAddHave,
 }: {
   onReceiptFile: (file: File) => void;
-  onReceiptSample: () => void;
   onFridgeFile: (file: File) => void;
-  onFridgeSample: () => void;
   onAddNeed: (name: string) => void;
   onAddHave: (name: string) => void;
 }) {
@@ -27,8 +24,10 @@ export function ScanScreen({
   function submit(event: FormEvent) {
     event.preventDefault();
     if (!item.trim()) return;
-    if (target === 'have') onAddHave(item);
-    else onAddNeed(item);
+    parseManualItemNames(item).forEach((name) => {
+      if (target === 'have') onAddHave(name);
+      else onAddNeed(name);
+    });
     setItem('');
   }
 
@@ -57,9 +56,6 @@ export function ScanScreen({
           <FileUploadButton label="Upload" onFile={onReceiptFile} />
           <FileUploadButton label="Camera" onFile={onReceiptFile} camera />
         </div>
-        <Button className="mt-2" full variant="secondary" onClick={onReceiptSample}>
-          Use sample receipt
-        </Button>
       </Card>
 
       <Card className="section-enter stagger-2">
@@ -79,9 +75,6 @@ export function ScanScreen({
           <FileUploadButton label="Upload" onFile={onFridgeFile} />
           <FileUploadButton label="Camera" onFile={onFridgeFile} camera />
         </div>
-        <Button className="mt-2" full variant="secondary" icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onFridgeSample}>
-          Use sample fridge
-        </Button>
       </Card>
 
       <Card className="section-enter stagger-3">

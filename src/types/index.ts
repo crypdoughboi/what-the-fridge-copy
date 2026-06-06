@@ -239,7 +239,7 @@ export type OnboardingProfile = {
   weeklyGoal: string;
 };
 
-export type AuthProvider = 'apple' | 'gmail' | 'email';
+export type AuthProvider = 'apple' | 'gmail' | 'email' | 'guest';
 
 export type UserAccount = {
   id: string;

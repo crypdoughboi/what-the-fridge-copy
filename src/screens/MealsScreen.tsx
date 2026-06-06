@@ -104,10 +104,10 @@ export function MealsScreen({
       )}
 
       <MealSection
-        eyebrow="Saved"
-        title="Meals parked for later"
-        emptyTitle="Nothing saved yet."
-        emptyText="Save ideas you like. They stay out of the grocery list until you make them this week."
+        eyebrow="Future"
+        title="Meals you might make later"
+        emptyTitle="Nothing parked for later."
+        emptyText="Swipe right or tap Later. These stay out of the grocery list until you make them this week."
         meals={savedMeals}
         actionLabel="Make this week"
         actionIcon={<Plus className="h-5 w-5" strokeWidth={1.75} />}

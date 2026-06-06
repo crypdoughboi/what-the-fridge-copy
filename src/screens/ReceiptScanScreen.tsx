@@ -1,5 +1,4 @@
-import { ArrowLeft, FileText } from 'lucide-react';
-import { Button } from '../components/Button';
+import { ArrowLeft } from 'lucide-react';
 import { Card } from '../components/Card';
 import { FileUploadButton } from '../components/FileUploadButton';
 import { SampleReceiptVisual } from '../components/SampleVisuals';
@@ -8,12 +7,10 @@ export function ReceiptScanScreen({
   previewUrl,
   onBack,
   onFile,
-  onSample,
 }: {
   previewUrl: string | null;
   onBack: () => void;
   onFile: (file: File) => void;
-  onSample: () => void;
 }) {
   return (
     <main className="screen-enter space-y-5">
@@ -39,9 +36,6 @@ export function ReceiptScanScreen({
           <FileUploadButton label="Upload" onFile={onFile} />
           <FileUploadButton label="Camera" onFile={onFile} camera />
         </div>
-        <Button className="mt-2" full icon={<FileText className="h-4 w-4" />} onClick={onSample}>
-          Use sample receipt
-        </Button>
       </Card>
     </main>
   );

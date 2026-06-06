@@ -7,7 +7,7 @@ import { Input } from '../components/Input';
 import { ListItemRow } from '../components/ListItemRow';
 import { Pill } from '../components/Pill';
 import { SectionHeader } from '../components/SectionHeader';
-import { groupListItemsByStoreSection } from '../utils/groceryLogic';
+import { groupListItemsByStoreSection, parseManualItemNames } from '../utils/groceryLogic';
 
 export function ListScreen({
   list,
@@ -20,7 +20,7 @@ export function ListScreen({
   onScanReceipt,
   onSnapFridge,
   onGoScan,
-  onGoMeals,
+  onStartMealIdeas,
 }: {
   list: GroceryList;
   onBought: (entry: GroceryListEntry) => void;
@@ -32,7 +32,7 @@ export function ListScreen({
   onScanReceipt: () => void;
   onSnapFridge: () => void;
   onGoScan: () => void;
-  onGoMeals: () => void;
+  onStartMealIdeas: () => void;
 }) {
   const [manualItem, setManualItem] = useState('');
   const [building, setBuilding] = useState(false);
@@ -42,7 +42,7 @@ export function ListScreen({
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    onAddManual(manualItem);
+    parseManualItemNames(manualItem).forEach(onAddManual);
     setManualItem('');
   }
 
@@ -136,7 +136,7 @@ export function ListScreen({
           />
 
           <div className="grid gap-2">
-            <button className="w-full rounded-md border border-line bg-surface px-4 py-4 text-center text-[15px] font-semibold text-ink shadow-sm" onClick={onGoMeals}>
+            <button className="w-full rounded-md border border-line bg-surface px-4 py-4 text-center text-[15px] font-semibold text-ink shadow-sm" onClick={onStartMealIdeas}>
               Turn this list into dinner ideas
             </button>
             <Button variant="ghost" className="min-h-10 px-2 text-[14px]" icon={<RefreshCcw className={`h-5 w-5 ${building ? 'animate-spin' : ''}`} strokeWidth={1.75} />} onClick={rebuild}>

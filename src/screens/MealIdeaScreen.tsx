@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { Bookmark, ChevronLeft, ShoppingBasket, X } from 'lucide-react';
+import { useMemo, useState, type MouseEvent, type PointerEvent } from 'react';
+import { CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -23,32 +23,86 @@ export function MealIdeaScreen({
   onMakeThisWeek: (meal: MealIdea) => void;
 }) {
   const [index, setIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [dragX, setDragX] = useState(0);
+  const [exiting, setExiting] = useState<'left' | 'right' | null>(null);
   const meal = ideas[index];
   const knownKeys = useMemo(() => new Set(knownIngredients.map(normalizeIngredientKey)), [knownIngredients]);
+  const dragIntent = Math.min(Math.abs(dragX) / 120, 1);
 
   function moveNext() {
     setIndex((current) => Math.min(current + 1, ideas.length));
+    setDragX(0);
+    setDragStart(null);
+    setExiting(null);
   }
 
   function skip() {
-    if (!meal) return;
-    onSkip(meal);
-    moveNext();
+    completeSwipe('left', onSkip);
   }
 
   function save() {
-    if (!meal) return;
-    onSave(meal);
-    moveNext();
+    completeSwipe('right', onSave);
   }
 
-  function handleTouchEnd(clientX: number) {
-    if (touchStart === null) return;
-    const delta = clientX - touchStart;
-    setTouchStart(null);
-    if (delta > 64) save();
-    if (delta < -64) skip();
+  function completeSwipe(direction: 'left' | 'right', action: (meal: MealIdea) => void) {
+    if (!meal || exiting) return;
+    setExiting(direction);
+    setDragX(direction === 'right' ? 420 : -420);
+    window.setTimeout(() => {
+      action(meal);
+      moveNext();
+    }, 180);
+  }
+
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (exiting) return;
+    setDragStart(event.clientX);
+    if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture?.(event.pointerId) === false) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    if (dragStart === null || exiting) return;
+    setDragX(event.clientX - dragStart);
+  }
+
+  function handlePointerEnd(event: PointerEvent<HTMLDivElement>) {
+    if (dragStart === null || exiting) return;
+    if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    finishDrag(event.clientX - dragStart);
+  }
+
+  function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
+    if (exiting) return;
+    setDragStart(event.clientX);
+  }
+
+  function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
+    if (dragStart === null || exiting || event.buttons !== 1) return;
+    setDragX(event.clientX - dragStart);
+  }
+
+  function handleMouseEnd(event: MouseEvent<HTMLDivElement>) {
+    if (dragStart === null || exiting) return;
+    finishDrag(event.clientX - dragStart);
+  }
+
+  function finishDrag(delta: number) {
+    setDragX(delta);
+    if (delta > 90) {
+      save();
+      return;
+    }
+    if (delta < -90) {
+      skip();
+      return;
+    }
+    setDragStart(null);
+    setDragX(0);
   }
 
   if (!meal) {
@@ -57,7 +111,7 @@ export function MealIdeaScreen({
         <BackButton onClick={onBack} label="Back to Meals" />
         <Card>
           <h1 className="font-display text-[30px] font-extrabold leading-tight tracking-[-0.02em] text-ink">That was the stack.</h1>
-          <p className="mt-2 text-[15px] font-medium leading-relaxed text-ink-soft">Saved meals are parked. Planned meals are on This Week.</p>
+          <p className="mt-2 text-[15px] font-medium leading-relaxed text-ink-soft">Future meals are parked. This Week meals build the list.</p>
           <Button className="mt-5" full variant="secondary" onClick={onBack}>
             Back to Meals
           </Button>
@@ -77,14 +131,36 @@ export function MealIdeaScreen({
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Meal idea</p>
         <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">One good dinner.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Swipe left to skip. Swipe right to save. Buttons are right here too.</p>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Swipe left to skip. Swipe right to save for later. Make this week builds the list.</p>
       </section>
 
       <Card
-        className="section-enter stagger-1 select-none"
-        onTouchStart={(event) => setTouchStart(event.changedTouches[0]?.clientX ?? null)}
-        onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
+        className="section-enter stagger-1 relative touch-pan-y select-none overflow-hidden"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseEnd}
+        onMouseLeave={handleMouseEnd}
+        style={{
+          transform: `translateX(${dragX}px) rotate(${dragX / 18}deg)`,
+          transition: dragStart === null || exiting ? 'transform 180ms ease-out' : 'none',
+        }}
       >
+        <div
+          className="pointer-events-none absolute left-5 top-5 rounded-pill border border-line bg-paper/90 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-ink shadow-sm"
+          style={{ opacity: dragX < 0 ? dragIntent : 0 }}
+        >
+          Skip
+        </div>
+        <div
+          className="pointer-events-none absolute right-5 top-5 rounded-pill border border-accent bg-accent-soft px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-accent shadow-sm"
+          style={{ opacity: dragX > 0 ? dragIntent : 0 }}
+        >
+          Later
+        </div>
         <div className="flex items-center justify-between gap-3">
           <Pill tone="green">{meal.timeMinutes} min</Pill>
           <span className="text-[13px] font-semibold text-muted">{index + 1} of {ideas.length}</span>
@@ -107,11 +183,11 @@ export function MealIdeaScreen({
         <Button variant="secondary" className="px-2" icon={<X className="h-5 w-5" strokeWidth={1.75} />} onClick={skip}>
           Skip
         </Button>
-        <Button variant="secondary" className="px-2" icon={<Bookmark className="h-5 w-5" strokeWidth={1.75} />} onClick={save}>
-          Save
+        <Button variant="secondary" className="px-2" icon={<Clock3 className="h-5 w-5" strokeWidth={1.75} />} onClick={save}>
+          Later
         </Button>
-        <Button className="px-2 text-[13px]" icon={<ShoppingBasket className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onMakeThisWeek(meal)}>
-          Make this week
+        <Button className="px-2 text-[13px]" icon={<CalendarPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onMakeThisWeek(meal)}>
+          This week
         </Button>
       </div>
 

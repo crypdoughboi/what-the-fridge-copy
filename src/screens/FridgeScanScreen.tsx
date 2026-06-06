@@ -1,5 +1,4 @@
-import { ArrowLeft, Refrigerator } from 'lucide-react';
-import { Button } from '../components/Button';
+import { ArrowLeft } from 'lucide-react';
 import { Card } from '../components/Card';
 import { FileUploadButton } from '../components/FileUploadButton';
 import { SampleFridgeVisual } from '../components/SampleVisuals';
@@ -8,12 +7,10 @@ export function FridgeScanScreen({
   previewUrl,
   onBack,
   onFile,
-  onSample,
 }: {
   previewUrl: string | null;
   onBack: () => void;
   onFile: (file: File) => void;
-  onSample: () => void;
 }) {
   return (
     <main className="screen-enter space-y-5">
@@ -39,9 +36,6 @@ export function FridgeScanScreen({
           <FileUploadButton label="Upload" onFile={onFile} />
           <FileUploadButton label="Camera" onFile={onFile} camera />
         </div>
-        <Button className="mt-2" full icon={<Refrigerator className="h-4 w-4" />} onClick={onSample}>
-          Use sample fridge
-        </Button>
       </Card>
     </main>
   );

@@ -10,24 +10,27 @@ export function AuthScreen({
   onApple,
   onGmail,
   onEmail,
+  onGuest,
   errorMessage,
 }: {
   onApple: () => Promise<void>;
   onGmail: () => Promise<void>;
   onEmail: (email: string) => Promise<void>;
+  onGuest: () => void;
   errorMessage?: string | null;
 }) {
   const [email, setEmail] = useState('');
-  const [busy, setBusy] = useState<'apple' | 'gmail' | 'email' | null>(null);
+  const [busy, setBusy] = useState<'apple' | 'gmail' | 'email' | 'guest' | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  async function run(provider: 'apple' | 'gmail' | 'email') {
+  async function run(provider: 'apple' | 'gmail' | 'email' | 'guest') {
     try {
       setLocalError(null);
       setBusy(provider);
       if (provider === 'apple') await onApple();
       if (provider === 'gmail') await onGmail();
       if (provider === 'email') await onEmail(email);
+      if (provider === 'guest') onGuest();
     } catch (error) {
       setLocalError(error instanceof Error ? error.message : 'Sign-in failed. Try again.');
     } finally {
@@ -46,7 +49,7 @@ export function AuthScreen({
       <section className="section-enter pt-1">
         <Logo hero />
         <div className="mt-7">
-          <Eyebrow>What The Fridge</Eyebrow>
+          <Eyebrow muted>What The Fridge</Eyebrow>
           <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that writes itself.</h1>
           <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
             Take a picture of your fridge or a receipt. WTF builds your list, keeps track of what you have, and helps turn it into dinner.
@@ -96,6 +99,10 @@ export function AuthScreen({
             {localError || errorMessage}
           </div>
         )}
+        <Button full variant="ghost" disabled={busy !== null} onClick={() => run('guest')}>
+          {busy === 'guest' ? 'Starting guest mode' : 'Continue as guest'}
+        </Button>
+        <p className="-mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">Guest mode is temporary. Nothing will save after you leave.</p>
         <p className="pt-1 text-[13px] font-medium leading-relaxed text-muted">Private by default. Your receipts and spending stay yours.</p>
       </Card>
 

@@ -172,6 +172,10 @@ export default function App() {
             await app.createAccountWithEmail(email);
             setScreen('onboarding');
           }}
+          onGuest={() => {
+            app.continueAsGuest();
+            navigateTab('home');
+          }}
           errorMessage={app.authError}
         />
       );
@@ -221,7 +225,7 @@ export default function App() {
           onScanReceipt={openReceiptScan}
           onSnapFridge={openFridgeScan}
           onGoScan={() => navigateTab('scan')}
-          onGoMeals={() => navigateTab('meals')}
+          onStartMealIdeas={startMealIdeas}
         />
       );
     }
@@ -230,9 +234,7 @@ export default function App() {
       return (
         <ScanScreen
           onReceiptFile={startReceiptScan}
-          onReceiptSample={() => startReceiptScan(null)}
           onFridgeFile={startFridgeScan}
-          onFridgeSample={() => startFridgeScan(null)}
           onAddNeed={app.addManualItem}
           onAddHave={app.addAlreadyHaveItem}
         />
@@ -243,7 +245,7 @@ export default function App() {
       return receiptLoading ? (
         <LoadingState title="Scanning receipt" steps={receiptLoadingSteps} />
       ) : (
-        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => goBack('scan')} onFile={startReceiptScan} onSample={() => startReceiptScan(null)} />
+        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => goBack('scan')} onFile={startReceiptScan} />
       );
     }
 
@@ -259,7 +261,7 @@ export default function App() {
       return fridgeLoading ? (
         <LoadingState title="Checking fridge" steps={fridgeLoadingSteps} />
       ) : (
-        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => goBack('scan')} onFile={startFridgeScan} onSample={() => startFridgeScan(null)} />
+        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => goBack('scan')} onFile={startFridgeScan} />
       );
     }
 

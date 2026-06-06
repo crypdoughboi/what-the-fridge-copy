@@ -161,7 +161,7 @@ export function useGroceryAppState() {
   }, []);
 
   useEffect(() => {
-    if (!account) return;
+    if (!account || account.provider === 'guest') return;
     writeStorage(personalizedStorageKey(account.id), {
       completedOnboarding,
       profile,
@@ -206,12 +206,30 @@ export function useGroceryAppState() {
     showToast('Check your email. WTF sent the sign-in link.');
   }
 
+  function continueAsGuest() {
+    setAuthError(null);
+    setAccount({
+      id: `guest-${Date.now()}`,
+      name: 'Guest',
+      email: 'Temporary session',
+      provider: 'guest',
+      createdAt: new Date().toISOString(),
+    });
+    applyPersonalizedState({
+      ...defaultPersonalizedState(),
+      completedOnboarding: true,
+    });
+    showToast('Guest mode. Nothing will save after you leave.');
+  }
+
   async function signOutAccount() {
-    await signOut();
+    if (account?.provider !== 'guest') {
+      await signOut();
+    }
     setAccount(null);
     setCompletedOnboarding(false);
     applyPersonalizedState(defaultPersonalizedState());
-    showToast('Signed out. Your saved setup stays tied to your account.');
+    showToast(account?.provider === 'guest' ? 'Guest session ended.' : 'Signed out. Your saved setup stays tied to your account.');
   }
 
   function activateAccount(nextAccount: UserAccount) {
@@ -590,6 +608,7 @@ export function useGroceryAppState() {
     createAccountWithApple,
     createAccountWithGmail,
     createAccountWithEmail,
+    continueAsGuest,
     signOutAccount,
     savedMealIds,
     plannedMealIds,
