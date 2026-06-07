@@ -12,6 +12,8 @@ export default {
         line: '#E7E1D4',
         accent: '#2E7D46',
         'accent-soft': '#E8F0E6',
+        sage: '#819378',
+        'sage-soft': '#D6DED0',
         amber: '#9A6A24',
       },
       boxShadow: {

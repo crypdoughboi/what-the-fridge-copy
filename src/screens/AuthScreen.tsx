@@ -5,6 +5,7 @@ import { Card } from '../components/Card';
 import { Logo } from '../components/BrandMark';
 import { Eyebrow } from '../components/Eyebrow';
 import { Input } from '../components/Input';
+import { WelcomeFlowGraphic } from '../components/WelcomeFlowGraphic';
 
 export function AuthScreen({
   onApple,
@@ -48,7 +49,8 @@ export function AuthScreen({
     <main className="screen-enter app-scroll pb-8">
       <section className="section-enter pt-1">
         <Logo hero />
-        <div className="mt-7">
+        <WelcomeFlowGraphic />
+        <div className="mt-5">
           <Eyebrow muted>What The Fridge</Eyebrow>
           <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that writes itself.</h1>
           <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
