@@ -105,7 +105,6 @@ export function AuthScreen({
           {busy === 'guest' ? 'Starting guest mode' : 'Continue as guest'}
         </Button>
         <p className="-mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">Guest mode is temporary. Nothing will save after you leave.</p>
-        <p className="pt-1 text-[13px] font-medium leading-relaxed text-muted">Private by default. Your receipts and spending stay yours.</p>
       </Card>
 
       <Card className="section-enter stagger-2 mt-5">
