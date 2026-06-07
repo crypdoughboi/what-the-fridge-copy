@@ -9,7 +9,7 @@ export function WelcomeFlowGraphic() {
         </defs>
 
         <path
-          d="M96 59C119 60 121 76 143 66C161 58 166 53 184 58M223 58C241 59 248 74 268 66C282 60 286 55 303 57"
+          d="M101 58C112 58 117 68 128 66C133 65 136 61 138 59M225 58C236 58 241 68 252 66C257 65 260 61 262 59"
           stroke="currentColor"
           strokeWidth="3"
           strokeLinecap="round"
@@ -27,14 +27,14 @@ export function WelcomeFlowGraphic() {
         </g>
 
         <g filter="url(#welcome-flow-shadow)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="161" y="22" width="61" height="74" rx="9" strokeWidth="4" fill="none" />
-          <path d="M176 15V30M192 15V30M208 15V30" strokeWidth="4" />
-          <path d="M175 47L182 54L195 39" strokeWidth="4" />
-          <path d="M205 48H218" strokeWidth="4" />
-          <path d="M175 66L182 73L195 58" strokeWidth="4" />
-          <path d="M205 67H218" strokeWidth="4" />
-          <path d="M175 85L182 92L195 77" strokeWidth="4" />
-          <path d="M205 86H218" strokeWidth="4" />
+          <rect x="150" y="22" width="61" height="74" rx="9" strokeWidth="4" fill="none" />
+          <path d="M165 15V30M181 15V30M197 15V30" strokeWidth="4" />
+          <path d="M164 47L171 54L184 39" strokeWidth="4" />
+          <path d="M194 48H207" strokeWidth="4" />
+          <path d="M164 66L171 73L184 58" strokeWidth="4" />
+          <path d="M194 67H207" strokeWidth="4" />
+          <path d="M164 85L171 92L184 77" strokeWidth="4" />
+          <path d="M194 86H207" strokeWidth="4" />
         </g>
 
         <g filter="url(#welcome-flow-shadow)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">

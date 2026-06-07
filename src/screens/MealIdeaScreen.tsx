@@ -33,6 +33,7 @@ export function MealIdeaScreen({
   const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState<DragState | null>(null);
   const [dragX, setDragX] = useState(0);
+  const [dragY, setDragY] = useState(0);
   const [exiting, setExiting] = useState<'left' | 'right' | null>(null);
   const meal = ideas[index];
   const knownKeys = useMemo(() => new Set(knownIngredients.map(normalizeIngredientKey)), [knownIngredients]);
@@ -41,6 +42,7 @@ export function MealIdeaScreen({
   function moveNext() {
     setIndex((current) => Math.min(current + 1, ideas.length));
     setDragX(0);
+    setDragY(0);
     setDrag(null);
     setExiting(null);
   }
@@ -57,10 +59,19 @@ export function MealIdeaScreen({
     if (!meal || exiting) return;
     setExiting(direction);
     setDragX(direction === 'right' ? 420 : -420);
+    setDragY(0);
     window.setTimeout(() => {
       action(meal);
       moveNext();
     }, 180);
+  }
+
+  function showPreviousIdea() {
+    setDrag(null);
+    setDragX(0);
+    setDragY(0);
+    setExiting(null);
+    setIndex((current) => Math.max(0, current - 1));
   }
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
@@ -81,6 +92,7 @@ export function MealIdeaScreen({
       if (absY > 10 && absY > absX * 1.15) {
         setDrag({ ...drag, mode: 'scroll' });
         setDragX(0);
+        setDragY(0);
         return;
       }
       if (absX < 12 || absX < absY * 1.25) return;
@@ -96,6 +108,7 @@ export function MealIdeaScreen({
     }
     event.preventDefault();
     setDragX(deltaX);
+    setDragY(Math.max(-18, Math.min(18, deltaY * 0.18)));
   }
 
   function handlePointerEnd(event: PointerEvent<HTMLDivElement>) {
@@ -112,6 +125,7 @@ export function MealIdeaScreen({
     if (drag.mode !== 'swipe') {
       setDrag(null);
       setDragX(0);
+      setDragY(0);
       return;
     }
 
@@ -130,6 +144,7 @@ export function MealIdeaScreen({
     }
     setDrag(null);
     setDragX(0);
+    setDragY(0);
   }
 
   if (!meal) {
@@ -158,49 +173,54 @@ export function MealIdeaScreen({
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Meal idea</p>
         <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">One good dinner.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Swipe left to skip. Swipe right to save for later. Make this week builds the list.</p>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Drag the card left to skip or right to save. Make this week builds the list.</p>
       </section>
 
-      <Card
-        className="section-enter stagger-1 relative touch-pan-y cursor-grab select-none overflow-hidden active:cursor-grabbing"
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerEnd}
-        onPointerCancel={handlePointerEnd}
-        style={{
-          transform: `translateX(${dragX}px) rotate(${dragX / 18}deg)`,
-          transition: !drag || drag.mode !== 'swipe' || exiting ? 'transform 180ms ease-out' : 'none',
-        }}
-      >
-        <div
-          className="pointer-events-none absolute left-5 top-5 rounded-pill border border-line bg-paper/90 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-ink shadow-sm"
-          style={{ opacity: dragX < 0 ? dragIntent : 0 }}
+      <div className="section-enter stagger-1 relative">
+        <div className="pointer-events-none absolute inset-x-4 bottom-[-10px] top-4 rounded-lg border border-line bg-surface/70 shadow-sm" />
+        <div className="pointer-events-none absolute inset-x-8 bottom-[-18px] top-8 rounded-lg border border-line bg-surface/40" />
+        <Card
+          className="relative z-10 touch-pan-y cursor-grab select-none overflow-hidden active:cursor-grabbing"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerEnd}
+          onPointerCancel={handlePointerEnd}
+          style={{
+            transform: `translate3d(${dragX}px, ${dragY}px, 0) rotate(${dragX / 16}deg)`,
+            transition: !drag || drag.mode !== 'swipe' || exiting ? 'transform 180ms ease-out' : 'none',
+            willChange: 'transform',
+          }}
         >
-          Skip
-        </div>
-        <div
-          className="pointer-events-none absolute right-5 top-5 rounded-pill border border-accent bg-accent-soft px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-accent shadow-sm"
-          style={{ opacity: dragX > 0 ? dragIntent : 0 }}
-        >
-          Later
-        </div>
-        <div className="flex items-center justify-between gap-3">
-          <Pill tone="green">{meal.timeMinutes} min</Pill>
-          <span className="text-[13px] font-semibold text-muted">{index + 1} of {ideas.length}</span>
-        </div>
-        <h2 className="mt-4 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{meal.name}</h2>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{meal.description}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Pill>{meal.effort}</Pill>
-          {meal.tags.map((tag) => (
-            <Pill key={tag}>{tag}</Pill>
-          ))}
-        </div>
+          <div
+            className="pointer-events-none absolute left-5 top-5 rounded-pill border border-line bg-paper/95 px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-ink shadow-sm"
+            style={{ opacity: dragX < 0 ? dragIntent : 0 }}
+          >
+            Skip
+          </div>
+          <div
+            className="pointer-events-none absolute right-5 top-5 rounded-pill border border-accent bg-accent-soft px-4 py-2 text-[12px] font-extrabold uppercase tracking-[0.08em] text-accent shadow-sm"
+            style={{ opacity: dragX > 0 ? dragIntent : 0 }}
+          >
+            Save
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <Pill tone="green">{meal.timeMinutes} min</Pill>
+            <span className="text-[13px] font-semibold text-muted">{index + 1} of {ideas.length}</span>
+          </div>
+          <h2 className="mt-4 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{meal.name}</h2>
+          <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{meal.description}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Pill>{meal.effort}</Pill>
+            {meal.tags.map((tag) => (
+              <Pill key={tag}>{tag}</Pill>
+            ))}
+          </div>
 
-        <IngredientBlock title={hasKnown ? 'You have' : 'Grocery list'} values={hasKnown ? have : meal.ingredients} empty="Nothing matched yet." tone="green" />
-        {hasKnown ? <IngredientBlock title="Need" values={need} empty="Looks covered." tone="neutral" /> : null}
-        <IngredientBlock title={hasKnown ? 'Optional' : 'Pantry check'} values={hasKnown ? meal.optionalIngredients : meal.pantryIngredients} empty="No extras." tone="neutral" />
-      </Card>
+          <IngredientBlock title={hasKnown ? 'You have' : 'Grocery list'} values={hasKnown ? have : meal.ingredients} empty="Nothing matched yet." tone="green" />
+          {hasKnown ? <IngredientBlock title="Need" values={need} empty="Looks covered." tone="neutral" /> : null}
+          <IngredientBlock title={hasKnown ? 'Optional' : 'Pantry check'} values={hasKnown ? meal.optionalIngredients : meal.pantryIngredients} empty="No extras." tone="neutral" />
+        </Card>
+      </div>
 
       <Button variant="secondary" full icon={<BookOpen className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onViewRecipe(meal)}>
         View recipe
@@ -219,7 +239,7 @@ export function MealIdeaScreen({
       </div>
 
       {index > 0 && (
-        <Button variant="ghost" className="min-h-10" icon={<ChevronLeft className="h-5 w-5" strokeWidth={1.75} />} onClick={() => setIndex((current) => Math.max(0, current - 1))}>
+        <Button variant="ghost" className="min-h-10" icon={<ChevronLeft className="h-5 w-5" strokeWidth={1.75} />} onClick={showPreviousIdea}>
           Previous idea
         </Button>
       )}
