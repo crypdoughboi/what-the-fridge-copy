@@ -19,6 +19,7 @@ export default {
         md: '0 6px 16px rgba(20,18,10,0.06), 0 2px 6px rgba(20,18,10,0.04)',
       },
       fontFamily: {
+        brand: ['"Lilita One"', '"Bricolage Grotesque"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['"Bricolage Grotesque"', '"Hanken Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         sans: ['"Hanken Grotesk"', '"Bricolage Grotesque"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },

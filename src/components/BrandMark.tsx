@@ -4,7 +4,7 @@ const iconSizes = {
   sm: 'h-11 w-11 rounded-md',
   md: 'h-14 w-14 rounded-lg',
   lg: 'h-16 w-16 rounded-lg',
-  xl: 'h-[76px] w-[76px] rounded-lg',
+  xl: 'h-[62px] w-[62px] rounded-lg',
 };
 
 export function WtfFridgeIcon({ size = 'md' }: { size?: LogoSize }) {
@@ -44,7 +44,7 @@ export function WtfFridgeIcon({ size = 'md' }: { size?: LogoSize }) {
 
 export function Logo({ compact = false, hero = false }: { compact?: boolean; hero?: boolean }) {
   return (
-    <div className={`flex ${hero ? 'w-full items-stretch gap-3' : 'items-center gap-3'}`}>
+    <div className={`flex ${hero ? 'w-full items-center gap-2' : 'items-center gap-3'}`}>
       <WtfFridgeIcon size={hero ? 'xl' : 'sm'} />
       {!compact && (
         <div className={`${hero ? 'flex min-w-0 flex-1 items-center' : 'leading-tight'}`}>
@@ -52,8 +52,8 @@ export function Logo({ compact = false, hero = false }: { compact?: boolean; her
           <div
             className={
               hero
-                ? 'w-full font-display text-[clamp(2.15rem,10.6vw,3.5rem)] font-extrabold leading-[0.9] tracking-[-0.045em] text-ink'
-                : 'font-display text-[18px] font-extrabold tracking-[-0.02em] text-ink'
+                ? 'w-full whitespace-nowrap font-brand text-[clamp(1.85rem,8.8vw,2.45rem)] leading-[0.9] tracking-[-0.035em] text-ink'
+                : 'font-brand text-[20px] tracking-[-0.015em] text-ink'
             }
           >
             What The Fridge
