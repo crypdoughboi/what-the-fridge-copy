@@ -38,11 +38,11 @@ export function WelcomeFlowGraphic() {
         </g>
 
         <g filter="url(#welcome-flow-shadow)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M291 61H340C338 82 326 96 307 96C290 96 279 82 276 61H291Z" strokeWidth="4" fill="none" />
-          <path d="M291 96C292 104 297 108 307 108H323C332 108 337 104 338 96" strokeWidth="4" />
-          <path d="M291 61C292 48 300 41 310 45C312 31 326 28 334 38C342 37 348 42 349 51" strokeWidth="4" />
-          <path d="M337 39C343 29 354 27 354 27C354 27 354 39 344 46" strokeWidth="4" />
-          <path d="M307 53C307 53.2 307 53.2 307 53.4M322 53C322 53.2 322 53.2 322 53.4" strokeWidth="4" />
+          <path d="M272 58H347C344 80 329 94 310 94C291 94 276 80 272 58Z" strokeWidth="4" fill="none" />
+          <path d="M292 94H329C328 102 323 106 315 106H306C298 106 293 102 292 94Z" strokeWidth="4" />
+          <path d="M283 58C284 47 293 41 303 45C306 33 318 30 326 39C336 39 344 46 344 58" strokeWidth="4" />
+          <path d="M330 39C336 27 349 24 349 24C349 24 349 38 337 45" strokeWidth="4" />
+          <path d="M303 53C303 53.2 303 53.2 303 53.4M318 53C318 53.2 318 53.2 318 53.4" strokeWidth="4" />
         </g>
       </svg>
     </div>

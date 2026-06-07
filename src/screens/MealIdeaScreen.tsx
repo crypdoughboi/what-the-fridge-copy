@@ -1,4 +1,4 @@
-import { useMemo, useState, type MouseEvent, type PointerEvent } from 'react';
+import { useMemo, useState, type PointerEvent } from 'react';
 import { BookOpen, CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
@@ -6,6 +6,12 @@ import { Card } from '../components/Card';
 import { Pill } from '../components/Pill';
 import { BackButton } from '../components/BackButton';
 import { normalizeIngredientKey } from '../utils/groceryLogic';
+
+type DragState = {
+  startX: number;
+  startY: number;
+  mode: 'undecided' | 'swipe' | 'scroll';
+};
 
 export function MealIdeaScreen({
   ideas,
@@ -25,7 +31,7 @@ export function MealIdeaScreen({
   onViewRecipe: (meal: MealIdea) => void;
 }) {
   const [index, setIndex] = useState(0);
-  const [dragStart, setDragStart] = useState<number | null>(null);
+  const [drag, setDrag] = useState<DragState | null>(null);
   const [dragX, setDragX] = useState(0);
   const [exiting, setExiting] = useState<'left' | 'right' | null>(null);
   const meal = ideas[index];
@@ -35,7 +41,7 @@ export function MealIdeaScreen({
   function moveNext() {
     setIndex((current) => Math.min(current + 1, ideas.length));
     setDragX(0);
-    setDragStart(null);
+    setDrag(null);
     setExiting(null);
   }
 
@@ -59,38 +65,57 @@ export function MealIdeaScreen({
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
     if (exiting) return;
-    setDragStart(event.clientX);
-    if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture?.(event.pointerId) === false) {
-      event.currentTarget.setPointerCapture(event.pointerId);
-    }
+    setDrag({ startX: event.clientX, startY: event.clientY, mode: 'undecided' });
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (dragStart === null || exiting) return;
-    setDragX(event.clientX - dragStart);
+    if (!drag || exiting) return;
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    if (drag.mode === 'scroll') return;
+
+    if (drag.mode === 'undecided') {
+      if (absY > 10 && absY > absX * 1.15) {
+        setDrag({ ...drag, mode: 'scroll' });
+        setDragX(0);
+        return;
+      }
+      if (absX < 12 || absX < absY * 1.25) return;
+      setDrag({ ...drag, mode: 'swipe' });
+    }
+
+    try {
+      if (typeof event.pointerId === 'number' && !event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.setPointerCapture(event.pointerId);
+      }
+    } catch {
+      // Some browser test surfaces do not support pointer capture for synthetic drags.
+    }
+    event.preventDefault();
+    setDragX(deltaX);
   }
 
   function handlePointerEnd(event: PointerEvent<HTMLDivElement>) {
-    if (dragStart === null || exiting) return;
-    if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture?.(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
+    if (!drag || exiting) return;
+    const deltaX = event.clientX - drag.startX;
+    try {
+      if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    } catch {
+      // The fallback buttons still work if a browser cannot release synthetic capture.
     }
-    finishDrag(event.clientX - dragStart);
-  }
 
-  function handleMouseDown(event: MouseEvent<HTMLDivElement>) {
-    if (exiting) return;
-    setDragStart(event.clientX);
-  }
+    if (drag.mode !== 'swipe') {
+      setDrag(null);
+      setDragX(0);
+      return;
+    }
 
-  function handleMouseMove(event: MouseEvent<HTMLDivElement>) {
-    if (dragStart === null || exiting || event.buttons !== 1) return;
-    setDragX(event.clientX - dragStart);
-  }
-
-  function handleMouseEnd(event: MouseEvent<HTMLDivElement>) {
-    if (dragStart === null || exiting) return;
-    finishDrag(event.clientX - dragStart);
+    finishDrag(deltaX);
   }
 
   function finishDrag(delta: number) {
@@ -103,7 +128,7 @@ export function MealIdeaScreen({
       skip();
       return;
     }
-    setDragStart(null);
+    setDrag(null);
     setDragX(0);
   }
 
@@ -137,18 +162,14 @@ export function MealIdeaScreen({
       </section>
 
       <Card
-        className="section-enter stagger-1 relative touch-pan-y select-none overflow-hidden"
+        className="section-enter stagger-1 relative touch-pan-y cursor-grab select-none overflow-hidden active:cursor-grabbing"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerEnd}
         onPointerCancel={handlePointerEnd}
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseEnd}
-        onMouseLeave={handleMouseEnd}
         style={{
           transform: `translateX(${dragX}px) rotate(${dragX / 18}deg)`,
-          transition: dragStart === null || exiting ? 'transform 180ms ease-out' : 'none',
+          transition: !drag || drag.mode !== 'swipe' || exiting ? 'transform 180ms ease-out' : 'none',
         }}
       >
         <div
