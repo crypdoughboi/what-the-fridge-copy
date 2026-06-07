@@ -126,6 +126,12 @@ export type BehaviorState = {
   deleteCounts: Record<string, number>;
   checkedOffEntries: GroceryListEntry[];
   usedForMeals: Record<string, string[]>;
+  listAddedAt: Record<string, string>;
+  listLastAddedAt: Record<string, string>;
+  listAddSources: Record<string, string>;
+  ownedObservedAt: Record<string, string>;
+  ownedLastObservedAt: Record<string, string>;
+  ownedSources: Record<string, string>;
   skippedMealIds: string[];
   selectedDinnerLanes: string[];
   likedTags: string[];

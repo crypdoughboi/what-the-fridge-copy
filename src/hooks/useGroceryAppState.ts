@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   BehaviorState,
   ChefMode,
+  GroceryList,
   GroceryListEntry,
   GroceryMemoryItem,
   MealFeedback,
@@ -29,6 +30,7 @@ import { getMealIdeaById, getMealsForMode, getRankedMealIdeas } from '../service
 import {
   fetchRemoteMealIdeas,
   fetchRemoteUserState,
+  logUserItemEvent,
   moveGroceryItemToUserIngredients,
   removeUserFoodState,
   syncReviewedMealIngredients,
@@ -73,6 +75,12 @@ const emptyBehavior: BehaviorState = {
   deleteCounts: {},
   checkedOffEntries: [],
   usedForMeals: {},
+  listAddedAt: {},
+  listLastAddedAt: {},
+  listAddSources: {},
+  ownedObservedAt: {},
+  ownedLastObservedAt: {},
+  ownedSources: {},
   skippedMealIds: [],
   selectedDinnerLanes: [],
   likedTags: [],
@@ -314,8 +322,8 @@ export function useGroceryAppState() {
     const key = normalizeIngredientKey(entry.name);
     const matchingMemoryIds = memoryIdsForEntry(entry);
     if (entry.itemId) {
-      setBehavior((current) =>
-        cleanupEntryByName(
+      setBehavior((current) => {
+        const cleaned = cleanupEntryByName(
           {
             ...updateLocalStateAfterUserAction(current, 'alreadyHave', entry.itemId!),
             alreadyHaveIds: unique([...current.alreadyHaveIds, ...matchingMemoryIds]),
@@ -324,14 +332,22 @@ export function useGroceryAppState() {
           },
           entry,
           { keepAlreadyHave: true },
-        ),
-      );
+        );
+        return addOwnedTracking(cleaned, [entry.name], 'marked_already_have');
+      });
     } else {
-      setBehavior((current) => ({
-        ...cleanupEntryByName(current, entry, { keepAlreadyHave: true }),
-        alreadyHaveNames: unique([...current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key), entry.name]),
-        fridgeSeen: { ...removeFridgeSeenByKey(current.fridgeSeen, key), [entry.name.toLowerCase()]: 'clearlySeen' },
-      }));
+      setBehavior((current) => {
+        const cleaned = cleanupEntryByName(current, entry, { keepAlreadyHave: true });
+        return addOwnedTracking(
+          {
+            ...cleaned,
+            alreadyHaveNames: unique([...cleaned.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key), entry.name]),
+            fridgeSeen: { ...removeFridgeSeenByKey(cleaned.fridgeSeen, key), [entry.name.toLowerCase()]: 'clearlySeen' },
+          },
+          [entry.name],
+          'marked_already_have',
+        );
+      });
     }
     void moveGroceryItemToUserIngredients(remoteUserId, entry.name, 'marked_already_have');
     showToast(`${entry.name} moved to probably already have.`);
@@ -340,16 +356,23 @@ export function useGroceryAppState() {
   function markEntryNeedToBuy(entry: GroceryListEntry) {
     const key = normalizeIngredientKey(entry.name);
     const matchingMemoryIds = memoryIdsForEntry(entry);
-    setBehavior((current) => ({
-      ...cleanupEntryByName(current, entry),
-      alreadyHaveIds: current.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
-      removedIds: current.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
-      boughtIds: current.boughtIds.filter((id) => !matchingMemoryIds.includes(id)),
-      alreadyHaveNames: current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
-      manuallyAddedNames: unique([...current.manuallyAddedNames, entry.name]),
-      fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
-    }));
-    void upsertGroceryItem(remoteUserId, entry.name);
+    setBehavior((current) => {
+      const cleaned = cleanupEntryByName(current, entry);
+      return addListTracking(
+        {
+          ...cleaned,
+          alreadyHaveIds: cleaned.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
+          removedIds: cleaned.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
+          boughtIds: cleaned.boughtIds.filter((id) => !matchingMemoryIds.includes(id)),
+          alreadyHaveNames: cleaned.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+          manuallyAddedNames: unique([...cleaned.manuallyAddedNames, entry.name]),
+          fridgeSeen: removeFridgeSeenByKey(cleaned.fridgeSeen, key),
+        },
+        [entry.name],
+        'marked_need_to_buy',
+      );
+    });
+    void upsertGroceryItem(remoteUserId, entry.name, undefined, undefined, 'marked_need_to_buy');
     showToast(`${entry.name} moved to Need to Buy.`);
   }
 
@@ -357,26 +380,38 @@ export function useGroceryAppState() {
     const key = normalizeIngredientKey(entry.name);
     if (entry.itemId) {
       const matchingMemoryIds = memoryIdsForEntry(entry);
-      setBehavior((current) =>
-        addCheckedEntry(
-          {
-            ...cleanupEntryByName(updateLocalStateAfterUserAction(current, 'bought', entry.itemId!), entry),
-            boughtIds: unique([...current.boughtIds, ...matchingMemoryIds]),
-            alreadyHaveIds: current.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
-            removedIds: current.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
-          },
-          entry,
-        ),
-      );
+      setBehavior((current) => {
+        const cleaned = cleanupEntryByName(updateLocalStateAfterUserAction(current, 'bought', entry.itemId!), entry);
+        return addOwnedTracking(
+          addCheckedEntry(
+            {
+              ...cleaned,
+              boughtIds: unique([...cleaned.boughtIds, ...matchingMemoryIds]),
+              alreadyHaveIds: cleaned.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
+              removedIds: cleaned.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
+            },
+            entry,
+          ),
+          [entry.name],
+          'bought',
+        );
+      });
       setMemory((current) => current.map((item) => (item.id === entry.itemId ? updateBoughtMemoryItem(item) : item)));
     } else {
       setMemory((current) => [createMemoryItemFromName(entry.name), ...current]);
-      setBehavior((current) => ({
-        ...cleanupEntryByName(current, entry),
-        alreadyHaveNames: current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
-        fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
-        checkedOffEntries: addCheckedEntry(cleanupEntryByName(current, entry), entry).checkedOffEntries,
-      }));
+      setBehavior((current) => {
+        const cleaned = cleanupEntryByName(current, entry);
+        return addOwnedTracking(
+          {
+            ...cleaned,
+            alreadyHaveNames: cleaned.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+            fridgeSeen: removeFridgeSeenByKey(cleaned.fridgeSeen, key),
+            checkedOffEntries: addCheckedEntry(cleaned, entry).checkedOffEntries,
+          },
+          [entry.name],
+          'bought',
+        );
+      });
     }
     void moveGroceryItemToUserIngredients(remoteUserId, entry.name, 'bought');
     showToast(`${entry.name} marked bought. WTF updated your list.`);
@@ -407,12 +442,38 @@ export function useGroceryAppState() {
     showToast(`${entry.name} removed. WTF took the hint.`);
   }
 
+  function showDuplicateToast(name: string, match: DuplicateMatch, source: string): boolean {
+    const message =
+      match.kind === 'exact'
+        ? `Already added! ${match.name} is already in ${match.location}.`
+        : `Are you sure you don't already have ${match.name}? You added this already.`;
+    showToast(message);
+    void logUserItemEvent(remoteUserId, name, match.kind === 'exact' ? 'duplicate_attempt' : 'related_duplicate_attempt', source, {
+      canonicalName: match.key,
+      displayName: match.name,
+    });
+    return true;
+  }
+
+  function filterNewNeedNames(names: string[]): string[] {
+    const seen = new Set<string>();
+    return names.filter((name) => {
+      const normalized = normalizeReceiptItemName(name);
+      const key = normalizeIngredientKey(normalized);
+      if (!normalized || seen.has(key)) return false;
+      seen.add(key);
+      return !findDuplicateFoodMatch(normalized, groceryList, 'need');
+    });
+  }
+
   function addManualItem(name: string) {
     const normalized = normalizeReceiptItemName(name);
     if (!normalized) return;
     const key = normalizeIngredientKey(normalized);
+    const duplicate = findDuplicateFoodMatch(normalized, groceryList, 'need');
+    if (duplicate && showDuplicateToast(normalized, duplicate, 'manual_need')) return;
     setBehavior((current) => ({
-      ...current,
+      ...addListTracking(current, [normalized], 'manual'),
       manuallyAddedNames: unique([...current.manuallyAddedNames, normalized]),
       alreadyHaveNames: current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key),
       mealAddedNames: current.mealAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
@@ -423,7 +484,7 @@ export function useGroceryAppState() {
         [normalized.toLowerCase()]: (current.addCounts[normalized.toLowerCase()] ?? 0) + 1,
       },
     }));
-    void upsertGroceryItem(remoteUserId, normalized);
+    void upsertGroceryItem(remoteUserId, normalized, undefined, undefined, 'manual');
     showToast(`${normalized} added.`);
   }
 
@@ -431,8 +492,10 @@ export function useGroceryAppState() {
     const normalized = normalizeReceiptItemName(name);
     if (!normalized) return;
     const key = normalizeIngredientKey(normalized);
+    const duplicate = findDuplicateFoodMatch(normalized, groceryList, 'have');
+    if (duplicate?.location === 'Already Have' && showDuplicateToast(normalized, duplicate, 'manual_have')) return;
     setBehavior((current) => ({
-      ...current,
+      ...addOwnedTracking(cleanupFoodByKey(current, key), [normalized], 'manual'),
       alreadyHaveNames: unique([...current.alreadyHaveNames, normalized]),
       manuallyAddedNames: current.manuallyAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
       mealAddedNames: current.mealAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
@@ -457,21 +520,33 @@ export function useGroceryAppState() {
       .filter((item) => !behavior.alreadyHaveIds.includes(item.id))
       .slice(0, 4)
       .map((item) => item.name);
+    const names = filterNewNeedNames(usualNames);
     if (usualNames.length === 0) {
       showToast('No usuals yet. Scan a receipt first.');
       return;
     }
+    if (names.length === 0) {
+      const duplicate = findDuplicateFoodMatch(usualNames[0], groceryList, 'need');
+      if (duplicate) showDuplicateToast(usualNames[0], duplicate, 'usuals');
+      else showToast('Usuals are already covered.');
+      return;
+    }
     setBehavior((current) => ({
-      ...current,
-      manuallyAddedNames: unique([...current.manuallyAddedNames, ...usualNames]),
+      ...addListTracking(current, names, 'usuals'),
+      manuallyAddedNames: unique([...current.manuallyAddedNames, ...names]),
     }));
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'usuals'));
     showToast('Usuals added. Rice can still sit this one out.');
   }
 
   function addMealMissingItems(meal: MealSuggestion) {
-    const names = meal.buy.map((item) => normalizeReceiptItemName(item.replace(', optional', '')));
+    const names = filterNewNeedNames(meal.buy.map((item) => normalizeReceiptItemName(item.replace(', optional', ''))));
+    if (names.length === 0) {
+      showToast('Already added! Those ingredients are already covered.');
+      return;
+    }
     setBehavior((current) => ({
-      ...current,
+      ...addListTracking(current, names, 'meal_missing'),
       mealAddedNames: unique([...current.mealAddedNames, ...names]),
       addCounts: names.reduce(
         (counts, name) => ({
@@ -481,15 +556,21 @@ export function useGroceryAppState() {
         current.addCounts,
       ),
     }));
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'meal_missing'));
     showToast(`Missing items added for ${meal.name}.`);
   }
 
   function addMealUnlockItems(entries: GroceryListEntry[]) {
-    const names = entries.map((entry) => entry.name);
+    const names = filterNewNeedNames(entries.map((entry) => entry.name));
+    if (names.length === 0) {
+      showToast('Already added! Those unlock items are already covered.');
+      return;
+    }
     setBehavior((current) => ({
-      ...current,
+      ...addListTracking(current, names, 'meal_unlock'),
       mealAddedNames: unique([...current.mealAddedNames, ...names]),
     }));
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'meal_unlock'));
     showToast('Five small buys. Four dinners unlocked.');
   }
 
@@ -505,13 +586,19 @@ export function useGroceryAppState() {
   function confirmReceipt(extraction: ReceiptExtraction) {
     setMemory((current) => mergeReceiptIntoMemory(current, extraction));
     const purchasedNames = extraction.items.filter((item) => item.isGrocery).map((item) => item.normalizedName);
-    setBehavior((current) => ({
-      ...current,
-      alreadyHaveNames: unique([...current.alreadyHaveNames, ...purchasedNames]),
-      boughtIds: [],
-      removedIds: [],
-      checkedOffEntries: [],
-    }));
+    setBehavior((current) =>
+      addOwnedTracking(
+        {
+          ...cleanupFoodByNames(current, purchasedNames),
+          alreadyHaveNames: unique([...current.alreadyHaveNames, ...purchasedNames]),
+          boughtIds: [],
+          removedIds: [],
+          checkedOffEntries: [],
+        },
+        purchasedNames,
+        'receipt',
+      ),
+    );
     setReceiptCount((current) => current + 1);
     purchasedNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'receipt'));
     showToast('Receipt added. Your list knows what you bought.');
@@ -526,19 +613,26 @@ export function useGroceryAppState() {
     const needNames = items.filter((item) => item.confidence === 'maybeLow').map((item) => item.name);
     const haveKeys = new Set(haveNames.map(normalizeIngredientKey));
 
-    setBehavior((current) => ({
-      ...current,
-      alreadyHaveNames: unique([...current.alreadyHaveNames, ...haveNames]),
-      manuallyAddedNames: unique([
-        ...current.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
-        ...needNames,
-      ]),
-      mealAddedNames: current.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
-      fridgeSeen: {
-        ...current.fridgeSeen,
-        ...seen,
-      },
-    }));
+    setBehavior((current) => {
+      const ownedTracked = addOwnedTracking(cleanupFoodByNames(current, haveNames), haveNames, 'fridge_scan');
+      return addListTracking(
+        {
+          ...ownedTracked,
+          alreadyHaveNames: unique([...ownedTracked.alreadyHaveNames, ...haveNames]),
+          manuallyAddedNames: unique([
+            ...ownedTracked.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+            ...needNames,
+          ]),
+          mealAddedNames: ownedTracked.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+          fridgeSeen: {
+            ...ownedTracked.fridgeSeen,
+            ...seen,
+          },
+        },
+        needNames,
+        'fridge_scan_low',
+      );
+    });
 
     setMemory((current) =>
       mergeFridgeItemsIntoMemory(current, items).map((item) =>
@@ -553,14 +647,18 @@ export function useGroceryAppState() {
     );
     setFridgeScanCount((current) => current + 1);
     haveNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'fridge_scan'));
-    needNames.forEach((name) => void upsertGroceryItem(remoteUserId, name));
+    needNames.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'fridge_scan_low'));
     showToast('List updated from your fridge photo.');
   }
 
   function addImportedItems(entries: GroceryListEntry[]) {
-    const names = entries.map((entry) => entry.name);
+    const names = filterNewNeedNames(entries.map((entry) => entry.name));
+    if (names.length === 0) {
+      showToast('Already added! Those list items are already covered.');
+      return;
+    }
     setBehavior((current) => ({
-      ...current,
+      ...addListTracking(current, names, 'import'),
       manuallyAddedNames: unique([...current.manuallyAddedNames, ...names]),
       addCounts: names.reduce(
         (counts, name) => ({
@@ -571,6 +669,7 @@ export function useGroceryAppState() {
       ),
     }));
     setImportCount((current) => current + 1);
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'import'));
     showToast("Old list imported. We'll use this to learn your usuals.");
   }
 
@@ -631,16 +730,18 @@ export function useGroceryAppState() {
         nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), meal.name]);
       });
 
+      const tracked = addListTracking(addOwnedTracking(cleanupFoodByNames(current, haveNames), haveNames, 'ingredient_review'), needNames, 'meal');
+
       return {
-        ...current,
+        ...tracked,
         alreadyHaveNames: unique([...current.alreadyHaveNames, ...haveNames]),
-        manuallyAddedNames: current.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+        manuallyAddedNames: tracked.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
         mealAddedNames: unique([
-          ...current.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+          ...tracked.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
           ...needNames.filter((name) => !haveKeys.has(needKeysByName.get(name) ?? normalizeIngredientKey(name))),
         ]),
         usedForMeals: nextUsedFor,
-        likedTags: unique([...current.likedTags, ...meal.tags]),
+        likedTags: unique([...tracked.likedTags, ...meal.tags]),
       };
     });
     void upsertUserMealStatus(remoteUserId, meal, 'planned');
@@ -857,12 +958,122 @@ function defaultPersonalizedState(): PersonalizedState {
   };
 }
 
+type DuplicateMatch = {
+  name: string;
+  key: string;
+  kind: 'exact' | 'related';
+  location: 'Need to Buy' | 'Already Have' | 'In Cart';
+};
+
+function findDuplicateFoodMatch(name: string, list: GroceryList, target: 'need' | 'have'): DuplicateMatch | null {
+  const candidateGroups: { location: DuplicateMatch['location']; entries: GroceryListEntry[] }[] = [
+    { location: 'Need to Buy', entries: [...list.buyNow, ...list.maybeBuy] },
+    { location: 'Already Have', entries: list.probablyAlreadyHave },
+    { location: 'In Cart', entries: list.checkedOff },
+  ];
+
+  if (target === 'have') {
+    candidateGroups.sort((a, b) => (a.location === 'Already Have' ? -1 : b.location === 'Already Have' ? 1 : 0));
+  }
+
+  for (const group of candidateGroups) {
+    for (const entry of group.entries) {
+      const kind = matchItemName(name, entry.name);
+      if (kind) {
+        return {
+          name: entry.name,
+          key: normalizeIngredientKey(entry.name),
+          kind,
+          location: group.location,
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+function matchItemName(attemptedName: string, existingName: string): DuplicateMatch['kind'] | null {
+  const attemptedKey = normalizeIngredientKey(attemptedName);
+  const existingKey = normalizeIngredientKey(existingName);
+  if (attemptedKey !== existingKey) return null;
+  return normalizeReceiptItemName(attemptedName).toLowerCase() === normalizeReceiptItemName(existingName).toLowerCase() ? 'exact' : 'related';
+}
+
+function addListTracking(behavior: BehaviorState, names: string[], source: string): BehaviorState {
+  const now = new Date().toISOString();
+  const listAddedAt = { ...behavior.listAddedAt };
+  const listLastAddedAt = { ...behavior.listLastAddedAt };
+  const listAddSources = { ...behavior.listAddSources };
+
+  names.forEach((name) => {
+    const key = normalizeIngredientKey(name);
+    if (!listAddedAt[key]) listAddedAt[key] = now;
+    listLastAddedAt[key] = now;
+    listAddSources[key] = source;
+  });
+
+  return {
+    ...behavior,
+    listAddedAt,
+    listLastAddedAt,
+    listAddSources,
+  };
+}
+
+function addOwnedTracking(behavior: BehaviorState, names: string[], source: string): BehaviorState {
+  const now = new Date().toISOString();
+  const ownedObservedAt = { ...behavior.ownedObservedAt };
+  const ownedLastObservedAt = { ...behavior.ownedLastObservedAt };
+  const ownedSources = { ...behavior.ownedSources };
+
+  names.forEach((name) => {
+    const key = normalizeIngredientKey(name);
+    if (!ownedObservedAt[key]) ownedObservedAt[key] = now;
+    ownedLastObservedAt[key] = now;
+    ownedSources[key] = source;
+  });
+
+  return {
+    ...behavior,
+    ownedObservedAt,
+    ownedLastObservedAt,
+    ownedSources,
+  };
+}
+
+function cleanupFoodByKey(behavior: BehaviorState, key: string): BehaviorState {
+  return {
+    ...behavior,
+    manuallyAddedNames: behavior.manuallyAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
+    mealAddedNames: behavior.mealAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
+    checkedOffEntries: behavior.checkedOffEntries.filter((entry) => normalizeIngredientKey(entry.name) !== key),
+    listAddedAt: omitRecordKey(behavior.listAddedAt, key),
+    listLastAddedAt: omitRecordKey(behavior.listLastAddedAt, key),
+    listAddSources: omitRecordKey(behavior.listAddSources, key),
+  };
+}
+
+function cleanupFoodByNames(behavior: BehaviorState, names: string[]): BehaviorState {
+  return names.reduce((current, name) => cleanupFoodByKey(current, normalizeIngredientKey(name)), behavior);
+}
+
+function omitRecordKey(record: Record<string, string>, key: string): Record<string, string> {
+  return Object.fromEntries(Object.entries(record).filter(([recordKey]) => recordKey !== key));
+}
+
 function normalizeBehavior(behavior: BehaviorState): BehaviorState {
   return {
     ...emptyBehavior,
     ...behavior,
     alreadyHaveNames: behavior.alreadyHaveNames ?? [],
     usedForMeals: behavior.usedForMeals ?? {},
+    listAddedAt: behavior.listAddedAt ?? {},
+    listLastAddedAt: behavior.listLastAddedAt ?? {},
+    listAddSources: behavior.listAddSources ?? {},
+    ownedObservedAt: behavior.ownedObservedAt ?? {},
+    ownedLastObservedAt: behavior.ownedLastObservedAt ?? {},
+    ownedSources: behavior.ownedSources ?? {},
     skippedMealIds: behavior.skippedMealIds ?? [],
     selectedDinnerLanes: behavior.selectedDinnerLanes ?? [],
     likedTags: behavior.likedTags ?? [],
@@ -904,6 +1115,9 @@ function cleanupEntryByName(behavior: BehaviorState, entry: GroceryListEntry, op
       ? behavior.alreadyHaveNames
       : behavior.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
     fridgeSeen: options.keepAlreadyHave ? behavior.fridgeSeen : removeFridgeSeenByKey(behavior.fridgeSeen, key),
+    listAddedAt: omitRecordKey(behavior.listAddedAt, key),
+    listLastAddedAt: omitRecordKey(behavior.listLastAddedAt, key),
+    listAddSources: omitRecordKey(behavior.listAddSources, key),
     checkedOffEntries,
   };
 }

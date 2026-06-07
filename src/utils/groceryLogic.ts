@@ -62,7 +62,10 @@ export function parseManualItemNames(value: string): string[] {
 export function normalizeIngredientKey(name: string): string {
   const normalized = normalizeReceiptItemName(name)
     .toLowerCase()
-    .replace(/\b(optional|fresh|whole|large|small|mini|quick|herby|toasted|grated|sliced|diced|chopped)\b/g, '')
+    .replace(
+      /\b(optional|fresh|whole|large|small|mini|quick|herby|toasted|grated|sliced|diced|chopped|organic|org|plain|ripe|bag|bunch|pack|package|pkg|carton|container|bottle|box|jar|dozen|dz|boneless|skinless|low fat|nonfat|full fat)\b/g,
+      '',
+    )
     .replace(/\b(cutlets|thighs|breasts)\b/g, '')
     .replace(/\s+/g, ' ')
     .trim();
@@ -85,11 +88,19 @@ export function normalizeIngredientKey(name: string): string {
     thighs: 'chicken',
     'chicken thighs': 'chicken',
     'chicken cutlets': 'chicken',
+    'chicken breast': 'chicken',
+    'chicken breasts': 'chicken',
     'ground chicken': 'chicken',
     'ground turkey': 'turkey',
     'jasmine rice': 'rice',
     'frozen jasmine rice': 'rice',
     'greek yogurt': 'greek yogurt',
+    'greek yoghurt': 'greek yogurt',
+    'yoghurt': 'yogurt',
+    'black beans': 'black bean',
+    'red onion': 'onion',
+    'yellow onion': 'onion',
+    'white onion': 'onion',
   };
 
   if (direct[normalized]) return direct[normalized];

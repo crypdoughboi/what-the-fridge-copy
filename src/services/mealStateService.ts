@@ -60,6 +60,15 @@ type MealRecipeStepRow = {
   component: RecipeStep['component'] | null;
 };
 
+export type UserItemEventType =
+  | 'added_to_list'
+  | 'owned_observed'
+  | 'duplicate_attempt'
+  | 'related_duplicate_attempt'
+  | 'moved_to_have'
+  | 'marked_bought'
+  | 'removed';
+
 export type RemoteUserState = {
   savedMealIds: string[];
   plannedMealIds: string[];
@@ -204,7 +213,7 @@ export async function syncReviewedMealIngredients(userId: string | undefined, me
 
   for (const item of needToBuy) {
     if (item.optional) continue;
-    await upsertGroceryItem(userId, item.name, meal.id, item.canonicalName);
+    await upsertGroceryItem(userId, item.name, meal.id, item.canonicalName, 'meal');
   }
 }
 
@@ -212,45 +221,89 @@ export async function upsertUserIngredient(userId: string | undefined, name: str
   if (!userId || !isSupabaseConfigured || !supabase) return;
   const displayName = normalizeReceiptItemName(name);
   const canonicalName = canonical ?? normalizeIngredientKey(displayName);
-  const { error } = await supabase.from('user_ingredients').upsert(
-    {
-      user_id: userId,
-      canonical_name: canonicalName,
-      display_name: displayName,
-      source,
-    },
-    { onConflict: 'user_id,canonical_name' },
-  );
-  if (error) console.warn('Could not sync user ingredient', error.message);
+  const now = new Date().toISOString();
+  const existing = await supabase
+    .from('user_ingredients')
+    .select('created_at')
+    .eq('user_id', userId)
+    .eq('canonical_name', canonicalName)
+    .maybeSingle();
+  const row = {
+    user_id: userId,
+    canonical_name: canonicalName,
+    display_name: displayName,
+    source,
+    first_observed_at: existing.data?.created_at ?? now,
+    last_observed_at: now,
+    observed_source: source,
+  };
+  const { error } = await supabase.from('user_ingredients').upsert(row, { onConflict: 'user_id,canonical_name' });
+  if (error) {
+    const { error: fallbackError } = await supabase.from('user_ingredients').upsert(
+      {
+        user_id: userId,
+        canonical_name: canonicalName,
+        display_name: displayName,
+        source,
+      },
+      { onConflict: 'user_id,canonical_name' },
+    );
+    if (fallbackError) console.warn('Could not sync user ingredient', fallbackError.message);
+  } else {
+    await logUserItemEvent(userId, displayName, 'owned_observed', source);
+  }
 }
 
-export async function upsertGroceryItem(userId: string | undefined, name: string, mealId?: string, canonical?: string): Promise<void> {
+export async function upsertGroceryItem(
+  userId: string | undefined,
+  name: string,
+  mealId?: string,
+  canonical?: string,
+  source = 'manual',
+): Promise<void> {
   if (!userId || !isSupabaseConfigured || !supabase) return;
   const displayName = normalizeReceiptItemName(name);
   const canonicalName = canonical ?? normalizeIngredientKey(displayName);
   const category = categorizeGroceryItem(displayName);
   const existing = await supabase
     .from('grocery_items')
-    .select('used_for_meal_ids')
+    .select('used_for_meal_ids, created_at')
     .eq('user_id', userId)
     .eq('canonical_name', canonicalName)
     .maybeSingle();
 
   const usedForMealIds = new Set<string>(existing.data?.used_for_meal_ids ?? []);
   if (mealId && isUuid(mealId)) usedForMealIds.add(mealId);
+  const now = new Date().toISOString();
 
-  const { error } = await supabase.from('grocery_items').upsert(
-    {
-      user_id: userId,
-      canonical_name: canonicalName,
-      display_name: displayName,
-      status: 'need',
-      used_for_meal_ids: Array.from(usedForMealIds),
-      grocery_category: category,
-    },
-    { onConflict: 'user_id,canonical_name' },
-  );
-  if (error) console.warn('Could not sync grocery item', error.message);
+  const row = {
+    user_id: userId,
+    canonical_name: canonicalName,
+    display_name: displayName,
+    status: 'need',
+    used_for_meal_ids: Array.from(usedForMealIds),
+    grocery_category: category,
+    first_added_to_list_at: existing.data?.created_at ?? now,
+    last_added_to_list_at: now,
+    added_source: source,
+  };
+  const { error } = await supabase.from('grocery_items').upsert(row, { onConflict: 'user_id,canonical_name' });
+  if (error) {
+    const { error: fallbackError } = await supabase.from('grocery_items').upsert(
+      {
+        user_id: userId,
+        canonical_name: canonicalName,
+        display_name: displayName,
+        status: 'need',
+        used_for_meal_ids: Array.from(usedForMealIds),
+        grocery_category: category,
+      },
+      { onConflict: 'user_id,canonical_name' },
+    );
+    if (fallbackError) console.warn('Could not sync grocery item', fallbackError.message);
+  } else {
+    await logUserItemEvent(userId, displayName, 'added_to_list', source);
+  }
 }
 
 export async function moveGroceryItemToUserIngredients(userId: string | undefined, name: string, source: string): Promise<void> {
@@ -260,6 +313,7 @@ export async function moveGroceryItemToUserIngredients(userId: string | undefine
   await upsertUserIngredient(userId, displayName, source);
   const { error } = await supabase.from('grocery_items').update({ status: 'removed' }).eq('user_id', userId).eq('canonical_name', canonicalName);
   if (error) console.warn('Could not move grocery item', error.message);
+  await logUserItemEvent(userId, displayName, source === 'bought' ? 'marked_bought' : 'moved_to_have', source);
 }
 
 export async function removeUserFoodState(userId: string | undefined, name: string): Promise<void> {
@@ -272,6 +326,31 @@ export async function removeUserFoodState(userId: string | undefined, name: stri
   ]);
   if (groceryError) console.warn('Could not remove grocery item', groceryError.message);
   if (ingredientError) console.warn('Could not remove user ingredient', ingredientError.message);
+  await logUserItemEvent(userId, displayName, 'removed', 'remove');
+}
+
+export async function logUserItemEvent(
+  userId: string | undefined,
+  name: string,
+  eventType: UserItemEventType,
+  source: string,
+  related?: { canonicalName: string; displayName: string },
+): Promise<void> {
+  if (!userId || !isSupabaseConfigured || !supabase) return;
+  const displayName = normalizeReceiptItemName(name);
+  const canonicalName = normalizeIngredientKey(displayName);
+  const { error } = await supabase.from('user_item_events').insert({
+    user_id: userId,
+    canonical_name: canonicalName,
+    display_name: displayName,
+    event_type: eventType,
+    source,
+    related_canonical_name: related?.canonicalName ?? null,
+    related_display_name: related?.displayName ?? null,
+  });
+  if (error && !/user_item_events|relation .* does not exist/i.test(error.message)) {
+    console.warn('Could not log item event', error.message);
+  }
 }
 
 function rowToMealIdea(row: MealTemplateRow): MealIdea {

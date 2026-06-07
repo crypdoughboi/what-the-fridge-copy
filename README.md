@@ -82,6 +82,7 @@ The schema lives in:
 ```text
 supabase/migrations/202606070001_meal_templates_user_state.sql
 supabase/migrations/202606070002_meal_recipe_details.sql
+supabase/migrations/202606070003_item_add_tracking.sql
 ```
 
 Core tables:
@@ -93,6 +94,7 @@ Core tables:
 - `user_meals`: user-specific saved, planned, made, and skipped meal states.
 - `user_ingredients`: ingredients the user already has.
 - `grocery_items`: ingredients the user needs to buy.
+- `user_item_events`: timestamped item events, including true list adds, duplicate attempts, fridge observations, receipt observations, bought, moved, and removed events.
 
 Apply the migration in Supabase SQL Editor, or with Supabase CLI if your project is linked.
 
@@ -117,6 +119,7 @@ Important behavior:
 - Planned meals open ingredient review and then add only missing non-optional ingredients.
 - Grocery items dedupe by `canonical_name`.
 - Marking an item Already Have moves it from `grocery_items` into `user_ingredients`.
+- List-add dates are tracked separately from receipt/fridge observations so old grocery evidence does not pretend to be a fresh list add.
 
 ## Where To Plug In Real Services
 
