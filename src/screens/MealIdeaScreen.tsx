@@ -1,4 +1,4 @@
-import { useMemo, useState, type PointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
 import { BookOpen, CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
@@ -35,9 +35,18 @@ export function MealIdeaScreen({
   const [dragX, setDragX] = useState(0);
   const [dragY, setDragY] = useState(0);
   const [exiting, setExiting] = useState<'left' | 'right' | null>(null);
+  const activePointerId = useRef<number | null>(null);
+  const completingSwipe = useRef(false);
+  const swipeTimeout = useRef<number | null>(null);
   const meal = ideas[index];
   const knownKeys = useMemo(() => new Set(knownIngredients.map(normalizeIngredientKey)), [knownIngredients]);
   const dragIntent = Math.min(Math.abs(dragX) / 120, 1);
+
+  useEffect(() => {
+    return () => {
+      if (swipeTimeout.current) window.clearTimeout(swipeTimeout.current);
+    };
+  }, []);
 
   function moveNext() {
     setIndex((current) => Math.min(current + 1, ideas.length));
@@ -45,6 +54,9 @@ export function MealIdeaScreen({
     setDragY(0);
     setDrag(null);
     setExiting(null);
+    activePointerId.current = null;
+    completingSwipe.current = false;
+    swipeTimeout.current = null;
   }
 
   function skip() {
@@ -56,12 +68,15 @@ export function MealIdeaScreen({
   }
 
   function completeSwipe(direction: 'left' | 'right', action: (meal: MealIdea) => void) {
-    if (!meal || exiting) return;
+    if (!meal || exiting || completingSwipe.current) return;
+    completingSwipe.current = true;
+    const swipedMeal = meal;
     setExiting(direction);
+    setDrag(null);
     setDragX(direction === 'right' ? 420 : -420);
     setDragY(0);
-    window.setTimeout(() => {
-      action(meal);
+    swipeTimeout.current = window.setTimeout(() => {
+      action(swipedMeal);
       moveNext();
     }, 180);
   }
@@ -75,12 +90,14 @@ export function MealIdeaScreen({
   }
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (exiting) return;
+    if (exiting || completingSwipe.current) return;
+    activePointerId.current = event.pointerId;
     setDrag({ startX: event.clientX, startY: event.clientY, mode: 'undecided' });
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
     if (!drag || exiting) return;
+    if (activePointerId.current !== null && event.pointerId !== activePointerId.current) return;
     const deltaX = event.clientX - drag.startX;
     const deltaY = event.clientY - drag.startY;
     const absX = Math.abs(deltaX);
@@ -113,6 +130,7 @@ export function MealIdeaScreen({
 
   function handlePointerEnd(event: PointerEvent<HTMLDivElement>) {
     if (!drag || exiting) return;
+    if (activePointerId.current !== null && event.pointerId !== activePointerId.current) return;
     const deltaX = event.clientX - drag.startX;
     try {
       if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture(event.pointerId)) {
@@ -130,6 +148,22 @@ export function MealIdeaScreen({
     }
 
     finishDrag(deltaX);
+  }
+
+  function handlePointerCancel(event: PointerEvent<HTMLDivElement>) {
+    if (activePointerId.current !== null && event.pointerId !== activePointerId.current) return;
+    try {
+      if (typeof event.pointerId === 'number' && event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    } catch {
+      // Pointer cancel is browser-controlled. Resetting the card is safer than treating it as a swipe.
+    }
+    if (completingSwipe.current) return;
+    activePointerId.current = null;
+    setDrag(null);
+    setDragX(0);
+    setDragY(0);
   }
 
   function finishDrag(delta: number) {
@@ -180,11 +214,12 @@ export function MealIdeaScreen({
         <div className="pointer-events-none absolute inset-x-4 bottom-[-10px] top-4 rounded-lg border border-line bg-surface/70 shadow-sm" />
         <div className="pointer-events-none absolute inset-x-8 bottom-[-18px] top-8 rounded-lg border border-line bg-surface/40" />
         <Card
+          key={meal.id}
           className="relative z-10 touch-pan-y cursor-grab select-none overflow-hidden active:cursor-grabbing"
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerEnd}
-          onPointerCancel={handlePointerEnd}
+          onPointerCancel={handlePointerCancel}
           style={{
             transform: `translate3d(${dragX}px, ${dragY}px, 0) rotate(${dragX / 16}deg)`,
             transition: !drag || drag.mode !== 'swipe' || exiting ? 'transform 180ms ease-out' : 'none',
