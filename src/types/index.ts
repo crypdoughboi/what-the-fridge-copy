@@ -140,11 +140,30 @@ export type SeedMealIngredient = {
   canonicalName: string;
   quantity: number | null;
   unit: string | null;
+  displayQuantity?: string;
+  prep?: string;
   section: StoreSection;
   isOptional: boolean;
   isPantry: boolean;
   groceryCategory: Category;
+  importance?: 'core' | 'pantry' | 'optional' | 'upgrade';
   sortOrder: number;
+};
+
+export type RecipeStep = {
+  stepNumber: number;
+  title: string;
+  body: string;
+  timeMinutes?: number;
+  temperature?: string;
+  visualCue?: string;
+  component?: 'prep' | 'sauce' | 'base' | 'protein' | 'vegetables' | 'assembly' | 'finish';
+};
+
+export type SeedMealRecipe = {
+  activeTimeMinutes: number;
+  totalTimeMinutes: number;
+  steps: RecipeStep[];
 };
 
 export type SeedMealTemplate = {
@@ -161,7 +180,10 @@ export type SeedMealTemplate = {
   tags: string[];
   chefNote: string;
   whyItWorks: string;
+  leftoversNote?: string;
+  equipment: string[];
   ingredients: SeedMealIngredient[];
+  recipe: SeedMealRecipe;
 };
 
 export type MealIdea = {
@@ -175,7 +197,14 @@ export type MealIdea = {
   format: string;
   timeMinutes: number;
   effort: string;
+  servings: number;
   tags: string[];
+  chefNote: string;
+  whyItWorks: string;
+  leftoversNote?: string;
+  equipment: string[];
+  structuredIngredients: SeedMealIngredient[];
+  recipe: SeedMealRecipe;
   ingredients: string[];
   optionalIngredients: string[];
   pantryIngredients: string[];
@@ -187,6 +216,9 @@ export type IngredientReviewStatus = 'alreadyHave' | 'needToBuy' | 'optional';
 
 export type ReviewedIngredient = {
   name: string;
+  canonicalName?: string;
+  displayQuantity?: string;
+  prep?: string;
   status: IngredientReviewStatus;
   optional?: boolean;
   pantry?: boolean;

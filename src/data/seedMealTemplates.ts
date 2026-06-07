@@ -25,7 +25,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crunchy",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang before serving. It should be bold enough to season the chicken thighs and rice, not just sit on top.",
     "whyItWorks": "Sticky gochujang chicken over rice with cold cucumber and sesame cabbage crunch.",
     "ingredients": [
       {
@@ -37,7 +37,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -48,7 +51,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -59,7 +65,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -70,7 +79,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -81,7 +93,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -92,7 +107,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -103,7 +120,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "kimchi",
@@ -114,7 +133,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "lime",
@@ -125,7 +146,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -136,7 +160,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -147,7 +173,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -158,9 +186,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, scallions, kimchi after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains or noodles should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir gochujang with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken thighs",
+          "body": "Cook chicken thighs over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss cucumber, cabbage. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken thighs, rice, and gochujang separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken thighs, tuck in cucumber, cabbage, then drizzle with gochujang.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Gochujang chicken bowl with cucumber, scallions, kimchi and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "teriyaki-salmon-bowl-edamame-avocado-furikake",
@@ -185,7 +281,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "avocado",
       "furikake"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the salmon and rice, not just sit on top.",
     "whyItWorks": "Glossy salmon over rice with edamame, creamy avocado, and furikake crunch.",
     "ingredients": [
       {
@@ -197,7 +293,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -208,7 +307,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "edamame",
@@ -219,7 +321,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -230,7 +334,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "core"
       },
       {
         "rawName": "furikake",
@@ -241,7 +348,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -252,7 +361,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -263,7 +375,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pickled ginger",
@@ -274,7 +389,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -285,7 +402,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "brown sugar",
@@ -296,7 +415,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "rice vinegar",
@@ -307,7 +428,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -318,9 +442,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add avocado, scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss the vegetables with oil, salt, pepper, and the main seasoning from Teriyaki salmon bowl. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and the vegetables is browned at the edges.",
+          "timeMinutes": 18,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with avocado, scallions, cucumber and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Teriyaki salmon bowl over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "harissa-chicken-bowl-couscous-roasted-carrots-herby-yogurt",
@@ -346,7 +545,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "yogurt",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt, harissa before serving. It should be bold enough to season the chicken and couscous, not just sit on top.",
     "whyItWorks": "Spiced chicken, sweet roasted carrots, couscous, cucumber, lemony yogurt.",
     "ingredients": [
       {
@@ -358,7 +557,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -369,7 +571,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -380,7 +585,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "couscous",
@@ -391,7 +598,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -402,7 +611,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "harissa",
@@ -413,7 +625,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -424,7 +638,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "pickled onion",
@@ -435,7 +652,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "toasted almonds",
@@ -446,7 +666,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -457,7 +679,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -468,7 +693,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -479,7 +706,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -490,9 +720,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley, pickled onion after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss carrots with oil, salt, pepper, and the main seasoning from Harissa chicken bowl. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken",
+          "body": "Pat chicken dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken is cooked through and carrots is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir Greek yogurt, harissa with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook couscous so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley, pickled onion and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Harissa chicken bowl over or alongside couscous, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "carne-asada-bowl-cilantro-lime-rice-black-beans-pico",
@@ -517,7 +824,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "beans",
       "charred"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste crema before serving. It should be bold enough to season the steak and rice, black beans, not just sit on top.",
     "whyItWorks": "Charred steak over lime rice with black beans, pico, crema, and cilantro.",
     "ingredients": [
       {
@@ -529,7 +836,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -540,7 +850,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "black beans",
@@ -551,7 +864,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -562,7 +878,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -573,7 +892,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -584,7 +906,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "red onion",
@@ -595,7 +920,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -606,7 +934,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "crema",
@@ -617,7 +948,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "jalapeno",
@@ -628,7 +961,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -639,7 +974,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -650,7 +987,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -661,9 +1001,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover steak and rice, black beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice, black beans first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir crema with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the steak",
+          "body": "Cook steak over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss tomatoes. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste steak, rice, black beans, and crema separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice, black beans into bowls, add steak, tuck in tomatoes, then drizzle with crema.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Carne asada bowl with cilantro, lime, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "crispy-tofu-bibimbap-bowl-gochujang-fried-egg",
@@ -688,7 +1096,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "egg"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang before serving. It should be bold enough to season the tofu and rice, not just sit on top.",
     "whyItWorks": "Crisp tofu, rice, vegetables, fried egg, and gochujang sauce.",
     "ingredients": [
       {
@@ -700,7 +1108,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "14 oz",
+        "prep": "pressed and cubed",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -711,7 +1122,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -722,7 +1136,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "spinach",
@@ -733,7 +1150,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -744,7 +1164,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -755,7 +1178,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -766,7 +1192,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "kimchi",
@@ -777,7 +1205,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "sesame seeds",
@@ -788,7 +1218,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "mushrooms",
@@ -799,7 +1231,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -810,7 +1245,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "rice vinegar",
@@ -821,7 +1258,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -832,7 +1272,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -843,9 +1285,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 14
+        "sortOrder": 14,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover tofu and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, kimchi after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains or noodles should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir gochujang with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the tofu",
+          "body": "Cook tofu over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss spinach, carrots, cucumber. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste tofu, rice, and gochujang separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add tofu, tuck in spinach, carrots, cucumber, then drizzle with gochujang.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Crispy tofu bibimbap bowl with cucumber, kimchi and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "lemon-pepper-chicken-bowl-orzo-charred-broccolini",
@@ -870,7 +1380,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "broccolini",
       "bright"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and orzo, not just sit on top.",
     "whyItWorks": "Peppery chicken with lemony orzo and charred broccolini.",
     "ingredients": [
       {
@@ -882,7 +1392,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "orzo",
@@ -893,7 +1406,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "broccolini",
@@ -904,7 +1419,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -915,7 +1433,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -926,7 +1447,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -937,7 +1461,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "Greek yogurt",
@@ -948,7 +1474,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -959,7 +1487,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "black pepper",
@@ -970,7 +1500,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -981,9 +1514,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and orzo separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook orzo until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the chicken",
+          "body": "Cook chicken in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add broccolini and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in Greek yogurt. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add orzo to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add lemon, parsley, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Lemon pepper chicken bowl while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "bulgogi-beef-bowl-rice-kimchi-scallion",
@@ -1008,7 +1610,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice bowl",
       "scallion"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the thin sliced beef and rice, not just sit on top.",
     "whyItWorks": "Sweet soy beef over rice with kimchi and sharp scallions.",
     "ingredients": [
       {
@@ -1020,7 +1622,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -1031,7 +1636,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "kimchi",
@@ -1042,7 +1650,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -1053,7 +1663,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -1064,7 +1677,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "fried egg",
@@ -1075,7 +1691,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "sesame seeds",
@@ -1086,7 +1705,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -1097,7 +1718,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "brown sugar",
@@ -1108,7 +1731,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -1119,7 +1744,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -1130,9 +1758,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover thin sliced beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add kimchi, scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the thin sliced beef",
+          "body": "Cook thin sliced beef over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss onion. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste thin sliced beef, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add thin sliced beef, tuck in onion, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Bulgogi beef bowl with kimchi, scallions and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "falafel-bowl-hummus-tahini-chopped-israeli-salad",
@@ -1158,7 +1852,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "chopped salad",
       "crispy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Thin the tahini with cold water slowly. It may seize first, then turn glossy and pourable.",
     "whyItWorks": "Falafel, hummus, tahini, crunchy chopped salad, herbs, and pita.",
     "ingredients": [
       {
@@ -1170,7 +1864,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "hummus",
@@ -1181,7 +1877,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "tahini",
@@ -1192,7 +1890,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -1203,7 +1903,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -1214,7 +1917,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -1225,7 +1931,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -1236,7 +1945,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "pickled onion",
@@ -1247,7 +1959,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "feta",
@@ -1258,7 +1973,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -1269,7 +1986,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "lemon",
@@ -1280,7 +1999,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -1291,9 +2013,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store falafel, chopped salad, pita, and sauces separately for up to 3 days. Rewarm falafel in a skillet or oven so it crisps back up.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Warm the falafel",
+          "body": "Heat oven to 400°F or warm a skillet over medium heat. Cook falafel until hot in the center and crisp at the edges.",
+          "timeMinutes": 10,
+          "temperature": "400°F",
+          "component": "protein",
+          "visualCue": "The outside should feel dry and crisp, not soft or steamy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the tahini sauce",
+          "body": "Whisk tahini with lemon juice, salt, and cold water a spoonful at a time until it turns pale and pourable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the hummus",
+          "body": "Spoon hummus into a bowl and loosen it with a little olive oil and lemon. Taste for salt before plating.",
+          "timeMinutes": 2,
+          "component": "sauce"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Chop the salad",
+          "body": "Dice cucumber and tomatoes, then toss with parsley, lemon, olive oil, and salt.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The salad should be juicy and sharp, but not watery."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Warm the pita",
+          "body": "Warm pita in a dry skillet or low oven until soft and flexible. Tear or cut it into pieces for scooping.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend easily without cracking."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Swipe hummus into the bowl first, add hot falafel, spoon chopped salad around it, then drizzle tahini over the top.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish with contrast",
+          "body": "Add pickled onion or feta if using. Finish with olive oil, lemon, and herbs right before eating.",
+          "component": "finish",
+          "visualCue": "Every bite should have creamy, crisp, fresh, and tangy."
+        }
+      ]
+    }
   },
   {
     "slug": "blackened-shrimp-bowl-dirty-rice-charred-corn",
@@ -1318,7 +2109,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "spicy",
       "lime"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste crema before serving. It should be bold enough to season the shrimp and rice, green beans, not just sit on top.",
     "whyItWorks": "Spiced shrimp, dirty rice, sweet charred corn, lime, and crema.",
     "ingredients": [
       {
@@ -1330,7 +2121,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -1341,7 +2135,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "corn",
@@ -1352,7 +2149,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -1363,7 +2163,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -1374,7 +2177,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -1385,7 +2191,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "crema",
@@ -1396,7 +2205,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "avocado",
@@ -1407,7 +2218,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "cajun seasoning",
@@ -1418,7 +2232,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -1429,7 +2245,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -1440,9 +2258,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover shrimp and rice, green beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, scallions, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice, green beans first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir crema with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the shrimp",
+          "body": "Cook shrimp over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss corn, green beans. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste shrimp, rice, green beans, and crema separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice, green beans into bowls, add shrimp, tuck in corn, green beans, then drizzle with crema.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Blackened shrimp bowl with lime, scallions, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "miso-glazed-cod-bowl-jasmine-rice-bok-choy",
@@ -1467,7 +2352,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "bok choy",
       "ginger"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste miso before serving. It should be bold enough to season the cod and jasmine rice, not just sit on top.",
     "whyItWorks": "Miso-glazed cod with jasmine rice, bok choy, and ginger scallion oil.",
     "ingredients": [
       {
@@ -1479,7 +2364,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "jasmine rice",
@@ -1490,7 +2378,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "bok choy",
@@ -1501,7 +2392,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -1512,7 +2406,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "miso",
@@ -1523,7 +2420,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -1534,7 +2433,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -1545,7 +2446,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -1556,7 +2460,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "ginger",
@@ -1567,7 +2473,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -1578,7 +2486,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "rice vinegar",
@@ -1589,9 +2499,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover cod and jasmine rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 21,
+      "totalTimeMinutes": 26,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start jasmine rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir miso with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the cod",
+          "body": "Cook cod over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss bok choy. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste cod, jasmine rice, and miso separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon jasmine rice into bowls, add cod, tuck in bok choy, then drizzle with miso.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Miso-glazed cod bowl with scallions, cucumber and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "chipotle-steak-bowl-lime-rice-roasted-peppers-crema",
@@ -1616,7 +2593,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "roasted peppers",
       "crema"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste crema, chipotle powder before serving. It should be bold enough to season the steak and rice, not just sit on top.",
     "whyItWorks": "Smoky steak with lime rice, roasted peppers, crema, and cilantro.",
     "ingredients": [
       {
@@ -1628,7 +2605,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -1639,7 +2619,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -1650,7 +2633,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -1661,7 +2647,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -1672,7 +2661,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "crema",
@@ -1683,7 +2675,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -1694,7 +2688,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pico",
@@ -1705,7 +2702,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "chipotle powder",
@@ -1716,7 +2715,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Snacks",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -1727,7 +2728,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -1738,9 +2741,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover steak and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss bell peppers with oil, salt, pepper, and the main seasoning from Chipotle steak bowl. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the steak",
+          "body": "Pat steak dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until steak is cooked through and bell peppers is browned at the edges.",
+          "timeMinutes": 24,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir crema, chipotle powder with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with cilantro, lime, avocado and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Chipotle steak bowl over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "peanut-chicken-bowl-rice-noodles-cabbage-lime",
@@ -1765,7 +2845,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cabbage",
       "lime"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste peanut butter before serving. It should be bold enough to season the chicken and rice noodles, not just sit on top.",
     "whyItWorks": "Chicken and rice noodles with crunchy cabbage and a salty lime peanut sauce.",
     "ingredients": [
       {
@@ -1777,7 +2857,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice noodles",
@@ -1788,7 +2871,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -1799,7 +2885,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -1810,7 +2899,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "peanut butter",
@@ -1821,7 +2913,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -1832,7 +2926,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -1843,7 +2940,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -1854,7 +2954,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "chili crisp",
@@ -1865,7 +2968,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -1876,7 +2981,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "rice vinegar",
@@ -1887,7 +2994,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -1898,7 +3008,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -1909,9 +3021,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and rice noodles separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, scallions, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice noodles first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains or noodles should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir peanut butter with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss cabbage. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice noodles, and peanut butter separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice noodles into bowls, add chicken, tuck in cabbage, then drizzle with peanut butter.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Peanut chicken bowl with lime, scallions, cilantro and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "tandoori-chicken-bowl-basmati-cucumber-raita-mint",
@@ -1936,7 +3117,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "raita",
       "mint"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and basmati rice, not just sit on top.",
     "whyItWorks": "Tandoori-spiced chicken over basmati with cucumber raita and mint.",
     "ingredients": [
       {
@@ -1948,7 +3129,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "basmati rice",
@@ -1959,7 +3143,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -1970,7 +3157,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -1981,7 +3171,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "mint",
@@ -1992,7 +3184,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -2003,7 +3198,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "naan",
@@ -2014,7 +3212,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "pickled onion",
@@ -2025,7 +3226,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "tandoori spice",
@@ -2036,7 +3240,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -2047,7 +3253,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -2058,9 +3266,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and basmati rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, mint, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start basmati rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir Greek yogurt with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss cucumber. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, basmati rice, and Greek yogurt separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon basmati rice into bowls, add chicken, tuck in cucumber, then drizzle with Greek yogurt.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Tandoori chicken bowl with cucumber, mint, lime and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "garlic-ginger-pork-bowl-rice-snap-peas-chili-crisp",
@@ -2085,7 +3360,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "chili crisp",
       "rice bowl"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the ground pork and rice, not just sit on top.",
     "whyItWorks": "Garlic ginger pork over rice with snap peas and chili crisp heat.",
     "ingredients": [
       {
@@ -2097,7 +3372,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -2108,7 +3386,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "snap peas",
@@ -2119,7 +3400,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "chili crisp",
@@ -2130,7 +3414,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -2141,7 +3427,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "fried egg",
@@ -2152,7 +3441,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -2163,7 +3455,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -2174,7 +3469,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "ginger",
@@ -2185,7 +3482,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -2196,7 +3495,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -2207,9 +3509,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover ground pork and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 17,
+      "totalTimeMinutes": 22,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in the sauce and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the ground pork",
+          "body": "Add ground pork with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in snap peas. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 12,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Garlic ginger pork bowl over rice. Finish with scallions, cucumber right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "greek-chicken-bowl-lemon-rice-tzatziki-tomato-cucumber",
@@ -2235,7 +3605,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "chicken",
       "cucumber"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Lemon chicken, lemon rice, tzatziki, tomato, cucumber, and herbs.",
     "ingredients": [
       {
@@ -2247,7 +3617,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -2258,7 +3631,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -2269,7 +3645,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -2280,7 +3658,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -2291,7 +3672,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -2302,7 +3686,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "dill",
@@ -2313,7 +3700,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -2324,7 +3713,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "pita",
@@ -2335,7 +3726,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -2346,7 +3740,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -2357,7 +3753,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -2368,9 +3767,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir Greek yogurt with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss cucumber, tomatoes. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, and Greek yogurt separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken, tuck in cucumber, tomatoes, then drizzle with Greek yogurt.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Greek chicken bowl with cucumber, lemon and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "cajun-salmon-bowl-cheddar-grits-blistered-green-beans",
@@ -2395,7 +3861,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "green beans",
       "creamy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste butter before serving. It should be bold enough to season the salmon and grits, green beans, not just sit on top.",
     "whyItWorks": "Cajun salmon over creamy cheddar grits with blistered green beans.",
     "ingredients": [
       {
@@ -2407,7 +3873,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "grits",
@@ -2418,7 +3887,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "cheddar",
@@ -2429,7 +3900,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -2440,7 +3913,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -2451,7 +3927,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -2462,7 +3941,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "hot sauce",
@@ -2473,7 +3955,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cajun seasoning",
@@ -2484,7 +3968,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "butter",
@@ -2495,7 +3981,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -2506,9 +3994,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and grits, green beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss green beans with oil, salt, pepper, and the main seasoning from Cajun salmon bowl. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and green beans is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir butter with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook grits, green beans so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, scallions and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Cajun salmon bowl over or alongside grits, green beans, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "chicken-katsu-curry-over-rice",
@@ -2534,7 +4098,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "comfort"
     ],
-    "chefNote": "Simmer until the sauce coats a spoon before serving.",
+    "chefNote": "Taste curry blocks before serving. It should be bold enough to season the chicken cutlets and rice, not just sit on top.",
     "whyItWorks": "Crispy chicken cutlet over rice with cozy Japanese curry sauce.",
     "ingredients": [
       {
@@ -2546,7 +4110,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -2557,7 +4124,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "curry blocks",
@@ -2568,7 +4138,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -2579,7 +4151,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -2590,7 +4165,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "breadcrumbs",
@@ -2601,7 +4179,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -2612,7 +4193,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pickled ginger",
@@ -2623,7 +4207,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "flour",
@@ -2634,7 +4220,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "egg",
@@ -2645,7 +4233,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Dairy",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -2656,7 +4247,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -2667,9 +4260,80 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken cutlets and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add pickled ginger after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Set up the coating",
+          "body": "Season chicken cutlets with salt and pepper. Put flour or starch, beaten egg, and breadcrumbs or the listed coating in separate shallow bowls.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "Each bowl should be seasoned so the crust tastes good on its own."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the fresh side",
+          "body": "Toss onion, carrots with citrus, salt, and a little oil. Keep it cold while the crispy piece cooks.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The side should taste sharper than you think; it has to cut the fried crust."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Coat firmly",
+          "body": "Dredge chicken cutlets, pressing the coating on with your hands. Rest it for 5 minutes so the crust sticks.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "No wet patches should show through."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook until crisp",
+          "body": "Heat a thin layer of oil over medium-high heat. Fry chicken cutlets until deeply golden on both sides and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "The crust should sound crisp when tapped."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Drain and salt",
+          "body": "Move chicken cutlets to a rack or paper towel and salt it immediately.",
+          "timeMinutes": 2,
+          "component": "finish",
+          "visualCue": "Steam should escape instead of softening the crust."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Serve with hot rice. If there is sauce, keep it spoonable and hot.",
+          "timeMinutes": 5,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Plate for crunch",
+          "body": "Spoon curry blocks beside or under the crispy chicken cutlets, then finish with pickled ginger.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "spicy-pork-bulgogi-lettuce-wraps-rice",
@@ -2695,7 +4359,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "spicy",
       "rice"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang before serving. It should be bold enough to season the pork and rice, not just sit on top.",
     "whyItWorks": "Spicy-sweet pork tucked into lettuce with rice and scallions.",
     "ingredients": [
       {
@@ -2707,7 +4371,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "lettuce",
@@ -2718,7 +4385,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -2729,7 +4398,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -2740,7 +4412,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -2751,7 +4426,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -2762,7 +4439,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "kimchi",
@@ -2773,7 +4453,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "sesame seeds",
@@ -2784,7 +4466,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -2795,7 +4479,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "brown sugar",
@@ -2806,7 +4492,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -2817,7 +4505,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -2828,9 +4519,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover pork and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lettuce, scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice lettuce, cucumber and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir gochujang with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the pork",
+          "body": "Cook pork in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm rice in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then lettuce, cucumber, then gochujang. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lettuce, scallions, cucumber right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Spicy pork bulgogi lettuce wraps with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "salmon-teriyaki-sesame-green-beans-rice",
@@ -2855,7 +4611,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "sesame",
       "rice"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the salmon and green beans, rice, not just sit on top.",
     "whyItWorks": "Teriyaki salmon with sesame green beans and steamed rice.",
     "ingredients": [
       {
@@ -2867,7 +4623,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -2878,7 +4637,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -2889,7 +4651,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -2900,7 +4665,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -2911,7 +4679,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -2922,7 +4692,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -2933,7 +4706,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "brown sugar",
@@ -2944,7 +4719,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "rice vinegar",
@@ -2955,7 +4732,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -2966,9 +4746,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and green beans, rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss green beans with oil, salt, pepper, and the main seasoning from Salmon teriyaki. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and green beans is browned at the edges.",
+          "timeMinutes": 18,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook green beans, rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with scallions, cucumber and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Salmon teriyaki over or alongside green beans, rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "beef-yakiniku-rice-bowl-onion-scallion",
@@ -2993,7 +4848,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "scallion",
       "soy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the thin sliced beef and rice, not just sit on top.",
     "whyItWorks": "Sweet soy grilled beef with onion, scallion, and rice.",
     "ingredients": [
       {
@@ -3005,7 +4860,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3016,7 +4874,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -3027,7 +4888,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3038,7 +4902,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "fried egg",
@@ -3049,7 +4916,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -3060,7 +4930,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3071,7 +4944,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "mirin",
@@ -3082,7 +4957,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -3093,7 +4970,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -3104,9 +4983,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover thin sliced beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the thin sliced beef",
+          "body": "Cook thin sliced beef over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss onion. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste thin sliced beef, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add thin sliced beef, tuck in onion, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Beef yakiniku rice bowl with scallions, cucumber and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "karaage-fried-chicken-kewpie-slaw-rice",
@@ -3131,7 +5076,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "rice"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken thighs and rice, not just sit on top.",
     "whyItWorks": "Crispy ginger chicken with creamy slaw and rice.",
     "ingredients": [
       {
@@ -3143,7 +5088,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -3154,7 +5102,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3165,7 +5116,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "kewpie mayo",
@@ -3176,7 +5130,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "ginger",
@@ -3187,7 +5143,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -3198,7 +5156,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "scallions",
@@ -3209,7 +5170,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3220,7 +5184,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cornstarch",
@@ -3231,7 +5197,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -3242,7 +5211,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -3253,9 +5224,80 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Set up the coating",
+          "body": "Season chicken thighs with salt and pepper. Put flour or starch, beaten egg, and breadcrumbs or the listed coating in separate shallow bowls.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "Each bowl should be seasoned so the crust tastes good on its own."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the fresh side",
+          "body": "Toss cabbage with citrus, salt, and a little oil. Keep it cold while the crispy piece cooks.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The side should taste sharper than you think; it has to cut the fried crust."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Coat firmly",
+          "body": "Dredge chicken thighs, pressing the coating on with your hands. Rest it for 5 minutes so the crust sticks.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "No wet patches should show through."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook until crisp",
+          "body": "Heat a thin layer of oil over medium-high heat. Fry chicken thighs until deeply golden on both sides and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "The crust should sound crisp when tapped."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Drain and salt",
+          "body": "Move chicken thighs to a rack or paper towel and salt it immediately.",
+          "timeMinutes": 2,
+          "component": "finish",
+          "visualCue": "Steam should escape instead of softening the crust."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Serve with hot rice. If there is sauce, keep it spoonable and hot.",
+          "timeMinutes": 5,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Plate for crunch",
+          "body": "Spoon the sauce beside or under the crispy chicken thighs, then finish with lemon, scallions.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "dak-galbi-spicy-chicken-rice-cakes-melty-cheese",
@@ -3280,7 +5322,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cheesy",
       "skillet"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang before serving. It should be bold enough to season the chicken thighs and rice cakes, not just sit on top.",
     "whyItWorks": "Spicy saucy chicken and rice cakes with cabbage and melty cheese.",
     "ingredients": [
       {
@@ -3292,7 +5334,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice cakes",
@@ -3303,7 +5348,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -3314,7 +5362,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "mozzarella",
@@ -3325,7 +5376,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -3336,7 +5389,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3347,7 +5402,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "perilla leaves",
@@ -3358,7 +5416,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "sesame seeds",
@@ -3369,7 +5429,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3380,7 +5442,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -3391,7 +5455,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -3402,7 +5468,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -3413,9 +5482,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice cakes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the chicken thighs",
+          "body": "Coat chicken thighs with oil, salt, pepper, and the main spice profile from Dak galbi spicy chicken. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir gochujang with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm rice cakes. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the chicken thighs",
+          "body": "Sear, grill, or roast chicken thighs until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss cabbage with scallions, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest chicken thighs for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Dak galbi spicy chicken with rice cakes, gochujang, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "oyakodon-chicken-and-egg-over-rice",
@@ -3440,7 +5576,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "comfort"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken thighs and rice, not just sit on top.",
     "whyItWorks": "Chicken and soft egg simmered in sweet soy broth over rice.",
     "ingredients": [
       {
@@ -3452,7 +5588,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -3463,7 +5602,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3474,7 +5616,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -3485,7 +5630,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3496,7 +5644,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "nori",
@@ -3507,7 +5658,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "mushrooms",
@@ -3518,7 +5671,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3529,7 +5685,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -3540,7 +5698,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -3551,9 +5711,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 20,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken thighs",
+          "body": "Cook chicken thighs over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss onion. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken thighs, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken thighs, tuck in onion, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Oyakodon with scallions and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "gyudon-sweet-soy-beef-and-onion-over-rice",
@@ -3578,7 +5805,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "soy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the thin sliced beef and rice, not just sit on top.",
     "whyItWorks": "Thin beef and onions simmered sweet-savory over rice.",
     "ingredients": [
       {
@@ -3590,7 +5817,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -3601,7 +5831,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3612,7 +5845,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3623,7 +5859,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "soft egg",
@@ -3634,7 +5873,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "pickled ginger",
@@ -3645,7 +5887,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3656,7 +5900,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -3667,7 +5913,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -3678,9 +5926,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover thin sliced beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, pickled ginger after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 18,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the thin sliced beef",
+          "body": "Cook thin sliced beef over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss onion. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste thin sliced beef, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add thin sliced beef, tuck in onion, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Gyudon with scallions, pickled ginger and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "galbi-short-ribs-rice-ssamjang-lettuce",
@@ -3706,7 +6021,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "ssamjang",
       "grilled"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste ssamjang before serving. It should be bold enough to season the the main ingredient and rice, not just sit on top.",
     "whyItWorks": "Charred short ribs with rice, lettuce wraps, and ssamjang.",
     "ingredients": [
       {
@@ -3718,7 +6033,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3729,7 +6046,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "lettuce",
@@ -3740,7 +6060,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "ssamjang",
@@ -3751,7 +6073,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3762,7 +6086,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "kimchi",
@@ -3773,7 +6100,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -3784,7 +6113,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3795,7 +6127,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "brown sugar",
@@ -3806,7 +6140,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -3817,7 +6153,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -3828,9 +6167,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover the main ingredient and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lettuce, scallions, kimchi after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice lettuce and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir ssamjang with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the the main ingredient",
+          "body": "Cook the main ingredient in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm rice in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then lettuce, then ssamjang. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lettuce, scallions, kimchi right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Galbi short ribs with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "shoyu-glazed-chicken-thighs-rice-charred-cabbage",
@@ -3856,7 +6260,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "glazed"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste honey before serving. It should be bold enough to season the chicken thighs and rice, not just sit on top.",
     "whyItWorks": "Soy-glazed chicken thighs with rice and smoky cabbage wedges.",
     "ingredients": [
       {
@@ -3868,7 +6272,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -3879,7 +6286,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -3890,7 +6300,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -3901,7 +6314,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -3912,7 +6328,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "lime",
@@ -3923,7 +6341,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -3934,7 +6355,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "honey",
@@ -3945,7 +6368,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -3956,7 +6381,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -3967,9 +6394,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss cabbage with oil, salt, pepper, and the main seasoning from Shoyu-glazed chicken thighs. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken thighs",
+          "body": "Pat chicken thighs dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken thighs is cooked through and cabbage is browned at the edges.",
+          "timeMinutes": 24,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir honey with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with scallions, lime and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Shoyu-glazed chicken thighs over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "sheet-pan-chicken-shawarma-herby-tahini-pita-pickled-onion",
@@ -3995,7 +6498,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "pickled onion",
       "sheet pan"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste tahini before serving. It should be bold enough to season the chicken thighs and pita, not just sit on top.",
     "whyItWorks": "Spiced chicken with pita, herby tahini, cucumber, tomato, and pickled onion.",
     "ingredients": [
       {
@@ -4007,7 +6510,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -4018,7 +6524,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "tahini",
@@ -4029,7 +6538,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -4040,7 +6551,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -4051,7 +6565,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "red onion",
@@ -4062,7 +6579,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4073,7 +6593,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -4084,7 +6607,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -4095,7 +6621,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "hot sauce",
@@ -4106,7 +6634,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -4117,7 +6647,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -4128,7 +6660,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "paprika",
@@ -4139,7 +6673,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4150,9 +6686,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 14
+        "sortOrder": 14,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and pita separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice cucumber, tomatoes and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir tahini with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken thighs",
+          "body": "Cook chicken thighs in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm pita in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then cucumber, tomatoes, then tahini. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add cucumber, lemon, parsley right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Sheet pan chicken shawarma with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "lamb-kofta-garlic-yogurt-couscous-cucumber-tomato",
@@ -4177,7 +6779,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "herby",
       "platter"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the ground lamb and couscous, not just sit on top.",
     "whyItWorks": "Seared lamb kofta with couscous, garlic yogurt, and cucumber tomato salad.",
     "ingredients": [
       {
@@ -4189,7 +6791,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -4200,7 +6805,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "couscous",
@@ -4211,7 +6818,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -4222,7 +6831,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -4233,7 +6845,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -4244,7 +6859,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4255,7 +6873,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "sumac",
@@ -4266,7 +6887,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "mint",
@@ -4277,7 +6900,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "garlic",
@@ -4288,7 +6914,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -4299,7 +6928,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4310,7 +6941,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -4321,9 +6955,79 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover ground lamb and couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the ground lamb",
+          "body": "Coat ground lamb with oil, salt, pepper, and the main spice profile from Lamb kofta. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir Greek yogurt with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm couscous. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the ground lamb",
+          "body": "Sear, grill, or roast ground lamb until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss cucumber, tomatoes with cucumber, parsley, lemon, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest ground lamb for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Lamb kofta with couscous, Greek yogurt, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "chicken-souvlaki-lemon-potatoes-tzatziki",
@@ -4348,7 +7052,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "grilled",
       "herby"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and potatoes, not just sit on top.",
     "whyItWorks": "Lemony grilled chicken skewers with roast potatoes and cool tzatziki.",
     "ingredients": [
       {
@@ -4360,7 +7064,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -4371,7 +7078,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -4382,7 +7092,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -4393,7 +7105,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4404,7 +7119,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "dill",
@@ -4415,7 +7133,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -4426,7 +7146,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "feta",
@@ -4437,7 +7160,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -4448,7 +7173,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -4459,7 +7186,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oregano",
@@ -4470,7 +7200,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4481,9 +7213,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board"
+    ],
+    "leftoversNote": "Store leftover chicken and potatoes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 37,
+      "totalTimeMinutes": 42,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the chicken",
+          "body": "Coat chicken with oil, salt, pepper, and the main spice profile from Chicken souvlaki. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir Greek yogurt with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm potatoes. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the chicken",
+          "body": "Sear, grill, or roast chicken until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss cucumber with cucumber, lemon, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest chicken for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Chicken souvlaki with potatoes, Greek yogurt, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "zaatar-roast-chicken-freekeh-roasted-carrots",
@@ -4509,7 +7308,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "carrots",
       "lemon"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and freekeh, not just sit on top.",
     "whyItWorks": "Za'atar chicken with smoky freekeh, roasted carrots, and lemon.",
     "ingredients": [
       {
@@ -4521,7 +7320,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "freekeh",
@@ -4532,7 +7334,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -4543,7 +7347,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4554,7 +7361,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -4565,7 +7375,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -4576,7 +7389,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "pomegranate seeds",
@@ -4587,7 +7402,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "za'atar",
@@ -4598,7 +7415,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -4609,7 +7428,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4620,9 +7441,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and freekeh separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 40,
+      "totalTimeMinutes": 45,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss carrots with oil, salt, pepper, and the main seasoning from Za'atar roast chicken. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken",
+          "body": "Pat chicken dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken is cooked through and carrots is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir Greek yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook freekeh so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Za'atar roast chicken over or alongside freekeh, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "beef-kebab-platter-rice-pilaf-charred-tomato-sumac-onion",
@@ -4648,7 +7545,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "charred",
       "platter"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste tahini before serving. It should be bold enough to season the ground beef and rice, not just sit on top.",
     "whyItWorks": "Juicy beef kebabs with rice pilaf, charred tomato, and sumac onion.",
     "ingredients": [
       {
@@ -4660,7 +7557,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -4671,7 +7571,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -4682,7 +7585,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "red onion",
@@ -4693,7 +7599,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -4704,7 +7613,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4715,7 +7627,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -4726,7 +7641,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "tahini",
@@ -4737,7 +7655,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "sumac",
@@ -4748,7 +7668,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -4759,7 +7681,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -4770,7 +7694,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4781,9 +7707,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover ground beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, lemon, sumac after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the ground beef",
+          "body": "Coat ground beef with oil, salt, pepper, and the main spice profile from Beef kebab platter. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir tahini with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm rice. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the ground beef",
+          "body": "Sear, grill, or roast ground beef until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss tomatoes with parsley, lemon, sumac, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest ground beef for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Beef kebab platter with rice, tahini, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "crispy-halloumi-chickpea-salad-lemon-herb-dressing",
@@ -4808,7 +7803,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "vegetarian"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the halloumi and the base, not just sit on top.",
     "whyItWorks": "Crispy halloumi over chickpeas, cucumber, herbs, and lemon dressing.",
     "ingredients": [
       {
@@ -4820,7 +7815,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "chickpeas",
@@ -4831,7 +7828,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -4842,7 +7842,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -4853,7 +7856,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -4864,7 +7870,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -4875,7 +7884,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "pita chips",
@@ -4886,7 +7898,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Snacks",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "mint",
@@ -4897,7 +7912,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -4908,7 +7926,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -4919,7 +7939,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -4930,9 +7953,73 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover halloumi and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 20,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the halloumi",
+          "body": "Coat halloumi with oil, salt, pepper, and the main spice profile from Crispy halloumi.",
+          "timeMinutes": 5,
+          "component": "protein"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce"
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm the base. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the halloumi",
+          "body": "Sear, grill, or roast halloumi until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein"
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss chickpeas, cucumber, tomatoes with cucumber, parsley, lemon, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest briefly",
+          "body": "Rest halloumi for 5 minutes so the texture settles.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Crispy halloumi with the base, the sauce, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "harissa-lamb-chops-whole-wheat-couscous-mint-yogurt",
@@ -4958,7 +8045,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "couscous",
       "charred"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt, harissa before serving. It should be bold enough to season the lamb chops and whole wheat couscous, not just sit on top.",
     "whyItWorks": "Charred harissa lamb chops with couscous and cool mint yogurt.",
     "ingredients": [
       {
@@ -4970,7 +8057,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "whole wheat couscous",
@@ -4981,7 +8071,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -4992,7 +8084,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "mint",
@@ -5003,7 +8097,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5014,7 +8111,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "harissa",
@@ -5025,7 +8125,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber salad",
@@ -5036,7 +8138,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -5047,7 +8152,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5058,7 +8165,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -5069,9 +8179,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover lamb chops and whole wheat couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add mint, lemon, cucumber salad after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the lamb chops",
+          "body": "Coat lamb chops with oil, salt, pepper, and the main spice profile from Harissa lamb chops. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir Greek yogurt, harissa with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm whole wheat couscous. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the lamb chops",
+          "body": "Sear, grill, or roast lamb chops until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss the vegetables with mint, lemon, cucumber salad, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest lamb chops for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Harissa lamb chops with whole wheat couscous, Greek yogurt, harissa, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "chicken-kebab-bowl-jeweled-rice-herb-salad",
@@ -5097,7 +8276,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lemon",
       "bowl"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Chicken kebabs over jeweled rice with herbs, lemon, and cucumber.",
     "ingredients": [
       {
@@ -5109,7 +8288,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -5120,7 +8302,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -5131,7 +8316,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -5142,7 +8330,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "mint",
@@ -5153,7 +8344,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5164,7 +8358,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "dried cranberries",
@@ -5175,7 +8372,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "almonds",
@@ -5186,7 +8385,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -5197,7 +8398,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "turmeric",
@@ -5208,7 +8411,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5219,9 +8424,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, parsley, mint after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss cucumber. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken, tuck in cucumber, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Chicken kebab bowl with cucumber, parsley, mint and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "baked-spiced-beef-kibbeh-hummus-pita",
@@ -5247,7 +8521,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "pita",
       "spiced"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste hummus, tahini before serving. It should be bold enough to season the ground beef and pita, not just sit on top.",
     "whyItWorks": "Warm spiced beef kibbeh with hummus, pita, herbs, and lemon.",
     "ingredients": [
       {
@@ -5259,7 +8533,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "bulgur",
@@ -5270,7 +8547,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "hummus",
@@ -5281,7 +8560,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -5292,7 +8573,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -5303,7 +8587,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5314,7 +8601,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "pickles",
@@ -5325,7 +8615,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "tahini",
@@ -5336,7 +8628,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "allspice",
@@ -5347,7 +8641,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -5358,7 +8654,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5369,9 +8667,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover ground beef and pita separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 50,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice the vegetables and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir hummus, tahini with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the ground beef",
+          "body": "Cook ground beef in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm pita in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then the vegetables, then hummus, tahini. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add parsley, lemon right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Baked spiced beef kibbeh with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "grilled-branzino-oregano-potatoes-greek-salad",
@@ -5396,7 +8760,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "greek salad",
       "lemon"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the branzino and potatoes, not just sit on top.",
     "whyItWorks": "Grilled branzino with oregano potatoes, Greek salad, and lemon.",
     "ingredients": [
       {
@@ -5408,7 +8772,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -5419,7 +8786,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -5430,7 +8800,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -5441,7 +8814,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -5452,7 +8828,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5463,7 +8841,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "olives",
@@ -5474,7 +8855,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "dill",
@@ -5485,7 +8868,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -5496,7 +8881,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "oregano",
@@ -5507,7 +8894,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5518,9 +8907,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover branzino and potatoes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss potatoes, tomatoes with oil, salt, pepper, and the main seasoning from Grilled branzino. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the branzino",
+          "body": "Pat branzino dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until branzino is cooked through and potatoes, tomatoes is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook potatoes so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with cucumber, lemon and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Grilled branzino over or alongside potatoes, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "moroccan-chicken-tagine-apricots-olives-couscous",
@@ -5545,7 +9009,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "couscous",
       "spiced"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken thighs and couscous, not just sit on top.",
     "whyItWorks": "Chicken simmered with apricots, olives, warm spices, and couscous.",
     "ingredients": [
       {
@@ -5557,7 +9021,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "couscous",
@@ -5568,7 +9035,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "dried apricots",
@@ -5579,7 +9048,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "olives",
@@ -5590,7 +9061,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -5601,7 +9074,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5612,7 +9088,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -5623,7 +9102,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "toasted almonds",
@@ -5634,7 +9116,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cinnamon",
@@ -5645,7 +9129,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -5656,7 +9142,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -5667,7 +9155,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5678,9 +9168,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 50,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in the sauce and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chicken thighs",
+          "body": "Add chicken thighs with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 35,
+          "temperature": "325°F",
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook couscous while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Moroccan chicken tagine over couscous. Finish with lemon, parsley right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "ras-el-hanout-meatballs-tomato-baked-eggs-crusty-bread",
@@ -5705,7 +9264,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "baked eggs",
       "bread"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste harissa yogurt before serving. It should be bold enough to season the ground beef and crusty bread, not just sit on top.",
     "whyItWorks": "Spiced meatballs in tomato sauce with baked eggs and crusty bread.",
     "ingredients": [
       {
@@ -5717,7 +9276,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -5728,7 +9290,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "crusty bread",
@@ -5739,7 +9304,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -5750,7 +9318,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -5761,7 +9332,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -5772,7 +9346,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -5783,7 +9360,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "harissa yogurt",
@@ -5794,7 +9373,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "ras el hanout",
@@ -5805,7 +9386,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -5816,7 +9399,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5827,9 +9412,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover ground beef and crusty bread separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice tomatoes and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir harissa yogurt with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the ground beef",
+          "body": "Cook ground beef in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm crusty bread in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then tomatoes, then harissa yogurt. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add parsley right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Ras el hanout meatballs with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "chermoula-salmon-herby-couscous-roasted-carrots",
@@ -5854,7 +9506,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "carrots",
       "herby"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the salmon and couscous, not just sit on top.",
     "whyItWorks": "Herby chermoula salmon with couscous and roasted carrots.",
     "ingredients": [
       {
@@ -5866,7 +9518,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "couscous",
@@ -5877,7 +9532,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -5888,7 +9545,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -5899,7 +9559,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -5910,7 +9573,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -5921,7 +9587,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -5932,7 +9601,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "almonds",
@@ -5943,7 +9614,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -5954,7 +9627,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -5965,7 +9640,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "paprika",
@@ -5976,7 +9653,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -5987,9 +9666,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss carrots with oil, salt, pepper, and the main seasoning from Chermoula salmon. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and carrots is browned at the edges.",
+          "timeMinutes": 24,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir Greek yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook couscous so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with cilantro, parsley, lemon and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Chermoula salmon over or alongside couscous, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "spiced-lamb-and-chickpea-stew-harissa-yogurt",
@@ -6014,7 +9769,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "stew",
       "spiced"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt, harissa before serving. It should be bold enough to season the lamb and the base, not just sit on top.",
     "whyItWorks": "Lamb and chickpeas in a warm tomato stew with harissa yogurt.",
     "ingredients": [
       {
@@ -6026,7 +9781,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "chickpeas",
@@ -6037,7 +9795,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -6048,7 +9809,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "harissa",
@@ -6059,7 +9822,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -6070,7 +9835,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -6081,7 +9849,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "couscous",
@@ -6092,7 +9863,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "8 oz",
+        "importance": "optional"
       },
       {
         "rawName": "mint",
@@ -6103,7 +9876,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -6114,7 +9890,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cinnamon",
@@ -6125,7 +9903,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -6136,7 +9916,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6147,9 +9929,79 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover lamb and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add mint after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 55,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in Greek yogurt, harissa and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the lamb",
+          "body": "Add lamb with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in chickpeas, tomatoes, onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 35,
+          "temperature": "325°F",
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook the base while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Spiced lamb and chickpea stew over the base. Finish with mint right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "carrot-and-lentil-bowl-charred-chicken-cumin-yogurt",
@@ -6175,7 +10027,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cumin yogurt",
       "bowl"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and the base, not just sit on top.",
     "whyItWorks": "Charred chicken over carrots and lentils with cumin yogurt.",
     "ingredients": [
       {
@@ -6187,7 +10039,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -6198,7 +10053,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lentils",
@@ -6209,7 +10067,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -6220,7 +10081,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -6231,7 +10094,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -6242,7 +10108,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "pickled onion",
@@ -6253,7 +10122,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -6264,7 +10136,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -6275,7 +10149,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6286,9 +10162,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley, pickled onion after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start the base first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir Greek yogurt with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss carrots. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, the base, and Greek yogurt separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon the base into bowls, add chicken, tuck in carrots, then drizzle with Greek yogurt.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Carrot and lentil bowl with lemon, parsley, pickled onion and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "carnitas-tacos-salsa-verde-onion-cilantro-lime",
@@ -6313,7 +10257,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lime",
       "crispy"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste salsa verde before serving. It should be bold enough to season the the main ingredient and tortillas, not just sit on top.",
     "whyItWorks": "Crispy pork tacos with salsa verde, onion, cilantro, and lime.",
     "ingredients": [
       {
@@ -6325,7 +10269,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -6336,7 +10282,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "salsa verde",
@@ -6347,7 +10296,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -6358,7 +10309,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -6369,7 +10323,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -6380,7 +10337,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "radishes",
@@ -6391,7 +10351,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "avocado",
@@ -6402,7 +10364,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -6413,7 +10378,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6424,9 +10391,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover the main ingredient and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice onion and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir salsa verde with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the the main ingredient",
+          "body": "Cook the main ingredient in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then onion, then salsa verde. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add cilantro, lime, avocado right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Carnitas tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "baja-fish-tacos-chipotle-crema-cabbage-slaw",
@@ -6451,7 +10483,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "lime"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste Greek yogurt, chipotle before serving. It should be bold enough to season the white fish and tortillas, not just sit on top.",
     "whyItWorks": "Crisp fish tacos with chipotle crema, cabbage slaw, and lime.",
     "ingredients": [
       {
@@ -6463,7 +10495,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -6474,7 +10509,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -6485,7 +10523,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -6496,7 +10537,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -6507,7 +10551,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "chipotle",
@@ -6518,7 +10564,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Snacks",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -6529,7 +10577,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -6540,7 +10591,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pickled onion",
@@ -6551,7 +10605,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "flour",
@@ -6562,7 +10619,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -6573,7 +10632,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6584,9 +10645,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover white fish and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice cabbage and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir Greek yogurt, chipotle with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the white fish",
+          "body": "Cook white fish in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then cabbage, then Greek yogurt, chipotle. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lime, cilantro, avocado right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Baja fish tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "al-pastor-chicken-bowls-pineapple-rice-beans",
@@ -6611,7 +10738,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice bowl",
       "beans"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste crema before serving. It should be bold enough to season the chicken and rice, black beans, not just sit on top.",
     "whyItWorks": "Chile pineapple chicken over rice and beans with lime.",
     "ingredients": [
       {
@@ -6623,7 +10750,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "pineapple",
@@ -6634,7 +10764,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -6645,7 +10777,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "black beans",
@@ -6656,7 +10791,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -6667,7 +10805,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -6678,7 +10819,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -6689,7 +10833,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "crema",
@@ -6700,7 +10847,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "avocado",
@@ -6711,7 +10860,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "chili powder",
@@ -6722,7 +10874,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -6733,7 +10887,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6744,9 +10900,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and rice, black beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice, black beans first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir crema with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss onion. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, black beans, and crema separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice, black beans into bowls, add chicken, tuck in onion, then drizzle with crema.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Al pastor chicken bowls with cilantro, lime, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "birria-style-beef-tacos-consomme-onion-cilantro",
@@ -6771,7 +10994,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "saucy",
       "cilantro"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the beef and tortillas, not just sit on top.",
     "whyItWorks": "Saucy beef tacos with consomme, onion, cilantro, and lime.",
     "ingredients": [
       {
@@ -6783,7 +11006,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -6794,7 +11020,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -6805,7 +11034,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -6816,7 +11048,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -6827,7 +11062,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cheese",
@@ -6838,7 +11076,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "radishes",
@@ -6849,7 +11089,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "chiles",
@@ -6860,7 +11102,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -6871,7 +11115,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -6882,7 +11128,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -6893,9 +11141,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover beef and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 55,
+      "totalTimeMinutes": 60,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice onion and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir the sauce with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the beef",
+          "body": "Cook beef in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then onion, then the sauce. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add cilantro, lime right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Birria-style beef tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "chili-lime-shrimp-tacos-avocado-pickled-red-onion",
@@ -6920,7 +11233,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "pickled onion",
       "bright"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste crema before serving. It should be bold enough to season the shrimp and tortillas, not just sit on top.",
     "whyItWorks": "Fast chili lime shrimp tacos with avocado and pickled onion.",
     "ingredients": [
       {
@@ -6932,7 +11245,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -6943,7 +11259,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -6954,7 +11273,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "core"
       },
       {
         "rawName": "red onion",
@@ -6965,7 +11287,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -6976,7 +11301,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -6987,7 +11315,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -6998,7 +11329,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "crema",
@@ -7009,7 +11343,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "chili powder",
@@ -7020,7 +11356,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "vinegar",
@@ -7031,7 +11369,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -7042,7 +11382,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7053,9 +11395,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover shrimp and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add avocado, lime, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 20,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice avocado and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir crema with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the shrimp",
+          "body": "Cook shrimp in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then avocado, then crema. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add avocado, lime, cilantro right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Chili lime shrimp tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "pollo-asado-cilantro-lime-rice-charro-beans",
@@ -7080,7 +11488,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "grilled",
       "citrus"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken and rice, pinto beans, not just sit on top.",
     "whyItWorks": "Citrusy grilled chicken with cilantro lime rice and smoky beans.",
     "ingredients": [
       {
@@ -7092,7 +11500,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -7103,7 +11514,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "pinto beans",
@@ -7114,7 +11528,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7125,7 +11542,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7136,7 +11556,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "orange",
@@ -7147,7 +11570,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -7158,7 +11583,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pico",
@@ -7169,7 +11597,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -7180,7 +11610,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -7191,7 +11623,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7202,9 +11636,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and rice, pinto beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice, pinto beans first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss the vegetables. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, pinto beans, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice, pinto beans into bowls, add chicken, tuck in the vegetables, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Pollo asado with cilantro, lime, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "street-corn-chicken-bowls-cotija-lime-crema",
@@ -7229,7 +11730,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lime crema",
       "bowl"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Chicken bowls with charred corn, cotija, lime crema, and rice.",
     "ingredients": [
       {
@@ -7241,7 +11742,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "corn",
@@ -7252,7 +11756,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -7263,7 +11770,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cotija",
@@ -7274,7 +11784,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -7285,7 +11797,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7296,7 +11810,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7307,7 +11824,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "jalapeno",
@@ -7318,7 +11838,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "avocado",
@@ -7329,7 +11851,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "chili powder",
@@ -7340,7 +11865,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -7351,7 +11878,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7362,9 +11891,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir Greek yogurt with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss corn. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, and Greek yogurt separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken, tuck in corn, then drizzle with Greek yogurt.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Street corn chicken bowls with lime, cilantro, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "carne-asada-quesadillas-guac-pico",
@@ -7389,7 +11986,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "pico",
       "crispy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the steak and tortillas, not just sit on top.",
     "whyItWorks": "Crispy steak quesadillas with guac and pico.",
     "ingredients": [
       {
@@ -7401,7 +11998,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -7412,7 +12012,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cheese",
@@ -7423,7 +12026,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -7434,7 +12039,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -7445,7 +12053,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7456,7 +12067,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7467,7 +12081,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "sour cream",
@@ -7478,7 +12095,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "jalapeno",
@@ -7489,7 +12108,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -7500,7 +12121,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7511,9 +12134,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover steak and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add avocado, lime, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice avocado, tomatoes and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir the sauce with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the steak",
+          "body": "Cook steak in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then avocado, tomatoes, then the sauce. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add avocado, lime, cilantro right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Carne asada quesadillas with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "cuban-mojo-pork-black-beans-rice-plantains",
@@ -7539,7 +12228,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "citrus"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the pork and black beans, rice, not just sit on top.",
     "whyItWorks": "Citrusy mojo pork with black beans, rice, and sweet plantains.",
     "ingredients": [
       {
@@ -7551,7 +12240,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "black beans",
@@ -7562,7 +12254,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -7573,7 +12268,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "plantains",
@@ -7584,7 +12282,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "orange",
@@ -7595,7 +12295,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7606,7 +12308,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7617,7 +12322,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "avocado salad",
@@ -7628,7 +12336,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "garlic",
@@ -7639,7 +12350,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -7650,7 +12364,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -7661,7 +12377,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7672,9 +12390,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover pork and black beans, rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado salad after warming.",
+    "recipe": {
+      "activeTimeMinutes": 40,
+      "totalTimeMinutes": 45,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start black beans, rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the pork",
+          "body": "Cook pork over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss plantains. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste pork, black beans, rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon black beans, rice into bowls, add pork, tuck in plantains, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Cuban mojo pork with lime, cilantro, avocado salad and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "peruvian-aji-verde-chicken-rice-salad",
@@ -7699,7 +12484,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "herby",
       "roasted"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Roasted chicken with aji verde, rice, and crisp salad.",
     "ingredients": [
       {
@@ -7711,7 +12496,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -7722,7 +12510,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7733,7 +12524,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "jalapeno",
@@ -7744,7 +12538,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -7755,7 +12551,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "lettuce",
@@ -7766,7 +12564,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7777,7 +12577,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -7788,7 +12591,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -7799,7 +12605,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "garlic",
@@ -7810,7 +12619,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -7821,7 +12633,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -7832,9 +12646,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lettuce, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss the vegetables with oil, salt, pepper, and the main seasoning from Peruvian aji verde chicken. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken",
+          "body": "Pat chicken dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken is cooked through and the vegetables is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir Greek yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with cilantro, lettuce, lime and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Peruvian aji verde chicken over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "barbacoa-burrito-bowls-lime-rice-queso-fresco",
@@ -7859,7 +12750,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "queso fresco",
       "beans"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste salsa before serving. It should be bold enough to season the beef and rice, black beans, not just sit on top.",
     "whyItWorks": "Tender barbacoa over lime rice with beans, queso fresco, and salsa.",
     "ingredients": [
       {
@@ -7871,7 +12762,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -7882,7 +12776,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "black beans",
@@ -7893,7 +12790,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "queso fresco",
@@ -7904,7 +12804,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -7915,7 +12817,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -7926,7 +12831,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "salsa",
@@ -7937,7 +12845,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -7948,7 +12858,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pickled onion",
@@ -7959,7 +12872,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "chiles",
@@ -7970,7 +12886,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -7981,7 +12899,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -7992,7 +12912,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8003,9 +12925,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover beef and rice, black beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 55,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice the vegetables and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir salsa with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the beef",
+          "body": "Cook beef in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm rice, black beans in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then the vegetables, then salsa. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lime, cilantro, avocado right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Barbacoa burrito bowls with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "chipotle-honey-salmon-tacos-slaw-lime",
@@ -8030,7 +13017,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lime",
       "sweet heat"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste chipotle, honey, avocado crema before serving. It should be bold enough to season the salmon and tortillas, not just sit on top.",
     "whyItWorks": "Chipotle honey salmon tucked into tortillas with slaw and lime.",
     "ingredients": [
       {
@@ -8042,7 +13029,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -8053,7 +13043,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -8064,7 +13057,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -8075,7 +13071,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "chipotle",
@@ -8086,7 +13085,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Snacks",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "honey",
@@ -8097,7 +13098,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -8108,7 +13111,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "avocado crema",
@@ -8119,7 +13125,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -8130,7 +13139,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8141,9 +13152,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover salmon and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado crema after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice cabbage and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir chipotle, honey, avocado crema with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the salmon",
+          "body": "Cook salmon in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then cabbage, then chipotle, honey, avocado crema. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lime, cilantro, avocado crema right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Chipotle honey salmon tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "thai-red-curry-chicken-jasmine-rice-basil",
@@ -8169,7 +13247,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "basil",
       "creamy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste red curry paste, coconut milk before serving. It should be bold enough to season the chicken and jasmine rice, not just sit on top.",
     "whyItWorks": "Red curry chicken with coconut, basil, peppers, and jasmine rice.",
     "ingredients": [
       {
@@ -8181,7 +13259,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "jasmine rice",
@@ -8192,7 +13273,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "red curry paste",
@@ -8203,7 +13287,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "coconut milk",
@@ -8214,7 +13300,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -8225,7 +13313,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -8236,7 +13327,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -8247,7 +13341,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -8258,7 +13355,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "eggplant",
@@ -8269,7 +13369,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 large",
+        "prep": "sliced into 1/2-inch rounds",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -8280,7 +13383,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8291,9 +13396,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and jasmine rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, basil after warming.",
+    "recipe": {
+      "activeTimeMinutes": 22,
+      "totalTimeMinutes": 27,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in red curry paste, coconut milk and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chicken",
+          "body": "Add chicken with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in bell peppers. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 15,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook jasmine rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Thai red curry chicken over jasmine rice. Finish with lime, basil right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "coconut-chickpea-curry-spinach-basmati",
@@ -8319,7 +13492,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "basmati",
       "pantry"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste coconut milk, Greek yogurt, curry powder before serving. It should be bold enough to season the chickpeas and basmati rice, not just sit on top.",
     "whyItWorks": "Creamy coconut chickpeas with spinach and basmati rice.",
     "ingredients": [
       {
@@ -8331,7 +13504,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "coconut milk",
@@ -8342,7 +13518,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "spinach",
@@ -8353,7 +13531,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "basmati rice",
@@ -8364,7 +13545,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -8375,7 +13559,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -8386,7 +13573,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -8397,7 +13587,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "naan",
@@ -8408,7 +13600,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "curry powder",
@@ -8419,7 +13614,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -8430,7 +13627,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -8441,7 +13641,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8452,9 +13654,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chickpeas and basmati rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in coconut milk, Greek yogurt, curry powder and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chickpeas",
+          "body": "Add chickpeas with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in chickpeas, spinach, onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 13,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook basmati rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Coconut chickpea curry over basmati rice. Finish with cilantro right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "butter-chicken-basmati-naan-cucumber",
@@ -8479,7 +13749,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "creamy",
       "tomato"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste yogurt, butter, garam masala before serving. It should be bold enough to season the chicken and basmati rice, naan, not just sit on top.",
     "whyItWorks": "Creamy tomato butter chicken with basmati, naan, and cucumber.",
     "ingredients": [
       {
@@ -8491,7 +13761,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "basmati rice",
@@ -8502,7 +13775,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "naan",
@@ -8513,7 +13789,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -8524,7 +13803,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomato sauce",
@@ -8535,7 +13817,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cream",
@@ -8546,7 +13831,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -8557,7 +13844,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "yogurt",
@@ -8568,7 +13858,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "butter",
@@ -8579,7 +13871,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "garam masala",
@@ -8590,7 +13884,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -8601,7 +13897,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8612,9 +13911,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven"
+    ],
+    "leftoversNote": "Store leftover chicken and basmati rice, naan separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in yogurt, butter, garam masala and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chicken",
+          "body": "Add chicken with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in cucumber, tomato sauce. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 28,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook basmati rice, naan while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Butter chicken over basmati rice, naan. Finish with cucumber, cilantro right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "massaman-beef-curry-potato-peanut-rice",
@@ -8640,7 +14006,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "peanut",
       "coconut"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste coconut milk, peanuts, massaman curry paste before serving. It should be bold enough to season the beef and potatoes, rice, not just sit on top.",
     "whyItWorks": "Cozy beef curry with potatoes, peanuts, coconut, and rice.",
     "ingredients": [
       {
@@ -8652,7 +14018,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -8663,7 +14032,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -8674,7 +14046,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "coconut milk",
@@ -8685,7 +14060,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "peanuts",
@@ -8696,7 +14073,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -8707,7 +14086,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -8718,7 +14100,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "lime",
@@ -8729,7 +14114,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "massaman curry paste",
@@ -8740,7 +14128,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -8751,7 +14141,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -8762,9 +14154,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover beef and potatoes, rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 55,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in coconut milk, peanuts, massaman curry paste and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the beef",
+          "body": "Add beef with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in potatoes, onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 35,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook potatoes, rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Massaman beef curry over potatoes, rice. Finish with cilantro, lime right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "pad-krapow-thai-basil-chicken-fried-egg-rice",
@@ -8790,7 +14250,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "fried egg",
       "rice"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the ground chicken and rice, green beans, not just sit on top.",
     "whyItWorks": "Spicy basil chicken over rice with a fried egg.",
     "ingredients": [
       {
@@ -8802,7 +14262,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -8813,7 +14276,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -8824,7 +14290,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "Thai basil",
@@ -8835,7 +14304,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "chiles",
@@ -8846,7 +14318,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -8857,7 +14331,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -8868,7 +14345,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "fish sauce",
@@ -8879,7 +14359,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Protein",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "pantry"
       },
       {
         "rawName": "soy sauce",
@@ -8890,7 +14373,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -8901,7 +14386,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -8912,9 +14399,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover ground chicken and rice, green beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add Thai basil, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 18,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice, green beans first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains or noodles should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the ground chicken",
+          "body": "Cook ground chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss green beans. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste ground chicken, rice, green beans, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice, green beans into bowls, add ground chicken, tuck in green beans, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Pad krapow with Thai basil, cucumber and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "green-curry-shrimp-eggplant-jasmine-rice",
@@ -8940,7 +14495,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "jasmine rice",
       "basil"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste green curry paste, coconut milk before serving. It should be bold enough to season the shrimp and jasmine rice, not just sit on top.",
     "whyItWorks": "Green curry shrimp with eggplant, basil, coconut, and rice.",
     "ingredients": [
       {
@@ -8952,7 +14507,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "eggplant",
@@ -8963,7 +14521,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 large",
+        "prep": "sliced into 1/2-inch rounds",
+        "importance": "core"
       },
       {
         "rawName": "jasmine rice",
@@ -8974,7 +14535,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "green curry paste",
@@ -8985,7 +14549,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "coconut milk",
@@ -8996,7 +14562,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -9007,7 +14575,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -9018,7 +14589,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "lime",
@@ -9029,7 +14603,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -9040,7 +14617,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9051,9 +14630,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover shrimp and jasmine rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add basil, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in green curry paste, coconut milk and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the shrimp",
+          "body": "Add shrimp with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in eggplant. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 12,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook jasmine rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Green curry shrimp over jasmine rice. Finish with basil, lime right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "chana-masala-basmati-yogurt-cilantro",
@@ -9079,7 +14727,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "yogurt",
       "pantry"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt, garam masala before serving. It should be bold enough to season the chickpeas and basmati rice, not just sit on top.",
     "whyItWorks": "Spiced chickpeas with basmati, cool yogurt, and cilantro.",
     "ingredients": [
       {
@@ -9091,7 +14739,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "basmati rice",
@@ -9102,7 +14753,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -9113,7 +14767,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -9124,7 +14780,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -9135,7 +14794,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -9146,7 +14808,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "naan",
@@ -9157,7 +14822,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "lime",
@@ -9168,7 +14836,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "garam masala",
@@ -9179,7 +14850,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -9190,7 +14863,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -9201,7 +14876,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9212,9 +14889,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chickpeas and basmati rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in Greek yogurt, garam masala and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chickpeas",
+          "body": "Add chickpeas with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in chickpeas, tomatoes, onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 16,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook basmati rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Chana masala over basmati rice. Finish with cilantro, lime right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "panang-curry-salmon-rice-green-beans",
@@ -9240,7 +14986,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "creamy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste panang curry paste, coconut milk, peanuts before serving. It should be bold enough to season the salmon and rice, green beans, not just sit on top.",
     "whyItWorks": "Rich panang curry with salmon, green beans, and rice.",
     "ingredients": [
       {
@@ -9252,7 +14998,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -9263,7 +15012,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -9274,7 +15026,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "panang curry paste",
@@ -9285,7 +15040,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "coconut milk",
@@ -9296,7 +15053,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -9307,7 +15066,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -9318,7 +15080,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "peanuts",
@@ -9329,7 +15094,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -9340,7 +15107,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9351,9 +15120,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and rice, green beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, basil after warming.",
+    "recipe": {
+      "activeTimeMinutes": 21,
+      "totalTimeMinutes": 26,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss green beans with oil, salt, pepper, and the main seasoning from Panang curry salmon. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and green beans is browned at the edges.",
+          "timeMinutes": 18,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir panang curry paste, coconut milk, peanuts with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice, green beans so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lime, basil and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Panang curry salmon over or alongside rice, green beans, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "creamy-cajun-chicken-pasta",
@@ -9378,7 +15224,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "spicy",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste butter before serving. It should be bold enough to season the chicken and pasta, not just sit on top.",
     "whyItWorks": "Cajun chicken tossed with creamy pasta, peppers, and scallions.",
     "ingredients": [
       {
@@ -9390,7 +15236,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "pasta",
@@ -9401,7 +15250,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "cream",
@@ -9412,7 +15263,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -9423,7 +15276,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -9434,7 +15290,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -9445,7 +15304,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "spinach",
@@ -9456,7 +15317,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "lemon",
@@ -9467,7 +15331,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "cajun seasoning",
@@ -9478,7 +15345,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "butter",
@@ -9489,7 +15358,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9500,9 +15371,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover chicken and pasta separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook pasta until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the chicken",
+          "body": "Cook chicken in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add bell peppers and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in butter. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add pasta to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add scallions, lemon, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Creamy Cajun chicken pasta while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "pesto-chicken-orzo-blistered-tomato",
@@ -9527,7 +15466,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "blistered tomato",
       "herby"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste pesto before serving. It should be bold enough to season the chicken and orzo, not just sit on top.",
     "whyItWorks": "Pesto chicken with orzo, blistered tomatoes, and parmesan.",
     "ingredients": [
       {
@@ -9539,7 +15478,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "orzo",
@@ -9550,7 +15492,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "pesto",
@@ -9561,7 +15505,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -9572,7 +15518,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -9583,7 +15532,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -9594,7 +15545,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "spinach",
@@ -9605,7 +15559,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "lemon",
@@ -9616,7 +15573,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -9627,7 +15587,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9638,9 +15600,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover chicken and orzo separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add basil, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook orzo until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the chicken",
+          "body": "Cook chicken in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add tomatoes and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in pesto. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add orzo to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add basil, lemon, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Pesto chicken orzo while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "baked-feta-and-tomato-pasta-basil",
@@ -9665,7 +15695,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "creamy",
       "vegetarian"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the the main ingredient and pasta, not just sit on top.",
     "whyItWorks": "Baked feta and tomatoes tossed into glossy basil pasta.",
     "ingredients": [
       {
@@ -9677,7 +15707,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -9688,7 +15720,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -9699,7 +15733,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -9710,7 +15747,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -9721,7 +15761,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "chili flakes",
@@ -9732,7 +15775,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "spinach",
@@ -9743,7 +15788,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -9754,7 +15802,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9765,7 +15815,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -9776,9 +15829,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover the main ingredient and pasta separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add basil after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook pasta until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the the main ingredient",
+          "body": "Cook the main ingredient in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add tomatoes and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in the sauce. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add pasta to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add basil, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Baked feta and tomato pasta while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "spicy-rigatoni-alla-vodka-hot-honey",
@@ -9803,7 +15925,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "creamy",
       "pasta"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste tomato paste, hot honey, vodka before serving. It should be bold enough to season the the main ingredient and rigatoni, not just sit on top.",
     "whyItWorks": "Creamy spicy vodka rigatoni with a hot honey finish.",
     "ingredients": [
       {
@@ -9815,7 +15937,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "tomato paste",
@@ -9826,7 +15950,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cream",
@@ -9837,7 +15964,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -9848,7 +15977,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -9859,7 +15990,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "hot honey",
@@ -9870,7 +16004,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "vodka",
@@ -9881,7 +16017,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "calabrian chili",
@@ -9892,7 +16030,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -9903,7 +16043,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -9914,7 +16056,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -9925,7 +16070,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -9936,9 +16084,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover the main ingredient and rigatoni separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add basil after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook rigatoni until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the the main ingredient",
+          "body": "Cook the main ingredient in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add the vegetables and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in tomato paste, hot honey, vodka. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add rigatoni to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add basil, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Spicy rigatoni alla vodka while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "lemon-garlic-shrimp-scampi-linguine",
@@ -9963,7 +16180,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "bright",
       "fast"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste butter before serving. It should be bold enough to season the shrimp and linguine, not just sit on top.",
     "whyItWorks": "Shrimp linguine with lemon, garlic, parsley, and glossy pan sauce.",
     "ingredients": [
       {
@@ -9975,7 +16192,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "linguine",
@@ -9986,7 +16206,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -9997,7 +16219,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -10008,7 +16233,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -10019,7 +16247,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -10030,7 +16261,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "chili flakes",
@@ -10041,7 +16274,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "butter",
@@ -10052,7 +16287,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -10063,7 +16300,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10074,9 +16313,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover shrimp and linguine separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 20,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook linguine until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the shrimp",
+          "body": "Cook shrimp in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add the vegetables and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in butter. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add linguine to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add lemon, parsley, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Lemon garlic shrimp scampi while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "sausage-and-broccoli-rabe-orecchiette-chili-flake",
@@ -10101,7 +16408,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "chili flake",
       "garlic"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the sausage and orecchiette, not just sit on top.",
     "whyItWorks": "Orecchiette with sausage, bitter greens, garlic, and chili flake.",
     "ingredients": [
       {
@@ -10113,7 +16420,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "broccoli rabe",
@@ -10124,7 +16433,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "orecchiette",
@@ -10135,7 +16447,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -10146,7 +16460,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -10157,7 +16473,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -10168,7 +16487,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "optional"
       },
       {
         "rawName": "breadcrumbs",
@@ -10179,7 +16501,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -10190,7 +16515,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "chili flakes",
@@ -10201,7 +16528,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10212,9 +16541,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover sausage and orecchiette separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook orecchiette until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the sausage",
+          "body": "Cook sausage in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add broccoli rabe and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in the sauce. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add orecchiette to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add lemon, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Sausage and broccoli rabe orecchiette while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "french-onion-pasta-crispy-prosciutto",
@@ -10239,7 +16637,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cheesy",
       "cozy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste butter before serving. It should be bold enough to season the the main ingredient and pasta, not just sit on top.",
     "whyItWorks": "Caramelized onion pasta with gruyere and crisp prosciutto.",
     "ingredients": [
       {
@@ -10251,7 +16649,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "onions",
@@ -10262,7 +16662,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "gruyere",
@@ -10273,7 +16676,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "prosciutto",
@@ -10284,7 +16689,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "thyme",
@@ -10295,7 +16702,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "mushrooms",
@@ -10306,7 +16715,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "parsley",
@@ -10317,7 +16729,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "butter",
@@ -10328,7 +16743,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -10339,7 +16756,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10350,7 +16769,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -10361,9 +16783,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover the main ingredient and pasta separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook pasta until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the the main ingredient",
+          "body": "Cook the main ingredient in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add onions and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in butter. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add pasta to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add parsley, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate French onion pasta while hot.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "gochujang-butter-noodles-soft-egg-scallion",
@@ -10389,7 +16877,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "scallion",
       "pantry sauce"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang, butter before serving. It should be bold enough to season the eggs and noodles, not just sit on top.",
     "whyItWorks": "Glossy gochujang butter noodles with soft egg and scallions.",
     "ingredients": [
       {
@@ -10401,7 +16889,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -10412,7 +16902,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -10423,7 +16916,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -10434,7 +16930,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "butter",
@@ -10445,7 +16943,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -10456,7 +16956,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -10467,7 +16969,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -10478,7 +16983,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10489,9 +16996,79 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover eggs and noodles separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 15,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook noodles until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the eggs",
+          "body": "Cook eggs in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add the vegetables and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in gochujang, butter. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add noodles to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add scallions, cucumber, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Gochujang butter noodles while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "beef-ragu-pappardelle",
@@ -10516,7 +17093,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "tomato",
       "parmesan"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the beef and pappardelle, not just sit on top.",
     "whyItWorks": "Slow-ish beef ragu with wide pappardelle and parmesan.",
     "ingredients": [
       {
@@ -10528,7 +17105,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "pappardelle",
@@ -10539,7 +17119,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -10550,7 +17132,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -10561,7 +17146,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -10572,7 +17160,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -10583,7 +17174,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -10594,7 +17187,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "ricotta",
@@ -10605,7 +17201,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -10616,7 +17214,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -10627,7 +17227,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10638,7 +17240,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -10649,9 +17254,79 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "large pot",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover beef and pappardelle separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 40,
+      "totalTimeMinutes": 60,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook pappardelle until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the beef",
+          "body": "Cook beef in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add tomatoes, onion, carrots and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in the sauce. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add pappardelle to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add parsley, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Beef ragu pappardelle while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "sheet-pan-harissa-honey-chicken-thighs-carrots-chickpeas",
@@ -10677,7 +17352,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "carrots",
       "chickpeas"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste harissa, honey, Greek yogurt before serving. It should be bold enough to season the chicken thighs and the base, not just sit on top.",
     "whyItWorks": "Sticky harissa honey chicken with roasted carrots and chickpeas.",
     "ingredients": [
       {
@@ -10689,7 +17364,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -10700,7 +17378,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "chickpeas",
@@ -10711,7 +17392,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "harissa",
@@ -10722,7 +17406,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "honey",
@@ -10733,7 +17419,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -10744,7 +17432,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -10755,7 +17446,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "parsley",
@@ -10766,7 +17459,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -10777,7 +17473,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10788,9 +17486,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 37,
+      "totalTimeMinutes": 42,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss carrots, chickpeas with oil, salt, pepper, and the main seasoning from Sheet pan harissa honey chicken thighs. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken thighs",
+          "body": "Pat chicken thighs dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken thighs is cooked through and carrots, chickpeas is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir harissa, honey, Greek yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook the base so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Sheet pan harissa honey chicken thighs over or alongside the base, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "sheet-pan-sausage-peppers-onions-potatoes",
@@ -10815,7 +17588,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "potatoes",
       "roasted"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the sausage and potatoes, not just sit on top.",
     "whyItWorks": "Roasted sausage, peppers, onions, and potatoes with crispy edges.",
     "ingredients": [
       {
@@ -10827,7 +17600,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -10838,7 +17613,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -10849,7 +17627,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -10860,7 +17641,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -10871,7 +17655,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "mustard",
@@ -10882,7 +17669,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "crusty bread",
@@ -10893,7 +17682,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -10904,7 +17696,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "oregano",
@@ -10915,7 +17709,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -10926,9 +17722,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan"
+    ],
+    "leftoversNote": "Store leftover sausage and potatoes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss bell peppers, onion, potatoes with oil, salt, pepper, and the main seasoning from Sheet pan sausage. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the sausage",
+          "body": "Pat sausage dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until sausage is cooked through and bell peppers, onion, potatoes is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook potatoes so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Sheet pan sausage over or alongside potatoes, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "garlic-butter-steak-bites-shishito-potatoes",
@@ -10953,7 +17824,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "potatoes",
       "seared"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste butter before serving. It should be bold enough to season the steak and potatoes, not just sit on top.",
     "whyItWorks": "Seared steak bites with shishitos, potatoes, garlic butter, and lemon.",
     "ingredients": [
       {
@@ -10965,7 +17836,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "shishito peppers",
@@ -10976,7 +17850,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -10987,7 +17864,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -10998,7 +17878,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -11009,7 +17892,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -11020,7 +17906,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "chimichurri",
@@ -11031,7 +17920,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "butter",
@@ -11042,7 +17933,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -11053,7 +17946,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11064,7 +17959,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -11075,9 +17973,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover steak and potatoes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss shishito peppers, potatoes with oil, salt, pepper, and the main seasoning from Garlic butter steak bites. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the steak",
+          "body": "Pat steak dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until steak is cooked through and shishito peppers, potatoes is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir butter with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook potatoes so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Garlic butter steak bites over or alongside potatoes, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "roast-chicken-thighs-fennel-lemon-olives",
@@ -11103,7 +18077,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "olives",
       "sheet pan"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken thighs and the base, not just sit on top.",
     "whyItWorks": "Crispy chicken thighs with jammy fennel, lemon, olives, and pan juices.",
     "ingredients": [
       {
@@ -11115,7 +18089,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "fennel",
@@ -11126,7 +18103,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -11137,7 +18117,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "olives",
@@ -11148,7 +18131,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -11159,7 +18144,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -11170,7 +18158,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -11181,7 +18172,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11192,7 +18185,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -11203,9 +18199,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 37,
+      "totalTimeMinutes": 42,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss fennel, olives with oil, salt, pepper, and the main seasoning from Roast chicken thighs. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken thighs",
+          "body": "Pat chicken thighs dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken thighs is cooked through and fennel, olives is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook the base so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Roast chicken thighs over or alongside the base, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "sheet-pan-gochujang-salmon-broccoli-sesame",
@@ -11231,7 +18302,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "sesame",
       "sheet pan"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste gochujang, honey before serving. It should be bold enough to season the salmon and rice, not just sit on top.",
     "whyItWorks": "Gochujang-glazed salmon with roasted broccoli and sesame.",
     "ingredients": [
       {
@@ -11243,7 +18314,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "broccoli",
@@ -11254,7 +18328,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "gochujang",
@@ -11265,7 +18342,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -11276,7 +18355,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -11287,7 +18369,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -11298,7 +18383,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -11309,7 +18396,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -11320,7 +18410,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "honey",
@@ -11331,7 +18423,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -11342,7 +18436,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11353,9 +18449,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover salmon and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 19,
+      "totalTimeMinutes": 24,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss broccoli with oil, salt, pepper, and the main seasoning from Sheet pan gochujang salmon. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and broccoli is browned at the edges.",
+          "timeMinutes": 18,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir gochujang, honey with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with scallions, cucumber and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Sheet pan gochujang salmon over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "maple-dijon-pork-tenderloin-brussels-sweet-potato",
@@ -11380,7 +18552,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "sweet potato",
       "roasted"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the pork tenderloin and sweet potato, not just sit on top.",
     "whyItWorks": "Maple dijon pork with roasted brussels and sweet potato.",
     "ingredients": [
       {
@@ -11392,7 +18564,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "brussels sprouts",
@@ -11403,7 +18578,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "sweet potato",
@@ -11414,7 +18592,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "dijon mustard",
@@ -11425,7 +18606,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "apples",
@@ -11436,7 +18619,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "parsley",
@@ -11447,7 +18632,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "maple syrup",
@@ -11458,7 +18646,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -11469,7 +18659,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11480,9 +18672,84 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan"
+    ],
+    "leftoversNote": "Store leftover pork tenderloin and sweet potato separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss brussels sprouts, sweet potato with oil, salt, pepper, and the main seasoning from Maple dijon pork tenderloin. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the pork tenderloin",
+          "body": "Pat pork tenderloin dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until pork tenderloin is cooked through and brussels sprouts, sweet potato is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook sweet potato so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Maple dijon pork tenderloin over or alongside sweet potato, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "sheet-pan-chicken-fajitas-creamy-verde-charred-tortillas",
@@ -11508,7 +18775,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "sheet pan",
       "charred"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste salsa verde, Greek yogurt before serving. It should be bold enough to season the chicken and tortillas, not just sit on top.",
     "whyItWorks": "Chicken fajitas with peppers, onions, creamy verde, and charred tortillas.",
     "ingredients": [
       {
@@ -11520,7 +18787,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -11531,7 +18801,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -11542,7 +18815,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -11553,7 +18829,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "salsa verde",
@@ -11564,7 +18843,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -11575,7 +18856,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -11586,7 +18869,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -11597,7 +18883,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "cilantro",
@@ -11608,7 +18897,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -11619,7 +18911,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -11630,7 +18924,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11641,9 +18937,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, avocado, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice bell peppers, onion and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir salsa verde, Greek yogurt with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then bell peppers, onion, then salsa verde, Greek yogurt. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add lime, avocado, cilantro right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Sheet pan chicken fajitas with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "crispy-parmesan-garlic-halibut-green-beans-lemon",
@@ -11669,7 +19031,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lemon",
       "crispy"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the halibut and green beans, not just sit on top.",
     "whyItWorks": "Parmesan-crusted halibut with green beans and lemon.",
     "ingredients": [
       {
@@ -11681,7 +19043,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "green beans",
@@ -11692,7 +19057,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -11703,7 +19071,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -11714,7 +19084,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -11725,7 +19098,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -11736,7 +19112,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "aioli",
@@ -11747,7 +19126,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "breadcrumbs",
@@ -11758,7 +19139,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "pantry"
       },
       {
         "rawName": "garlic",
@@ -11769,7 +19153,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -11780,7 +19167,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11791,9 +19180,83 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover halibut and green beans separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 20,
+      "totalTimeMinutes": 25,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss green beans with oil, salt, pepper, and the main seasoning from Crispy parmesan garlic halibut. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the halibut",
+          "body": "Pat halibut dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until halibut is cooked through and green beans is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir the sauce with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook green beans so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, parsley.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Crispy parmesan garlic halibut over or alongside green beans.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "baked-hot-honey-chicken-rice-charred-broccoli",
@@ -11819,7 +19282,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "charred broccoli",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste hot honey, ranch yogurt before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Baked crispy-ish hot honey chicken with rice and charred broccoli.",
     "ingredients": [
       {
@@ -11831,7 +19294,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -11842,7 +19308,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "broccoli",
@@ -11853,7 +19322,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "hot honey",
@@ -11864,7 +19336,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -11875,7 +19349,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "ranch yogurt",
@@ -11886,7 +19363,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "scallions",
@@ -11897,7 +19376,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "breadcrumbs",
@@ -11908,7 +19390,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -11919,7 +19404,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -11930,9 +19417,83 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, scallions after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss broccoli with oil, salt, pepper, and the main seasoning from Baked hot honey chicken. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken",
+          "body": "Pat chicken dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken is cooked through and broccoli is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir hot honey, ranch yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with lemon, scallions.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Baked hot honey chicken over or alongside rice.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "sesame-katsu-chicken-rice-bowls-all-the-toppings",
@@ -11957,7 +19518,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "slaw"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken cutlets and rice, not just sit on top.",
     "whyItWorks": "Crispy sesame katsu chicken over rice with slaw, cucumber, and sauce.",
     "ingredients": [
       {
@@ -11969,7 +19530,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -11980,7 +19544,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -11991,7 +19558,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -12002,7 +19572,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "sesame seeds",
@@ -12013,7 +19586,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -12024,7 +19599,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "kewpie mayo",
@@ -12035,7 +19613,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "pickled ginger",
@@ -12046,7 +19626,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "breadcrumbs",
@@ -12057,7 +19639,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "pantry"
       },
       {
         "rawName": "soy sauce",
@@ -12068,7 +19653,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -12079,7 +19666,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12090,9 +19679,80 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken cutlets and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, scallions, pickled ginger after warming.",
+    "recipe": {
+      "activeTimeMinutes": 33,
+      "totalTimeMinutes": 38,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Set up the coating",
+          "body": "Season chicken cutlets with salt and pepper. Put flour or starch, beaten egg, and breadcrumbs or the listed coating in separate shallow bowls.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "Each bowl should be seasoned so the crust tastes good on its own."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the fresh side",
+          "body": "Toss cabbage, cucumber with citrus, salt, and a little oil. Keep it cold while the crispy piece cooks.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The side should taste sharper than you think; it has to cut the fried crust."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Coat firmly",
+          "body": "Dredge chicken cutlets, pressing the coating on with your hands. Rest it for 5 minutes so the crust sticks.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "No wet patches should show through."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook until crisp",
+          "body": "Heat a thin layer of oil over medium-high heat. Fry chicken cutlets until deeply golden on both sides and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "The crust should sound crisp when tapped."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Drain and salt",
+          "body": "Move chicken cutlets to a rack or paper towel and salt it immediately.",
+          "timeMinutes": 2,
+          "component": "finish",
+          "visualCue": "Steam should escape instead of softening the crust."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Serve with hot rice. If there is sauce, keep it spoonable and hot.",
+          "timeMinutes": 5,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Plate for crunch",
+          "body": "Spoon the sauce beside or under the crispy chicken cutlets, then finish with cucumber, scallions, pickled ginger.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "creamy-white-chicken-chili-lime-tortilla-avocado",
@@ -12117,7 +19777,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "avocado",
       "tortilla"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken and white beans, tortillas, not just sit on top.",
     "whyItWorks": "Creamy white chicken chili with lime, tortillas, avocado, and cilantro.",
     "ingredients": [
       {
@@ -12129,7 +19789,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "white beans",
@@ -12140,7 +19803,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -12151,7 +19817,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -12162,7 +19831,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -12173,7 +19845,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -12184,7 +19859,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "cream cheese",
@@ -12195,7 +19873,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "jalapeno",
@@ -12206,7 +19886,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "corn",
@@ -12217,7 +19899,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -12228,7 +19913,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "stock",
@@ -12239,7 +19926,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12250,9 +19939,75 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken and white beans, tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add avocado, lime, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice avocado and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir the sauce with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm white beans, tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then avocado, then the sauce. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add avocado, lime, cilantro right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Creamy white chicken chili with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "spicy-honey-mustard-pretzel-chicken-fingers",
@@ -12276,7 +20031,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "spicy",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste honey before serving. It should be bold enough to season the chicken tenders and the base, not just sit on top.",
     "whyItWorks": "Pretzel-crusted chicken fingers with spicy honey mustard.",
     "ingredients": [
       {
@@ -12288,7 +20043,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "pretzels",
@@ -12299,7 +20056,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -12310,7 +20069,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "dijon mustard",
@@ -12321,7 +20083,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "honey",
@@ -12332,7 +20096,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "slaw",
@@ -12343,7 +20109,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "pickles",
@@ -12354,7 +20123,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "flour",
@@ -12365,7 +20136,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -12376,7 +20149,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12387,9 +20162,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board"
+    ],
+    "leftoversNote": "Store leftover chicken tenders and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, herbs, or pickles if you have them after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Set up the coating",
+          "body": "Season chicken tenders with salt and pepper. Put flour or starch, beaten egg, and breadcrumbs or the listed coating in separate shallow bowls.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "Each bowl should be seasoned so the crust tastes good on its own."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the fresh side",
+          "body": "Toss the vegetables with citrus, salt, and a little oil. Keep it cold while the crispy piece cooks.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The side should taste sharper than you think; it has to cut the fried crust."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Coat firmly",
+          "body": "Dredge chicken tenders, pressing the coating on with your hands. Rest it for 5 minutes so the crust sticks.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "No wet patches should show through."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook until crisp",
+          "body": "Heat a thin layer of oil over medium-high heat. Fry chicken tenders until deeply golden on both sides and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "The crust should sound crisp when tapped."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Drain and salt",
+          "body": "Move chicken tenders to a rack or paper towel and salt it immediately.",
+          "timeMinutes": 2,
+          "component": "finish",
+          "visualCue": "Steam should escape instead of softening the crust."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Serve with hot the base. If there is sauce, keep it spoonable and hot.",
+          "timeMinutes": 5,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Plate for crunch",
+          "body": "Spoon honey beside or under the crispy chicken tenders, then finish with lemon, herbs, or pickles if you have them.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "greek-chicken-meatballs-lemon-butter-orzo-one-skillet",
@@ -12415,7 +20258,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "herby",
       "greek"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt, butter before serving. It should be bold enough to season the ground chicken and orzo, not just sit on top.",
     "whyItWorks": "Herby chicken meatballs with lemon butter orzo in one skillet.",
     "ingredients": [
       {
@@ -12427,7 +20270,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "orzo",
@@ -12438,7 +20284,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -12449,7 +20297,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -12460,7 +20311,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -12471,7 +20324,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -12482,7 +20338,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "dill",
@@ -12493,7 +20351,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -12504,7 +20364,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "butter",
@@ -12515,7 +20378,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1/3 cup",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -12526,7 +20391,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12537,9 +20404,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover ground chicken and orzo separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, parsley, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 29,
+      "totalTimeMinutes": 34,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Boil the base",
+          "body": "Bring salted water to a boil. Cook orzo until just shy of tender, then save 1 cup of the cooking water.",
+          "timeMinutes": 10,
+          "component": "base",
+          "visualCue": "It should still have a little bite."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Brown the ground chicken",
+          "body": "Cook ground chicken in a wide skillet over medium-high heat until browned in spots and nearly cooked through.",
+          "timeMinutes": 6,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "You want browning, not steaming."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Add vegetables",
+          "body": "Add the vegetables and cook until hot, glossy, and still colorful.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "Greens should wilt; sturdy vegetables should soften at the edges."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Build the sauce",
+          "body": "Lower the heat and stir in Greek yogurt, butter. Add splashes of pasta water until glossy.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should slide, not clump."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Toss together",
+          "body": "Add orzo to the skillet and toss hard for 1 to 2 minutes so every piece is coated.",
+          "timeMinutes": 2,
+          "component": "assembly",
+          "visualCue": "The pasta should look shiny."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish bright",
+          "body": "Turn off the heat. Add lemon, parsley, cucumber, more pasta water if needed, and a final drizzle of olive oil.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve now",
+          "body": "Plate Greek chicken meatballs while hot. Add the optional upgrade at the table.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "one-skillet-cheesy-salsa-verde-chicken-and-rice",
@@ -12565,7 +20500,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "one skillet",
       "weeknight"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste salsa verde before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Chicken, rice, salsa verde, and melty cheese in one skillet.",
     "ingredients": [
       {
@@ -12577,7 +20512,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -12588,7 +20526,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "salsa verde",
@@ -12599,7 +20540,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cheese",
@@ -12610,7 +20553,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -12621,7 +20566,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -12632,7 +20580,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "avocado",
@@ -12643,7 +20594,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "jalapeno",
@@ -12654,7 +20608,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "stock",
@@ -12665,7 +20621,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -12676,7 +20634,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12687,9 +20647,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lime, cilantro, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir salsa verde with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss the vegetables. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste chicken, rice, and salsa verde separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon rice into bowls, add chicken, tuck in the vegetables, then drizzle with salsa verde.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top One-skillet cheesy salsa verde chicken and rice with lime, cilantro, avocado and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "creamy-chipotle-chicken-tortilla-bake",
@@ -12714,7 +20742,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cheesy",
       "cozy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste chipotle, Greek yogurt before serving. It should be bold enough to season the chicken and tortillas, not just sit on top.",
     "whyItWorks": "Layered tortillas, chipotle chicken, cheese, and creamy sauce.",
     "ingredients": [
       {
@@ -12726,7 +20754,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -12737,7 +20768,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "chipotle",
@@ -12748,7 +20782,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Snacks",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cheese",
@@ -12759,7 +20795,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -12770,7 +20808,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "corn",
@@ -12781,7 +20821,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "black beans",
@@ -12792,7 +20835,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "cilantro",
@@ -12803,7 +20849,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "oil",
@@ -12814,7 +20863,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -12825,9 +20876,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 35,
+      "totalTimeMinutes": 40,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice corn and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir chipotle, Greek yogurt with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then corn, then chipotle, Greek yogurt. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add cilantro right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Creamy chipotle chicken tortilla bake with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "sweet-thai-basil-chicken-jasmine-rice",
@@ -12852,7 +20968,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "sweet soy",
       "fast"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the ground chicken and jasmine rice, not just sit on top.",
     "whyItWorks": "Sweet, salty Thai basil chicken over jasmine rice.",
     "ingredients": [
       {
@@ -12864,7 +20980,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "jasmine rice",
@@ -12875,7 +20994,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "Thai basil",
@@ -12886,7 +21008,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -12897,7 +21022,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "scallions",
@@ -12908,7 +21036,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "fried egg",
@@ -12919,7 +21050,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "cucumber",
@@ -12930,7 +21064,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "soy sauce",
@@ -12941,7 +21078,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "fish sauce",
@@ -12952,7 +21091,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Protein",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "pantry"
       },
       {
         "rawName": "sugar",
@@ -12963,7 +21105,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -12974,9 +21118,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover ground chicken and jasmine rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add Thai basil, scallions, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 15,
+      "totalTimeMinutes": 20,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Cook the base",
+          "body": "Start jasmine rice first. Keep it warm and lightly seasoned while you cook the rest.",
+          "timeMinutes": 12,
+          "component": "base",
+          "visualCue": "The grains should be tender and separate."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir the sauce with citrus or vinegar, salt, and enough water to make it spoonable.",
+          "timeMinutes": 4,
+          "component": "sauce",
+          "visualCue": "It should taste a little too bold by itself."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the ground chicken",
+          "body": "Cook ground chicken over medium-high heat until browned in spots and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Look for browned edges and a juicy center."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Prep the cold crunch",
+          "body": "Slice or toss bell peppers. Keep raw crunchy items cold so they contrast with the hot base.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The vegetables should still snap."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Check seasoning",
+          "body": "Taste ground chicken, jasmine rice, and the sauce separately. Add salt, acid, or heat before assembling.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Build the bowl",
+          "body": "Spoon jasmine rice into bowls, add ground chicken, tuck in bell peppers, then drizzle with the sauce.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Finish last",
+          "body": "Top Sweet Thai basil chicken with Thai basil, scallions, cucumber and any optional crunch right before serving.",
+          "component": "finish",
+          "visualCue": "The bowl should feel hot, cold, saucy, and crunchy in the same bite."
+        }
+      ]
+    }
   },
   {
     "slug": "marry-me-chicken-orzo-or-crusty-bread",
@@ -13001,7 +21212,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "parmesan",
       "skillet"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken and orzo, not just sit on top.",
     "whyItWorks": "Creamy tomato chicken with herbs, parmesan, and orzo or bread.",
     "ingredients": [
       {
@@ -13013,7 +21224,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "orzo",
@@ -13024,7 +21238,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "sun-dried tomatoes",
@@ -13035,7 +21251,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "cream",
@@ -13046,7 +21265,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "parmesan",
@@ -13057,7 +21278,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "basil",
@@ -13068,7 +21291,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "crusty bread",
@@ -13079,7 +21305,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "spinach",
@@ -13090,7 +21319,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "garlic",
@@ -13101,7 +21333,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -13112,7 +21347,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13123,9 +21360,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large pot"
+    ],
+    "leftoversNote": "Store leftover chicken and orzo separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add basil after warming.",
+    "recipe": {
+      "activeTimeMinutes": 27,
+      "totalTimeMinutes": 32,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice sun-dried tomatoes and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir the sauce with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm orzo in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then sun-dried tomatoes, then the sauce. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add basil right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Marry me chicken with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "crispy-buffalo-chicken-tacos-cilantro-lime-ranch",
@@ -13150,7 +21452,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy",
       "saucy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken and tortillas, not just sit on top.",
     "whyItWorks": "Crispy buffalo chicken tucked into tacos with cilantro lime ranch.",
     "ingredients": [
       {
@@ -13162,7 +21464,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "tortillas",
@@ -13173,7 +21478,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "buffalo sauce",
@@ -13184,7 +21492,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -13195,7 +21505,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -13206,7 +21518,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lime",
@@ -13217,7 +21532,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cabbage",
@@ -13228,7 +21546,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "3 cups",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "blue cheese",
@@ -13239,7 +21560,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "avocado",
@@ -13250,7 +21573,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1",
+        "prep": "sliced",
+        "importance": "optional"
       },
       {
         "rawName": "breadcrumbs",
@@ -13261,7 +21587,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -13272,7 +21601,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13283,9 +21614,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet"
+    ],
+    "leftoversNote": "Store leftover chicken and tortillas separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cilantro, lime, avocado after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Prep the crunch",
+          "body": "Slice cabbage and toss with lime or lemon, salt, and a little oil. Let it sit while the filling cooks.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "It should soften slightly but stay crunchy."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Mix the sauce",
+          "body": "Stir Greek yogurt with citrus, salt, and enough water to make it drizzle. Taste for heat.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should be creamy but loose enough to spoon."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Cook the chicken",
+          "body": "Cook chicken in a hot skillet until browned and seasoned all the way through. Let it sit between stirs so it picks up color.",
+          "timeMinutes": 8,
+          "component": "protein",
+          "visualCue": "Edges should be browned, not pale."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Warm the bread",
+          "body": "Warm tortillas in a dry skillet, over a burner, or wrapped in foil until flexible.",
+          "timeMinutes": 3,
+          "component": "base",
+          "visualCue": "It should bend without cracking."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Build in order",
+          "body": "Add the hot filling first, then cabbage, then Greek yogurt. Keep the wettest sauce off the bottom.",
+          "component": "assembly"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Finish sharp",
+          "body": "Add cilantro, lime, avocado right before serving.",
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve hot",
+          "body": "Serve Crispy buffalo chicken tacos with extra sauce on the side so the first bite stays structured.",
+          "component": "finish"
+        }
+      ]
+    }
   },
   {
     "slug": "mediterranean-meatballs-carrots-peas-warm-spices-rice",
@@ -13310,7 +21706,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "warm spices",
       "rice"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the ground beef and rice, not just sit on top.",
     "whyItWorks": "Tender meatballs simmered with carrots, peas, tomato, warm spices, and rice.",
     "ingredients": [
       {
@@ -13322,7 +21718,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -13333,7 +21732,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -13344,7 +21746,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "peas",
@@ -13355,7 +21760,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -13366,7 +21774,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -13377,7 +21788,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -13388,7 +21802,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -13399,7 +21816,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "pita",
@@ -13410,7 +21829,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -13421,7 +21843,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "paprika",
@@ -13432,7 +21856,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -13443,7 +21869,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13454,9 +21882,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover ground beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 50,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the ground beef",
+          "body": "Coat ground beef with oil, salt, pepper, and the main spice profile from Mediterranean meatballs simmered with carrots. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir Greek yogurt with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm rice. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the ground beef",
+          "body": "Sear, grill, or roast ground beef until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss tomatoes with parsley, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest ground beef for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Mediterranean meatballs simmered with carrots with rice, Greek yogurt, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "stuffed-chicken-thighs-mushroom-filling-red-wine-honey-sauce",
@@ -13481,7 +21977,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "roast",
       "cozy"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste honey before serving. It should be bold enough to season the chicken thighs and the base, not just sit on top.",
     "whyItWorks": "Chicken thighs stuffed with mushrooms and finished with red wine honey sauce.",
     "ingredients": [
       {
@@ -13493,7 +21989,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "mushrooms",
@@ -13504,7 +22003,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -13515,7 +22017,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "red wine",
@@ -13526,7 +22031,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "honey",
@@ -13537,7 +22044,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 package",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -13548,7 +22057,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "rice pilaf",
@@ -13559,7 +22071,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "green beans",
@@ -13570,7 +22085,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -13581,7 +22099,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13592,7 +22112,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -13603,9 +22126,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 45,
+      "totalTimeMinutes": 65,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss mushrooms, onion with oil, salt, pepper, and the main seasoning from Stuffed chicken thighs. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken thighs",
+          "body": "Pat chicken thighs dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken thighs is cooked through and mushrooms, onion is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir honey with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook the base so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Stuffed chicken thighs over or alongside the base, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "baked-eggplant-slices-tahini-parsley-lemon",
@@ -13630,7 +22230,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lemon",
       "vegetarian"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste tahini before serving. It should be bold enough to season the eggplant and the base, not just sit on top.",
     "whyItWorks": "Roasted eggplant slices with tahini, parsley, lemon, and olive oil.",
     "ingredients": [
       {
@@ -13642,7 +22242,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 large",
+        "prep": "sliced into 1/2-inch rounds",
+        "importance": "core"
       },
       {
         "rawName": "tahini",
@@ -13653,7 +22256,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -13664,7 +22269,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -13675,7 +22283,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -13686,7 +22297,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "feta",
@@ -13697,7 +22311,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "chickpeas",
@@ -13708,7 +22324,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -13719,7 +22338,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13730,9 +22351,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover eggplant and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss eggplant with oil, salt, pepper, and the main seasoning from Baked eggplant slices. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the eggplant",
+          "body": "Pat eggplant dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until eggplant is cooked through and eggplant is browned at the edges.",
+          "timeMinutes": 27,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir tahini with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook the base so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley, lemon and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Baked eggplant slices over or alongside the base, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "iraqi-tbeet-slow-cooked-chicken-and-spiced-rice",
@@ -13756,7 +22454,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "slow comfort",
       "iraqi"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste tomato paste before serving. It should be bold enough to season the chicken thighs and rice, not just sit on top.",
     "whyItWorks": "Slow-cooked chicken and deeply spiced rice with tomato and warm aromatics.",
     "ingredients": [
       {
@@ -13768,7 +22466,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -13779,7 +22480,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "tomato paste",
@@ -13790,7 +22494,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -13801,7 +22508,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -13812,7 +22522,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "hard-boiled eggs",
@@ -13823,7 +22536,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "optional"
       },
       {
         "rawName": "cardamom",
@@ -13834,7 +22550,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "cinnamon",
@@ -13845,7 +22563,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -13856,7 +22576,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -13867,9 +22589,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken thighs and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon, herbs, or pickles if you have them after warming.",
+    "recipe": {
+      "activeTimeMinutes": 55,
+      "totalTimeMinutes": 75,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in tomato paste and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the chicken thighs",
+          "body": "Add chicken thighs with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in onion. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 35,
+          "temperature": "325°F",
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook rice while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Iraqi tbeet over rice. Finish with lemon, herbs, or pickles if you have them right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "syrian-lemony-beef-with-greens-rice",
@@ -13894,7 +22685,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "rice",
       "garlic"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the beef and rice, not just sit on top.",
     "whyItWorks": "Tender beef with greens, lemon, garlic, and rice.",
     "ingredients": [
       {
@@ -13906,7 +22697,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -13917,7 +22711,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "greens",
@@ -13928,7 +22725,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -13939,7 +22739,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -13950,7 +22753,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -13961,7 +22767,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -13972,7 +22781,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "pita",
@@ -13983,7 +22794,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -13994,7 +22808,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "allspice",
@@ -14005,7 +22821,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14016,9 +22834,77 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover beef and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 50,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the beef",
+          "body": "Coat beef with oil, salt, pepper, and the main spice profile from Syrian lemony beef with greens. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir Greek yogurt with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm rice. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the beef",
+          "body": "Sear, grill, or roast beef until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss greens, onion with lemon, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest beef for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Syrian lemony beef with greens with rice, Greek yogurt, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "roasted-salmon-herby-tahini-israeli-couscous",
@@ -14043,7 +22929,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "roasted",
       "lemon"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste tahini before serving. It should be bold enough to season the salmon and Israeli couscous, not just sit on top.",
     "whyItWorks": "Roasted salmon with herby tahini and pearl couscous.",
     "ingredients": [
       {
@@ -14055,7 +22941,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/4 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "Israeli couscous",
@@ -14066,7 +22955,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "8 oz",
+        "importance": "core"
       },
       {
         "rawName": "tahini",
@@ -14077,7 +22968,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14088,7 +22981,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -14099,7 +22995,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -14110,7 +23009,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -14121,7 +23023,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "optional"
       },
       {
         "rawName": "feta",
@@ -14132,7 +23037,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 oz",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -14143,7 +23050,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14154,9 +23063,86 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover salmon and Israeli couscous separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, lemon, cucumber after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss the vegetables with oil, salt, pepper, and the main seasoning from Roasted salmon. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the salmon",
+          "body": "Pat salmon dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until salmon is cooked through and the vegetables is browned at the edges.",
+          "timeMinutes": 22,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir tahini with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook Israeli couscous so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley, lemon, cucumber and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Roasted salmon over or alongside Israeli couscous, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "chicken-schnitzel-lemon-cucumber-tomato-salad",
@@ -14182,7 +23168,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "cucumber tomato",
       "comfort"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the chicken cutlets and the base, not just sit on top.",
     "whyItWorks": "Crispy chicken schnitzel with lemon and cucumber tomato salad.",
     "ingredients": [
       {
@@ -14194,7 +23180,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -14205,7 +23194,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -14216,7 +23208,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14227,7 +23222,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -14238,7 +23236,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "breadcrumbs",
@@ -14249,7 +23250,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "eggs",
@@ -14260,7 +23264,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -14271,7 +23278,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "capers",
@@ -14282,7 +23291,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "flour",
@@ -14293,7 +23304,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Pantry",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -14304,7 +23317,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14315,7 +23330,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       },
       {
         "rawName": "pepper",
@@ -14326,9 +23344,79 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 13
+        "sortOrder": 13,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken cutlets and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 35,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Set up the coating",
+          "body": "Season chicken cutlets with salt and pepper. Put flour or starch, beaten egg, and breadcrumbs or the listed coating in separate shallow bowls.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "Each bowl should be seasoned so the crust tastes good on its own."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the fresh side",
+          "body": "Toss cucumber, tomatoes with citrus, salt, and a little oil. Keep it cold while the crispy piece cooks.",
+          "timeMinutes": 5,
+          "component": "vegetables",
+          "visualCue": "The side should taste sharper than you think; it has to cut the fried crust."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Coat firmly",
+          "body": "Dredge chicken cutlets, pressing the coating on with your hands. Rest it for 5 minutes so the crust sticks.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "No wet patches should show through."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook until crisp",
+          "body": "Heat a thin layer of oil over medium-high heat. Fry chicken cutlets until deeply golden on both sides and cooked through.",
+          "timeMinutes": 8,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "The crust should sound crisp when tapped."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Drain and salt",
+          "body": "Move chicken cutlets to a rack or paper towel and salt it immediately.",
+          "timeMinutes": 2,
+          "component": "finish",
+          "visualCue": "Steam should escape instead of softening the crust."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Serve with hot the base. If there is sauce, keep it spoonable and hot.",
+          "timeMinutes": 5,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Plate for crunch",
+          "body": "Spoon Greek yogurt beside or under the crispy chicken cutlets, then finish with cucumber, parsley, lemon.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "hawaij-spiced-roast-chicken-rice-charred-onion",
@@ -14353,7 +23441,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "charred onion",
       "spiced"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste yogurt before serving. It should be bold enough to season the chicken and rice, not just sit on top.",
     "whyItWorks": "Hawaij roast chicken with rice and sweet charred onion.",
     "ingredients": [
       {
@@ -14365,7 +23453,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -14376,7 +23467,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -14387,7 +23481,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14398,7 +23495,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -14409,7 +23509,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "cucumber salad",
@@ -14420,7 +23523,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "optional"
       },
       {
         "rawName": "yogurt",
@@ -14431,7 +23537,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/3 cup",
+        "importance": "optional"
       },
       {
         "rawName": "hawaij spice",
@@ -14442,7 +23550,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -14453,7 +23563,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14464,9 +23576,85 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "rimmed sheet pan",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover chicken and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, lemon, cucumber salad after warming.",
+    "recipe": {
+      "activeTimeMinutes": 30,
+      "totalTimeMinutes": 50,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Heat the oven",
+          "body": "Heat oven to 425°F. Line a rimmed sheet pan or lightly oil it.",
+          "temperature": "425°F",
+          "component": "prep"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Season the vegetables",
+          "body": "Toss onion with oil, salt, pepper, and the main seasoning from Hawaij-spiced roast chicken. Spread in one layer.",
+          "timeMinutes": 3,
+          "component": "vegetables",
+          "visualCue": "There should be space between pieces so they brown."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Season the chicken",
+          "body": "Pat chicken dry, season it well, and place it on the pan with the vegetables.",
+          "timeMinutes": 3,
+          "component": "protein",
+          "visualCue": "The surface should look dry enough to roast, not wet."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Roast hard",
+          "body": "Roast until chicken is cooked through and onion is browned at the edges.",
+          "timeMinutes": 30,
+          "temperature": "425°F",
+          "component": "protein",
+          "visualCue": "Look for caramelized edges and clear chicken juices or flaking fish."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the sauce",
+          "body": "While the pan roasts, stir yogurt with citrus, salt, and a splash of water until spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "The sauce should ribbon off a spoon."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Prepare the base",
+          "body": "Warm or cook rice so it is ready when the tray comes out.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Rest and finish",
+          "body": "Rest the pan for 5 minutes, then finish with parsley, lemon, cucumber salad and any pan juices.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 8,
+          "title": "Serve",
+          "body": "Serve Hawaij-spiced roast chicken over or alongside rice, keeping sauce on top so the roasted edges stay crisp.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "shakshuka-with-feta-and-herbs-challah",
@@ -14492,7 +23680,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "challah",
       "eggs"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the eggs and challah, not just sit on top.",
     "whyItWorks": "Tomato pepper shakshuka with eggs, feta, herbs, and challah.",
     "ingredients": [
       {
@@ -14504,7 +23692,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "4",
+        "prep": "large",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -14515,7 +23706,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "bell peppers",
@@ -14526,7 +23720,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -14537,7 +23734,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14548,7 +23747,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "challah",
@@ -14559,7 +23761,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "core"
       },
       {
         "rawName": "cilantro",
@@ -14570,7 +23775,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "hot sauce",
@@ -14581,7 +23789,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "olive oil",
@@ -14592,7 +23802,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "cumin",
@@ -14603,7 +23815,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "paprika",
@@ -14614,7 +23828,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14625,9 +23841,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "large skillet",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover eggs and challah separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley, cilantro after warming.",
+    "recipe": {
+      "activeTimeMinutes": 23,
+      "totalTimeMinutes": 28,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in the sauce and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the eggs",
+          "body": "Add eggs with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in tomatoes, bell peppers. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 16,
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook challah while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Shakshuka with feta and herbs over challah. Finish with parsley, cilantro right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "slow-braised-brisket-soft-onions-and-potatoes",
@@ -14652,7 +23937,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "potatoes",
       "comfort"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste tomato paste before serving. It should be bold enough to season the brisket and potatoes, not just sit on top.",
     "whyItWorks": "Tender brisket with soft onions, potatoes, and deep pan sauce.",
     "ingredients": [
       {
@@ -14664,7 +23949,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Other",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 lb",
+        "prep": "patted dry",
+        "importance": "core"
       },
       {
         "rawName": "onions",
@@ -14675,7 +23963,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "potatoes",
@@ -14686,7 +23977,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "carrots",
@@ -14697,7 +23991,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 medium",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "garlic",
@@ -14708,7 +24005,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "2 cloves",
+        "prep": "grated or minced",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14719,7 +24019,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "green beans",
@@ -14730,7 +24033,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "optional"
       },
       {
         "rawName": "stock",
@@ -14741,7 +24047,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "tomato paste",
@@ -14752,7 +24060,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Produce",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "pantry"
       },
       {
         "rawName": "oil",
@@ -14763,7 +24074,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14774,9 +24087,78 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "heavy pot or Dutch oven",
+      "medium saucepan"
+    ],
+    "leftoversNote": "Store leftover brisket and potatoes separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 100,
+      "totalTimeMinutes": 120,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Soften aromatics",
+          "body": "Warm oil in a heavy pot over medium heat. Cook onion, garlic, or the listed aromatics until soft and fragrant.",
+          "timeMinutes": 5,
+          "component": "prep",
+          "visualCue": "They should look glossy, not scorched."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Bloom the seasoning",
+          "body": "Stir in tomato paste and the dry spices for 30 to 60 seconds so the fat takes on color.",
+          "timeMinutes": 1,
+          "component": "sauce",
+          "visualCue": "The paste should darken slightly and smell toasted."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Brown the brisket",
+          "body": "Add brisket with a pinch of salt. Brown the outside before adding the simmering liquid.",
+          "timeMinutes": 6,
+          "component": "protein",
+          "visualCue": "The outside should no longer look raw."
+        },
+        {
+          "stepNumber": 4,
+          "title": "Simmer gently",
+          "body": "Add the liquid for the dish, then fold in onions, potatoes, carrots. Cover partly and simmer until tender and saucy.",
+          "timeMinutes": 35,
+          "temperature": "325°F",
+          "component": "vegetables",
+          "visualCue": "The sauce should coat a spoon."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Cook the base",
+          "body": "Cook potatoes while the sauce simmers. Season it lightly.",
+          "timeMinutes": 15,
+          "component": "base"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Balance the pot",
+          "body": "Taste for salt, heat, and acid. Add a splash of water if the sauce gets too tight.",
+          "component": "finish",
+          "visualCue": "It should taste rounded first, then bright."
+        },
+        {
+          "stepNumber": 7,
+          "title": "Serve with contrast",
+          "body": "Spoon Slow-braised brisket over potatoes. Finish with parsley right before eating.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "majadra-lentils-and-rice-crispy-onions-yogurt-salad",
@@ -14802,7 +24184,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "crispy onions",
       "yogurt"
     ],
-    "chefNote": "Finish with something fresh, acidic, or crunchy so dinner tastes intentional.",
+    "chefNote": "Taste Greek yogurt before serving. It should be bold enough to season the lentils and rice, not just sit on top.",
     "whyItWorks": "Lentils and rice with cumin, crispy onions, yogurt, and salad.",
     "ingredients": [
       {
@@ -14814,7 +24196,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 can",
+        "prep": "drained and rinsed",
+        "importance": "core"
       },
       {
         "rawName": "rice",
@@ -14825,7 +24210,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 1/2 cups",
+        "prep": "rinsed",
+        "importance": "core"
       },
       {
         "rawName": "onion",
@@ -14836,7 +24224,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "Greek yogurt",
@@ -14847,7 +24238,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "1/3 cup",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -14858,7 +24251,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -14869,7 +24265,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -14880,7 +24279,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -14891,7 +24293,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "optional"
       },
       {
         "rawName": "pita",
@@ -14902,7 +24307,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "cumin",
@@ -14913,7 +24321,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -14924,7 +24334,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -14935,9 +24347,74 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "medium saucepan",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover lentils and rice separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, lemon, parsley after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 45,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the lentils",
+          "body": "Coat lentils with oil, salt, pepper, and the main spice profile from Majadra.",
+          "timeMinutes": 5,
+          "component": "protein"
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the sauce",
+          "body": "Stir Greek yogurt with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce"
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm rice. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the lentils",
+          "body": "Sear, grill, or roast lentils until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein"
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss onion, cucumber, tomatoes with cucumber, lemon, parsley, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables"
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest briefly",
+          "body": "Rest lentils for 5 minutes so the texture settles.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Majadra with rice, Greek yogurt, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   },
   {
     "slug": "herby-chopped-salad-feta-sumac-lemon-grilled-chicken",
@@ -14962,7 +24439,7 @@ export const seedMealTemplates: SeedMealTemplate[] = [
       "lemon",
       "grilled chicken"
     ],
-    "chefNote": "Add citrus at the end so the dish stays sharp, not cooked-flat.",
+    "chefNote": "Taste the sauce before serving. It should be bold enough to season the chicken and the base, not just sit on top.",
     "whyItWorks": "A sharp chopped salad with feta and sumac next to grilled chicken.",
     "ingredients": [
       {
@@ -14974,7 +24451,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Protein",
-        "sortOrder": 1
+        "sortOrder": 1,
+        "displayQuantity": "1 1/2 lb",
+        "prep": "trimmed and patted dry",
+        "importance": "core"
       },
       {
         "rawName": "cucumber",
@@ -14985,7 +24465,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 2
+        "sortOrder": 2,
+        "displayQuantity": "1 large",
+        "prep": "thinly sliced",
+        "importance": "core"
       },
       {
         "rawName": "tomatoes",
@@ -14996,7 +24479,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 3
+        "sortOrder": 3,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "feta",
@@ -15007,7 +24493,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Dairy",
-        "sortOrder": 4
+        "sortOrder": 4,
+        "displayQuantity": "4 oz",
+        "importance": "core"
       },
       {
         "rawName": "parsley",
@@ -15018,7 +24506,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 5
+        "sortOrder": 5,
+        "displayQuantity": "1/2 cup",
+        "prep": "chopped",
+        "importance": "core"
       },
       {
         "rawName": "lemon",
@@ -15029,7 +24520,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 6
+        "sortOrder": 6,
+        "displayQuantity": "1",
+        "prep": "juiced, plus wedges",
+        "importance": "core"
       },
       {
         "rawName": "red onion",
@@ -15040,7 +24534,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": false,
         "groceryCategory": "Produce",
-        "sortOrder": 7
+        "sortOrder": 7,
+        "displayQuantity": "2 cups",
+        "prep": "cut into bite-size pieces",
+        "importance": "core"
       },
       {
         "rawName": "pita",
@@ -15051,7 +24548,10 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Pantry",
-        "sortOrder": 8
+        "sortOrder": 8,
+        "displayQuantity": "4 pieces",
+        "prep": "warmed",
+        "importance": "optional"
       },
       {
         "rawName": "olives",
@@ -15062,7 +24562,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": true,
         "isPantry": false,
         "groceryCategory": "Condiments",
-        "sortOrder": 9
+        "sortOrder": 9,
+        "displayQuantity": "to taste",
+        "importance": "optional"
       },
       {
         "rawName": "sumac",
@@ -15073,7 +24575,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Other",
-        "sortOrder": 10
+        "sortOrder": 10,
+        "displayQuantity": "as needed",
+        "importance": "pantry"
       },
       {
         "rawName": "olive oil",
@@ -15084,7 +24588,9 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 11
+        "sortOrder": 11,
+        "displayQuantity": "2 tbsp",
+        "importance": "pantry"
       },
       {
         "rawName": "salt",
@@ -15095,8 +24601,76 @@ export const seedMealTemplates: SeedMealTemplate[] = [
         "isOptional": false,
         "isPantry": true,
         "groceryCategory": "Condiments",
-        "sortOrder": 12
+        "sortOrder": 12,
+        "displayQuantity": "1 tsp",
+        "prep": "plus more to taste",
+        "importance": "pantry"
       }
-    ]
+    ],
+    "equipment": [
+      "chef knife",
+      "cutting board",
+      "mixing bowl"
+    ],
+    "leftoversNote": "Store leftover chicken and the base separately from fresh toppings for up to 3 days. Reheat the hot parts first, then add cucumber, parsley, lemon after warming.",
+    "recipe": {
+      "activeTimeMinutes": 25,
+      "totalTimeMinutes": 30,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "title": "Season the chicken",
+          "body": "Coat chicken with oil, salt, pepper, and the main spice profile from Herby chopped salad. Let it sit while you prep the sides.",
+          "timeMinutes": 5,
+          "component": "protein",
+          "visualCue": "The seasoning should cling, not pool."
+        },
+        {
+          "stepNumber": 2,
+          "title": "Make the cool sauce",
+          "body": "Stir the sauce with lemon, salt, and a small splash of water until creamy and spoonable.",
+          "timeMinutes": 3,
+          "component": "sauce",
+          "visualCue": "It should taste tangy enough to wake up the plate."
+        },
+        {
+          "stepNumber": 3,
+          "title": "Prepare the base",
+          "body": "Cook or warm the base. Keep it covered so it stays soft.",
+          "timeMinutes": 10,
+          "component": "base"
+        },
+        {
+          "stepNumber": 4,
+          "title": "Cook the chicken",
+          "body": "Sear, grill, or roast chicken until browned outside and cooked through.",
+          "timeMinutes": 10,
+          "temperature": "medium-high heat",
+          "component": "protein",
+          "visualCue": "Edges should be browned and juices should run clear for chicken."
+        },
+        {
+          "stepNumber": 5,
+          "title": "Make the salad",
+          "body": "Toss cucumber, tomatoes with cucumber, parsley, lemon, olive oil, and salt.",
+          "timeMinutes": 4,
+          "component": "vegetables",
+          "visualCue": "The salad should be bright and crisp."
+        },
+        {
+          "stepNumber": 6,
+          "title": "Rest before slicing",
+          "body": "Rest chicken for 5 minutes so the juices settle.",
+          "timeMinutes": 5,
+          "component": "finish"
+        },
+        {
+          "stepNumber": 7,
+          "title": "Build the plate",
+          "body": "Serve Herby chopped salad with the base, the sauce, the salad, and any optional pickles or herbs.",
+          "component": "assembly"
+        }
+      ]
+    }
   }
 ];

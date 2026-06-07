@@ -616,13 +616,18 @@ export function useGroceryAppState() {
   function planMealWithIngredients(meal: MealIdea, reviewed: ReviewedIngredient[]) {
     const needNames = reviewed.filter((item) => item.status === 'needToBuy').map((item) => normalizeReceiptItemName(item.name));
     const haveNames = reviewed.filter((item) => item.status === 'alreadyHave').map((item) => normalizeReceiptItemName(item.name));
-    const haveKeys = new Set(haveNames.map(normalizeIngredientKey));
+    const needKeysByName = new Map(
+      reviewed
+        .filter((item) => item.status === 'needToBuy')
+        .map((item) => [normalizeReceiptItemName(item.name), item.canonicalName ?? normalizeIngredientKey(item.name)]),
+    );
+    const haveKeys = new Set(reviewed.filter((item) => item.status === 'alreadyHave').map((item) => item.canonicalName ?? normalizeIngredientKey(item.name)));
 
     setPlannedMealIds((current) => unique([...current, meal.id]));
     setBehavior((current) => {
       const nextUsedFor = { ...current.usedForMeals };
       needNames.forEach((name) => {
-        const key = normalizeIngredientKey(name);
+        const key = needKeysByName.get(name) ?? normalizeIngredientKey(name);
         nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), meal.name]);
       });
 
@@ -632,7 +637,7 @@ export function useGroceryAppState() {
         manuallyAddedNames: current.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
         mealAddedNames: unique([
           ...current.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
-          ...needNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+          ...needNames.filter((name) => !haveKeys.has(needKeysByName.get(name) ?? normalizeIngredientKey(name))),
         ]),
         usedForMeals: nextUsedFor,
         likedTags: unique([...current.likedTags, ...meal.tags]),

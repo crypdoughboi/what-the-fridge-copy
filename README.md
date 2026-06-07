@@ -81,12 +81,15 @@ The schema lives in:
 
 ```text
 supabase/migrations/202606070001_meal_templates_user_state.sql
+supabase/migrations/202606070002_meal_recipe_details.sql
 ```
 
 Core tables:
 
 - `meal_templates`: global reusable recipe templates.
 - `meal_ingredients`: structured ingredients for each meal template.
+- `meal_recipe_details`: servings, times, equipment, notes, and recipe metadata.
+- `meal_recipe_steps`: numbered recipe instructions for each meal.
 - `user_meals`: user-specific saved, planned, made, and skipped meal states.
 - `user_ingredients`: ingredients the user already has.
 - `grocery_items`: ingredients the user needs to buy.
@@ -103,7 +106,7 @@ npm run seed:meals
 
 Do not expose the service-role key in Vercel or in the browser. It is only for local/admin seeding.
 
-The seed data lives in `src/data/seedMealTemplates.ts`. The current app still maps those templates into UI-friendly `MealIdea` objects through `src/data/mealIdeas.ts`.
+The seed data lives in `src/data/seedMealTemplates.ts`. It includes the 100-meal starter library, ingredient quantities/prep text, equipment, notes, and 7 to 8 meal-specific recipe steps per meal. The current app still maps those templates into UI-friendly `MealIdea` objects through `src/data/mealIdeas.ts`.
 
 Runtime Supabase logic lives in `src/services/mealStateService.ts`.
 

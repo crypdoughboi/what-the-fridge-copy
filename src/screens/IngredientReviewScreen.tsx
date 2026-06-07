@@ -25,19 +25,20 @@ export function IngredientReviewScreen({
   const needKeys = useMemo(() => new Set(needToBuyNames.map(normalizeIngredientKey)), [needToBuyNames]);
   const ingredients = useMemo(() => buildReviewIngredients(meal, knownKeys, needKeys), [meal, knownKeys, needKeys]);
   const [statuses, setStatuses] = useState<Record<string, IngredientReviewStatus>>(
-    Object.fromEntries(ingredients.map((ingredient) => [normalizeIngredientKey(ingredient.name), ingredient.status])),
+    Object.fromEntries(ingredients.map((ingredient) => [keyForIngredient(ingredient), ingredient.status])),
   );
 
   const reviewed = ingredients.map((ingredient) => ({
     ...ingredient,
-    status: statuses[normalizeIngredientKey(ingredient.name)] ?? ingredient.status,
+    status: statuses[keyForIngredient(ingredient)] ?? ingredient.status,
   }));
   const missingCount = reviewed.filter((ingredient) => ingredient.status === 'needToBuy').length;
 
   function setStatus(name: string, status: IngredientReviewStatus) {
+    const ingredient = ingredients.find((item) => item.name === name);
     setStatuses((current) => ({
       ...current,
-      [normalizeIngredientKey(name)]: status,
+      [ingredient ? keyForIngredient(ingredient) : normalizeIngredientKey(name)]: status,
     }));
   }
 
@@ -67,6 +68,11 @@ export function IngredientReviewScreen({
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-[16px] font-semibold text-ink">{ingredient.name}</p>
+                {ingredient.displayQuantity || ingredient.prep ? (
+                  <p className="mt-1 text-[13px] font-semibold text-ink-soft">
+                    {[ingredient.displayQuantity, ingredient.prep].filter(Boolean).join(', ')}
+                  </p>
+                ) : null}
                 <p className="mt-1 text-[13px] font-medium text-muted">{ingredient.pantry ? 'Pantry check' : ingredient.optional ? 'Optional upgrade' : 'Meal ingredient'}</p>
               </div>
               <Pill tone={ingredient.status === 'alreadyHave' ? 'green' : 'neutral'}>{labelForStatus(ingredient.status)}</Pill>
@@ -109,10 +115,58 @@ function ChoiceButton({ active, children, onClick }: { active: boolean; children
 function buildReviewIngredients(meal: MealIdea, knownKeys: Set<string>, needKeys: Set<string>): ReviewedIngredient[] {
   const byKey = new Map<string, ReviewedIngredient>();
 
+  meal.structuredIngredients
+    .filter((ingredient) => !ingredient.isOptional && !ingredient.isPantry)
+    .forEach((ingredient) => {
+      const key = ingredient.canonicalName;
+      byKey.set(key, {
+        name: ingredient.rawName,
+        canonicalName: ingredient.canonicalName,
+        displayQuantity: ingredient.displayQuantity,
+        prep: ingredient.prep,
+        status: knownKeys.has(key) ? 'alreadyHave' : 'needToBuy',
+      });
+    });
+
+  meal.structuredIngredients
+    .filter((ingredient) => ingredient.isPantry)
+    .forEach((ingredient) => {
+      const key = ingredient.canonicalName;
+      if (!byKey.has(key)) {
+        byKey.set(key, {
+          name: ingredient.rawName,
+          canonicalName: ingredient.canonicalName,
+          displayQuantity: ingredient.displayQuantity,
+          prep: ingredient.prep,
+          pantry: true,
+          status: knownKeys.has(key) || !needKeys.has(key) ? 'alreadyHave' : 'needToBuy',
+        });
+      }
+    });
+
+  meal.structuredIngredients
+    .filter((ingredient) => ingredient.isOptional)
+    .forEach((ingredient) => {
+      const key = ingredient.canonicalName;
+      if (!byKey.has(key)) {
+        byKey.set(key, {
+          name: ingredient.rawName,
+          canonicalName: ingredient.canonicalName,
+          displayQuantity: ingredient.displayQuantity,
+          prep: ingredient.prep,
+          optional: true,
+          status: knownKeys.has(key) ? 'alreadyHave' : 'optional',
+        });
+      }
+    });
+
+  if (byKey.size > 0) return Array.from(byKey.values());
+
   meal.ingredients.forEach((name) => {
     const key = normalizeIngredientKey(name);
     byKey.set(key, {
       name,
+      canonicalName: key,
       status: knownKeys.has(key) ? 'alreadyHave' : 'needToBuy',
     });
   });
@@ -122,6 +176,7 @@ function buildReviewIngredients(meal: MealIdea, knownKeys: Set<string>, needKeys
     if (!byKey.has(key)) {
       byKey.set(key, {
         name,
+        canonicalName: key,
         pantry: true,
         status: knownKeys.has(key) || !needKeys.has(key) ? 'alreadyHave' : 'needToBuy',
       });
@@ -133,6 +188,7 @@ function buildReviewIngredients(meal: MealIdea, knownKeys: Set<string>, needKeys
     if (!byKey.has(key)) {
       byKey.set(key, {
         name,
+        canonicalName: key,
         optional: true,
         status: knownKeys.has(key) ? 'alreadyHave' : 'optional',
       });
@@ -140,6 +196,10 @@ function buildReviewIngredients(meal: MealIdea, knownKeys: Set<string>, needKeys
   });
 
   return Array.from(byKey.values());
+}
+
+function keyForIngredient(ingredient: ReviewedIngredient): string {
+  return ingredient.canonicalName ?? normalizeIngredientKey(ingredient.name);
 }
 
 function labelForStatus(status: IngredientReviewStatus): string {

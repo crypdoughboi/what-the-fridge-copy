@@ -1,5 +1,6 @@
-import { ArrowLeft, Bookmark, CalendarPlus, CheckCircle2 } from 'lucide-react';
-import { MealIdea } from '../types';
+import { ArrowLeft, Bookmark, CalendarPlus, CheckCircle2, Clock3, Flame, Lightbulb, Users } from 'lucide-react';
+import type { ReactNode } from 'react';
+import { MealIdea, RecipeStep, SeedMealIngredient, StoreSection } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Pill } from '../components/Pill';
@@ -23,7 +24,9 @@ export function MealDetailScreen({
   onMakeThisWeek: (meal: MealIdea) => void;
   onMarkMade: (meal: MealIdea) => void;
 }) {
-  const steps = meal.instructionsPreview?.length ? meal.instructionsPreview : buildRecipeSteps(meal);
+  const coreIngredients = meal.structuredIngredients.filter((ingredient) => !ingredient.isPantry && !ingredient.isOptional);
+  const pantryIngredients = meal.structuredIngredients.filter((ingredient) => ingredient.isPantry);
+  const optionalIngredients = meal.structuredIngredients.filter((ingredient) => ingredient.isOptional);
 
   return (
     <main className="screen-enter space-y-8">
@@ -37,36 +40,42 @@ export function MealDetailScreen({
         <h1 className="mt-2 font-display text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{meal.name}</h1>
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{meal.description}</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Pill tone="green">{meal.timeMinutes} min</Pill>
+          <Pill tone="green">{meal.recipe.totalTimeMinutes} min</Pill>
+          <Pill>{meal.recipe.activeTimeMinutes} min active</Pill>
+          <Pill>{meal.servings} servings</Pill>
           <Pill>{meal.effort}</Pill>
           <Pill>{meal.cuisineInfluence}</Pill>
           <Pill>{meal.format}</Pill>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {meal.tags.slice(0, 5).map((tag) => (
+            <Pill key={tag}>{tag}</Pill>
+          ))}
         </div>
       </Card>
 
       <Card>
         <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Ingredients</h2>
-        <IngredientGroup title="Main ingredients" values={meal.ingredients} tone="green" />
-        <IngredientGroup title="Pantry check" values={meal.pantryIngredients} tone="neutral" />
-        {meal.optionalIngredients.length ? <IngredientGroup title="Optional upgrades" values={meal.optionalIngredients} tone="neutral" /> : null}
+        <GroupedIngredients ingredients={coreIngredients} />
+        {pantryIngredients.length ? <IngredientList title="Pantry check" ingredients={pantryIngredients} /> : null}
+        {optionalIngredients.length ? <IngredientList title="Optional upgrades" ingredients={optionalIngredients} /> : null}
       </Card>
 
       <Card>
         <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Cook it</h2>
-        <ol className="mt-3 space-y-3">
-          {steps.map((step, index) => (
-            <li key={`${step}-${index}`} className="flex gap-3">
-              <span className="grid h-7 w-7 shrink-0 place-items-center rounded-pill bg-accent-soft text-[13px] font-semibold text-accent">{index + 1}</span>
-              <p className="pt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{step}</p>
-            </li>
+        <ol className="mt-4 space-y-4">
+          {meal.recipe.steps.map((step) => (
+            <RecipeStepItem key={step.stepNumber} step={step} />
           ))}
         </ol>
       </Card>
 
-      <Card>
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Chef note</p>
-        <p className="mt-2 text-[15px] font-semibold leading-relaxed text-ink">{chefNoteForMeal(meal)}</p>
-      </Card>
+      <div className="grid gap-3">
+        <NoteCard icon={<Lightbulb className="h-5 w-5" strokeWidth={1.75} />} label="Why it works" body={meal.whyItWorks} />
+        <NoteCard icon={<Flame className="h-5 w-5" strokeWidth={1.75} />} label="Chef note" body={meal.chefNote} />
+        {meal.equipment.length ? <NoteCard icon={<Clock3 className="h-5 w-5" strokeWidth={1.75} />} label="Equipment" body={meal.equipment.join(', ')} /> : null}
+        {meal.leftoversNote ? <NoteCard icon={<Users className="h-5 w-5" strokeWidth={1.75} />} label="Leftovers" body={meal.leftoversNote} /> : null}
+      </div>
 
       <div className="grid gap-2">
         <Button icon={<CalendarPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onMakeThisWeek(meal)}>
@@ -85,69 +94,77 @@ export function MealDetailScreen({
   );
 }
 
-function IngredientGroup({ title, values, tone }: { title: string; values: string[]; tone: 'green' | 'neutral' }) {
+function GroupedIngredients({ ingredients }: { ingredients: SeedMealIngredient[] }) {
+  const sections = groupBySection(ingredients);
+  return (
+    <div className="mt-4 space-y-4">
+      {sections.map(([section, values]) => (
+        <IngredientList key={section} title={section} ingredients={values} />
+      ))}
+    </div>
+  );
+}
+
+function IngredientList({ title, ingredients }: { title: string; ingredients: SeedMealIngredient[] }) {
   return (
     <div className="mt-4">
       <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">{title}</p>
-      <div className="flex flex-wrap gap-2">
-        {values.map((value) => (
-          <Pill key={value} tone={tone}>
-            {value}
-          </Pill>
+      <div className="space-y-2">
+        {ingredients.map((ingredient) => (
+          <div key={`${ingredient.section}-${ingredient.rawName}`} className="rounded-md border border-line bg-paper px-3 py-2">
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-[14px] font-semibold text-ink">{ingredient.rawName}</p>
+              {ingredient.displayQuantity ? <p className="shrink-0 text-[13px] font-semibold text-ink-soft">{ingredient.displayQuantity}</p> : null}
+            </div>
+            {ingredient.prep ? <p className="mt-1 text-[13px] font-medium text-muted">{ingredient.prep}</p> : null}
+          </div>
         ))}
       </div>
     </div>
   );
 }
 
-function buildRecipeSteps(meal: MealIdea): string[] {
-  const protein = firstMatching(meal.ingredients, /(chicken|salmon|shrimp|steak|beef|pork|lamb|tofu|cod|halibut|fish|eggs|egg|beans|chickpea|falafel)/);
-  const base = firstMatching(meal.ingredients, /(rice|couscous|orzo|pasta|noodle|tortilla|pita|potato|bread|naan|grits|quinoa)/);
-  const veg = firstMatching(meal.ingredients, /(cucumber|carrot|broccoli|broccolini|cabbage|tomato|pepper|onion|greens|spinach|bok choy|corn|fennel|green bean|eggplant)/);
-  const fresh = firstMatching([...meal.ingredients, ...meal.optionalIngredients], /(lemon|lime|cilantro|parsley|mint|scallion|herb|pickled|kimchi|tomato|cucumber)/);
-  const sauce = firstMatching([...meal.ingredients, ...meal.pantryIngredients], /(harissa|tahini|yogurt|gochujang|miso|teriyaki|salsa|crema|peanut|pesto|marinara|curry|chipotle|soy|vinaigrette|butter)/);
-
-  const steps = [
-    `Prep the ${base ? `${base} and ` : ''}ingredients first so the hot food does not sit around.`,
-    protein ? `Season and cook the ${protein} until browned and just cooked through.` : `Cook the main ingredients until hot, browned in spots, and properly seasoned.`,
-    veg ? `Cook or slice the ${veg}. Keep some crunch if the dish needs freshness.` : `Add the vegetables and cook just until they still have some life.`,
-    sauce ? `Build the sauce around ${sauce}. Taste it for salt, acid, and heat before it hits the plate.` : `Stir together a quick sauce with pantry staples, then taste for salt and acid.`,
-    fresh ? `Finish with ${fresh} right before serving so the dish feels bright, not heavy.` : `Finish with something fresh, sharp, or crunchy before serving.`,
-  ];
-
-  if (/bowl|rice/i.test(meal.format)) {
-    steps[0] = base && /(pita|tortilla|bread|naan)/i.test(base)
-      ? `Prep the cold toppings first. Warm the ${base} right before serving.`
-      : `Start the ${base ?? 'base'} first, then prep toppings while it cooks.`;
-    steps.push('Spoon everything into bowls with the sauce on top and crunchy pieces last.');
-  } else if (/taco|wrap|bread/i.test(meal.format)) {
-    steps.push('Warm the tortillas or bread last so the filling hits something soft and hot.');
-  } else if (/sheet|roast/i.test(meal.format) || meal.dinnerLanes.includes('Weeknight roast')) {
-    steps[1] = `Roast the ${protein ?? 'main ingredients'} hard enough to get browned edges, not just cooked centers.`;
-    steps.push('Rest for a few minutes, then finish with the bright sauce or herbs.');
-  } else {
-    steps.push('Plate it hot and add the fresh or crunchy garnish at the end.');
-  }
-
-  return steps;
+function RecipeStepItem({ step }: { step: RecipeStep }) {
+  return (
+    <li className="flex gap-3">
+      <span className="grid h-8 w-8 shrink-0 place-items-center rounded-pill bg-accent-soft text-[13px] font-semibold text-accent">{step.stepNumber}</span>
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 className="text-[16px] font-bold text-ink">{step.title}</h3>
+          {step.timeMinutes ? <Pill>{step.timeMinutes} min</Pill> : null}
+          {step.temperature ? <Pill>{step.temperature}</Pill> : null}
+        </div>
+        <p className="mt-2 text-[14px] font-medium leading-relaxed text-ink-soft">{step.body}</p>
+        {step.visualCue ? <p className="mt-2 rounded-md bg-paper p-3 text-[13px] font-semibold leading-relaxed text-ink-soft">Look for: {step.visualCue}</p> : null}
+      </div>
+    </li>
+  );
 }
 
-function chefNoteForMeal(meal: MealIdea): string {
-  if (meal.tags.some((tag) => /crispy|katsu|schnitzel|fried/i.test(tag))) {
-    return 'Crisp food dies under wet toppings. Sauce the plate or side first, then keep the crunchy piece on top.';
-  }
-  if (meal.tags.some((tag) => /curry|cozy|creamy|butter|vodka/i.test(tag))) {
-    return 'Rich food needs lift. Add lemon, lime, vinegar, herbs, or something pickled before serving.';
-  }
-  if (meal.tags.some((tag) => /rice bowl|bowl|noodle/i.test(tag))) {
-    return 'Bowls work when every bite has hot, cold, creamy, sharp, and crunchy. Do not skip the fresh finish.';
-  }
-  if (meal.tags.some((tag) => /taco|wrap|pita/i.test(tag))) {
-    return 'Warm the bread or tortilla. Cold bread makes good fillings taste like leftovers.';
-  }
-  return 'Taste once before serving. Most weeknight dinners need either more salt, more acid, or more crunch.';
+function NoteCard({ icon, label, body }: { icon: ReactNode; label: string; body: string }) {
+  return (
+    <Card>
+      <div className="flex items-start gap-3">
+        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
+        <div>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">{label}</p>
+          <p className="mt-2 text-[15px] font-semibold leading-relaxed text-ink">{body}</p>
+        </div>
+      </div>
+    </Card>
+  );
 }
 
-function firstMatching(values: string[], pattern: RegExp): string | undefined {
-  return values.find((value) => pattern.test(value));
+function groupBySection(ingredients: SeedMealIngredient[]): [StoreSection, SeedMealIngredient[]][] {
+  const order: StoreSection[] = ['Produce', 'Meat/Protein', 'Dairy', 'Pantry', 'Frozen', 'Snacks', 'Household', 'Other'];
+  const groups = new Map<StoreSection, SeedMealIngredient[]>();
+  ingredients.forEach((ingredient) => {
+    const current = groups.get(ingredient.section) ?? [];
+    current.push(ingredient);
+    groups.set(ingredient.section, current);
+  });
+  return order.flatMap((section) => {
+    const values = groups.get(section);
+    return values?.length ? [[section, values] as [StoreSection, SeedMealIngredient[]]] : [];
+  });
 }

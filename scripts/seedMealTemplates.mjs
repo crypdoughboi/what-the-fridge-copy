@@ -65,11 +65,41 @@ function ingredientRow(mealId, ingredient) {
     canonical_name: ingredient.canonicalName,
     quantity: ingredient.quantity,
     unit: ingredient.unit,
+    display_quantity: ingredient.displayQuantity ?? null,
+    prep: ingredient.prep ?? null,
+    importance: ingredient.importance ?? null,
     section: ingredient.section,
     is_optional: ingredient.isOptional,
     is_pantry: ingredient.isPantry,
     grocery_category: ingredient.groceryCategory,
     sort_order: ingredient.sortOrder,
+  };
+}
+
+function recipeDetailRow(mealId, template) {
+  return {
+    meal_id: mealId,
+    servings: template.servings ?? 4,
+    active_time_minutes: template.recipe?.activeTimeMinutes ?? template.timeMinutes,
+    total_time_minutes: template.recipe?.totalTimeMinutes ?? template.timeMinutes,
+    equipment: template.equipment ?? [],
+    prep_note: null,
+    chef_note: template.chefNote ?? null,
+    why_it_works: template.whyItWorks ?? null,
+    leftovers_note: template.leftoversNote ?? null,
+  };
+}
+
+function recipeStepRow(mealId, step) {
+  return {
+    meal_id: mealId,
+    step_number: step.stepNumber,
+    title: step.title,
+    body: step.body,
+    time_minutes: step.timeMinutes ?? null,
+    temperature: step.temperature ?? null,
+    visual_cue: step.visualCue ?? null,
+    component: step.component ?? null,
   };
 }
 
@@ -88,6 +118,19 @@ for (const template of seedMealTemplates) {
     .upsert(rows, { onConflict: 'meal_id,canonical_name,section' });
 
   if (ingredientError) throw ingredientError;
+
+  const { error: detailError } = await supabase
+    .from('meal_recipe_details')
+    .upsert(recipeDetailRow(meal.id, template), { onConflict: 'meal_id' });
+
+  if (detailError) throw detailError;
+
+  const stepRows = (template.recipe?.steps ?? []).map((step) => recipeStepRow(meal.id, step));
+  const { error: stepsError } = stepRows.length
+    ? await supabase.from('meal_recipe_steps').upsert(stepRows, { onConflict: 'meal_id,step_number' })
+    : { error: null };
+
+  if (stepsError) throw stepsError;
   console.log(`Seeded ${template.slug}`);
 }
 
