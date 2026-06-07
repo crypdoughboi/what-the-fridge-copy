@@ -25,6 +25,7 @@ export function getMealsForMode(mode: ChefMode): MealSuggestion[] {
 }
 
 export function getRankedMealIdeas({
+  mealIdeas = seedMealIdeas,
   knownIngredients,
   selectedLanes = [],
   skippedMealIds = [],
@@ -33,6 +34,7 @@ export function getRankedMealIdeas({
   likedTags = [],
   dislikedTags = [],
 }: {
+  mealIdeas?: MealIdea[];
   knownIngredients: string[];
   selectedLanes?: string[];
   skippedMealIds?: string[];
@@ -49,7 +51,7 @@ export function getRankedMealIdeas({
   const likedSet = new Set(likedTags);
   const dislikedSet = new Set(dislikedTags);
 
-  return seedMealIdeas
+  return mealIdeas
     .filter((meal) => !skippedSet.has(meal.id))
     .map((meal, index) => {
       const ingredientHits = meal.ingredients.filter((ingredient) => knownKeys.has(normalizeIngredientKey(ingredient))).length;
@@ -76,8 +78,8 @@ export function getRankedMealIdeas({
     .map(({ meal }) => meal);
 }
 
-export function getMealIdeaById(id: string): MealIdea | undefined {
-  return seedMealIdeas.find((meal) => meal.id === id);
+export function getMealIdeaById(id: string, mealIdeas: MealIdea[] = seedMealIdeas): MealIdea | undefined {
+  return mealIdeas.find((meal) => meal.id === id);
 }
 
 function wait(ms: number): Promise<void> {

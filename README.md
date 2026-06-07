@@ -17,7 +17,7 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 
 - Short onboarding for household size, stores, diet preferences, avoid list, cooking style, and weekly goal.
 - Account creation screen wired for Supabase Apple ID, Gmail, and email magic-link sign-up.
-- Local per-user personalization storage for profile, purchase and list history, list behavior, saved meals, cooked meals, and recommendations.
+- Supabase-backed meal templates, user meal states, user ingredients, and grocery items, with local fallback for development and guest mode.
 - Home screen focused on the main command: WTF should I make?, with planned meals, list, and scan previews.
 - Four-tab navigation: Home, List, Meals, Scan. Spend is kept out of primary navigation for now.
 - Meals flow with dinner-lane picker, one-at-a-time meal ideas, Save, Skip, Make this week, ingredient review, This Week, Saved, and Made Before states.
@@ -29,22 +29,20 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 - Settings/profile with privacy controls, receipt history, data export/delete placeholders, subscription placeholder, and Friend Rebuys preview.
 - Web-native WTF fridge logo treatment based on the provided blue fridge mark, used in the app header, auth screen, and PWA icon.
 
-All data is local mock data. No backend is required.
+The app can run in local fallback mode without a backend, but the meal library and signed-in user meal/list state are designed to use Supabase as the source of truth.
 
 ## App Structure
 
 ```text
 src/
   components/   Reusable UI pieces
-  data/         Realistic mock purchase and list history, receipts, scans, meals, spend
+  data/         Realistic mock purchase history and the seeded meal template library
   hooks/        Local app state and user actions
   screens/      Product screens and flows
   services/     API-shaped stubs for future integrations
   types/        Shared TypeScript types
   utils/        Grocery logic, normalization, list building, spend logic
 ```
-
-## Where To Plug In Real Services
 
 ## Real Auth Setup
 
@@ -77,7 +75,47 @@ Auth providers:
 
 The app includes `vercel.json` so `/auth/callback` loads the Vite SPA after OAuth or email magic-link redirects.
 
-Current personalization is stored per Supabase user in browser storage. To sync across devices, add a Supabase table for user app state and move the existing local persistence into that table.
+## Supabase Meal And List Data
+
+The schema lives in:
+
+```text
+supabase/migrations/202606070001_meal_templates_user_state.sql
+```
+
+Core tables:
+
+- `meal_templates`: global reusable recipe templates.
+- `meal_ingredients`: structured ingredients for each meal template.
+- `user_meals`: user-specific saved, planned, made, and skipped meal states.
+- `user_ingredients`: ingredients the user already has.
+- `grocery_items`: ingredients the user needs to buy.
+
+Apply the migration in Supabase SQL Editor, or with Supabase CLI if your project is linked.
+
+Seed the 100-meal starter library:
+
+```bash
+SUPABASE_URL=https://your-project.supabase.co \
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key \
+npm run seed:meals
+```
+
+Do not expose the service-role key in Vercel or in the browser. It is only for local/admin seeding.
+
+The seed data lives in `src/data/seedMealTemplates.ts`. The current app still maps those templates into UI-friendly `MealIdea` objects through `src/data/mealIdeas.ts`.
+
+Runtime Supabase logic lives in `src/services/mealStateService.ts`.
+
+Important behavior:
+
+- Master recipes are never changed when a user saves, plans, makes, or skips a meal.
+- Saved meals do not affect the grocery list.
+- Planned meals open ingredient review and then add only missing non-optional ingredients.
+- Grocery items dedupe by `canonical_name`.
+- Marking an item Already Have moves it from `grocery_items` into `user_ingredients`.
+
+## Where To Plug In Real Services
 
 Receipt OCR lives in `src/services/receiptOcrService.ts`.
 
@@ -118,7 +156,7 @@ Supabase or Firebase can plug in behind:
 - user action events
 - friend recommendations
 
-Auth is stubbed in `src/services/authService.ts`.
+Auth lives in `src/services/authService.ts` and uses Supabase Auth when `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` are configured.
 
 Suggested path:
 - Apple sign-in for web and iPhone

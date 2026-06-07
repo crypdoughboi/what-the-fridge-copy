@@ -15,6 +15,7 @@ import {
   VisionItem,
 } from '../types';
 import { defaultProfile, spendingInsight } from '../data/mockData';
+import { seedMealIdeas } from '../data/mealIdeas';
 import {
   categorizeGroceryItem,
   detectUsuals,
@@ -25,6 +26,16 @@ import {
   updateLocalStateAfterUserAction,
 } from '../utils/groceryLogic';
 import { getMealIdeaById, getMealsForMode, getRankedMealIdeas } from '../services/mealGenerationService';
+import {
+  fetchRemoteMealIdeas,
+  fetchRemoteUserState,
+  moveGroceryItemToUserIngredients,
+  removeUserFoodState,
+  syncReviewedMealIngredients,
+  upsertGroceryItem,
+  upsertUserIngredient,
+  upsertUserMealStatus,
+} from '../services/mealStateService';
 import {
   getCurrentUserAccount,
   listenForAuthChanges,
@@ -81,6 +92,7 @@ export function useGroceryAppState() {
   const [savedMealIds, setSavedMealIds] = useState<string[]>([]);
   const [plannedMealIds, setPlannedMealIds] = useState<string[]>([]);
   const [cookedMealIds, setCookedMealIds] = useState<string[]>([]);
+  const [mealIdeas, setMealIdeas] = useState<MealIdea[]>(seedMealIdeas);
   const [recommendedItems, setRecommendedItems] = useState<string[]>([]);
   const [receiptCount, setReceiptCount] = useState(0);
   const [fridgeScanCount, setFridgeScanCount] = useState(0);
@@ -95,12 +107,12 @@ export function useGroceryAppState() {
   const groceryList = useMemo(() => generateGroceryList(memory, behavior, baseMeals), [memory, behavior, baseMeals]);
   const usuals = useMemo(() => detectUsuals(memory), [memory]);
   const knownIngredientNames = useMemo(() => getKnownIngredientNames(memory, behavior), [memory, behavior]);
-  const plannedMeals = useMemo(() => idsToMealIdeas(plannedMealIds), [plannedMealIds]);
+  const plannedMeals = useMemo(() => idsToMealIdeas(plannedMealIds, mealIdeas), [plannedMealIds, mealIdeas]);
   const savedMeals = useMemo(
-    () => idsToMealIdeas(savedMealIds).filter((meal) => !plannedMealIds.includes(meal.id) && !cookedMealIds.includes(meal.id)),
-    [savedMealIds, plannedMealIds, cookedMealIds],
+    () => idsToMealIdeas(savedMealIds, mealIdeas).filter((meal) => !plannedMealIds.includes(meal.id) && !cookedMealIds.includes(meal.id)),
+    [savedMealIds, plannedMealIds, cookedMealIds, mealIdeas],
   );
-  const madeMeals = useMemo(() => idsToMealIdeas(cookedMealIds), [cookedMealIds]);
+  const madeMeals = useMemo(() => idsToMealIdeas(cookedMealIds, mealIdeas), [cookedMealIds, mealIdeas]);
   const hasGroceryData = useMemo(
     () =>
       memory.length > 0 ||
@@ -113,6 +125,7 @@ export function useGroceryAppState() {
       importCount > 0,
     [memory, behavior.alreadyHaveNames, behavior.manuallyAddedNames, behavior.mealAddedNames, behavior.fridgeSeen, receiptCount, fridgeScanCount, importCount],
   );
+  const remoteUserId = account?.provider === 'guest' ? undefined : account?.id;
   const useSoon = useMemo(
     () =>
       memory
@@ -159,6 +172,41 @@ export function useGroceryAppState() {
     // Auth subscription should be installed once for the app session.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    fetchRemoteMealIdeas().then((remoteMeals) => {
+      if (!mounted || !remoteMeals?.length) return;
+      setMealIdeas(remoteMeals);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!account || account.provider === 'guest' || !mealIdeas.length) return;
+    let mounted = true;
+    fetchRemoteUserState(account.id, mealIdeas).then((remoteState) => {
+      if (!mounted || !remoteState) return;
+      setSavedMealIds(remoteState.savedMealIds);
+      setPlannedMealIds(remoteState.plannedMealIds);
+      setCookedMealIds(remoteState.cookedMealIds);
+      setBehavior((current) => ({
+        ...current,
+        skippedMealIds: remoteState.skippedMealIds,
+        alreadyHaveNames: unique([...current.alreadyHaveNames, ...remoteState.alreadyHaveNames]),
+        manuallyAddedNames: unique([...current.manuallyAddedNames, ...remoteState.needToBuyNames]),
+        usedForMeals: {
+          ...current.usedForMeals,
+          ...remoteState.usedForMeals,
+        },
+      }));
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [account, mealIdeas]);
 
   useEffect(() => {
     if (!account || account.provider === 'guest') return;
@@ -285,6 +333,7 @@ export function useGroceryAppState() {
         fridgeSeen: { ...removeFridgeSeenByKey(current.fridgeSeen, key), [entry.name.toLowerCase()]: 'clearlySeen' },
       }));
     }
+    void moveGroceryItemToUserIngredients(remoteUserId, entry.name, 'marked_already_have');
     showToast(`${entry.name} moved to probably already have.`);
   }
 
@@ -300,6 +349,7 @@ export function useGroceryAppState() {
       manuallyAddedNames: unique([...current.manuallyAddedNames, entry.name]),
       fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
     }));
+    void upsertGroceryItem(remoteUserId, entry.name);
     showToast(`${entry.name} moved to Need to Buy.`);
   }
 
@@ -328,6 +378,7 @@ export function useGroceryAppState() {
         checkedOffEntries: addCheckedEntry(cleanupEntryByName(current, entry), entry).checkedOffEntries,
       }));
     }
+    void moveGroceryItemToUserIngredients(remoteUserId, entry.name, 'bought');
     showToast(`${entry.name} marked bought. WTF updated your list.`);
   }
 
@@ -352,6 +403,7 @@ export function useGroceryAppState() {
         usedForMeals: Object.fromEntries(Object.entries(next.usedForMeals).filter(([name]) => normalizeIngredientKey(name) !== key)),
       };
     });
+    void removeUserFoodState(remoteUserId, entry.name);
     showToast(`${entry.name} removed. WTF took the hint.`);
   }
 
@@ -371,6 +423,7 @@ export function useGroceryAppState() {
         [normalized.toLowerCase()]: (current.addCounts[normalized.toLowerCase()] ?? 0) + 1,
       },
     }));
+    void upsertGroceryItem(remoteUserId, normalized);
     showToast(`${normalized} added.`);
   }
 
@@ -389,6 +442,7 @@ export function useGroceryAppState() {
         [key]: (current.addCounts[key] ?? 0) + 1,
       },
     }));
+    void upsertUserIngredient(remoteUserId, normalized, 'manual');
     showToast(`${normalized} added to Already Have.`);
   }
 
@@ -459,6 +513,7 @@ export function useGroceryAppState() {
       checkedOffEntries: [],
     }));
     setReceiptCount((current) => current + 1);
+    purchasedNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'receipt'));
     showToast('Receipt added. Your list knows what you bought.');
   }
 
@@ -497,6 +552,8 @@ export function useGroceryAppState() {
       ),
     );
     setFridgeScanCount((current) => current + 1);
+    haveNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'fridge_scan'));
+    needNames.forEach((name) => void upsertGroceryItem(remoteUserId, name));
     showToast('List updated from your fridge photo.');
   }
 
@@ -525,6 +582,8 @@ export function useGroceryAppState() {
   function markMealCooked(mealId: string) {
     setCookedMealIds((current) => unique([...current, mealId]));
     setPlannedMealIds((current) => current.filter((id) => id !== mealId));
+    const meal = getMealIdeaById(mealId, mealIdeas);
+    if (meal) void upsertUserMealStatus(remoteUserId, meal, 'made');
     showToast('Marked made. We will remember it.');
   }
 
@@ -534,6 +593,7 @@ export function useGroceryAppState() {
       ...current,
       likedTags: unique([...current.likedTags, ...meal.tags]),
     }));
+    void upsertUserMealStatus(remoteUserId, meal, 'saved');
     showToast(`${meal.name} saved.`);
   }
 
@@ -542,6 +602,7 @@ export function useGroceryAppState() {
       ...current,
       skippedMealIds: unique([...current.skippedMealIds, meal.id]),
     }));
+    void upsertUserMealStatus(remoteUserId, meal, 'skipped');
     showToast('Skipped. No list changes.');
   }
 
@@ -558,7 +619,6 @@ export function useGroceryAppState() {
     const haveKeys = new Set(haveNames.map(normalizeIngredientKey));
 
     setPlannedMealIds((current) => unique([...current, meal.id]));
-    setSavedMealIds((current) => unique([...current, meal.id]));
     setBehavior((current) => {
       const nextUsedFor = { ...current.usedForMeals };
       needNames.forEach((name) => {
@@ -578,17 +638,20 @@ export function useGroceryAppState() {
         likedTags: unique([...current.likedTags, ...meal.tags]),
       };
     });
+    void upsertUserMealStatus(remoteUserId, meal, 'planned');
+    void syncReviewedMealIngredients(remoteUserId, meal, reviewed);
     showToast(`${meal.name} planned. Missing ingredients added once.`);
   }
 
   function makeMealAgain(meal: MealIdea) {
     setPlannedMealIds((current) => unique([...current, meal.id]));
+    void upsertUserMealStatus(remoteUserId, meal, 'planned');
     showToast(`${meal.name} is back on This Week.`);
   }
 
   function rateMeal(mealId: string, feedback: MealFeedback) {
     setBehavior((current) => {
-      const meal = getMealIdeaById(mealId);
+      const meal = getMealIdeaById(mealId, mealIdeas);
       const likedTags = feedback.rating === 'Loved it' && meal ? unique([...current.likedTags, ...meal.tags]) : current.likedTags;
       const dislikedTags = feedback.rating === 'Not again' && meal ? unique([...current.dislikedTags, ...meal.tags]) : current.dislikedTags;
       return {
@@ -601,11 +664,14 @@ export function useGroceryAppState() {
         },
       };
     });
+    const meal = getMealIdeaById(mealId, mealIdeas);
+    if (meal) void upsertUserMealStatus(remoteUserId, meal, 'made', feedback);
     showToast('Feedback saved.');
   }
 
   function rankMealIdeas(selectedLanes: string[] = []) {
     return getRankedMealIdeas({
+      mealIdeas,
       knownIngredients: knownIngredientNames,
       selectedLanes: selectedLanes.length ? selectedLanes : behavior.selectedDinnerLanes,
       skippedMealIds: behavior.skippedMealIds,
@@ -633,6 +699,7 @@ export function useGroceryAppState() {
     authError,
     profile,
     memory,
+    mealIdeas,
     groceryList,
     spendingInsight,
     hasGroceryData,
@@ -839,8 +906,8 @@ function removeFridgeSeenByKey(fridgeSeen: BehaviorState['fridgeSeen'], key: str
   return Object.fromEntries(Object.entries(fridgeSeen).filter(([name]) => normalizeIngredientKey(name) !== key));
 }
 
-function idsToMealIdeas(ids: string[]): MealIdea[] {
-  return ids.map((id) => getMealIdeaById(id)).filter(Boolean) as MealIdea[];
+function idsToMealIdeas(ids: string[], mealIdeas: MealIdea[]): MealIdea[] {
+  return ids.map((id) => getMealIdeaById(id, mealIdeas)).filter(Boolean) as MealIdea[];
 }
 
 function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: BehaviorState): string[] {

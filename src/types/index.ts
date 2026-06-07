@@ -135,8 +135,38 @@ export type BehaviorState = {
 
 export type MealStatus = 'suggested' | 'saved' | 'planned' | 'made';
 
+export type SeedMealIngredient = {
+  rawName: string;
+  canonicalName: string;
+  quantity: number | null;
+  unit: string | null;
+  section: StoreSection;
+  isOptional: boolean;
+  isPantry: boolean;
+  groceryCategory: Category;
+  sortOrder: number;
+};
+
+export type SeedMealTemplate = {
+  slug: string;
+  name: string;
+  category: string;
+  description: string;
+  dinnerLanes: string[];
+  cuisineInfluence: string[];
+  format: string;
+  timeMinutes: number;
+  effort: string;
+  servings: number;
+  tags: string[];
+  chefNote: string;
+  whyItWorks: string;
+  ingredients: SeedMealIngredient[];
+};
+
 export type MealIdea = {
   id: string;
+  slug: string;
   name: string;
   category: string;
   description: string;
