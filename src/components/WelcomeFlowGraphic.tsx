@@ -29,12 +29,12 @@ export function WelcomeFlowGraphic() {
         <g filter="url(#welcome-flow-shadow)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
           <rect x="150" y="22" width="61" height="74" rx="9" strokeWidth="4" fill="none" />
           <path d="M165 15V30M181 15V30M197 15V30" strokeWidth="4" />
-          <path d="M164 47L171 54L184 39" strokeWidth="4" />
-          <path d="M194 48H207" strokeWidth="4" />
-          <path d="M164 66L171 73L184 58" strokeWidth="4" />
-          <path d="M194 67H207" strokeWidth="4" />
-          <path d="M164 85L171 92L184 77" strokeWidth="4" />
-          <path d="M194 86H207" strokeWidth="4" />
+          <path d="M160 48L165 53L174 43" strokeWidth="3.5" />
+          <path d="M184 48H207" strokeWidth="3.5" />
+          <path d="M160 67L165 72L174 62" strokeWidth="3.5" />
+          <path d="M184 67H207" strokeWidth="3.5" />
+          <path d="M160 86L165 91L174 81" strokeWidth="3.5" />
+          <path d="M184 86H207" strokeWidth="3.5" />
         </g>
 
         <g filter="url(#welcome-flow-shadow)" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
