@@ -36,29 +36,10 @@ export function ScanScreen({
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Scan</p>
         <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Add food fast.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Scan a receipt, snap the fridge, or type a few items.</p>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Snap the fridge, scan a receipt, or type a few items.</p>
       </section>
 
       <Card className="section-enter stagger-1">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <ReceiptText className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Scan receipt</h2>
-            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Purchased items land in Already Have.</p>
-          </div>
-        </div>
-        <div className="mt-4">
-          <SampleReceiptVisual />
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <FileUploadButton label="Upload" onFile={onReceiptFile} />
-          <FileUploadButton label="Camera" onFile={onReceiptFile} camera />
-        </div>
-      </Card>
-
-      <Card className="section-enter stagger-2">
         <div className="flex items-start gap-3">
           <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
             <Refrigerator className="h-5 w-5" strokeWidth={1.75} />
@@ -74,6 +55,25 @@ export function ScanScreen({
         <div className="mt-4 grid grid-cols-2 gap-2">
           <FileUploadButton label="Upload" onFile={onFridgeFile} />
           <FileUploadButton label="Camera" onFile={onFridgeFile} camera />
+        </div>
+      </Card>
+
+      <Card className="section-enter stagger-2">
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <ReceiptText className="h-5 w-5" strokeWidth={1.75} />
+          </div>
+          <div>
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Scan receipt</h2>
+            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Purchased items land in Already Have.</p>
+          </div>
+        </div>
+        <div className="mt-4">
+          <SampleReceiptVisual />
+        </div>
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <FileUploadButton label="Upload" onFile={onReceiptFile} />
+          <FileUploadButton label="Camera" onFile={onReceiptFile} camera />
         </div>
       </Card>
 
