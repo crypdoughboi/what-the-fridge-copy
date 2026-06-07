@@ -263,16 +263,26 @@ export function useGroceryAppState() {
   }
 
   function markEntryAlreadyHave(entry: GroceryListEntry) {
+    const key = normalizeIngredientKey(entry.name);
+    const matchingMemoryIds = memoryIdsForEntry(entry);
     if (entry.itemId) {
-      setBehavior((current) => updateLocalStateAfterUserAction(current, 'alreadyHave', entry.itemId!));
+      setBehavior((current) =>
+        cleanupEntryByName(
+          {
+            ...updateLocalStateAfterUserAction(current, 'alreadyHave', entry.itemId!),
+            alreadyHaveIds: unique([...current.alreadyHaveIds, ...matchingMemoryIds]),
+            removedIds: current.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
+            boughtIds: current.boughtIds.filter((id) => !matchingMemoryIds.includes(id)),
+          },
+          entry,
+          { keepAlreadyHave: true },
+        ),
+      );
     } else {
-      const key = normalizeIngredientKey(entry.name);
       setBehavior((current) => ({
-        ...current,
-        alreadyHaveNames: unique([...current.alreadyHaveNames, entry.name]),
-        manuallyAddedNames: current.manuallyAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
-        mealAddedNames: current.mealAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
-        fridgeSeen: { ...current.fridgeSeen, [entry.name.toLowerCase()]: 'clearlySeen' },
+        ...cleanupEntryByName(current, entry, { keepAlreadyHave: true }),
+        alreadyHaveNames: unique([...current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key), entry.name]),
+        fridgeSeen: { ...removeFridgeSeenByKey(current.fridgeSeen, key), [entry.name.toLowerCase()]: 'clearlySeen' },
       }));
     }
     showToast(`${entry.name} moved to probably already have.`);
@@ -280,47 +290,66 @@ export function useGroceryAppState() {
 
   function markEntryNeedToBuy(entry: GroceryListEntry) {
     const key = normalizeIngredientKey(entry.name);
+    const matchingMemoryIds = memoryIdsForEntry(entry);
     setBehavior((current) => ({
-      ...current,
-      alreadyHaveIds: entry.itemId ? current.alreadyHaveIds.filter((id) => id !== entry.itemId) : current.alreadyHaveIds,
+      ...cleanupEntryByName(current, entry),
+      alreadyHaveIds: current.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
+      removedIds: current.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
+      boughtIds: current.boughtIds.filter((id) => !matchingMemoryIds.includes(id)),
       alreadyHaveNames: current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
       manuallyAddedNames: unique([...current.manuallyAddedNames, entry.name]),
-      fridgeSeen: Object.fromEntries(Object.entries(current.fridgeSeen).filter(([name]) => normalizeIngredientKey(name) !== key)),
+      fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
     }));
     showToast(`${entry.name} moved to Need to Buy.`);
   }
 
   function markEntryBought(entry: GroceryListEntry) {
+    const key = normalizeIngredientKey(entry.name);
     if (entry.itemId) {
-      setBehavior((current) => addCheckedEntry(updateLocalStateAfterUserAction(current, 'bought', entry.itemId!), entry));
+      const matchingMemoryIds = memoryIdsForEntry(entry);
+      setBehavior((current) =>
+        addCheckedEntry(
+          {
+            ...cleanupEntryByName(updateLocalStateAfterUserAction(current, 'bought', entry.itemId!), entry),
+            boughtIds: unique([...current.boughtIds, ...matchingMemoryIds]),
+            alreadyHaveIds: current.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
+            removedIds: current.removedIds.filter((id) => !matchingMemoryIds.includes(id)),
+          },
+          entry,
+        ),
+      );
       setMemory((current) => current.map((item) => (item.id === entry.itemId ? updateBoughtMemoryItem(item) : item)));
     } else {
       setMemory((current) => [createMemoryItemFromName(entry.name), ...current]);
       setBehavior((current) => ({
-        ...current,
-        manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-        mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-        checkedOffEntries: addCheckedEntry(current, entry).checkedOffEntries,
+        ...cleanupEntryByName(current, entry),
+        alreadyHaveNames: current.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+        fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
+        checkedOffEntries: addCheckedEntry(cleanupEntryByName(current, entry), entry).checkedOffEntries,
       }));
     }
     showToast(`${entry.name} marked bought. WTF updated your list.`);
   }
 
   function removeEntry(entry: GroceryListEntry) {
+    const key = normalizeIngredientKey(entry.name);
+    const matchingMemoryIds = memoryIdsForEntry(entry);
     setBehavior((current) => {
-      const next = entry.itemId
-        ? updateLocalStateAfterUserAction(current, 'removed', entry.itemId)
-        : {
-            ...current,
-            manuallyAddedNames: current.manuallyAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-            mealAddedNames: current.mealAddedNames.filter((name) => name.toLowerCase() !== entry.name.toLowerCase()),
-          };
+      const removedBase = entry.itemId
+        ? {
+            ...updateLocalStateAfterUserAction(current, 'removed', entry.itemId),
+            removedIds: unique([...current.removedIds, ...matchingMemoryIds]),
+          }
+        : current;
+      const next = cleanupEntryByName(removedBase, entry);
 
       return {
         ...next,
-        checkedOffEntries: next.checkedOffEntries.filter(
-          (checked) => checked.id !== entry.id && checked.name.toLowerCase() !== entry.name.toLowerCase(),
-        ),
+        alreadyHaveIds: next.alreadyHaveIds.filter((id) => !matchingMemoryIds.includes(id)),
+        boughtIds: next.boughtIds.filter((id) => !matchingMemoryIds.includes(id)),
+        alreadyHaveNames: next.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+        fridgeSeen: removeFridgeSeenByKey(next.fridgeSeen, key),
+        usedForMeals: Object.fromEntries(Object.entries(next.usedForMeals).filter(([name]) => normalizeIngredientKey(name) !== key)),
       };
     });
     showToast(`${entry.name} removed. WTF took the hint.`);
@@ -334,6 +363,8 @@ export function useGroceryAppState() {
       ...current,
       manuallyAddedNames: unique([...current.manuallyAddedNames, normalized]),
       alreadyHaveNames: current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key),
+      mealAddedNames: current.mealAddedNames.filter((item) => normalizeIngredientKey(item) !== key),
+      fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
       checkedOffEntries: current.checkedOffEntries.filter((entry) => entry.name.toLowerCase() !== normalized.toLowerCase()),
       addCounts: {
         ...current.addCounts,
@@ -359,6 +390,12 @@ export function useGroceryAppState() {
       },
     }));
     showToast(`${normalized} added to Already Have.`);
+  }
+
+  function memoryIdsForEntry(entry: GroceryListEntry): string[] {
+    const key = normalizeIngredientKey(entry.name);
+    const ids = memory.filter((item) => normalizeIngredientKey(item.name) === key).map((item) => item.id);
+    return unique(entry.itemId ? [entry.itemId, ...ids] : ids);
   }
 
   function addUsualsToList() {
@@ -778,6 +815,28 @@ function addCheckedEntry(behavior: BehaviorState, entry: GroceryListEntry): Beha
       ),
     ].slice(0, 20),
   };
+}
+
+function cleanupEntryByName(behavior: BehaviorState, entry: GroceryListEntry, options: { keepAlreadyHave?: boolean } = {}): BehaviorState {
+  const key = normalizeIngredientKey(entry.name);
+  const checkedOffEntries = behavior.checkedOffEntries.filter(
+    (checked) => checked.id !== entry.id && normalizeIngredientKey(checked.name) !== key,
+  );
+
+  return {
+    ...behavior,
+    manuallyAddedNames: behavior.manuallyAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
+    mealAddedNames: behavior.mealAddedNames.filter((name) => normalizeIngredientKey(name) !== key),
+    alreadyHaveNames: options.keepAlreadyHave
+      ? behavior.alreadyHaveNames
+      : behavior.alreadyHaveNames.filter((name) => normalizeIngredientKey(name) !== key),
+    fridgeSeen: options.keepAlreadyHave ? behavior.fridgeSeen : removeFridgeSeenByKey(behavior.fridgeSeen, key),
+    checkedOffEntries,
+  };
+}
+
+function removeFridgeSeenByKey(fridgeSeen: BehaviorState['fridgeSeen'], key: string): BehaviorState['fridgeSeen'] {
+  return Object.fromEntries(Object.entries(fridgeSeen).filter(([name]) => normalizeIngredientKey(name) !== key));
 }
 
 function idsToMealIdeas(ids: string[]): MealIdea[] {

@@ -227,19 +227,19 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
   });
 
   behavior.alreadyHaveNames.forEach((name) => {
-    if (!hasName(probablyAlreadyHave, name)) {
+    if (!hasName(probablyAlreadyHave, name) && !hasName(buyNow, name) && !hasName(maybeBuy, name)) {
       probablyAlreadyHave.push(entryFromName(name, 'manual', 'Marked as already have.', 75, usedFor(name)));
     }
   });
 
   behavior.manuallyAddedNames.forEach((name) => {
-    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
+    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
       buyNow.push(entryFromName(name, 'manual', 'Added by you.', 95, usedFor(name)));
     }
   });
 
   behavior.mealAddedNames.forEach((name) => {
-    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(probablyAlreadyHave, name)) {
+    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
       buyNow.push(entryFromName(name, 'meal', 'Needed for a dinner you picked.', 90, usedFor(name)));
     }
   });
