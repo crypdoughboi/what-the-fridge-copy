@@ -1,5 +1,5 @@
 import { useMemo, useState, type MouseEvent, type PointerEvent } from 'react';
-import { CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
+import { BookOpen, CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -14,6 +14,7 @@ export function MealIdeaScreen({
   onSkip,
   onSave,
   onMakeThisWeek,
+  onViewRecipe,
 }: {
   ideas: MealIdea[];
   knownIngredients: string[];
@@ -21,6 +22,7 @@ export function MealIdeaScreen({
   onSkip: (meal: MealIdea) => void;
   onSave: (meal: MealIdea) => void;
   onMakeThisWeek: (meal: MealIdea) => void;
+  onViewRecipe: (meal: MealIdea) => void;
 }) {
   const [index, setIndex] = useState(0);
   const [dragStart, setDragStart] = useState<number | null>(null);
@@ -178,6 +180,10 @@ export function MealIdeaScreen({
         {hasKnown ? <IngredientBlock title="Need" values={need} empty="Looks covered." tone="neutral" /> : null}
         <IngredientBlock title={hasKnown ? 'Optional' : 'Pantry check'} values={hasKnown ? meal.optionalIngredients : meal.pantryIngredients} empty="No extras." tone="neutral" />
       </Card>
+
+      <Button variant="secondary" full icon={<BookOpen className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onViewRecipe(meal)}>
+        View recipe
+      </Button>
 
       <div className="grid grid-cols-3 gap-2">
         <Button variant="secondary" className="px-2" icon={<X className="h-5 w-5" strokeWidth={1.75} />} onClick={skip}>

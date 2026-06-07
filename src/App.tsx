@@ -13,6 +13,7 @@ import { HomeScreen } from './screens/HomeScreen';
 import { IngredientReviewScreen } from './screens/IngredientReviewScreen';
 import { ListScreen } from './screens/ListScreen';
 import { MealIdeaScreen } from './screens/MealIdeaScreen';
+import { MealDetailScreen } from './screens/MealDetailScreen';
 import { MealsScreen } from './screens/MealsScreen';
 import { OnboardingScreen, OnboardingSuccessScreen } from './screens/OnboardingScreen';
 import { ReceiptReviewScreen } from './screens/ReceiptReviewScreen';
@@ -46,6 +47,7 @@ export default function App() {
   const [screenHistory, setScreenHistory] = useState<Screen[]>([]);
   const [ideaQueue, setIdeaQueue] = useState<MealIdea[]>([]);
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
+  const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
   const [receiptExtraction, setReceiptExtraction] = useState<ReceiptExtraction | null>(null);
   const [fridgeItems, setFridgeItems] = useState<VisionItem[]>([]);
   const [receiptPreviewUrl, setReceiptPreviewUrl] = useState<string | null>(null);
@@ -144,6 +146,11 @@ export default function App() {
   function openIngredientReview(meal: MealIdea) {
     setReviewMeal(meal);
     pushScreen('ingredientReview', 'meals');
+  }
+
+  function openMealDetail(meal: MealIdea) {
+    setDetailMeal(meal);
+    pushScreen('mealDetail', 'meals');
   }
 
   function addReviewedIngredients(meal: MealIdea, reviewed: ReviewedIngredient[]) {
@@ -280,6 +287,7 @@ export default function App() {
           onMakeThisWeek={openIngredientReview}
           onMarkMade={(meal) => app.markMealCooked(meal.id)}
           onMakeAgain={openIngredientReview}
+          onViewRecipe={openMealDetail}
           onRateMeal={app.rateMeal}
         />
       );
@@ -298,6 +306,22 @@ export default function App() {
           onSkip={app.skipMealIdea}
           onSave={app.saveMealIdea}
           onMakeThisWeek={openIngredientReview}
+          onViewRecipe={openMealDetail}
+        />
+      );
+    }
+
+    if (screen === 'mealDetail' && detailMeal) {
+      return (
+        <MealDetailScreen
+          meal={detailMeal}
+          saved={app.savedMealIds.includes(detailMeal.id)}
+          planned={app.plannedMealIds.includes(detailMeal.id)}
+          made={app.cookedMealIds.includes(detailMeal.id)}
+          onBack={() => goBack('meals')}
+          onSave={app.saveMealIdea}
+          onMakeThisWeek={openIngredientReview}
+          onMarkMade={(meal) => app.markMealCooked(meal.id)}
         />
       );
     }

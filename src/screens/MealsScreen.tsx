@@ -1,4 +1,4 @@
-import { ChefHat, Plus, RotateCcw, ScanLine, Star, Utensils } from 'lucide-react';
+import { BookOpen, ChefHat, Plus, RotateCcw, ScanLine, Star, Utensils } from 'lucide-react';
 import { ReactNode, useState } from 'react';
 import { MealFeedback, MealIdea } from '../types';
 import { Button } from '../components/Button';
@@ -15,6 +15,7 @@ export function MealsScreen({
   onMakeThisWeek,
   onMarkMade,
   onMakeAgain,
+  onViewRecipe,
   onRateMeal,
 }: {
   plannedMeals: MealIdea[];
@@ -25,6 +26,7 @@ export function MealsScreen({
   onMakeThisWeek: (meal: MealIdea) => void;
   onMarkMade: (meal: MealIdea) => void;
   onMakeAgain: (meal: MealIdea) => void;
+  onViewRecipe: (meal: MealIdea) => void;
   onRateMeal: (mealId: string, feedback: MealFeedback) => void;
 }) {
   const [feedbackMeal, setFeedbackMeal] = useState<MealIdea | null>(null);
@@ -55,6 +57,18 @@ export function MealsScreen({
       </section>
 
       <MealSection
+        eyebrow="Saved recipes"
+        title="Saved from swipes"
+        emptyTitle="No saved recipes yet."
+        emptyText="Swipe right or tap Later in the meal idea flow. Saved recipes will land here."
+        meals={savedMeals}
+        actionLabel="Make this week"
+        actionIcon={<Plus className="h-5 w-5" strokeWidth={1.75} />}
+        onAction={onMakeThisWeek}
+        onViewRecipe={onViewRecipe}
+      />
+
+      <MealSection
         eyebrow="This week"
         title="Meals you plan to cook"
         emptyTitle="No meals planned yet."
@@ -63,6 +77,7 @@ export function MealsScreen({
         actionLabel="Mark made"
         actionIcon={<Utensils className="h-5 w-5" strokeWidth={1.75} />}
         onAction={markMade}
+        onViewRecipe={onViewRecipe}
       />
 
       {feedbackMeal && (
@@ -104,17 +119,6 @@ export function MealsScreen({
       )}
 
       <MealSection
-        eyebrow="Future"
-        title="Meals you might make later"
-        emptyTitle="Nothing parked for later."
-        emptyText="Swipe right or tap Later. These stay out of the grocery list until you make them this week."
-        meals={savedMeals}
-        actionLabel="Make this week"
-        actionIcon={<Plus className="h-5 w-5" strokeWidth={1.75} />}
-        onAction={onMakeThisWeek}
-      />
-
-      <MealSection
         eyebrow="Made before"
         title="Worth repeating"
         emptyTitle="No cooked meals yet."
@@ -123,6 +127,7 @@ export function MealsScreen({
         actionLabel="Make again"
         actionIcon={<RotateCcw className="h-5 w-5" strokeWidth={1.75} />}
         onAction={onMakeAgain}
+        onViewRecipe={onViewRecipe}
       />
     </main>
   );
@@ -137,6 +142,7 @@ function MealSection({
   actionLabel,
   actionIcon,
   onAction,
+  onViewRecipe,
 }: {
   eyebrow: string;
   title: string;
@@ -146,6 +152,7 @@ function MealSection({
   actionLabel: string;
   actionIcon: ReactNode;
   onAction: (meal: MealIdea) => void;
+  onViewRecipe: (meal: MealIdea) => void;
 }) {
   return (
     <section className="section-enter space-y-3">
@@ -175,9 +182,14 @@ function MealSection({
                   </div>
                 </div>
               </div>
-              <Button className="mt-4" variant="secondary" full icon={actionIcon} onClick={() => onAction(meal)}>
-                {actionLabel}
-              </Button>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <Button variant="secondary" icon={<BookOpen className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onViewRecipe(meal)}>
+                  View recipe
+                </Button>
+                <Button variant="secondary" icon={actionIcon} onClick={() => onAction(meal)}>
+                  {actionLabel}
+                </Button>
+              </div>
             </Card>
           ))}
         </div>
