@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type Dispatch, type PointerEvent, type SetStateAction } from 'react';
 import { BookOpen, CalendarPlus, ChevronLeft, Clock3, X } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
@@ -15,6 +15,8 @@ type DragState = {
 
 export function MealIdeaScreen({
   ideas,
+  index,
+  onIndexChange,
   knownIngredients,
   onBack,
   onSkip,
@@ -23,6 +25,8 @@ export function MealIdeaScreen({
   onViewRecipe,
 }: {
   ideas: MealIdea[];
+  index: number;
+  onIndexChange: Dispatch<SetStateAction<number>>;
   knownIngredients: string[];
   onBack: () => void;
   onSkip: (meal: MealIdea) => void;
@@ -30,7 +34,6 @@ export function MealIdeaScreen({
   onMakeThisWeek: (meal: MealIdea) => void;
   onViewRecipe: (meal: MealIdea) => void;
 }) {
-  const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState<DragState | null>(null);
   const [dragX, setDragX] = useState(0);
   const [dragY, setDragY] = useState(0);
@@ -38,9 +41,14 @@ export function MealIdeaScreen({
   const activePointerId = useRef<number | null>(null);
   const completingSwipe = useRef(false);
   const swipeTimeout = useRef<number | null>(null);
-  const meal = ideas[index];
+  const safeIndex = Math.min(index, ideas.length);
+  const meal = ideas[safeIndex];
   const knownKeys = useMemo(() => new Set(knownIngredients.map(normalizeIngredientKey)), [knownIngredients]);
   const dragIntent = Math.min(Math.abs(dragX) / 120, 1);
+
+  useEffect(() => {
+    if (index > ideas.length) onIndexChange(ideas.length);
+  }, [ideas.length, index, onIndexChange]);
 
   useEffect(() => {
     return () => {
@@ -49,7 +57,7 @@ export function MealIdeaScreen({
   }, []);
 
   function moveNext() {
-    setIndex((current) => Math.min(current + 1, ideas.length));
+    onIndexChange((current) => Math.min(current + 1, ideas.length));
     setDragX(0);
     setDragY(0);
     setDrag(null);
@@ -86,7 +94,7 @@ export function MealIdeaScreen({
     setDragX(0);
     setDragY(0);
     setExiting(null);
-    setIndex((current) => Math.max(0, current - 1));
+    onIndexChange((current) => Math.max(0, current - 1));
   }
 
   function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
@@ -196,8 +204,9 @@ export function MealIdeaScreen({
     );
   }
 
-  const have = meal.ingredients.filter((ingredient) => knownKeys.has(normalizeIngredientKey(ingredient)));
-  const need = meal.ingredients.filter((ingredient) => !knownKeys.has(normalizeIngredientKey(ingredient)));
+  const coreIngredients = getCoreDisplayIngredients(meal);
+  const have = coreIngredients.filter((ingredient) => knownKeys.has(ingredient.key)).map((ingredient) => ingredient.name);
+  const need = coreIngredients.filter((ingredient) => !knownKeys.has(ingredient.key)).map((ingredient) => ingredient.name);
   const hasKnown = knownKeys.size > 0;
 
   return (
@@ -240,7 +249,7 @@ export function MealIdeaScreen({
           </div>
           <div className="flex items-center justify-between gap-3">
             <Pill tone="green">{meal.timeMinutes} min</Pill>
-            <span className="text-[13px] font-semibold text-muted">{index + 1} of {ideas.length}</span>
+            <span className="text-[13px] font-semibold text-muted">{safeIndex + 1} of {ideas.length}</span>
           </div>
           <h2 className="mt-4 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{meal.name}</h2>
           <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{meal.description}</p>
@@ -273,7 +282,7 @@ export function MealIdeaScreen({
         </Button>
       </div>
 
-      {index > 0 && (
+      {safeIndex > 0 && (
         <Button variant="ghost" className="min-h-10" icon={<ChevronLeft className="h-5 w-5" strokeWidth={1.75} />} onClick={showPreviousIdea}>
           Previous idea
         </Button>
@@ -297,4 +306,25 @@ function IngredientBlock({ title, values, empty, tone }: { title: string; values
       )}
     </div>
   );
+}
+
+function getCoreDisplayIngredients(meal: MealIdea): { name: string; key: string }[] {
+  const ingredients = meal.structuredIngredients?.length
+    ? meal.structuredIngredients
+        .filter((ingredient) => !ingredient.isOptional && !ingredient.isPantry)
+        .map((ingredient) => ({
+          name: ingredient.rawName,
+          key: ingredient.canonicalName || normalizeIngredientKey(ingredient.rawName),
+        }))
+    : meal.ingredients.map((ingredient) => ({
+        name: ingredient,
+        key: normalizeIngredientKey(ingredient),
+      }));
+
+  const seen = new Set<string>();
+  return ingredients.filter((ingredient) => {
+    if (seen.has(ingredient.key)) return false;
+    seen.add(ingredient.key);
+    return true;
+  });
 }

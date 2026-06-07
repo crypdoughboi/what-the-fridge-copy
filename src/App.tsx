@@ -46,6 +46,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [screenHistory, setScreenHistory] = useState<Screen[]>([]);
   const [ideaQueue, setIdeaQueue] = useState<MealIdea[]>([]);
+  const [ideaIndex, setIdeaIndex] = useState(0);
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
   const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
   const [receiptExtraction, setReceiptExtraction] = useState<ReceiptExtraction | null>(null);
@@ -131,6 +132,7 @@ export default function App() {
   function startMealIdeas() {
     if (app.knownIngredientNames.length > 0) {
       setIdeaQueue(app.rankMealIdeas());
+      setIdeaIndex(0);
       pushScreen('mealIdeas', 'meals');
       return;
     }
@@ -140,6 +142,7 @@ export default function App() {
   function continueFromDinnerLanes(lanes: string[]) {
     app.rememberDinnerLanes(lanes);
     setIdeaQueue(app.rankMealIdeas(lanes));
+    setIdeaIndex(0);
     pushScreen('mealIdeas', 'meals');
   }
 
@@ -301,6 +304,8 @@ export default function App() {
       return (
         <MealIdeaScreen
           ideas={ideaQueue}
+          index={ideaIndex}
+          onIndexChange={setIdeaIndex}
           knownIngredients={app.knownIngredientNames}
           onBack={() => goBack('meals')}
           onSkip={app.skipMealIdea}

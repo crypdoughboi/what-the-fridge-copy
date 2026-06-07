@@ -681,6 +681,7 @@ export function useGroceryAppState() {
       selectedLanes: selectedLanes.length ? selectedLanes : behavior.selectedDinnerLanes,
       skippedMealIds: behavior.skippedMealIds,
       savedMealIds,
+      plannedMealIds,
       madeMealIds: cookedMealIds,
       likedTags: behavior.likedTags,
       dislikedTags: behavior.dislikedTags,
@@ -933,8 +934,6 @@ function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: Behavior
     ...memoryNames,
     ...scanNames,
     ...behavior.alreadyHaveNames,
-    ...behavior.manuallyAddedNames,
-    ...behavior.mealAddedNames,
   ];
 
   const seen = new Set<string>();

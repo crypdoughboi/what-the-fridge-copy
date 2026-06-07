@@ -30,6 +30,7 @@ export function getRankedMealIdeas({
   selectedLanes = [],
   skippedMealIds = [],
   savedMealIds = [],
+  plannedMealIds = [],
   madeMealIds = [],
   likedTags = [],
   dislikedTags = [],
@@ -39,38 +40,38 @@ export function getRankedMealIdeas({
   selectedLanes?: string[];
   skippedMealIds?: string[];
   savedMealIds?: string[];
+  plannedMealIds?: string[];
   madeMealIds?: string[];
   likedTags?: string[];
   dislikedTags?: string[];
 }): MealIdea[] {
   const knownKeys = new Set(knownIngredients.map(normalizeIngredientKey));
   const selectedLaneSet = new Set(selectedLanes);
-  const skippedSet = new Set(skippedMealIds);
-  const savedSet = new Set(savedMealIds);
-  const madeSet = new Set(madeMealIds);
+  const hiddenMealIds = new Set([...skippedMealIds, ...savedMealIds, ...plannedMealIds, ...madeMealIds]);
   const likedSet = new Set(likedTags);
   const dislikedSet = new Set(dislikedTags);
 
   return mealIdeas
-    .filter((meal) => !skippedSet.has(meal.id))
+    .filter((meal) => !hiddenMealIds.has(meal.id))
     .map((meal, index) => {
-      const ingredientHits = meal.ingredients.filter((ingredient) => knownKeys.has(normalizeIngredientKey(ingredient))).length;
-      const missingCount = meal.ingredients.length - ingredientHits;
+      const mealIngredientKeys = getCoreMealIngredientKeys(meal);
+      const ingredientHits = mealIngredientKeys.filter((key) => knownKeys.has(key)).length;
+      const missingCount = Math.max(0, mealIngredientKeys.length - ingredientHits);
       const laneHits = meal.dinnerLanes.filter((lane) => selectedLaneSet.has(lane)).length;
       const likedHits = meal.tags.filter((tag) => likedSet.has(tag)).length;
       const dislikedHits = meal.tags.filter((tag) => dislikedSet.has(tag)).length;
+      const hasIngredientMatch = knownKeys.size > 0 && ingredientHits > 0;
       const variety = index % 4;
 
       return {
         meal,
         score:
-          ingredientHits * 18 -
-          missingCount * (knownKeys.size > 0 ? 2 : 0) +
+          ingredientHits * 28 -
+          missingCount * (knownKeys.size > 0 ? 3 : 0) +
+          (hasIngredientMatch ? 18 : 0) +
           laneHits * 22 +
           likedHits * 6 -
           dislikedHits * 8 +
-          (savedSet.has(meal.id) ? 4 : 0) +
-          (madeSet.has(meal.id) ? 2 : 0) +
           variety,
       };
     })
@@ -80,6 +81,16 @@ export function getRankedMealIdeas({
 
 export function getMealIdeaById(id: string, mealIdeas: MealIdea[] = seedMealIdeas): MealIdea | undefined {
   return mealIdeas.find((meal) => meal.id === id);
+}
+
+function getCoreMealIngredientKeys(meal: MealIdea): string[] {
+  const keys = meal.structuredIngredients?.length
+    ? meal.structuredIngredients
+        .filter((ingredient) => !ingredient.isOptional && !ingredient.isPantry)
+        .map((ingredient) => ingredient.canonicalName || normalizeIngredientKey(ingredient.rawName))
+    : meal.ingredients.map(normalizeIngredientKey);
+
+  return Array.from(new Set(keys));
 }
 
 function wait(ms: number): Promise<void> {
