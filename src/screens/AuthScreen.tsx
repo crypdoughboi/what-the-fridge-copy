@@ -52,7 +52,7 @@ export function AuthScreen({
         <WelcomeFlowGraphic />
         <div className="mt-5">
           <Eyebrow muted>What The Fridge</Eyebrow>
-          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that writes itself.</h1>
+          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that knows what's in your fridge. A dinner plan that knows how you cook.</h1>
           <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
             Take a picture of your fridge or a receipt. WTF builds your list, keeps track of what you have, and helps turn it into dinner.
           </p>
