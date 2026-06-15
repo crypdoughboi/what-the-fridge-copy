@@ -51,8 +51,8 @@ export function ScanScreen({
     <main className="screen-enter space-y-6">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase text-accent">Add</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] text-ink">Capture food fast.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Photos and short notes update Kitchen first. Manual add is here when capture misses.</p>
+        <h1 className="mt-2 font-display text-[32px] font-bold leading-[1.16] text-ink">Add food.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Photos first, voice and paste next, manual only when needed.</p>
       </section>
 
       <Card className="section-enter stagger-1">

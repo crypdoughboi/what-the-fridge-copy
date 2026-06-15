@@ -46,11 +46,11 @@ const captureLoadingSteps = ['Reading the capture...', 'Normalizing grocery name
 export default function App() {
   const app = useGroceryAppState();
   const [screen, setScreen] = useState<Screen>('auth');
-  const [activeTab, setActiveTab] = useState<Tab>('deck');
+  const [activeTab, setActiveTab] = useState<Tab>('meals');
   const [screenHistory, setScreenHistory] = useState<Screen[]>([]);
   const [ideaQueue, setIdeaQueue] = useState<MealIdea[]>([]);
   const [ideaIndex, setIdeaIndex] = useState(0);
-  const [deckConstraint, setDeckConstraint] = useState('');
+  const [mealConstraint, setMealConstraint] = useState('');
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
   const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
   const [consumptionMeal, setConsumptionMeal] = useState<MealIdea | null>(null);
@@ -131,8 +131,8 @@ export default function App() {
     const parsed = await parseGroceryCapture({ method: 'grocery_photo', file });
     app.applyParsedCapture(parsed);
     setCaptureLoading(false);
-    refreshDeck();
-    navigateTab('deck');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   async function startVoiceAdd(text: string) {
@@ -141,8 +141,8 @@ export default function App() {
     const parsed = await parseGroceryCapture({ method: 'voice_add', text });
     app.applyParsedCapture(parsed);
     setCaptureLoading(false);
-    refreshDeck();
-    navigateTab('deck');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   async function startPastedReceipt(text: string) {
@@ -169,31 +169,31 @@ export default function App() {
 
   function confirmReceipt(extraction: ReceiptExtraction) {
     app.confirmReceipt(extraction);
-    refreshDeck();
-    navigateTab('deck');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   function updateFromFridge(items: VisionItem[]) {
     app.updateListFromFridge(items);
-    refreshDeck();
-    navigateTab('deck');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   function startMealIdeas() {
-    refreshDeck();
-    navigateTab('deck');
+    refreshMeals();
+    navigateTab('meals');
   }
 
-  function refreshDeck() {
-    setIdeaQueue(app.rankMealIdeas([], deckConstraint));
+  function refreshMeals() {
+    setIdeaQueue(app.rankMealIdeas([], mealConstraint));
     setIdeaIndex(0);
   }
 
   function continueFromDinnerLanes(lanes: string[]) {
     app.rememberDinnerLanes(lanes);
-    setIdeaQueue(app.rankMealIdeas(lanes, deckConstraint));
+    setIdeaQueue(app.rankMealIdeas(lanes, mealConstraint));
     setIdeaIndex(0);
-    pushScreen('deck', 'deck');
+    pushScreen('meals', 'meals');
   }
 
   function openIngredientReview(meal: MealIdea) {
@@ -246,7 +246,7 @@ export default function App() {
           }}
           onGuest={() => {
             app.continueAsGuest();
-            navigateTab('deck');
+            navigateTab('meals');
           }}
           errorMessage={app.authError}
         />
@@ -265,25 +265,27 @@ export default function App() {
     }
 
     if (screen === 'onboardingSuccess') {
-      return <OnboardingSuccessScreen onContinue={() => navigateTab('deck')} />;
+      return <OnboardingSuccessScreen onContinue={() => navigateTab('meals')} />;
     }
 
     if (captureLoading) {
       return <LoadingState title="Parsing capture" steps={captureLoadingSteps} />;
     }
 
-    if (screen === 'auth' || screen === 'deck') {
-      const deckIdeas = ideaQueue.length ? ideaQueue : app.rankMealIdeas([], deckConstraint);
+    if (screen === 'auth' || screen === 'meals') {
+      const mealIdeas = ideaQueue.length ? ideaQueue : app.rankMealIdeas([], mealConstraint);
       return (
         <MealIdeaScreen
-          ideas={deckIdeas}
+          ideas={mealIdeas}
+          allMeals={app.mealIdeas}
+          savedMeals={app.savedMeals}
           index={ideaIndex}
           onIndexChange={setIdeaIndex}
           knownIngredients={app.knownIngredientNames}
           kitchenItems={app.kitchenInventory}
-          constraintText={deckConstraint}
-          onConstraintTextChange={setDeckConstraint}
-          onRefreshDeck={refreshDeck}
+          constraintText={mealConstraint}
+          onConstraintTextChange={setMealConstraint}
+          onRefreshMeals={refreshMeals}
           onProfile={() => pushScreen('settings')}
           onSkip={app.skipMealIdea}
           onSave={app.saveMealIdea}
@@ -334,7 +336,7 @@ export default function App() {
     }
 
     if (screen === 'receiptSuccess') {
-      return <ReceiptSuccessScreen onList={() => navigateTab('shop')} onMeals={() => navigateTab('deck')} onScanAnother={openReceiptScan} />;
+      return <ReceiptSuccessScreen onList={() => navigateTab('shop')} onMeals={() => navigateTab('meals')} onScanAnother={openReceiptScan} />;
     }
 
     if (screen === 'fridgeScan') {
@@ -364,20 +366,22 @@ export default function App() {
     }
 
     if (screen === 'dinnerLanePicker') {
-      return <DinnerLanePickerScreen onBack={() => goBack('deck')} onContinue={continueFromDinnerLanes} />;
+      return <DinnerLanePickerScreen onBack={() => goBack('meals')} onContinue={continueFromDinnerLanes} />;
     }
 
     if (screen === 'mealIdeas') {
       return (
         <MealIdeaScreen
           ideas={ideaQueue}
+          allMeals={app.mealIdeas}
+          savedMeals={app.savedMeals}
           index={ideaIndex}
           onIndexChange={setIdeaIndex}
           knownIngredients={app.knownIngredientNames}
           kitchenItems={app.kitchenInventory}
-          constraintText={deckConstraint}
-          onConstraintTextChange={setDeckConstraint}
-          onRefreshDeck={refreshDeck}
+          constraintText={mealConstraint}
+          onConstraintTextChange={setMealConstraint}
+          onRefreshMeals={refreshMeals}
           onProfile={() => pushScreen('settings')}
           onSkip={app.skipMealIdea}
           onSave={app.saveMealIdea}
@@ -411,7 +415,7 @@ export default function App() {
           knownIngredients={app.knownIngredientNames}
           kitchenItems={app.kitchenInventory}
           needToBuyNames={needToBuyNames}
-          onBack={() => goBack('deck')}
+          onBack={() => goBack('meals')}
           onAddMissing={addReviewedIngredients}
         />
       );
@@ -456,7 +460,7 @@ export default function App() {
           onSignOut={async () => {
             await app.signOutAccount();
             setScreen('auth');
-            setActiveTab('deck');
+            setActiveTab('meals');
           }}
         />
       );
@@ -477,5 +481,5 @@ export default function App() {
 }
 
 function isTab(screen: Screen): screen is Tab {
-  return screen === 'deck' || screen === 'add' || screen === 'shop' || screen === 'kitchen';
+  return screen === 'meals' || screen === 'add' || screen === 'shop' || screen === 'kitchen';
 }

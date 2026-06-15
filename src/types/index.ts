@@ -1,10 +1,10 @@
-export type Tab = 'deck' | 'add' | 'shop' | 'kitchen';
+export type Tab = 'meals' | 'add' | 'shop' | 'kitchen';
 
 export type Screen =
   | 'auth'
   | 'onboarding'
   | 'onboardingSuccess'
-  | 'deck'
+  | 'meals'
   | 'add'
   | 'shop'
   | 'kitchen'

@@ -29,8 +29,8 @@ export function KitchenScreen({
     <main className="screen-enter space-y-8">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase text-accent">Kitchen</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] text-ink">Keep the state honest.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Inventory drifts. Confirm what matters and mark what is gone.</p>
+        <h1 className="mt-2 font-display text-[32px] font-bold leading-[1.16] text-ink">Kitchen.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">What you probably have, what is low, and what should be used soon.</p>
       </section>
 
       {plannedMeals.length ? (

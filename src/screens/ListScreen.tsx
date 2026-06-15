@@ -44,7 +44,7 @@ export function ListScreen({
     <main className="screen-enter space-y-8">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase text-accent">Shop</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] text-ink">Buy what unlocks dinner.</h1>
+        <h1 className="mt-2 font-display text-[32px] font-bold leading-[1.16] text-ink">Shopping list.</h1>
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Selected meals minus Kitchen, with staples added when needed.</p>
       </section>
 
@@ -63,11 +63,11 @@ export function ListScreen({
             ))}
           </div>
         ) : (
-          <p className="mt-4 rounded-md bg-paper p-3 text-[14px] font-medium text-ink-soft">Pick a dinner from Deck and this fills itself.</p>
+          <p className="mt-4 rounded-md bg-paper p-3 text-[14px] font-medium text-ink-soft">Pick a dinner from Meals and this fills itself.</p>
         )}
         <div className="mt-4 grid grid-cols-2 gap-2">
           <Button variant="secondary" icon={<Utensils className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartMealIdeas}>
-            Deck
+            Meals
           </Button>
           <Button variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoAdd}>
             Add
