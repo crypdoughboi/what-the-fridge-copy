@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   BehaviorState,
   ChefMode,
+  DeckMeal,
   GroceryList,
   GroceryListEntry,
   GroceryMemoryItem,
   MealFeedback,
   MealIdea,
+  MealMode,
+  MealPreferences,
   MealSuggestion,
   OnboardingProfile,
   ReceiptExtraction,
@@ -26,13 +29,19 @@ import {
   sectionForCategory,
   updateLocalStateAfterUserAction,
 } from '../utils/groceryLogic';
-import { getMealIdeaById, getMealsForMode, getRankedMealIdeas } from '../services/mealGenerationService';
+import {
+  generateMealDeck as buildMealDeck,
+  getMealIdeaById,
+  getMealsForMode,
+  getRankedMealIdeas,
+} from '../services/mealGenerationService';
 import {
   fetchRemoteMealIdeas,
   fetchRemoteUserState,
   logUserItemEvent,
   moveGroceryItemToUserIngredients,
   removeUserFoodState,
+  removeUserMealState,
   syncReviewedMealIngredients,
   upsertGroceryItem,
   upsertUserIngredient,
@@ -57,6 +66,7 @@ type PersonalizedState = {
   savedMealIds: string[];
   plannedMealIds: string[];
   cookedMealIds: string[];
+  shoppingMealIds: string[];
   recommendedItems: string[];
   receiptCount: number;
   fridgeScanCount: number;
@@ -100,6 +110,7 @@ export function useGroceryAppState() {
   const [savedMealIds, setSavedMealIds] = useState<string[]>([]);
   const [plannedMealIds, setPlannedMealIds] = useState<string[]>([]);
   const [cookedMealIds, setCookedMealIds] = useState<string[]>([]);
+  const [shoppingMealIds, setShoppingMealIds] = useState<string[]>([]);
   const [mealIdeas, setMealIdeas] = useState<MealIdea[]>(seedMealIdeas);
   const [recommendedItems, setRecommendedItems] = useState<string[]>([]);
   const [receiptCount, setReceiptCount] = useState(0);
@@ -121,6 +132,11 @@ export function useGroceryAppState() {
     [savedMealIds, plannedMealIds, cookedMealIds, mealIdeas],
   );
   const madeMeals = useMemo(() => idsToMealIdeas(cookedMealIds, mealIdeas), [cookedMealIds, mealIdeas]);
+  const shoppingMeals = useMemo(() => idsToMealIdeas(shoppingMealIds, mealIdeas), [shoppingMealIds, mealIdeas]);
+  const likedMeals = useMemo(
+    () => idsToMealIdeas(savedMealIds, mealIdeas).filter((meal) => !cookedMealIds.includes(meal.id)),
+    [savedMealIds, cookedMealIds, mealIdeas],
+  );
   const hasGroceryData = useMemo(
     () =>
       memory.length > 0 ||
@@ -142,6 +158,7 @@ export function useGroceryAppState() {
         .slice(0, 4),
     [memory],
   );
+  const useSoonNames = useMemo(() => useSoon.map((item) => item.name), [useSoon]);
 
   useEffect(() => {
     window.localStorage.removeItem(legacyAccountStorageKey);
@@ -226,6 +243,7 @@ export function useGroceryAppState() {
       savedMealIds,
       plannedMealIds,
       cookedMealIds,
+      shoppingMealIds,
       recommendedItems,
       receiptCount,
       fridgeScanCount,
@@ -240,6 +258,7 @@ export function useGroceryAppState() {
     savedMealIds,
     plannedMealIds,
     cookedMealIds,
+    shoppingMealIds,
     recommendedItems,
     receiptCount,
     fridgeScanCount,
@@ -307,6 +326,7 @@ export function useGroceryAppState() {
     setSavedMealIds(state.savedMealIds ?? []);
     setPlannedMealIds(state.plannedMealIds ?? []);
     setCookedMealIds(state.cookedMealIds ?? []);
+    setShoppingMealIds(state.shoppingMealIds ?? []);
     setRecommendedItems(state.recommendedItems ?? []);
     setReceiptCount(state.receiptCount ?? 0);
     setFridgeScanCount(state.fridgeScanCount ?? 0);
@@ -789,6 +809,60 @@ export function useGroceryAppState() {
     });
   }
 
+  function generateMealDeck(mode: MealMode, preferences: MealPreferences): DeckMeal[] {
+    return buildMealDeck({
+      mode,
+      preferences,
+      mealIdeas,
+      inventory: mode === 'inventory' ? knownIngredientNames : [],
+      expiringSoon: useSoonNames,
+      likedTags: behavior.likedTags,
+      dislikedTags: behavior.dislikedTags,
+      skippedMealIds: behavior.skippedMealIds,
+      savedMealIds,
+      plannedMealIds,
+      madeMealIds: cookedMealIds,
+    });
+  }
+
+  function addMealToShopping(meal: MealIdea, neededNames: string[]) {
+    setShoppingMealIds((current) => unique([...current, meal.id]));
+    const names = filterNewNeedNames(neededNames);
+    if (names.length === 0) {
+      showToast(`${meal.name} saved. Ingredients already on your list.`);
+      return;
+    }
+    setBehavior((current) => {
+      const nextUsedFor = { ...current.usedForMeals };
+      names.forEach((name) => {
+        const key = normalizeIngredientKey(name);
+        nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), meal.name]);
+      });
+      return {
+        ...addListTracking(current, names, 'meal'),
+        mealAddedNames: unique([...current.mealAddedNames, ...names]),
+        usedForMeals: nextUsedFor,
+        addCounts: names.reduce(
+          (counts, name) => ({
+            ...counts,
+            [name.toLowerCase()]: (current.addCounts[name.toLowerCase()] ?? 0) + 1,
+          }),
+          current.addCounts,
+        ),
+      };
+    });
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, meal.id, undefined, 'meal'));
+    showToast(`Added ${names.length} item${names.length === 1 ? '' : 's'} for ${meal.name}.`);
+  }
+
+  function removeSavedMeal(mealId: string) {
+    setSavedMealIds((current) => current.filter((id) => id !== mealId));
+    setCookedMealIds((current) => current.filter((id) => id !== mealId));
+    setShoppingMealIds((current) => current.filter((id) => id !== mealId));
+    void removeUserMealState(remoteUserId, mealId);
+    showToast('Removed from Saved Meals.');
+  }
+
   function recommendItem(itemName: string) {
     setRecommendedItems((current) => unique([...current, itemName]));
     showToast(`${itemName} recommended. Spending stayed private.`);
@@ -824,9 +898,12 @@ export function useGroceryAppState() {
     savedMealIds,
     plannedMealIds,
     cookedMealIds,
+    shoppingMealIds,
     plannedMeals,
     savedMeals,
     madeMeals,
+    shoppingMeals,
+    likedMeals,
     recommendedItems,
     completeOnboarding,
     setProfile,
@@ -852,6 +929,9 @@ export function useGroceryAppState() {
     makeMealAgain,
     rateMeal,
     rankMealIdeas,
+    generateMealDeck,
+    addMealToShopping,
+    removeSavedMeal,
     recommendItem,
     keepPrivate,
   };
@@ -951,6 +1031,7 @@ function defaultPersonalizedState(): PersonalizedState {
     savedMealIds: [],
     plannedMealIds: [],
     cookedMealIds: [],
+    shoppingMealIds: [],
     recommendedItems: [],
     receiptCount: 0,
     fridgeScanCount: 0,

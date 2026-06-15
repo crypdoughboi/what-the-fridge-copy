@@ -10,8 +10,9 @@ export type Screen =
   | 'meals'
   | 'spend'
   | 'settings'
-  | 'dinnerLanePicker'
-  | 'mealIdeas'
+  | 'mealPreferences'
+  | 'mealDeck'
+  | 'savedMeals'
   | 'ingredientReview'
   | 'receiptScan'
   | 'receiptReview'
@@ -305,6 +306,90 @@ export type OnboardingProfile = {
   foodsToAvoid: string;
   cookingStyle: string;
   weeklyGoal: string;
+};
+
+export type MealMode = 'scratch' | 'inventory';
+
+export type EffortPreference = 'Anything easy' | 'Bare minimum' | 'Easy' | 'Normal' | 'I feel like cooking';
+
+export type CookingMethodPreference =
+  | 'Any method'
+  | 'Air fryer'
+  | 'Sheet pan'
+  | 'One-pan'
+  | 'One-pot'
+  | 'Stovetop'
+  | 'Oven'
+  | 'Grill'
+  | 'No-cook'
+  | 'Slow cooker'
+  | 'Instant Pot';
+
+export type VibePreference =
+  | 'Surprise me'
+  | 'Healthy'
+  | 'Comfort food'
+  | 'Rice bowl energy'
+  | 'High-protein'
+  | 'Meat-heavy'
+  | 'Crispy'
+  | 'Creamy'
+  | 'Spicy'
+  | 'Light'
+  | 'Cheap'
+  | 'Date night'
+  | 'Family-friendly'
+  | 'Low-cleanup';
+
+export type MainIngredientPreference =
+  | 'Use what makes sense'
+  | 'Whatever expires first'
+  | 'Chicken'
+  | 'Beef'
+  | 'Ground turkey'
+  | 'Fish'
+  | 'Shrimp'
+  | 'Eggs'
+  | 'Tofu'
+  | 'Beans'
+  | 'Pasta'
+  | 'Rice'
+  | 'Vegetables';
+
+export type CuisinePreference =
+  | 'Any cuisine'
+  | 'American'
+  | 'Italian'
+  | 'Mexican'
+  | 'Mediterranean'
+  | 'Chinese'
+  | 'Japanese'
+  | 'Korean'
+  | 'Thai'
+  | 'Indian'
+  | 'Middle Eastern'
+  | 'Tex-Mex';
+
+export type FlexibilityPreference = 'Only what I have' | 'Missing 1 item is okay' | 'A few missing items are okay' | "I'm shopping anyway";
+
+export type MealPreferences = {
+  effort: EffortPreference;
+  cookingMethod: CookingMethodPreference;
+  restrictions: string[];
+  vibe: VibePreference;
+  mainIngredient: MainIngredientPreference;
+  cuisine: CuisinePreference;
+  flexibility?: FlexibilityPreference;
+};
+
+export type DeckMeal = {
+  meal: MealIdea;
+  mode: MealMode;
+  have: string[];
+  need: string[];
+  pantry: string[];
+  missingCount: number;
+  reason: string;
 };
 
 export type AuthProvider = 'apple' | 'gmail' | 'email' | 'guest';

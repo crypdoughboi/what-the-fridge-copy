@@ -201,6 +201,12 @@ export async function upsertUserMealStatus(
   if (error) console.warn('Could not sync meal status', error.message);
 }
 
+export async function removeUserMealState(userId: string | undefined, mealId: string): Promise<void> {
+  if (!userId || !isSupabaseConfigured || !supabase || !isUuid(mealId)) return;
+  const { error } = await supabase.from('user_meals').delete().eq('user_id', userId).eq('meal_id', mealId);
+  if (error) console.warn('Could not remove meal state', error.message);
+}
+
 export async function syncReviewedMealIngredients(userId: string | undefined, meal: MealIdea, reviewed: ReviewedIngredient[]): Promise<void> {
   if (!userId || !isSupabaseConfigured || !supabase || !isUuid(meal.id)) return;
 

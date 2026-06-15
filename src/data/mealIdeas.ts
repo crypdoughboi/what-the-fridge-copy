@@ -1,21 +1,6 @@
 import { MealIdea, SeedMealTemplate } from '../types';
 import { seedMealTemplates } from './seedMealTemplates';
 
-export const dinnerLanes = [
-  'Crispy, saucy, crunchy',
-  'Charred, citrusy, herby',
-  'Creamy, spicy, cozy',
-  'Rice bowl energy',
-  'Big platter dinner',
-  'Spiced rice and slow comfort',
-  'Curry night',
-  'Pasta but better',
-  'Weeknight roast',
-  'Mediterranean home cooking',
-  'Tacos, wraps, and things in bread',
-  'Pantry sauce magic',
-];
-
 export const seedMealIdeas: MealIdea[] = seedMealTemplates.map((template) => templateToMealIdea(template));
 
 export function templateToMealIdea(template: SeedMealTemplate, id = template.slug): MealIdea {

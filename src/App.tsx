@@ -5,16 +5,17 @@ import { Toast } from './components/Toast';
 import { useGroceryAppState } from './hooks/useGroceryAppState';
 import { scanFridgeOrPantryImage } from './services/fridgeVisionService';
 import { normalizeReceiptItems, scanReceiptImage } from './services/receiptOcrService';
-import { DinnerLanePickerScreen } from './screens/DinnerLanePickerScreen';
 import { FridgeResultScreen } from './screens/FridgeResultScreen';
 import { FridgeScanScreen } from './screens/FridgeScanScreen';
 import { AuthScreen } from './screens/AuthScreen';
 import { HomeScreen } from './screens/HomeScreen';
 import { IngredientReviewScreen } from './screens/IngredientReviewScreen';
 import { ListScreen } from './screens/ListScreen';
-import { MealIdeaScreen } from './screens/MealIdeaScreen';
+import { MealDeckScreen } from './screens/MealDeckScreen';
 import { MealDetailScreen } from './screens/MealDetailScreen';
+import { MealPreferencesScreen } from './screens/MealPreferencesScreen';
 import { MealsScreen } from './screens/MealsScreen';
+import { SavedMealsScreen } from './screens/SavedMealsScreen';
 import { OnboardingScreen, OnboardingSuccessScreen } from './screens/OnboardingScreen';
 import { ReceiptReviewScreen } from './screens/ReceiptReviewScreen';
 import { ReceiptScanScreen } from './screens/ReceiptScanScreen';
@@ -22,7 +23,9 @@ import { ReceiptSuccessScreen } from './screens/ReceiptSuccessScreen';
 import { ScanScreen } from './screens/ScanScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SpendScreen } from './screens/SpendScreen';
-import { MealIdea, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
+import { getMealNeededNames } from './services/mealGenerationService';
+import { defaultMealPreferences, restrictionsFromProfile } from './data/mealPreferenceOptions';
+import { DeckMeal, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
 
 const receiptLoadingSteps = [
   'Reading the receipt...',
@@ -45,8 +48,11 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('auth');
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [screenHistory, setScreenHistory] = useState<Screen[]>([]);
-  const [ideaQueue, setIdeaQueue] = useState<MealIdea[]>([]);
-  const [ideaIndex, setIdeaIndex] = useState(0);
+  const [mealMode, setMealMode] = useState<MealMode>('scratch');
+  const [mealPreferences, setMealPreferences] = useState<MealPreferences>(defaultMealPreferences);
+  const [deck, setDeck] = useState<DeckMeal[]>([]);
+  const [deckIndex, setDeckIndex] = useState(0);
+  const [deckLoading, setDeckLoading] = useState(false);
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
   const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
   const [receiptExtraction, setReceiptExtraction] = useState<ReceiptExtraction | null>(null);
@@ -129,21 +135,47 @@ export default function App() {
     navigateTab('list');
   }
 
-  function startMealIdeas() {
-    if (app.knownIngredientNames.length > 0) {
-      setIdeaQueue(app.rankMealIdeas());
-      setIdeaIndex(0);
-      pushScreen('mealIdeas', 'meals');
-      return;
-    }
-    pushScreen('dinnerLanePicker', 'meals');
+  function openMealPreferences(mode: MealMode) {
+    setMealMode(mode);
+    setMealPreferences((current) => {
+      const isDefaultRestrictions = current.restrictions.length === 1 && current.restrictions[0] === 'No restrictions';
+      return { ...current, restrictions: isDefaultRestrictions ? restrictionsFromProfile(app.profile.dietaryPreferences) : current.restrictions };
+    });
+    pushScreen('mealPreferences', 'meals');
   }
 
-  function continueFromDinnerLanes(lanes: string[]) {
-    app.rememberDinnerLanes(lanes);
-    setIdeaQueue(app.rankMealIdeas(lanes));
-    setIdeaIndex(0);
-    pushScreen('mealIdeas', 'meals');
+  function openSavedMeals() {
+    pushScreen('savedMeals', 'meals');
+  }
+
+  function generateDeck(mode: MealMode, preferences: MealPreferences) {
+    setMealMode(mode);
+    setMealPreferences(preferences);
+    setDeckIndex(0);
+    pushScreen('mealDeck', 'meals');
+    if (mode === 'inventory' && app.knownIngredientNames.length === 0) {
+      setDeck([]);
+      setDeckLoading(false);
+      return;
+    }
+    setDeckLoading(true);
+    window.setTimeout(() => {
+      setDeck(app.generateMealDeck(mode, preferences));
+      setDeckIndex(0);
+      setDeckLoading(false);
+    }, 450);
+  }
+
+  function deckLike(deckMeal: DeckMeal) {
+    app.saveMealIdea(deckMeal.meal);
+  }
+
+  function deckPass(deckMeal: DeckMeal) {
+    app.skipMealIdea(deckMeal.meal);
+  }
+
+  function deckAddToShopping(deckMeal: DeckMeal) {
+    app.addMealToShopping(deckMeal.meal, deckMeal.need);
   }
 
   function openIngredientReview(meal: MealIdea) {
@@ -211,7 +243,7 @@ export default function App() {
         <HomeScreen
           plannedMeals={app.plannedMeals}
           list={app.groceryList}
-          onStartMealIdeas={startMealIdeas}
+          onStartMealIdeas={() => openMealPreferences('scratch')}
           onGoList={() => navigateTab('list')}
           onGoMeals={() => navigateTab('meals')}
           onGoScan={() => navigateTab('scan')}
@@ -235,7 +267,7 @@ export default function App() {
           onScanReceipt={openReceiptScan}
           onSnapFridge={openFridgeScan}
           onGoScan={() => navigateTab('scan')}
-          onStartMealIdeas={startMealIdeas}
+          onStartMealIdeas={() => openMealPreferences('scratch')}
         />
       );
     }
@@ -282,36 +314,57 @@ export default function App() {
     if (screen === 'meals') {
       return (
         <MealsScreen
-          plannedMeals={app.plannedMeals}
-          savedMeals={app.savedMeals}
-          madeMeals={app.madeMeals}
-          onStartIdeas={startMealIdeas}
-          onAddWhatIHave={() => navigateTab('scan')}
-          onMakeThisWeek={openIngredientReview}
-          onMarkMade={(meal) => app.markMealCooked(meal.id)}
-          onMakeAgain={openIngredientReview}
-          onViewRecipe={openMealDetail}
-          onRateMeal={app.rateMeal}
+          savedCount={new Set([...app.savedMealIds, ...app.cookedMealIds, ...app.shoppingMealIds]).size}
+          onWtfScratch={() => openMealPreferences('scratch')}
+          onUseWhatIHave={() => openMealPreferences('inventory')}
+          onViewSaved={openSavedMeals}
         />
       );
     }
 
-    if (screen === 'dinnerLanePicker') {
-      return <DinnerLanePickerScreen onBack={() => goBack('meals')} onContinue={continueFromDinnerLanes} />;
+    if (screen === 'mealPreferences') {
+      return (
+        <MealPreferencesScreen
+          mode={mealMode}
+          initialPreferences={mealPreferences}
+          onBack={() => goBack('meals')}
+          onSubmit={(preferences) => generateDeck(mealMode, preferences)}
+        />
+      );
     }
 
-    if (screen === 'mealIdeas') {
+    if (screen === 'mealDeck') {
       return (
-        <MealIdeaScreen
-          ideas={ideaQueue}
-          index={ideaIndex}
-          onIndexChange={setIdeaIndex}
+        <MealDeckScreen
+          deck={deck}
+          index={deckIndex}
+          onIndexChange={setDeckIndex}
+          mode={mealMode}
+          loading={deckLoading}
+          hasInventory={app.knownIngredientNames.length > 0}
+          onBack={() => goBack('mealPreferences')}
+          onLike={deckLike}
+          onPass={deckPass}
+          onCook={(deckMeal) => openMealDetail(deckMeal.meal)}
+          onAddToShopping={deckAddToShopping}
+          onAddIngredients={() => navigateTab('scan')}
+          onStartFromScratch={() => openMealPreferences('scratch')}
+        />
+      );
+    }
+
+    if (screen === 'savedMeals') {
+      return (
+        <SavedMealsScreen
+          liked={app.likedMeals}
+          cooked={app.madeMeals}
+          shopping={app.shoppingMeals}
           knownIngredients={app.knownIngredientNames}
           onBack={() => goBack('meals')}
-          onSkip={app.skipMealIdea}
-          onSave={app.saveMealIdea}
-          onMakeThisWeek={openIngredientReview}
-          onViewRecipe={openMealDetail}
+          onBrowse={() => openMealPreferences('scratch')}
+          onCook={openMealDetail}
+          onAddToShopping={(meal) => app.addMealToShopping(meal, getMealNeededNames(meal, app.knownIngredientNames))}
+          onRemove={(meal) => app.removeSavedMeal(meal.id)}
         />
       );
     }
@@ -337,7 +390,7 @@ export default function App() {
           meal={reviewMeal}
           knownIngredients={app.knownIngredientNames}
           needToBuyNames={needToBuyNames}
-          onBack={() => goBack('mealIdeas')}
+          onBack={() => goBack('meals')}
           onAddMissing={addReviewedIngredients}
         />
       );

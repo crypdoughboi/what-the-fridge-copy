@@ -1,199 +1,90 @@
-import { BookOpen, ChefHat, Plus, RotateCcw, ScanLine, Star, Utensils } from 'lucide-react';
-import { ReactNode, useState } from 'react';
-import { MealFeedback, MealIdea } from '../types';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { Pill } from '../components/Pill';
-import { SectionHeader } from '../components/SectionHeader';
+import { ArrowRight, ChefHat, Heart, Refrigerator } from 'lucide-react';
+import { ReactNode } from 'react';
 
 export function MealsScreen({
-  plannedMeals,
-  savedMeals,
-  madeMeals,
-  onStartIdeas,
-  onAddWhatIHave,
-  onMakeThisWeek,
-  onMarkMade,
-  onMakeAgain,
-  onViewRecipe,
-  onRateMeal,
+  savedCount,
+  onWtfScratch,
+  onUseWhatIHave,
+  onViewSaved,
 }: {
-  plannedMeals: MealIdea[];
-  savedMeals: MealIdea[];
-  madeMeals: MealIdea[];
-  onStartIdeas: () => void;
-  onAddWhatIHave: () => void;
-  onMakeThisWeek: (meal: MealIdea) => void;
-  onMarkMade: (meal: MealIdea) => void;
-  onMakeAgain: (meal: MealIdea) => void;
-  onViewRecipe: (meal: MealIdea) => void;
-  onRateMeal: (mealId: string, feedback: MealFeedback) => void;
+  savedCount: number;
+  onWtfScratch: () => void;
+  onUseWhatIHave: () => void;
+  onViewSaved: () => void;
 }) {
-  const [feedbackMeal, setFeedbackMeal] = useState<MealIdea | null>(null);
-  const [feedbackChips, setFeedbackChips] = useState<string[]>([]);
-
-  function markMade(meal: MealIdea) {
-    onMarkMade(meal);
-    setFeedbackMeal(meal);
-    setFeedbackChips([]);
-  }
-
   return (
-    <main className="screen-enter space-y-8">
+    <main className="screen-enter space-y-6">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Meals</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">WTF should I make?</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
-          Start with meal ideas now, or add what you have for smarter suggestions.
-        </p>
-        <div className="mt-5 grid gap-2">
-          <Button full icon={<ChefHat className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartIdeas}>
-            WTF should I make?
-          </Button>
-          <Button full variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onAddWhatIHave}>
-            Add what I have
-          </Button>
-        </div>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">What's for dinner?</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Pick how you want to start. We'll handle the ideas and the list.</p>
       </section>
 
-      <MealSection
-        eyebrow="Saved recipes"
-        title="Saved from swipes"
-        emptyTitle="No saved recipes yet."
-        emptyText="Swipe right or tap Later in the meal idea flow. Saved recipes will land here."
-        meals={savedMeals}
-        actionLabel="Make this week"
-        actionIcon={<Plus className="h-5 w-5" strokeWidth={1.75} />}
-        onAction={onMakeThisWeek}
-        onViewRecipe={onViewRecipe}
-      />
-
-      <MealSection
-        eyebrow="This week"
-        title="Meals you plan to cook"
-        emptyTitle="No meals planned yet."
-        emptyText="Tap WTF should I make, then choose Make this week. Only those meals affect your grocery list."
-        meals={plannedMeals}
-        actionLabel="Mark made"
-        actionIcon={<Utensils className="h-5 w-5" strokeWidth={1.75} />}
-        onAction={markMade}
-        onViewRecipe={onViewRecipe}
-      />
-
-      {feedbackMeal && (
-        <Card className="section-enter">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Quick note</p>
-          <h2 className="mt-2 font-display text-[22px] font-bold tracking-[-0.02em] text-ink">How was it?</h2>
-          <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{feedbackMeal.name}</p>
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            {(['Loved it', 'Good enough', 'Not again'] as const).map((rating) => (
-              <button
-                key={rating}
-                className="min-h-10 rounded-md border border-line bg-paper px-2 text-[13px] font-semibold text-ink-soft active:bg-line/60"
-                onClick={() => {
-                  onRateMeal(feedbackMeal.id, { rating, chips: feedbackChips });
-                  setFeedbackMeal(null);
-                }}
-              >
-                {rating}
-              </button>
-            ))}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {['Too much work', 'Needed more acid', 'Needed more heat', 'Too heavy', 'Great leftovers', 'More sauce next time', 'Make it crispier'].map((chip) => {
-              const active = feedbackChips.includes(chip);
-              return (
-                <button
-                  key={chip}
-                  className={`rounded-pill border px-3 py-2 text-[12px] font-semibold transition ${
-                    active ? 'border-ink bg-ink text-paper' : 'border-line bg-paper text-muted'
-                  }`}
-                  onClick={() => setFeedbackChips((current) => (active ? current.filter((item) => item !== chip) : [...current, chip]))}
-                >
-                  {chip}
-                </button>
-              );
-            })}
-          </div>
-        </Card>
-      )}
-
-      <MealSection
-        eyebrow="Made before"
-        title="Worth repeating"
-        emptyTitle="No cooked meals yet."
-        emptyText="After you mark a planned meal made, it will show up here for easy repeats."
-        meals={madeMeals}
-        actionLabel="Make again"
-        actionIcon={<RotateCcw className="h-5 w-5" strokeWidth={1.75} />}
-        onAction={onMakeAgain}
-        onViewRecipe={onViewRecipe}
-      />
+      <div className="section-enter stagger-1 space-y-4">
+        <HubCard
+          icon={<ChefHat className="h-7 w-7" strokeWidth={1.75} />}
+          title="WTF Should I Make?"
+          description="Start from scratch. Get meal ideas plus a shopping list built from your picks."
+          cta="Show me meals"
+          onClick={onWtfScratch}
+        />
+        <HubCard
+          icon={<Refrigerator className="h-7 w-7" strokeWidth={1.75} />}
+          title="Use What I Have"
+          description="Cook from your kitchen first. We'll only suggest a missing ingredient or two if needed."
+          cta="Use my kitchen"
+          onClick={onUseWhatIHave}
+        />
+        <HubCard
+          icon={<Heart className="h-7 w-7" strokeWidth={1.75} />}
+          title="Saved Meals"
+          description="Meals you liked, cooked, or added to your shopping list, all in one place."
+          cta="View saved"
+          badge={savedCount > 0 ? savedCount : undefined}
+          onClick={onViewSaved}
+        />
+      </div>
     </main>
   );
 }
 
-function MealSection({
-  eyebrow,
+function HubCard({
+  icon,
   title,
-  emptyTitle,
-  emptyText,
-  meals,
-  actionLabel,
-  actionIcon,
-  onAction,
-  onViewRecipe,
+  description,
+  cta,
+  badge,
+  onClick,
 }: {
-  eyebrow: string;
+  icon: ReactNode;
   title: string;
-  emptyTitle: string;
-  emptyText: string;
-  meals: MealIdea[];
-  actionLabel: string;
-  actionIcon: ReactNode;
-  onAction: (meal: MealIdea) => void;
-  onViewRecipe: (meal: MealIdea) => void;
+  description: string;
+  cta: string;
+  badge?: number;
+  onClick: () => void;
 }) {
   return (
-    <section className="section-enter space-y-3">
-      <SectionHeader eyebrow={eyebrow} title={title} />
-      {meals.length === 0 ? (
-        <Card>
-          <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">{emptyTitle}</h2>
-          <p className="mt-2 text-[14px] font-medium leading-relaxed text-ink-soft">{emptyText}</p>
-        </Card>
-      ) : (
-        <div className="space-y-3">
-          {meals.map((meal) => (
-            <Card key={meal.id}>
-              <div className="flex items-start gap-3">
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-                  <Star className="h-5 w-5" strokeWidth={1.75} />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="font-display text-[21px] font-bold leading-tight tracking-[-0.02em] text-ink">{meal.name}</h3>
-                  <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{meal.description}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <Pill tone="green">{meal.timeMinutes} min</Pill>
-                    <Pill>{meal.effort}</Pill>
-                    {meal.tags.slice(0, 2).map((tag) => (
-                      <Pill key={tag}>{tag}</Pill>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <Button variant="secondary" icon={<BookOpen className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onViewRecipe(meal)}>
-                  View recipe
-                </Button>
-                <Button variant="secondary" icon={actionIcon} onClick={() => onAction(meal)}>
-                  {actionLabel}
-                </Button>
-              </div>
-            </Card>
-          ))}
+    <button
+      type="button"
+      onClick={onClick}
+      className="block w-full rounded-lg border border-line bg-surface p-6 text-left shadow-sm transition duration-150 ease-out active:scale-[0.99] active:bg-paper"
+    >
+      <div className="flex items-start gap-4">
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="font-display text-[23px] font-extrabold leading-tight tracking-[-0.02em] text-ink">{title}</h2>
+            {badge ? (
+              <span className="mt-1 shrink-0 rounded-pill bg-ink px-2.5 py-1 text-[12px] font-bold text-paper">{badge}</span>
+            ) : null}
+          </div>
+          <p className="mt-2 text-[15px] font-medium leading-[1.45] text-ink-soft">{description}</p>
         </div>
-      )}
-    </section>
+      </div>
+      <div className="mt-5 flex items-center justify-between rounded-md bg-ink px-4 py-3 text-paper">
+        <span className="text-[15px] font-semibold">{cta}</span>
+        <ArrowRight className="h-5 w-5" strokeWidth={2} />
+      </div>
+    </button>
   );
 }
