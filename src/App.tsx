@@ -247,8 +247,6 @@ export default function App() {
           onGoList={() => navigateTab('list')}
           onGoMeals={() => navigateTab('meals')}
           onGoScan={() => navigateTab('scan')}
-          onScanReceipt={openReceiptScan}
-          onCheckFridge={openFridgeScan}
           onSettings={() => pushScreen('settings')}
         />
       );
