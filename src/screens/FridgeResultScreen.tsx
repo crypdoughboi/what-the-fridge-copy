@@ -28,13 +28,13 @@ export function FridgeResultScreen({
 
   return (
     <main className="screen-enter space-y-6">
-      <BackButton onClick={onBack} label="Back to Scan" />
+      <BackButton onClick={onBack} label="Back to Add" />
 
       <section>
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Fridge photo</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Review what WTF found.</h1>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Capture result</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Review what Tonight found.</h1>
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">
-          Choose what is already there, what should go on the list, and what to ignore.
+          Confirm what is there, what is low, and what should be ignored.
         </p>
       </section>
 
@@ -64,10 +64,10 @@ export function FridgeResultScreen({
             </div>
             <div className="mt-3 grid grid-cols-3 gap-2">
               <Choice active={item.confidence === 'clearlySeen'} onClick={() => setConfidence(item.id, 'clearlySeen')}>
-                Already have
+                Have
               </Choice>
               <Choice active={item.confidence === 'maybeLow'} onClick={() => setConfidence(item.id, 'maybeLow')}>
-                Add to list
+                Low
               </Choice>
               <Choice active={item.confidence === 'couldNotTell'} onClick={() => setConfidence(item.id, 'couldNotTell')}>
                 Skip
@@ -90,7 +90,7 @@ export function FridgeResultScreen({
 
       <div className="grid gap-2">
         <Button icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onUpdateList(localItems)}>
-          Update List
+          Update Kitchen
         </Button>
         <Button variant="secondary" icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onScanPantry}>
           Scan pantry too

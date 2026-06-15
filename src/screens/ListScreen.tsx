@@ -1,13 +1,12 @@
-import { FormEvent, useState } from 'react';
-import { Camera, ReceiptText, RefreshCcw, ScanLine } from 'lucide-react';
+import { useState } from 'react';
+import { RefreshCcw, ScanLine, Utensils } from 'lucide-react';
 import { GroceryList, GroceryListEntry } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { Input } from '../components/Input';
 import { ListItemRow } from '../components/ListItemRow';
 import { Pill } from '../components/Pill';
 import { SectionHeader } from '../components/SectionHeader';
-import { groupListItemsByStoreSection, parseManualItemNames } from '../utils/groceryLogic';
+import { groupListItemsByStoreSection } from '../utils/groceryLogic';
 
 export function ListScreen({
   list,
@@ -15,11 +14,8 @@ export function ListScreen({
   onAlreadyHave,
   onNeedToBuy,
   onRemove,
-  onAddManual,
   onRebuild,
-  onScanReceipt,
-  onSnapFridge,
-  onGoScan,
+  onGoAdd,
   onStartMealIdeas,
 }: {
   list: GroceryList;
@@ -27,24 +23,14 @@ export function ListScreen({
   onAlreadyHave: (entry: GroceryListEntry) => void;
   onNeedToBuy: (entry: GroceryListEntry) => void;
   onRemove: (entry: GroceryListEntry) => void;
-  onAddManual: (name: string) => void;
   onRebuild: () => void;
-  onScanReceipt: () => void;
-  onSnapFridge: () => void;
-  onGoScan: () => void;
+  onGoAdd: () => void;
   onStartMealIdeas: () => void;
 }) {
-  const [manualItem, setManualItem] = useState('');
   const [building, setBuilding] = useState(false);
   const needToBuy = [...list.buyNow, ...list.maybeBuy];
   const alreadyHave = list.probablyAlreadyHave;
   const hasItems = needToBuy.length > 0 || alreadyHave.length > 0 || list.checkedOff.length > 0;
-
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    parseManualItemNames(manualItem).forEach(onAddManual);
-    setManualItem('');
-  }
 
   function rebuild() {
     setBuilding(true);
@@ -57,43 +43,42 @@ export function ListScreen({
   return (
     <main className="screen-enter space-y-8">
       <section className="section-enter">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">List</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Need to buy.</h1>
-        {hasItems && <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Tap the open circle as items go in the cart.</p>}
+        <p className="text-[12px] font-semibold uppercase text-accent">Shop</p>
+        <h1 className="mt-2 font-display text-[32px] font-bold leading-[1.16] text-ink">Shopping list.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Selected meals minus Kitchen, with staples added when needed.</p>
       </section>
 
-      <section className="section-enter stagger-1 space-y-3">
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <Input
-            value={manualItem}
-            onChange={(event) => setManualItem(event.target.value)}
-            placeholder="Add lemon, rice, paper towels"
-            className="min-w-0 flex-1"
-          />
-          <Button type="submit" className="px-4" disabled={!manualItem.trim()}>
+      <Card className="section-enter stagger-1">
+        <SectionHeader eyebrow={`${list.mealUnlocks.meals.length} meals`} title={list.mealUnlocks.title} />
+        {list.mealUnlocks.items.length ? (
+          <div className="mt-4 space-y-2">
+            {list.mealUnlocks.items.slice(0, 5).map((item) => (
+              <div key={item.id} className="flex items-start justify-between gap-3 rounded-md bg-paper px-3 py-2.5">
+                <div>
+                  <p className="text-[15px] font-semibold text-ink">{item.name}</p>
+                  {item.usedForMeals?.length ? <p className="mt-1 text-[13px] font-medium text-muted">{item.usedForMeals.join(', ')}</p> : null}
+                </div>
+                <Pill>{item.section}</Pill>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 rounded-md bg-paper p-3 text-[14px] font-medium text-ink-soft">Pick a dinner from Meals and this fills itself.</p>
+        )}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <Button variant="secondary" icon={<Utensils className="h-5 w-5" strokeWidth={1.75} />} onClick={onStartMealIdeas}>
+            Meals
+          </Button>
+          <Button variant="secondary" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoAdd}>
             Add
           </Button>
-        </form>
-
-        <div className="grid grid-cols-3 gap-2">
-          <Button variant="secondary" className="px-2 text-[14px]" icon={<ReceiptText className="h-5 w-5" strokeWidth={1.75} />} onClick={onScanReceipt}>
-            Receipt
-          </Button>
-          <Button variant="secondary" className="px-2 text-[14px]" icon={<Camera className="h-5 w-5" strokeWidth={1.75} />} onClick={onSnapFridge}>
-            Fridge
-          </Button>
-          <Button variant="secondary" className="px-2 text-[14px]" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoScan}>
-            Scan
-          </Button>
         </div>
-      </section>
+      </Card>
 
       {!hasItems ? (
         <Card className="section-enter stagger-2">
-          <h2 className="font-display text-[22px] font-bold tracking-[-0.02em] text-ink">Your list is empty.</h2>
-          <p className="mt-2 text-[15px] font-medium leading-relaxed text-ink-soft">
-            Pick meals first, scan a receipt, snap your fridge, or type what you need.
-          </p>
+          <h2 className="font-display text-[22px] font-bold text-ink">Nothing to buy right now.</h2>
+          <p className="mt-2 text-[15px] font-medium leading-relaxed text-ink-soft">Choose a meal first or capture what is in the kitchen.</p>
         </Card>
       ) : (
         <>
@@ -123,11 +108,11 @@ export function ListScreen({
           )}
 
           <ListSection
-            title="Already Have"
+            title="Kitchen says you have"
             eyebrow={`${alreadyHave.length} items`}
-            subhead="Fridge, pantry, receipt history, and anything you marked owned."
+            subhead="Use these before buying around them."
             entries={alreadyHave}
-            empty="Nothing marked owned yet."
+            empty="Nothing confirmed yet."
             onBought={onBought}
             onAlreadyHave={onAlreadyHave}
             onNeedToBuy={onNeedToBuy}
@@ -135,14 +120,9 @@ export function ListScreen({
             context="have"
           />
 
-          <div className="grid gap-2">
-            <button className="w-full rounded-md border border-line bg-surface px-4 py-4 text-center text-[15px] font-semibold text-ink shadow-sm" onClick={onStartMealIdeas}>
-              Turn this list into dinner ideas
-            </button>
-            <Button variant="ghost" className="min-h-10 px-2 text-[14px]" icon={<RefreshCcw className={`h-5 w-5 ${building ? 'animate-spin' : ''}`} strokeWidth={1.75} />} onClick={rebuild}>
-              Rebuild
-            </Button>
-          </div>
+          <Button variant="ghost" className="min-h-10 px-2 text-[14px]" icon={<RefreshCcw className={`h-5 w-5 ${building ? 'animate-spin' : ''}`} strokeWidth={1.75} />} onClick={rebuild}>
+            Regenerate
+          </Button>
         </>
       )}
     </main>

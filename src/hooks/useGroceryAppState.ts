@@ -5,10 +5,12 @@ import {
   GroceryList,
   GroceryListEntry,
   GroceryMemoryItem,
+  KitchenInventoryItem,
   MealFeedback,
   MealIdea,
   MealSuggestion,
   OnboardingProfile,
+  ParsedGroceryResult,
   ReceiptExtraction,
   ReviewedIngredient,
   ScanConfidence,
@@ -19,14 +21,16 @@ import { defaultProfile, spendingInsight } from '../data/mockData';
 import { seedMealIdeas } from '../data/mealIdeas';
 import {
   categorizeGroceryItem,
+  buildKitchenInventory,
   detectUsuals,
   generateGroceryList,
+  isInventoryAvailable,
   normalizeIngredientKey,
   normalizeReceiptItemName,
   sectionForCategory,
   updateLocalStateAfterUserAction,
 } from '../utils/groceryLogic';
-import { getMealIdeaById, getMealsForMode, getRankedMealIdeas } from '../services/mealGenerationService';
+import { getMealIdeaById, getMealsForMode, getRankedMealIdeas, parseDinnerConstraint } from '../services/mealGenerationService';
 import {
   fetchRemoteMealIdeas,
   fetchRemoteUserState,
@@ -81,10 +85,18 @@ const emptyBehavior: BehaviorState = {
   ownedObservedAt: {},
   ownedLastObservedAt: {},
   ownedSources: {},
+  inventoryStates: {},
+  inventoryConfidence: {},
+  inventoryStorage: {},
+  inventoryExpiresAt: {},
+  consumedAt: {},
   skippedMealIds: [],
+  skippedMealCounts: {},
   selectedDinnerLanes: [],
   likedTags: [],
   dislikedTags: [],
+  savedDeckMealIds: [],
+  rightSwipedMealIds: [],
   mealFeedback: {},
 };
 
@@ -112,15 +124,19 @@ export function useGroceryAppState() {
   };
 
   const baseMeals = useMemo(() => getMealsForMode(profile.cookingStyle as ChefMode), [profile.cookingStyle]);
-  const groceryList = useMemo(() => generateGroceryList(memory, behavior, baseMeals), [memory, behavior, baseMeals]);
   const usuals = useMemo(() => detectUsuals(memory), [memory]);
-  const knownIngredientNames = useMemo(() => getKnownIngredientNames(memory, behavior), [memory, behavior]);
   const plannedMeals = useMemo(() => idsToMealIdeas(plannedMealIds, mealIdeas), [plannedMealIds, mealIdeas]);
   const savedMeals = useMemo(
     () => idsToMealIdeas(savedMealIds, mealIdeas).filter((meal) => !plannedMealIds.includes(meal.id) && !cookedMealIds.includes(meal.id)),
     [savedMealIds, plannedMealIds, cookedMealIds, mealIdeas],
   );
   const madeMeals = useMemo(() => idsToMealIdeas(cookedMealIds, mealIdeas), [cookedMealIds, mealIdeas]);
+  const kitchenInventory = useMemo(() => buildKitchenInventory(memory, behavior), [memory, behavior]);
+  const knownIngredientNames = useMemo(() => getKnownIngredientNames(memory, behavior, kitchenInventory), [memory, behavior, kitchenInventory]);
+  const groceryList = useMemo(
+    () => generateGroceryList(memory, behavior, baseMeals, plannedMeals, kitchenInventory),
+    [memory, behavior, baseMeals, plannedMeals, kitchenInventory],
+  );
   const hasGroceryData = useMemo(
     () =>
       memory.length > 0 ||
@@ -135,12 +151,8 @@ export function useGroceryAppState() {
   );
   const remoteUserId = account?.provider === 'guest' ? undefined : account?.id;
   const useSoon = useMemo(
-    () =>
-      memory
-        .filter((item) => item.perishable && item.likelyStillHave)
-        .sort((a, b) => a.estimatedShelfLifeDays - b.estimatedShelfLifeDays)
-        .slice(0, 4),
-    [memory],
+    () => kitchenInventory.filter((item) => item.state === 'use_soon').slice(0, 4),
+    [kitchenInventory],
   );
 
   useEffect(() => {
@@ -615,6 +627,17 @@ export function useGroceryAppState() {
 
     setBehavior((current) => {
       const ownedTracked = addOwnedTracking(cleanupFoodByNames(current, haveNames), haveNames, 'fridge_scan');
+      const inventoryStates = { ...ownedTracked.inventoryStates };
+      const inventoryConfidence = { ...ownedTracked.inventoryConfidence };
+      const inventoryStorage = { ...ownedTracked.inventoryStorage };
+
+      items.forEach((item) => {
+        const key = normalizeIngredientKey(item.name);
+        inventoryStates[key] = item.inventoryState ?? (item.confidence === 'clearlySeen' ? 'confirmed_have' : item.confidence === 'maybeLow' ? 'running_low' : 'probably_gone');
+        inventoryConfidence[key] = item.confidenceScore ?? (item.confidence === 'clearlySeen' ? 0.9 : item.confidence === 'maybeLow' ? 0.62 : 0.34);
+        if (item.storageLocation) inventoryStorage[key] = item.storageLocation;
+      });
+
       return addListTracking(
         {
           ...ownedTracked,
@@ -628,6 +651,9 @@ export function useGroceryAppState() {
             ...ownedTracked.fridgeSeen,
             ...seen,
           },
+          inventoryStates,
+          inventoryConfidence,
+          inventoryStorage,
         },
         needNames,
         'fridge_scan_low',
@@ -649,6 +675,48 @@ export function useGroceryAppState() {
     haveNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'fridge_scan'));
     needNames.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'fridge_scan_low'));
     showToast('List updated from your fridge photo.');
+  }
+
+  function applyParsedCapture(result: ParsedGroceryResult) {
+    const haveItems = result.items.filter((item) => isInventoryAvailable(item.inventoryState));
+    const needItems = result.items.filter((item) => item.inventoryState === 'running_low' || item.inventoryState === 'probably_gone' || item.inventoryState === 'gone');
+    const haveNames = haveItems.map((item) => item.normalizedName);
+    const needNames = needItems.map((item) => item.normalizedName);
+    const haveKeys = new Set(haveItems.map((item) => item.canonicalName));
+
+    setMemory((current) => mergeParsedItemsIntoMemory(current, result));
+    setBehavior((current) => {
+      const ownedTracked = addOwnedTracking(cleanupFoodByNames(current, haveNames), haveNames, result.method);
+      const listedTracked = addListTracking(ownedTracked, needNames, result.method);
+      const inventoryStates = { ...listedTracked.inventoryStates };
+      const inventoryConfidence = { ...listedTracked.inventoryConfidence };
+      const inventoryStorage = { ...listedTracked.inventoryStorage };
+
+      result.items.forEach((item) => {
+        inventoryStates[item.canonicalName] = item.inventoryState;
+        inventoryConfidence[item.canonicalName] = item.confidenceScore;
+        inventoryStorage[item.canonicalName] = item.storageLocation;
+      });
+
+      return {
+        ...listedTracked,
+        alreadyHaveNames: unique([...listedTracked.alreadyHaveNames.filter((name) => !needNames.some((need) => normalizeIngredientKey(need) === normalizeIngredientKey(name))), ...haveNames]),
+        manuallyAddedNames: unique([
+          ...listedTracked.manuallyAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+          ...needNames,
+        ]),
+        mealAddedNames: listedTracked.mealAddedNames.filter((name) => !haveKeys.has(normalizeIngredientKey(name))),
+        checkedOffEntries: listedTracked.checkedOffEntries.filter((entry) => !haveKeys.has(normalizeIngredientKey(entry.name))),
+        inventoryStates,
+        inventoryConfidence,
+        inventoryStorage,
+      };
+    });
+
+    haveNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, result.method));
+    needNames.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, result.method));
+    if (result.method === 'voice_add') setImportCount((current) => current + 1);
+    showToast(`${result.items.length} item${result.items.length === 1 ? '' : 's'} captured.`);
   }
 
   function addImportedItems(entries: GroceryListEntry[]) {
@@ -682,14 +750,101 @@ export function useGroceryAppState() {
     setCookedMealIds((current) => unique([...current, mealId]));
     setPlannedMealIds((current) => current.filter((id) => id !== mealId));
     const meal = getMealIdeaById(mealId, mealIdeas);
-    if (meal) void upsertUserMealStatus(remoteUserId, meal, 'made');
+    if (meal) {
+      setBehavior((current) => ({
+        ...current,
+        likedTags: unique([...current.likedTags, ...meal.tags, ...meal.tags]),
+      }));
+      void upsertUserMealStatus(remoteUserId, meal, 'made');
+    }
     showToast('Marked made. We will remember it.');
+  }
+
+  function confirmMealConsumption(meal: MealIdea) {
+    const inferred = inferConsumedIngredients(meal);
+    const now = new Date().toISOString();
+    setBehavior((current) => {
+      const inventoryStates = { ...current.inventoryStates };
+      const inventoryConfidence = { ...current.inventoryConfidence };
+      const consumedAt = { ...current.consumedAt };
+      const usedKeys = new Set<string>();
+
+      inferred.forEach((item) => {
+        const key = item.canonicalName ?? normalizeIngredientKey(item.name);
+        usedKeys.add(key);
+        inventoryStates[key] = item.pantry ? 'running_low' : 'probably_gone';
+        inventoryConfidence[key] = item.pantry ? 0.58 : 0.72;
+        consumedAt[key] = now;
+      });
+
+      return {
+        ...current,
+        inventoryStates,
+        inventoryConfidence,
+        consumedAt,
+        alreadyHaveNames: current.alreadyHaveNames.filter((name) => !usedKeys.has(normalizeIngredientKey(name))),
+        fridgeSeen: Object.fromEntries(Object.entries(current.fridgeSeen).filter(([name]) => !usedKeys.has(normalizeIngredientKey(name)))),
+      };
+    });
+    showToast('Kitchen updated from what you cooked.');
+  }
+
+  function confirmInventoryItem(name: string) {
+    const normalized = normalizeReceiptItemName(name);
+    const key = normalizeIngredientKey(normalized);
+    setBehavior((current) =>
+      addOwnedTracking(
+        {
+          ...cleanupFoodByKey(current, key),
+          alreadyHaveNames: unique([...current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key), normalized]),
+          inventoryStates: {
+            ...current.inventoryStates,
+            [key]: 'confirmed_have',
+          },
+          inventoryConfidence: {
+            ...current.inventoryConfidence,
+            [key]: 0.94,
+          },
+          consumedAt: omitRecordKey(current.consumedAt, key),
+        },
+        [normalized],
+        'kitchen_confirm',
+      ),
+    );
+    void upsertUserIngredient(remoteUserId, normalized, 'kitchen_confirm');
+    showToast(`${normalized} confirmed.`);
+  }
+
+  function markInventoryGone(name: string) {
+    const normalized = normalizeReceiptItemName(name);
+    const key = normalizeIngredientKey(normalized);
+    setBehavior((current) => ({
+      ...cleanupFoodByKey(current, key),
+      alreadyHaveNames: current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key),
+      fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
+      inventoryStates: {
+        ...current.inventoryStates,
+        [key]: 'gone',
+      },
+      inventoryConfidence: {
+        ...current.inventoryConfidence,
+        [key]: 0.96,
+      },
+      consumedAt: {
+        ...current.consumedAt,
+        [key]: new Date().toISOString(),
+      },
+    }));
+    void removeUserFoodState(remoteUserId, normalized);
+    showToast(`${normalized} marked gone.`);
   }
 
   function saveMealIdea(meal: MealIdea) {
     setSavedMealIds((current) => unique([...current, meal.id]));
     setBehavior((current) => ({
       ...current,
+      savedDeckMealIds: unique([...current.savedDeckMealIds, meal.id]),
+      rightSwipedMealIds: unique([...current.rightSwipedMealIds, meal.id]),
       likedTags: unique([...current.likedTags, ...meal.tags]),
     }));
     void upsertUserMealStatus(remoteUserId, meal, 'saved');
@@ -700,6 +855,11 @@ export function useGroceryAppState() {
     setBehavior((current) => ({
       ...current,
       skippedMealIds: unique([...current.skippedMealIds, meal.id]),
+      skippedMealCounts: {
+        ...current.skippedMealCounts,
+        [meal.id]: (current.skippedMealCounts[meal.id] ?? 0) + 1,
+      },
+      dislikedTags: (current.skippedMealCounts[meal.id] ?? 0) >= 1 ? unique([...current.dislikedTags, ...meal.tags]) : current.dislikedTags,
     }));
     void upsertUserMealStatus(remoteUserId, meal, 'skipped');
     showToast('Skipped. No list changes.');
@@ -775,10 +935,13 @@ export function useGroceryAppState() {
     showToast('Feedback saved.');
   }
 
-  function rankMealIdeas(selectedLanes: string[] = []) {
+  function rankMealIdeas(selectedLanes: string[] = [], constraintText = '') {
+    const dinnerConstraint = constraintText.trim() ? parseDinnerConstraint(constraintText) : undefined;
     return getRankedMealIdeas({
       mealIdeas,
       knownIngredients: knownIngredientNames,
+      kitchenItems: kitchenInventory,
+      dinnerConstraint,
       selectedLanes: selectedLanes.length ? selectedLanes : behavior.selectedDinnerLanes,
       skippedMealIds: behavior.skippedMealIds,
       savedMealIds,
@@ -808,6 +971,7 @@ export function useGroceryAppState() {
     memory,
     mealIdeas,
     groceryList,
+    kitchenInventory,
     spendingInsight,
     hasGroceryData,
     knownIngredientNames,
@@ -842,9 +1006,13 @@ export function useGroceryAppState() {
     rebuildList,
     confirmReceipt,
     updateListFromFridge,
+    applyParsedCapture,
     addImportedItems,
     saveMeal,
     markMealCooked,
+    confirmMealConsumption,
+    confirmInventoryItem,
+    markInventoryGone,
     saveMealIdea,
     skipMealIdea,
     rememberDinnerLanes,
@@ -893,6 +1061,71 @@ function mergeFridgeItemsIntoMemory(current: GroceryMemoryItem[], items: VisionI
     }));
 
   return [...current, ...newItems];
+}
+
+function mergeParsedItemsIntoMemory(current: GroceryMemoryItem[], result: ParsedGroceryResult): GroceryMemoryItem[] {
+  const byKey = new Map(current.map((item) => [normalizeIngredientKey(item.name), item]));
+  const next = [...current];
+
+  result.items
+    .filter((item) => item.isGrocery)
+    .forEach((parsed) => {
+      const existing = byKey.get(parsed.canonicalName);
+      if (existing) {
+        const updated: GroceryMemoryItem = {
+          ...existing,
+          name: parsed.normalizedName,
+          category: parsed.category,
+          section: parsed.section,
+          likelyStillHave: isInventoryAvailable(parsed.inventoryState),
+          confidence: parsed.confidenceScore >= 0.8 ? 'high' : parsed.confidenceScore >= 0.55 ? 'medium' : 'low',
+          inventoryState: parsed.inventoryState,
+          inventoryConfidence: parsed.confidenceScore,
+          storageLocation: parsed.storageLocation,
+          lastConfirmedAt: result.capturedAt,
+        };
+        const index = next.findIndex((item) => item.id === existing.id);
+        next[index] = updated;
+        return;
+      }
+
+      next.push({
+        ...createMemoryItemFromName(parsed.normalizedName, parsed.price ?? 3.99, result.store ?? "Trader Joe's"),
+        id: `capture-${parsed.canonicalName.replace(/[^a-z0-9]+/g, '-')}-${Date.now()}`,
+        category: parsed.category,
+        section: parsed.section,
+        likelyStillHave: isInventoryAvailable(parsed.inventoryState),
+        confidence: parsed.confidenceScore >= 0.8 ? 'high' : parsed.confidenceScore >= 0.55 ? 'medium' : 'low',
+        inventoryState: parsed.inventoryState,
+        inventoryConfidence: parsed.confidenceScore,
+        storageLocation: parsed.storageLocation,
+        lastConfirmedAt: result.capturedAt,
+      });
+    });
+
+  return next;
+}
+
+function inferConsumedIngredients(meal: MealIdea): ReviewedIngredient[] {
+  const ingredients = meal.structuredIngredients
+    .filter((ingredient) => !ingredient.isOptional)
+    .map((ingredient) => ({
+      name: ingredient.rawName,
+      canonicalName: ingredient.canonicalName,
+      displayQuantity: ingredient.displayQuantity,
+      prep: ingredient.prep,
+      pantry: ingredient.isPantry || ingredient.groceryCategory === 'Pantry' || ingredient.groceryCategory === 'Condiments',
+      optional: ingredient.isOptional,
+      status: 'alreadyHave' as const,
+    }));
+
+  const seen = new Set<string>();
+  return ingredients.filter((ingredient) => {
+    const key = ingredient.canonicalName ?? normalizeIngredientKey(ingredient.name);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function updateBoughtMemoryItem(item: GroceryMemoryItem, price = item.currentPrice, store = item.store): GroceryMemoryItem {
@@ -1074,10 +1307,18 @@ function normalizeBehavior(behavior: BehaviorState): BehaviorState {
     ownedObservedAt: behavior.ownedObservedAt ?? {},
     ownedLastObservedAt: behavior.ownedLastObservedAt ?? {},
     ownedSources: behavior.ownedSources ?? {},
+    inventoryStates: behavior.inventoryStates ?? {},
+    inventoryConfidence: behavior.inventoryConfidence ?? {},
+    inventoryStorage: behavior.inventoryStorage ?? {},
+    inventoryExpiresAt: behavior.inventoryExpiresAt ?? {},
+    consumedAt: behavior.consumedAt ?? {},
     skippedMealIds: behavior.skippedMealIds ?? [],
+    skippedMealCounts: behavior.skippedMealCounts ?? {},
     selectedDinnerLanes: behavior.selectedDinnerLanes ?? [],
     likedTags: behavior.likedTags ?? [],
     dislikedTags: behavior.dislikedTags ?? [],
+    savedDeckMealIds: behavior.savedDeckMealIds ?? [],
+    rightSwipedMealIds: behavior.rightSwipedMealIds ?? [],
     mealFeedback: behavior.mealFeedback ?? {},
     checkedOffEntries: behavior.checkedOffEntries ?? [],
   };
@@ -1130,7 +1371,8 @@ function idsToMealIdeas(ids: string[], mealIdeas: MealIdea[]): MealIdea[] {
   return ids.map((id) => getMealIdeaById(id, mealIdeas)).filter(Boolean) as MealIdea[];
 }
 
-function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: BehaviorState): string[] {
+function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: BehaviorState, kitchenInventory: KitchenInventoryItem[]): string[] {
+  const unavailableKeys = new Set(kitchenInventory.filter((item) => !isInventoryAvailable(item.state)).map((item) => item.key));
   const memoryNames = memory
     .filter(
       (item) =>
@@ -1145,6 +1387,7 @@ function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: Behavior
     .map(([name]) => name);
 
   const all = [
+    ...kitchenInventory.filter((item) => isInventoryAvailable(item.state)).map((item) => item.name),
     ...memoryNames,
     ...scanNames,
     ...behavior.alreadyHaveNames,
@@ -1153,6 +1396,7 @@ function getKnownIngredientNames(memory: GroceryMemoryItem[], behavior: Behavior
   const seen = new Set<string>();
   return all.filter((name) => {
     const key = normalizeIngredientKey(name);
+    if (unavailableKeys.has(key)) return false;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;

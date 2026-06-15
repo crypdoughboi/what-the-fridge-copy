@@ -5,16 +5,17 @@ import { Toast } from './components/Toast';
 import { useGroceryAppState } from './hooks/useGroceryAppState';
 import { scanFridgeOrPantryImage } from './services/fridgeVisionService';
 import { normalizeReceiptItems, scanReceiptImage } from './services/receiptOcrService';
+import { parseGroceryCapture, parsedResultToReceiptExtraction } from './services/captureParserService';
+import { CookedConfirmationScreen } from './screens/CookedConfirmationScreen';
 import { DinnerLanePickerScreen } from './screens/DinnerLanePickerScreen';
 import { FridgeResultScreen } from './screens/FridgeResultScreen';
 import { FridgeScanScreen } from './screens/FridgeScanScreen';
 import { AuthScreen } from './screens/AuthScreen';
-import { HomeScreen } from './screens/HomeScreen';
 import { IngredientReviewScreen } from './screens/IngredientReviewScreen';
+import { KitchenScreen } from './screens/KitchenScreen';
 import { ListScreen } from './screens/ListScreen';
 import { MealIdeaScreen } from './screens/MealIdeaScreen';
 import { MealDetailScreen } from './screens/MealDetailScreen';
-import { MealsScreen } from './screens/MealsScreen';
 import { OnboardingScreen, OnboardingSuccessScreen } from './screens/OnboardingScreen';
 import { ReceiptReviewScreen } from './screens/ReceiptReviewScreen';
 import { ReceiptScanScreen } from './screens/ReceiptScanScreen';
@@ -40,21 +41,26 @@ const fridgeLoadingSteps = [
 
 const authLoadingSteps = ['Checking your account...', 'Loading your saved setup...', 'Keeping receipts private...'];
 
+const captureLoadingSteps = ['Reading the capture...', 'Normalizing grocery names...', 'Updating Kitchen confidence...'];
+
 export default function App() {
   const app = useGroceryAppState();
   const [screen, setScreen] = useState<Screen>('auth');
-  const [activeTab, setActiveTab] = useState<Tab>('home');
+  const [activeTab, setActiveTab] = useState<Tab>('meals');
   const [screenHistory, setScreenHistory] = useState<Screen[]>([]);
   const [ideaQueue, setIdeaQueue] = useState<MealIdea[]>([]);
   const [ideaIndex, setIdeaIndex] = useState(0);
+  const [mealConstraint, setMealConstraint] = useState('');
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
   const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
+  const [consumptionMeal, setConsumptionMeal] = useState<MealIdea | null>(null);
   const [receiptExtraction, setReceiptExtraction] = useState<ReceiptExtraction | null>(null);
   const [fridgeItems, setFridgeItems] = useState<VisionItem[]>([]);
   const [receiptPreviewUrl, setReceiptPreviewUrl] = useState<string | null>(null);
   const [fridgePreviewUrl, setFridgePreviewUrl] = useState<string | null>(null);
   const [receiptLoading, setReceiptLoading] = useState(false);
   const [fridgeLoading, setFridgeLoading] = useState(false);
+  const [captureLoading, setCaptureLoading] = useState(false);
 
   const needToBuyNames = useMemo(
     () => [...app.groceryList.buyNow, ...app.groceryList.maybeBuy].map((entry) => entry.name),
@@ -86,80 +92,136 @@ export default function App() {
   }
 
   function openReceiptScan() {
-    setActiveTab('scan');
+    setActiveTab('add');
     setReceiptPreviewUrl(null);
-    pushScreen('receiptScan', 'scan');
+    pushScreen('receiptScan', 'add');
   }
 
   function openFridgeScan() {
-    setActiveTab('scan');
+    setActiveTab('add');
     setFridgePreviewUrl(null);
-    pushScreen('fridgeScan', 'scan');
+    pushScreen('fridgeScan', 'add');
   }
 
   async function startReceiptScan(file?: File | null) {
     if (file) setReceiptPreviewUrl(URL.createObjectURL(file));
-    setActiveTab('scan');
+    setActiveTab('add');
     setScreen('receiptScan');
     setReceiptLoading(true);
     const extraction = await normalizeReceiptItems(await scanReceiptImage(file));
     setReceiptExtraction(extraction);
     setReceiptLoading(false);
-    pushScreen('receiptReview', 'scan');
+    pushScreen('receiptReview', 'add');
   }
 
   async function startFridgeScan(file?: File | null) {
     if (file) setFridgePreviewUrl(URL.createObjectURL(file));
-    setActiveTab('scan');
+    setActiveTab('add');
     setScreen('fridgeScan');
     setFridgeLoading(true);
     const items = await scanFridgeOrPantryImage(file);
     setFridgeItems(items);
     setFridgeLoading(false);
-    pushScreen('fridgeResult', 'scan');
+    pushScreen('fridgeResult', 'add');
+  }
+
+  async function startGroceryPhoto(file?: File | null) {
+    setActiveTab('add');
+    setCaptureLoading(true);
+    const parsed = await parseGroceryCapture({ method: 'grocery_photo', file });
+    app.applyParsedCapture(parsed);
+    setCaptureLoading(false);
+    refreshMeals();
+    navigateTab('meals');
+  }
+
+  async function startVoiceAdd(text: string) {
+    setActiveTab('add');
+    setCaptureLoading(true);
+    const parsed = await parseGroceryCapture({ method: 'voice_add', text });
+    app.applyParsedCapture(parsed);
+    setCaptureLoading(false);
+    refreshMeals();
+    navigateTab('meals');
+  }
+
+  async function startPastedReceipt(text: string) {
+    setActiveTab('add');
+    setCaptureLoading(true);
+    const parsed = await parseGroceryCapture({ method: 'pasted_receipt', text });
+    setReceiptExtraction(parsedResultToReceiptExtraction(parsed));
+    setCaptureLoading(false);
+    pushScreen('receiptReview', 'add');
+  }
+
+  async function startManualCapture(text: string, target: 'have' | 'need') {
+    setActiveTab('add');
+    setCaptureLoading(true);
+    const parsed = await parseGroceryCapture({
+      method: 'manual_add',
+      text,
+      fallbackState: target === 'need' ? 'running_low' : 'confirmed_have',
+    });
+    app.applyParsedCapture(parsed);
+    setCaptureLoading(false);
+    navigateTab(target === 'need' ? 'shop' : 'kitchen');
   }
 
   function confirmReceipt(extraction: ReceiptExtraction) {
     app.confirmReceipt(extraction);
-    navigateTab('list');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   function updateFromFridge(items: VisionItem[]) {
     app.updateListFromFridge(items);
-    navigateTab('list');
+    refreshMeals();
+    navigateTab('meals');
   }
 
   function startMealIdeas() {
-    if (app.knownIngredientNames.length > 0) {
-      setIdeaQueue(app.rankMealIdeas());
-      setIdeaIndex(0);
-      pushScreen('mealIdeas', 'meals');
-      return;
-    }
-    pushScreen('dinnerLanePicker', 'meals');
+    refreshMeals();
+    navigateTab('meals');
+  }
+
+  function refreshMeals() {
+    setIdeaQueue(app.rankMealIdeas([], mealConstraint));
+    setIdeaIndex(0);
   }
 
   function continueFromDinnerLanes(lanes: string[]) {
     app.rememberDinnerLanes(lanes);
-    setIdeaQueue(app.rankMealIdeas(lanes));
+    setIdeaQueue(app.rankMealIdeas(lanes, mealConstraint));
     setIdeaIndex(0);
-    pushScreen('mealIdeas', 'meals');
+    pushScreen('meals', 'meals');
   }
 
   function openIngredientReview(meal: MealIdea) {
     setReviewMeal(meal);
-    pushScreen('ingredientReview', 'meals');
+    pushScreen('ingredientReview', 'shop');
   }
 
   function openMealDetail(meal: MealIdea) {
     setDetailMeal(meal);
-    pushScreen('mealDetail', 'meals');
+    pushScreen('mealDetail', activeTab);
   }
 
   function addReviewedIngredients(meal: MealIdea, reviewed: ReviewedIngredient[]) {
     app.planMealWithIngredients(meal, reviewed);
     setReviewMeal(null);
-    navigateTab('list');
+    navigateTab('shop');
+  }
+
+  function markCookedWithPrompt(meal: MealIdea) {
+    app.markMealCooked(meal.id);
+    setConsumptionMeal(meal);
+    pushScreen('cookedConfirmation', 'kitchen');
+  }
+
+  function confirmCookedConsumption(meal: MealIdea) {
+    app.confirmMealConsumption(meal);
+    setConsumptionMeal(null);
+    navigateTab('kitchen');
   }
 
   function renderScreen() {
@@ -184,7 +246,7 @@ export default function App() {
           }}
           onGuest={() => {
             app.continueAsGuest();
-            navigateTab('home');
+            navigateTab('meals');
           }}
           errorMessage={app.authError}
         />
@@ -203,26 +265,37 @@ export default function App() {
     }
 
     if (screen === 'onboardingSuccess') {
-      return <OnboardingSuccessScreen onContinue={() => navigateTab('home')} />;
+      return <OnboardingSuccessScreen onContinue={() => navigateTab('meals')} />;
     }
 
-    if (screen === 'auth' || screen === 'home') {
+    if (captureLoading) {
+      return <LoadingState title="Parsing capture" steps={captureLoadingSteps} />;
+    }
+
+    if (screen === 'auth' || screen === 'meals') {
+      const mealIdeas = ideaQueue.length ? ideaQueue : app.rankMealIdeas([], mealConstraint);
       return (
-        <HomeScreen
-          plannedMeals={app.plannedMeals}
-          list={app.groceryList}
-          onStartMealIdeas={startMealIdeas}
-          onGoList={() => navigateTab('list')}
-          onGoMeals={() => navigateTab('meals')}
-          onGoScan={() => navigateTab('scan')}
-          onScanReceipt={openReceiptScan}
-          onCheckFridge={openFridgeScan}
-          onSettings={() => pushScreen('settings')}
+        <MealIdeaScreen
+          ideas={mealIdeas}
+          allMeals={app.mealIdeas}
+          savedMeals={app.savedMeals}
+          index={ideaIndex}
+          onIndexChange={setIdeaIndex}
+          knownIngredients={app.knownIngredientNames}
+          kitchenItems={app.kitchenInventory}
+          constraintText={mealConstraint}
+          onConstraintTextChange={setMealConstraint}
+          onRefreshMeals={refreshMeals}
+          onProfile={() => pushScreen('settings')}
+          onSkip={app.skipMealIdea}
+          onSave={app.saveMealIdea}
+          onMakeThisWeek={openIngredientReview}
+          onViewRecipe={openMealDetail}
         />
       );
     }
 
-    if (screen === 'list') {
+    if (screen === 'shop') {
       return (
         <ListScreen
           list={app.groceryList}
@@ -230,23 +303,22 @@ export default function App() {
           onAlreadyHave={app.markEntryAlreadyHave}
           onNeedToBuy={app.markEntryNeedToBuy}
           onRemove={app.removeEntry}
-          onAddManual={app.addManualItem}
           onRebuild={app.rebuildList}
-          onScanReceipt={openReceiptScan}
-          onSnapFridge={openFridgeScan}
-          onGoScan={() => navigateTab('scan')}
+          onGoAdd={() => navigateTab('add')}
           onStartMealIdeas={startMealIdeas}
         />
       );
     }
 
-    if (screen === 'scan') {
+    if (screen === 'add') {
       return (
         <ScanScreen
           onReceiptFile={startReceiptScan}
           onFridgeFile={startFridgeScan}
-          onAddNeed={app.addManualItem}
-          onAddHave={app.addAlreadyHaveItem}
+          onGroceryFile={startGroceryPhoto}
+          onVoiceAdd={startVoiceAdd}
+          onPastedReceipt={startPastedReceipt}
+          onManualAdd={startManualCapture}
         />
       );
     }
@@ -255,7 +327,7 @@ export default function App() {
       return receiptLoading ? (
         <LoadingState title="Scanning receipt" steps={receiptLoadingSteps} />
       ) : (
-        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => goBack('scan')} onFile={startReceiptScan} />
+        <ReceiptScanScreen previewUrl={receiptPreviewUrl} onBack={() => goBack('add')} onFile={startReceiptScan} />
       );
     }
 
@@ -264,14 +336,14 @@ export default function App() {
     }
 
     if (screen === 'receiptSuccess') {
-      return <ReceiptSuccessScreen onList={() => navigateTab('list')} onMeals={() => navigateTab('meals')} onScanAnother={openReceiptScan} />;
+      return <ReceiptSuccessScreen onList={() => navigateTab('shop')} onMeals={() => navigateTab('meals')} onScanAnother={openReceiptScan} />;
     }
 
     if (screen === 'fridgeScan') {
       return fridgeLoading ? (
         <LoadingState title="Checking fridge" steps={fridgeLoadingSteps} />
       ) : (
-        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => goBack('scan')} onFile={startFridgeScan} />
+        <FridgeScanScreen previewUrl={fridgePreviewUrl} onBack={() => goBack('add')} onFile={startFridgeScan} />
       );
     }
 
@@ -279,19 +351,16 @@ export default function App() {
       return <FridgeResultScreen items={fridgeItems} onBack={() => goBack('fridgeScan')} onUpdateList={updateFromFridge} onScanPantry={openFridgeScan} />;
     }
 
-    if (screen === 'meals') {
+    if (screen === 'kitchen') {
       return (
-        <MealsScreen
+        <KitchenScreen
+          items={app.kitchenInventory}
           plannedMeals={app.plannedMeals}
-          savedMeals={app.savedMeals}
           madeMeals={app.madeMeals}
-          onStartIdeas={startMealIdeas}
-          onAddWhatIHave={() => navigateTab('scan')}
-          onMakeThisWeek={openIngredientReview}
-          onMarkMade={(meal) => app.markMealCooked(meal.id)}
-          onMakeAgain={openIngredientReview}
+          onConfirmItem={app.confirmInventoryItem}
+          onMarkGone={app.markInventoryGone}
           onViewRecipe={openMealDetail}
-          onRateMeal={app.rateMeal}
+          onMarkCooked={markCookedWithPrompt}
         />
       );
     }
@@ -304,10 +373,16 @@ export default function App() {
       return (
         <MealIdeaScreen
           ideas={ideaQueue}
+          allMeals={app.mealIdeas}
+          savedMeals={app.savedMeals}
           index={ideaIndex}
           onIndexChange={setIdeaIndex}
           knownIngredients={app.knownIngredientNames}
-          onBack={() => goBack('meals')}
+          kitchenItems={app.kitchenInventory}
+          constraintText={mealConstraint}
+          onConstraintTextChange={setMealConstraint}
+          onRefreshMeals={refreshMeals}
+          onProfile={() => pushScreen('settings')}
           onSkip={app.skipMealIdea}
           onSave={app.saveMealIdea}
           onMakeThisWeek={openIngredientReview}
@@ -323,10 +398,12 @@ export default function App() {
           saved={app.savedMealIds.includes(detailMeal.id)}
           planned={app.plannedMealIds.includes(detailMeal.id)}
           made={app.cookedMealIds.includes(detailMeal.id)}
-          onBack={() => goBack('meals')}
+          knownIngredients={app.knownIngredientNames}
+          kitchenItems={app.kitchenInventory}
+          onBack={() => goBack(activeTab)}
           onSave={app.saveMealIdea}
           onMakeThisWeek={openIngredientReview}
-          onMarkMade={(meal) => app.markMealCooked(meal.id)}
+          onMarkMade={markCookedWithPrompt}
         />
       );
     }
@@ -336,9 +413,23 @@ export default function App() {
         <IngredientReviewScreen
           meal={reviewMeal}
           knownIngredients={app.knownIngredientNames}
+          kitchenItems={app.kitchenInventory}
           needToBuyNames={needToBuyNames}
-          onBack={() => goBack('mealIdeas')}
+          onBack={() => goBack('meals')}
           onAddMissing={addReviewedIngredients}
+        />
+      );
+    }
+
+    if (screen === 'cookedConfirmation' && consumptionMeal) {
+      return (
+        <CookedConfirmationScreen
+          meal={consumptionMeal}
+          onConfirm={confirmCookedConsumption}
+          onSkip={() => {
+            setConsumptionMeal(null);
+            navigateTab('kitchen');
+          }}
         />
       );
     }
@@ -348,7 +439,7 @@ export default function App() {
         <SpendScreen
           spending={app.spendingInsight}
           hasReceiptHistory={app.hasReceiptHistory}
-          onGoList={() => navigateTab('list')}
+          onGoList={() => navigateTab('shop')}
           onScanReceipt={openReceiptScan}
           onExport={() => app.showToast('Spend snapshot exported locally. Real data export is in Settings.')}
         />
@@ -369,7 +460,7 @@ export default function App() {
           onSignOut={async () => {
             await app.signOutAccount();
             setScreen('auth');
-            setActiveTab('home');
+            setActiveTab('meals');
           }}
         />
       );
@@ -390,5 +481,5 @@ export default function App() {
 }
 
 function isTab(screen: Screen): screen is Tab {
-  return screen === 'home' || screen === 'list' || screen === 'meals' || screen === 'scan';
+  return screen === 'meals' || screen === 'add' || screen === 'shop' || screen === 'kitchen';
 }

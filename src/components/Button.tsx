@@ -16,7 +16,7 @@ const variants = {
 export function Button({ children, className = '', variant = 'primary', icon, full, ...props }: ButtonProps) {
   return (
     <button
-      className={`inline-flex min-h-[52px] items-center justify-center gap-2 rounded-md px-4 py-3 text-[15px] font-semibold leading-none transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-45 ${
+      className={`inline-flex min-h-[48px] items-center justify-center gap-2 rounded-md px-4 py-3 text-[15px] font-semibold leading-none transition duration-150 ease-out disabled:cursor-not-allowed disabled:opacity-45 ${
         variants[variant]
       } ${
         full ? 'w-full' : ''

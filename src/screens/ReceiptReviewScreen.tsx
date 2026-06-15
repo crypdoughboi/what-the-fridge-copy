@@ -106,7 +106,7 @@ export function ReceiptReviewScreen({
         <Button variant="secondary" onClick={onBack}>
           Scan again
         </Button>
-        <Button onClick={() => onConfirm({ ...extraction, items })}>Add to List</Button>
+        <Button onClick={() => onConfirm({ ...extraction, items })}>Update Kitchen</Button>
       </div>
     </main>
   );

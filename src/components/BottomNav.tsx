@@ -1,11 +1,11 @@
-import { Home, ListChecks, ScanLine, Utensils } from 'lucide-react';
+import { ChefHat, ListChecks, Refrigerator, ScanLine } from 'lucide-react';
 import { Tab } from '../types';
 
-const tabs: Array<{ id: Tab; label: string; Icon: typeof Home }> = [
-  { id: 'home', label: 'Home', Icon: Home },
-  { id: 'list', label: 'List', Icon: ListChecks },
-  { id: 'meals', label: 'Meals', Icon: Utensils },
-  { id: 'scan', label: 'Scan', Icon: ScanLine },
+const tabs: Array<{ id: Tab; label: string; Icon: typeof ChefHat }> = [
+  { id: 'meals', label: 'Meals', Icon: ChefHat },
+  { id: 'add', label: 'Add', Icon: ScanLine },
+  { id: 'shop', label: 'Shop', Icon: ListChecks },
+  { id: 'kitchen', label: 'Kitchen', Icon: Refrigerator },
 ];
 
 export function BottomNav({ activeTab, onTabChange }: { activeTab: Tab; onTabChange: (tab: Tab) => void }) {
@@ -18,7 +18,7 @@ export function BottomNav({ activeTab, onTabChange }: { activeTab: Tab; onTabCha
             <button
               key={id}
               className={`flex min-h-[58px] flex-col items-center justify-center gap-1 rounded-md text-[11px] font-semibold transition duration-150 ease-out ${
-                active ? 'bg-ink text-paper shadow-sm' : 'text-muted active:bg-line/50'
+                active ? 'bg-surface text-ink shadow-sm' : 'text-muted active:bg-line/50'
               }`}
               onClick={() => onTabChange(id)}
               aria-label={label}

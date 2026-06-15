@@ -1,18 +1,19 @@
-export type Tab = 'home' | 'list' | 'meals' | 'scan';
+export type Tab = 'meals' | 'add' | 'shop' | 'kitchen';
 
 export type Screen =
   | 'auth'
   | 'onboarding'
   | 'onboardingSuccess'
-  | 'home'
-  | 'list'
-  | 'scan'
   | 'meals'
+  | 'add'
+  | 'shop'
+  | 'kitchen'
   | 'spend'
   | 'settings'
   | 'dinnerLanePicker'
   | 'mealIdeas'
   | 'ingredientReview'
+  | 'cookedConfirmation'
   | 'receiptScan'
   | 'receiptReview'
   | 'receiptSuccess'
@@ -46,6 +47,10 @@ export type Store = "Trader Joe's" | 'Whole Foods' | 'Costco' | 'Target' | 'Walm
 
 export type Confidence = 'high' | 'medium' | 'low';
 
+export type InventoryItemState = 'probably_have' | 'confirmed_have' | 'running_low' | 'use_soon' | 'probably_gone' | 'gone';
+
+export type StorageLocation = 'fridge' | 'freezer' | 'pantry' | 'counter' | 'unknown';
+
 export type GroceryMemoryItem = {
   id: string;
   rawReceiptName?: string;
@@ -67,6 +72,11 @@ export type GroceryMemoryItem = {
   perishable: boolean;
   estimatedShelfLifeDays: number;
   suggestionPriority: number;
+  storageLocation?: StorageLocation;
+  expiresAt?: string;
+  inventoryState?: InventoryItemState;
+  inventoryConfidence?: number;
+  lastConfirmedAt?: string;
 };
 
 export type ReceiptItem = {
@@ -77,6 +87,7 @@ export type ReceiptItem = {
   section: StoreSection;
   price: number;
   isGrocery: boolean;
+  confidenceScore?: number;
 };
 
 export type ReceiptExtraction = {
@@ -95,10 +106,12 @@ export type GroceryListEntry = {
   name: string;
   category: Category;
   section: StoreSection;
+  quantityLabel?: string;
   reason: string;
   source: ListSource;
   priority: number;
   usedForMeals?: string[];
+  substitutionNote?: string;
 };
 
 export type GroceryList = {
@@ -132,10 +145,18 @@ export type BehaviorState = {
   ownedObservedAt: Record<string, string>;
   ownedLastObservedAt: Record<string, string>;
   ownedSources: Record<string, string>;
+  inventoryStates: Record<string, InventoryItemState>;
+  inventoryConfidence: Record<string, number>;
+  inventoryStorage: Record<string, StorageLocation>;
+  inventoryExpiresAt: Record<string, string>;
+  consumedAt: Record<string, string>;
   skippedMealIds: string[];
+  skippedMealCounts: Record<string, number>;
   selectedDinnerLanes: string[];
   likedTags: string[];
   dislikedTags: string[];
+  savedDeckMealIds: string[];
+  rightSwipedMealIds: string[];
   mealFeedback: Record<string, MealFeedback>;
 };
 
@@ -218,6 +239,34 @@ export type MealIdea = {
   status: MealStatus;
 };
 
+export type SubstitutionMatch = {
+  ingredientName: string;
+  ingredientKey: string;
+  substituteName: string;
+  substituteKey: string;
+  note: string;
+  confidenceScore: number;
+};
+
+export type MealRankDetails = {
+  score: number;
+  ownedIngredientNames: string[];
+  missingIngredientNames: string[];
+  useSoonIngredientNames: string[];
+  substitutionMatches: SubstitutionMatch[];
+  rankReasons: string[];
+};
+
+export type DinnerConstraint = {
+  rawText: string;
+  includeKeys: string[];
+  excludeKeys: string[];
+  maxTimeMinutes?: number;
+  effort?: 'Easy' | 'Medium';
+  cookingMethods: string[];
+  vibes: string[];
+};
+
 export type IngredientReviewStatus = 'alreadyHave' | 'needToBuy' | 'optional';
 
 export type ReviewedIngredient = {
@@ -228,6 +277,7 @@ export type ReviewedIngredient = {
   status: IngredientReviewStatus;
   optional?: boolean;
   pantry?: boolean;
+  substitutionNote?: string;
 };
 
 export type MealFeedback = {
@@ -270,7 +320,54 @@ export type VisionItem = {
   category: Category;
   section: StoreSection;
   confidence: ScanConfidence;
+  confidenceScore?: number;
+  inventoryState?: InventoryItemState;
+  storageLocation?: StorageLocation;
   note: string;
+};
+
+export type CaptureMethod = 'receipt_photo' | 'fridge_photo' | 'grocery_photo' | 'voice_add' | 'pasted_receipt' | 'manual_add';
+
+export type ParsedGroceryItem = {
+  id: string;
+  rawName: string;
+  normalizedName: string;
+  canonicalName: string;
+  category: Category;
+  section: StoreSection;
+  quantity: number | null;
+  unit: string | null;
+  price?: number;
+  confidenceScore: number;
+  inventoryState: InventoryItemState;
+  storageLocation: StorageLocation;
+  isGrocery: boolean;
+  note: string;
+};
+
+export type ParsedGroceryResult = {
+  method: CaptureMethod;
+  sourceLabel: string;
+  capturedAt: string;
+  store?: Store;
+  date?: string;
+  total?: number;
+  items: ParsedGroceryItem[];
+};
+
+export type KitchenInventoryItem = {
+  key: string;
+  name: string;
+  category: Category;
+  section: StoreSection;
+  state: InventoryItemState;
+  confidenceScore: number;
+  storageLocation: StorageLocation;
+  observedAt?: string;
+  expiresAt?: string;
+  daysUntilExpiration?: number;
+  usedForMeals?: string[];
+  prompt: string;
 };
 
 export type SpendingCategory = {

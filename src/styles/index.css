@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Sora:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --color-paper: #f6f2e9;
+  --color-paper: #f7f7f8;
   --color-surface: #ffffff;
-  --color-ink: #16150f;
-  --color-ink-soft: #4a4842;
-  --color-muted: #8a877e;
-  --color-line: #e7e1d4;
-  --color-accent: #2e7d46;
-  --color-accent-soft: #e8f0e6;
-  --color-amber: #9a6a24;
-  --shadow-sm: 0 1px 2px rgba(20, 18, 10, 0.04), 0 1px 3px rgba(20, 18, 10, 0.06);
-  --shadow-md: 0 6px 16px rgba(20, 18, 10, 0.06), 0 2px 6px rgba(20, 18, 10, 0.04);
+  --color-ink: #111111;
+  --color-ink-soft: #474747;
+  --color-muted: #808080;
+  --color-line: #e6e6e7;
+  --color-accent: #12805c;
+  --color-accent-soft: #e9f7f1;
+  --color-amber: #9b6500;
+  --shadow-sm: 0 1px 2px rgba(17, 17, 17, 0.05);
+  --shadow-md: 0 8px 24px rgba(17, 17, 17, 0.08);
   color: var(--color-ink);
   background: var(--color-paper);
   font-synthesis: none;
@@ -39,20 +39,7 @@ body {
   min-width: 320px;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: 'Hanken Grotesk', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
-}
-
-body::before {
-  pointer-events: none;
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  opacity: 0.035;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(22, 21, 15, 0.45) 1px, transparent 0),
-    radial-gradient(circle at 7px 5px, rgba(22, 21, 15, 0.2) 0.8px, transparent 0);
-  background-size: 14px 14px, 18px 18px;
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
 }
 
 button,
@@ -84,8 +71,8 @@ button {
   .phone-shell {
     min-height: calc(100vh - 48px);
     border: 1px solid var(--color-line);
-    border-radius: 36px;
-    box-shadow: 0 30px 90px rgba(20, 18, 10, 0.16);
+    border-radius: 28px;
+    box-shadow: 0 20px 60px rgba(17, 17, 17, 0.1);
   }
 }
 
