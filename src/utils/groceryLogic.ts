@@ -4,14 +4,20 @@ import {
   GroceryList,
   GroceryListEntry,
   GroceryMemoryItem,
+  InventoryItemState,
+  KitchenInventoryItem,
+  MealIdea,
   MealSuggestion,
   ReceiptItem,
   ScanConfidence,
+  SeedMealIngredient,
   SpendingInsight,
   SpendingStore,
+  StorageLocation,
   StoreSection,
 } from '../types';
 import { getDaysSince } from './date';
+import { findSubstitutionMatch } from './ingredientSubstitutions';
 
 const normalizationMap: Record<string, string> = {
   'BNNA ORG': 'bananas',
@@ -194,11 +200,19 @@ function hasName(entries: GroceryListEntry[], name: string): boolean {
   return entries.some((entry) => normalizeIngredientKey(entry.name) === key);
 }
 
-export function generateGroceryList(items: GroceryMemoryItem[], behavior: BehaviorState, mealSuggestions: MealSuggestion[]): GroceryList {
+export function generateGroceryList(
+  items: GroceryMemoryItem[],
+  behavior: BehaviorState,
+  mealSuggestions: MealSuggestion[],
+  plannedMeals: MealIdea[] = [],
+  kitchenItems: KitchenInventoryItem[] = buildKitchenInventory(items, behavior),
+): GroceryList {
   const buyNow: GroceryListEntry[] = [];
   const maybeBuy: GroceryListEntry[] = [];
   const probablyAlreadyHave: GroceryListEntry[] = [];
-  const alreadyHaveKeys = new Set(behavior.alreadyHaveNames.map(normalizeIngredientKey));
+  const availableKeys = new Set(kitchenItems.filter((item) => isInventoryAvailable(item.state)).map((item) => item.key));
+  const runningLowKeys = new Set(kitchenItems.filter((item) => item.state === 'running_low').map((item) => item.key));
+  const alreadyHaveKeys = new Set([...behavior.alreadyHaveNames.map(normalizeIngredientKey), ...availableKeys]);
   const usedFor = (name: string) => behavior.usedForMeals[normalizeIngredientKey(name)] ?? [];
 
   items.forEach((item) => {
@@ -208,15 +222,28 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     const scanStatus = behavior.fridgeSeen[item.name.toLowerCase()];
     const itemKey = normalizeIngredientKey(item.name);
     if (wasRemoved || wasBought) return;
+    const kitchenState = kitchenItems.find((kitchenItem) => kitchenItem.key === itemKey)?.state;
+
+    if (kitchenState === 'gone') return;
+
+    if (runningLowKeys.has(itemKey) || kitchenState === 'running_low' || scanStatus === 'maybeLow') {
+      maybeBuy.push(entryFromMemory(item, 'Kitchen says this is running low.', 'scan', usedFor(item.name)));
+      return;
+    }
 
     if (markedAlreadyHave || alreadyHaveKeys.has(itemKey) || scanStatus === 'clearlySeen') {
-      const reason = scanStatus === 'clearlySeen' ? 'Seen in your fridge check.' : 'You marked this as already have.';
+      const reason =
+        kitchenState === 'use_soon'
+          ? 'Use soon. It still counts for dinner tonight.'
+          : scanStatus === 'clearlySeen'
+            ? 'Seen in your fridge check.'
+            : 'Kitchen says you probably have this.';
       probablyAlreadyHave.push(entryFromMemory(item, reason, 'scan', usedFor(item.name)));
       return;
     }
 
-    if (scanStatus === 'maybeLow') {
-      maybeBuy.push(entryFromMemory(item, 'Fridge scan saw it, but it looked low.', 'scan', usedFor(item.name)));
+    if (kitchenState === 'probably_gone') {
+      maybeBuy.push(entryFromMemory(item, 'Probably gone. Confirm before dinner depends on it.', 'overbuy', usedFor(item.name)));
       return;
     }
 
@@ -239,7 +266,10 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
 
   behavior.alreadyHaveNames.forEach((name) => {
     if (!hasName(probablyAlreadyHave, name) && !hasName(buyNow, name) && !hasName(maybeBuy, name)) {
-      probablyAlreadyHave.push(entryFromName(name, 'manual', 'Marked as already have.', 75, usedFor(name)));
+      const state = kitchenItems.find((item) => item.key === normalizeIngredientKey(name))?.state;
+      if (state !== 'gone' && state !== 'probably_gone' && state !== 'running_low') {
+        probablyAlreadyHave.push(entryFromName(name, 'manual', 'Marked as already have.', 75, usedFor(name)));
+      }
     }
   });
 
@@ -249,9 +279,23 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     }
   });
 
+  const selectedMealEntries = buildSelectedMealEntries(plannedMeals, kitchenItems);
+
   behavior.mealAddedNames.forEach((name) => {
-    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
+    if (
+      !hasName(selectedMealEntries, name) &&
+      !alreadyHaveKeys.has(normalizeIngredientKey(name)) &&
+      !hasName(buyNow, name) &&
+      !hasName(maybeBuy, name) &&
+      !hasName(probablyAlreadyHave, name)
+    ) {
       buyNow.push(entryFromName(name, 'meal', 'Needed for a dinner you picked.', 90, usedFor(name)));
+    }
+  });
+
+  selectedMealEntries.forEach((entry) => {
+    if (!hasName(probablyAlreadyHave, entry.name) && !hasName(buyNow, entry.name) && !hasName(maybeBuy, entry.name)) {
+      buyNow.push(entry);
     }
   });
 
@@ -259,6 +303,7 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
   const mealUnlockItems = mealUnlockNames.map((name) => entryFromName(name, 'meal', 'Unlocks multiple quick dinners.', 70));
 
   const overbuyAlerts = identifyLikelyOverbuys(items, { buyNow, maybeBuy }, behavior);
+  const selectedUnlockItems = dedupeEntries(selectedMealEntries);
 
   return {
     buyNow: dedupeEntries(sortListEntries(buyNow)).slice(0, 18),
@@ -266,12 +311,152 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     probablyAlreadyHave: dedupeEntries(sortListEntries(probablyAlreadyHave)).slice(0, 18),
     checkedOff: behavior.checkedOffEntries,
     mealUnlocks: {
-      title: 'Buy these 5 things to unlock 4 dinners.',
-      items: mealUnlockItems,
-      meals: mealSuggestions.slice(0, 4).map((meal) => meal.name.toLowerCase()),
+      title: plannedMeals.length ? 'Shop once for selected dinners.' : 'Buy these 5 things to unlock 4 dinners.',
+      items: plannedMeals.length ? selectedUnlockItems.slice(0, 8) : mealUnlockItems,
+      meals: plannedMeals.length ? plannedMeals.map((meal) => meal.name) : mealSuggestions.slice(0, 4).map((meal) => meal.name.toLowerCase()),
     },
     overbuyAlerts,
   };
+}
+
+export function buildKitchenInventory(items: GroceryMemoryItem[], behavior: BehaviorState): KitchenInventoryItem[] {
+  const byKey = new Map<string, KitchenInventoryItem>();
+
+  items.forEach((item) => {
+    const key = normalizeIngredientKey(item.name);
+    const observedAt = behavior.ownedLastObservedAt[key] ?? item.lastConfirmedAt ?? item.lastBoughtDate;
+    const storageLocation = behavior.inventoryStorage[key] ?? item.storageLocation ?? storageFromCategory(item.category);
+    const shelfLifeDays = shelfLifeDaysFor(item, storageLocation);
+    const expiresAt = behavior.inventoryExpiresAt[key] ?? item.expiresAt ?? addDays(observedAt, shelfLifeDays);
+    const daysUntilExpiration = daysUntil(expiresAt);
+    const confidenceScore = behavior.inventoryConfidence[key] ?? item.inventoryConfidence ?? confidenceToScore(item.confidence);
+    const state = behavior.inventoryStates[key] ?? predictInventoryState(item, behavior, daysUntilExpiration, confidenceScore);
+
+    byKey.set(key, {
+      key,
+      name: item.name,
+      category: item.category,
+      section: item.section,
+      state,
+      confidenceScore: clampConfidence(confidenceScore - confidenceDecay(item, observedAt)),
+      storageLocation,
+      observedAt,
+      expiresAt,
+      daysUntilExpiration,
+      usedForMeals: behavior.usedForMeals[key] ?? [],
+      prompt: promptForInventoryState(state, item.name, daysUntilExpiration),
+    });
+  });
+
+  behavior.alreadyHaveNames.forEach((name) => {
+    const key = normalizeIngredientKey(name);
+    if (byKey.has(key)) return;
+    const category = categorizeGroceryItem(name);
+    const storageLocation = behavior.inventoryStorage[key] ?? storageFromCategory(category);
+    const observedAt = behavior.ownedLastObservedAt[key] ?? new Date().toISOString();
+    const fallbackItem = createFallbackMemoryForPrediction(name, category);
+    const expiresAt = behavior.inventoryExpiresAt[key] ?? addDays(observedAt, shelfLifeDaysFor(fallbackItem, storageLocation));
+    const state = behavior.inventoryStates[key] ?? 'confirmed_have';
+
+    byKey.set(key, {
+      key,
+      name,
+      category,
+      section: sectionForCategory(category),
+      state,
+      confidenceScore: behavior.inventoryConfidence[key] ?? 0.88,
+      storageLocation,
+      observedAt,
+      expiresAt,
+      daysUntilExpiration: daysUntil(expiresAt),
+      usedForMeals: behavior.usedForMeals[key] ?? [],
+      prompt: promptForInventoryState(state, name, daysUntil(expiresAt)),
+    });
+  });
+
+  Object.entries(behavior.fridgeSeen).forEach(([name, scanConfidence]) => {
+    const key = normalizeIngredientKey(name);
+    const existing = byKey.get(key);
+    const state = behavior.inventoryStates[key] ?? (scanConfidence === 'clearlySeen' ? 'confirmed_have' : scanConfidence === 'maybeLow' ? 'running_low' : 'probably_gone');
+    if (existing) {
+      byKey.set(key, {
+        ...existing,
+        state,
+        confidenceScore: Math.max(existing.confidenceScore, scanConfidence === 'clearlySeen' ? 0.9 : scanConfidence === 'maybeLow' ? 0.62 : 0.3),
+        prompt: promptForInventoryState(state, existing.name, existing.daysUntilExpiration),
+      });
+      return;
+    }
+
+    const category = categorizeGroceryItem(name);
+    const observedAt = behavior.ownedLastObservedAt[key] ?? new Date().toISOString();
+    const fallbackItem = createFallbackMemoryForPrediction(name, category);
+    const storageLocation = behavior.inventoryStorage[key] ?? storageFromCategory(category);
+    const expiresAt = behavior.inventoryExpiresAt[key] ?? addDays(observedAt, shelfLifeDaysFor(fallbackItem, storageLocation));
+
+    byKey.set(key, {
+      key,
+      name,
+      category,
+      section: sectionForCategory(category),
+      state,
+      confidenceScore: scanConfidence === 'clearlySeen' ? 0.9 : scanConfidence === 'maybeLow' ? 0.62 : 0.3,
+      storageLocation,
+      observedAt,
+      expiresAt,
+      daysUntilExpiration: daysUntil(expiresAt),
+      usedForMeals: behavior.usedForMeals[key] ?? [],
+      prompt: promptForInventoryState(state, name, daysUntil(expiresAt)),
+    });
+  });
+
+  return Array.from(byKey.values()).sort((a, b) => stateSort(a.state) - stateSort(b.state) || (a.daysUntilExpiration ?? 999) - (b.daysUntilExpiration ?? 999));
+}
+
+export function isInventoryAvailable(state: InventoryItemState): boolean {
+  return state === 'confirmed_have' || state === 'probably_have' || state === 'use_soon';
+}
+
+function buildSelectedMealEntries(plannedMeals: MealIdea[], kitchenItems: KitchenInventoryItem[]): GroceryListEntry[] {
+  if (!plannedMeals.length) return [];
+  const availableKeys = new Set(kitchenItems.filter((item) => isInventoryAvailable(item.state)).map((item) => item.key));
+  const runningLowKeys = new Set(kitchenItems.filter((item) => item.state === 'running_low').map((item) => item.key));
+  const entries: GroceryListEntry[] = [];
+
+  plannedMeals.forEach((meal) => {
+    getShoppingIngredients(meal).forEach((ingredient) => {
+      const key = ingredient.canonicalName || normalizeIngredientKey(ingredient.rawName);
+      if (availableKeys.has(key)) return;
+      const substitution = findSubstitutionMatch({ ingredientName: ingredient.rawName, ingredientKey: key, ownedKeys: availableKeys });
+      if (substitution) return;
+      const isRunningLow = runningLowKeys.has(key);
+      entries.push(entryFromIngredient(ingredient, meal.name, isRunningLow));
+    });
+  });
+
+  return dedupeEntries(entries);
+}
+
+function entryFromIngredient(ingredient: SeedMealIngredient, mealName: string, runningLow: boolean): GroceryListEntry {
+  const name = normalizeReceiptItemName(ingredient.rawName);
+  const key = ingredient.canonicalName || normalizeIngredientKey(name);
+  return {
+    id: `meal-${key.replace(/[^a-z0-9]+/g, '-')}`,
+    name,
+    category: ingredient.groceryCategory,
+    section: ingredient.section,
+    quantityLabel: ingredient.displayQuantity,
+    reason: runningLow
+      ? `${ingredient.displayQuantity ? `${ingredient.displayQuantity}. ` : ''}Running low, needed for ${mealName}.`
+      : `${ingredient.displayQuantity ? `${ingredient.displayQuantity}. ` : ''}${ingredient.isPantry ? 'Staple' : 'Needed'} for ${mealName}.`,
+    source: 'meal',
+    priority: ingredient.isPantry ? 86 : 98,
+    usedForMeals: [mealName],
+  };
+}
+
+function getShoppingIngredients(meal: MealIdea): SeedMealIngredient[] {
+  return meal.structuredIngredients.filter((ingredient) => !ingredient.isOptional);
 }
 
 function dedupeEntries(entries: GroceryListEntry[]): GroceryListEntry[] {
@@ -286,6 +471,7 @@ function dedupeEntries(entries: GroceryListEntry[]): GroceryListEntry[] {
     byKey.set(key, {
       ...existing,
       priority: Math.max(existing.priority, entry.priority),
+      quantityLabel: existing.quantityLabel ?? entry.quantityLabel,
       usedForMeals: unique([...(existing.usedForMeals ?? []), ...(entry.usedForMeals ?? [])]),
     });
   });
@@ -404,6 +590,100 @@ export function scanConfidenceLabel(confidence: ScanConfidence): string {
   if (confidence === 'clearlySeen') return 'Clearly seen';
   if (confidence === 'maybeLow') return 'Maybe low';
   return 'Could not tell';
+}
+
+function storageFromCategory(category: Category): StorageLocation {
+  if (category === 'Frozen') return 'freezer';
+  if (category === 'Produce' || category === 'Protein' || category === 'Dairy') return 'fridge';
+  if (category === 'Pantry' || category === 'Condiments' || category === 'Snacks' || category === 'Drinks') return 'pantry';
+  return 'unknown';
+}
+
+function shelfLifeDaysFor(item: Pick<GroceryMemoryItem, 'category' | 'estimatedShelfLifeDays' | 'perishable'>, storage: StorageLocation): number {
+  if (storage === 'freezer') return Math.max(item.estimatedShelfLifeDays, 90);
+  if (storage === 'pantry' && !item.perishable) return Math.max(item.estimatedShelfLifeDays, 120);
+  if (item.category === 'Protein' && storage === 'fridge') return Math.min(item.estimatedShelfLifeDays, 4);
+  if (item.category === 'Produce' && storage === 'counter') return Math.min(item.estimatedShelfLifeDays, 5);
+  return item.estimatedShelfLifeDays;
+}
+
+function addDays(dateString: string, days: number): string {
+  const date = new Date(`${dateString.slice(0, 10)}T12:00:00`);
+  date.setDate(date.getDate() + days);
+  return date.toISOString().slice(0, 10);
+}
+
+function daysUntil(dateString: string): number {
+  const target = new Date(`${dateString.slice(0, 10)}T12:00:00`).getTime();
+  const now = new Date().setHours(12, 0, 0, 0);
+  return Math.ceil((target - now) / 86400000);
+}
+
+function confidenceToScore(confidence: GroceryMemoryItem['confidence']): number {
+  if (confidence === 'high') return 0.9;
+  if (confidence === 'medium') return 0.66;
+  return 0.38;
+}
+
+function predictInventoryState(
+  item: GroceryMemoryItem,
+  behavior: BehaviorState,
+  daysUntilExpiration: number,
+  confidenceScore: number,
+): InventoryItemState {
+  const key = normalizeIngredientKey(item.name);
+  const scanStatus = behavior.fridgeSeen[item.name.toLowerCase()];
+
+  if (behavior.consumedAt[key]) return item.perishable ? 'probably_gone' : 'running_low';
+  if (scanStatus === 'maybeLow') return 'running_low';
+  if (scanStatus === 'clearlySeen') return daysUntilExpiration <= 2 && item.perishable ? 'use_soon' : 'confirmed_have';
+  if (daysUntilExpiration < -2 && item.perishable) return 'gone';
+  if (daysUntilExpiration < 0 && item.perishable) return 'probably_gone';
+  if (daysUntilExpiration <= 2 && item.perishable) return 'use_soon';
+  if (item.likelyStillHave && confidenceScore >= 0.78) return 'confirmed_have';
+  if (item.likelyStillHave && confidenceScore >= 0.45) return 'probably_have';
+  if (!item.perishable && getDaysSince(item.lastBoughtDate) < item.averageDaysBetweenPurchases) return 'probably_have';
+  return confidenceScore < 0.4 ? 'probably_gone' : 'probably_have';
+}
+
+function confidenceDecay(item: GroceryMemoryItem, observedAt: string): number {
+  const days = getDaysSince(observedAt.slice(0, 10));
+  if (!item.perishable) return Math.min(0.24, Math.floor(days / 30) * 0.04);
+  return Math.min(0.42, days * 0.035);
+}
+
+function clampConfidence(value: number): number {
+  return Math.max(0.1, Math.min(0.99, Number(value.toFixed(2))));
+}
+
+function promptForInventoryState(state: InventoryItemState, name: string, daysUntilExpiration?: number): string {
+  if (state === 'use_soon') return `${capitalize(name)} should be used soon.`;
+  if (state === 'running_low') return `${capitalize(name)} is running low.`;
+  if (state === 'probably_gone') return `${capitalize(name)} is probably gone.`;
+  if (state === 'gone') return `${capitalize(name)} is gone.`;
+  if (state === 'confirmed_have') return `${capitalize(name)} was confirmed recently.`;
+  if (typeof daysUntilExpiration === 'number' && daysUntilExpiration <= 4) return `Confirm ${name} before planning around it.`;
+  return `Probably have ${name}.`;
+}
+
+function createFallbackMemoryForPrediction(name: string, category: Category): Pick<GroceryMemoryItem, 'category' | 'estimatedShelfLifeDays' | 'perishable'> {
+  return {
+    category,
+    perishable: ['Produce', 'Protein', 'Dairy'].includes(category),
+    estimatedShelfLifeDays: category === 'Produce' ? 6 : category === 'Protein' ? 4 : category === 'Dairy' ? 12 : 90,
+  };
+}
+
+function stateSort(state: InventoryItemState): number {
+  const order: Record<InventoryItemState, number> = {
+    use_soon: 1,
+    running_low: 2,
+    confirmed_have: 3,
+    probably_have: 4,
+    probably_gone: 5,
+    gone: 6,
+  };
+  return order[state];
 }
 
 export function capitalize(value: string): string {

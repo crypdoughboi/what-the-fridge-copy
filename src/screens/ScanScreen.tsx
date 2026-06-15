@@ -1,73 +1,62 @@
-import { FormEvent, useState } from 'react';
-import { Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
+import { FormEvent, ReactNode, useState } from 'react';
+import { ClipboardPaste, Keyboard, Mic, ReceiptText, Refrigerator, ShoppingBag } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { FileUploadButton } from '../components/FileUploadButton';
-import { Input } from '../components/Input';
+import { Input, Textarea } from '../components/Input';
 import { SampleFridgeVisual, SampleReceiptVisual } from '../components/SampleVisuals';
-import { parseManualItemNames } from '../utils/groceryLogic';
 
 export function ScanScreen({
   onReceiptFile,
   onFridgeFile,
-  onAddNeed,
-  onAddHave,
+  onGroceryFile,
+  onVoiceAdd,
+  onPastedReceipt,
+  onManualAdd,
 }: {
   onReceiptFile: (file: File) => void;
   onFridgeFile: (file: File) => void;
-  onAddNeed: (name: string) => void;
-  onAddHave: (name: string) => void;
+  onGroceryFile: (file: File) => void;
+  onVoiceAdd: (text: string) => void;
+  onPastedReceipt: (text: string) => void;
+  onManualAdd: (text: string, target: 'have' | 'need') => void;
 }) {
-  const [item, setItem] = useState('');
+  const [voiceText, setVoiceText] = useState('');
+  const [receiptText, setReceiptText] = useState('');
+  const [manualItem, setManualItem] = useState('');
   const [target, setTarget] = useState<'have' | 'need'>('have');
 
-  function submit(event: FormEvent) {
+  function submitVoice(event: FormEvent) {
     event.preventDefault();
-    if (!item.trim()) return;
-    parseManualItemNames(item).forEach((name) => {
-      if (target === 'have') onAddHave(name);
-      else onAddNeed(name);
-    });
-    setItem('');
+    if (!voiceText.trim()) return;
+    onVoiceAdd(voiceText);
+    setVoiceText('');
+  }
+
+  function submitReceiptText(event: FormEvent) {
+    event.preventDefault();
+    if (!receiptText.trim()) return;
+    onPastedReceipt(receiptText);
+    setReceiptText('');
+  }
+
+  function submitManual(event: FormEvent) {
+    event.preventDefault();
+    if (!manualItem.trim()) return;
+    onManualAdd(manualItem, target);
+    setManualItem('');
   }
 
   return (
-    <main className="screen-enter space-y-8">
+    <main className="screen-enter space-y-6">
       <section className="section-enter">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Scan</p>
-        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Add food fast.</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Snap the fridge, scan a receipt, or type a few items.</p>
+        <p className="text-[12px] font-semibold uppercase text-accent">Add</p>
+        <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] text-ink">Capture food fast.</h1>
+        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">Photos and short notes update Kitchen first. Manual add is here when capture misses.</p>
       </section>
 
       <Card className="section-enter stagger-1">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <Refrigerator className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Scan fridge or pantry</h2>
-            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Detected items can become Already Have or Need to Buy.</p>
-          </div>
-        </div>
-        <div className="mt-4">
-          <SampleFridgeVisual />
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <FileUploadButton label="Upload" onFile={onFridgeFile} />
-          <FileUploadButton label="Camera" onFile={onFridgeFile} camera />
-        </div>
-      </Card>
-
-      <Card className="section-enter stagger-2">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <ReceiptText className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Scan receipt</h2>
-            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Purchased items land in Already Have.</p>
-          </div>
-        </div>
+        <CaptureHeader icon={<ReceiptText className="h-5 w-5" strokeWidth={1.75} />} title="Receipt photo" body="Best after checkout." />
         <div className="mt-4">
           <SampleReceiptVisual />
         </div>
@@ -77,41 +66,97 @@ export function ScanScreen({
         </div>
       </Card>
 
-      <Card className="section-enter stagger-3">
-        <div className="flex items-start gap-3">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <Keyboard className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Type items manually</h2>
-            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Use this for leftovers, takeout boxes, and anything the camera cannot identify.</p>
-          </div>
+      <Card className="section-enter stagger-2">
+        <CaptureHeader icon={<Refrigerator className="h-5 w-5" strokeWidth={1.75} />} title="Fridge photo" body="Best before deciding dinner." />
+        <div className="mt-4">
+          <SampleFridgeVisual />
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <button
-            className={`min-h-11 rounded-md border px-3 text-[14px] font-semibold transition active:scale-[0.98] ${
-              target === 'have' ? 'border-ink bg-ink text-paper' : 'border-line bg-paper text-ink-soft'
-            }`}
-            onClick={() => setTarget('have')}
-          >
-            Already Have
-          </button>
-          <button
-            className={`min-h-11 rounded-md border px-3 text-[14px] font-semibold transition active:scale-[0.98] ${
-              target === 'need' ? 'border-ink bg-ink text-paper' : 'border-line bg-paper text-ink-soft'
-            }`}
-            onClick={() => setTarget('need')}
-          >
-            Need to Buy
-          </button>
+          <FileUploadButton label="Upload" onFile={onFridgeFile} />
+          <FileUploadButton label="Camera" onFile={onFridgeFile} camera />
         </div>
-        <form className="mt-3 flex gap-2" onSubmit={submit}>
-          <Input value={item} onChange={(event) => setItem(event.target.value)} placeholder="leftover rice, cauliflower, Greek yogurt" className="min-w-0 flex-1" />
-          <Button className="px-4" type="submit" disabled={!item.trim()}>
+      </Card>
+
+      <Card className="section-enter stagger-3">
+        <CaptureHeader icon={<ShoppingBag className="h-5 w-5" strokeWidth={1.75} />} title="Grocery photo" body="Best for bags, counters, and quick hauls." />
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <FileUploadButton label="Upload" onFile={onGroceryFile} />
+          <FileUploadButton label="Camera" onFile={onGroceryFile} camera />
+        </div>
+      </Card>
+
+      <Card>
+        <CaptureHeader icon={<Mic className="h-5 w-5" strokeWidth={1.75} />} title="Voice add" body="Say what is here or what is low." />
+        <form className="mt-4 grid gap-3" onSubmit={submitVoice}>
+          <Textarea
+            value={voiceText}
+            onChange={(event) => setVoiceText(event.target.value)}
+            placeholder="We have chicken, rice, spinach, and we are low on lemons"
+            className="min-h-24"
+          />
+          <Button type="submit" disabled={!voiceText.trim()}>
+            Capture voice note
+          </Button>
+        </form>
+      </Card>
+
+      <Card>
+        <CaptureHeader icon={<ClipboardPaste className="h-5 w-5" strokeWidth={1.75} />} title="Pasted receipt" body="Paste a store receipt or delivery text." />
+        <form className="mt-4 grid gap-3" onSubmit={submitReceiptText}>
+          <Textarea
+            value={receiptText}
+            onChange={(event) => setReceiptText(event.target.value)}
+            placeholder={"CHKN THGH 10.42\nJASMINE RICE 4.49\nSPINACH BAG 2.99"}
+            className="min-h-28"
+          />
+          <Button type="submit" disabled={!receiptText.trim()}>
+            Parse receipt
+          </Button>
+        </form>
+      </Card>
+
+      <Card>
+        <CaptureHeader icon={<Keyboard className="h-5 w-5" strokeWidth={1.75} />} title="Manual fallback" body="For anything the parser misses." />
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <ChoiceButton active={target === 'have'} onClick={() => setTarget('have')}>
+            Have
+          </ChoiceButton>
+          <ChoiceButton active={target === 'need'} onClick={() => setTarget('need')}>
+            Need
+          </ChoiceButton>
+        </div>
+        <form className="mt-3 flex gap-2" onSubmit={submitManual}>
+          <Input value={manualItem} onChange={(event) => setManualItem(event.target.value)} placeholder="leftover rice, Greek yogurt" className="min-w-0 flex-1" />
+          <Button className="px-4" type="submit" disabled={!manualItem.trim()}>
             Add
           </Button>
         </form>
       </Card>
     </main>
+  );
+}
+
+function CaptureHeader({ icon, title, body }: { icon: ReactNode; title: string; body: string }) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
+      <div>
+        <h2 className="font-display text-[21px] font-bold text-ink">{title}</h2>
+        <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">{body}</p>
+      </div>
+    </div>
+  );
+}
+
+function ChoiceButton({ active, children, onClick }: { active: boolean; children: ReactNode; onClick: () => void }) {
+  return (
+    <button
+      className={`min-h-11 rounded-md border px-3 text-[14px] font-semibold transition active:scale-[0.98] ${
+        active ? 'border-ink bg-ink text-paper' : 'border-line bg-paper text-ink-soft'
+      }`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   );
 }

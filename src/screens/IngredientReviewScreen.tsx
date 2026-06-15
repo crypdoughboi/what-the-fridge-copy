@@ -1,29 +1,36 @@
 import { useMemo, useState } from 'react';
 import { ReactNode } from 'react';
 import { ListPlus } from 'lucide-react';
-import { IngredientReviewStatus, MealIdea, ReviewedIngredient } from '../types';
+import { IngredientReviewStatus, KitchenInventoryItem, MealIdea, ReviewedIngredient } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Pill } from '../components/Pill';
 import { BackButton } from '../components/BackButton';
-import { normalizeIngredientKey } from '../utils/groceryLogic';
+import { isInventoryAvailable, normalizeIngredientKey } from '../utils/groceryLogic';
+import { findSubstitutionMatch } from '../utils/ingredientSubstitutions';
 
 export function IngredientReviewScreen({
   meal,
   knownIngredients,
+  kitchenItems,
   needToBuyNames,
   onBack,
   onAddMissing,
 }: {
   meal: MealIdea;
   knownIngredients: string[];
+  kitchenItems: KitchenInventoryItem[];
   needToBuyNames: string[];
   onBack: () => void;
   onAddMissing: (meal: MealIdea, reviewed: ReviewedIngredient[]) => void;
 }) {
   const knownKeys = useMemo(() => new Set(knownIngredients.map(normalizeIngredientKey)), [knownIngredients]);
+  const availableKeys = useMemo(
+    () => new Set([...knownKeys, ...kitchenItems.filter((item) => isInventoryAvailable(item.state)).map((item) => item.key)]),
+    [knownKeys, kitchenItems],
+  );
   const needKeys = useMemo(() => new Set(needToBuyNames.map(normalizeIngredientKey)), [needToBuyNames]);
-  const ingredients = useMemo(() => buildReviewIngredients(meal, knownKeys, needKeys), [meal, knownKeys, needKeys]);
+  const ingredients = useMemo(() => buildReviewIngredients(meal, availableKeys, needKeys), [meal, availableKeys, needKeys]);
   const [statuses, setStatuses] = useState<Record<string, IngredientReviewStatus>>(
     Object.fromEntries(ingredients.map((ingredient) => [keyForIngredient(ingredient), ingredient.status])),
   );
@@ -73,6 +80,7 @@ export function IngredientReviewScreen({
                     {[ingredient.displayQuantity, ingredient.prep].filter(Boolean).join(', ')}
                   </p>
                 ) : null}
+                {ingredient.substitutionNote ? <p className="mt-1 text-[13px] font-semibold text-accent">{ingredient.substitutionNote}</p> : null}
                 <p className="mt-1 text-[13px] font-medium text-muted">{ingredient.pantry ? 'Pantry check' : ingredient.optional ? 'Optional upgrade' : 'Meal ingredient'}</p>
               </div>
               <Pill tone={ingredient.status === 'alreadyHave' ? 'green' : 'neutral'}>{labelForStatus(ingredient.status)}</Pill>
@@ -93,7 +101,7 @@ export function IngredientReviewScreen({
       </div>
 
       <Button full icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onAddMissing(meal, reviewed)}>
-        Add missing ingredients to List
+        Add missing ingredients to Shop
       </Button>
     </main>
   );
@@ -119,12 +127,14 @@ function buildReviewIngredients(meal: MealIdea, knownKeys: Set<string>, needKeys
     .filter((ingredient) => !ingredient.isOptional && !ingredient.isPantry)
     .forEach((ingredient) => {
       const key = ingredient.canonicalName;
+      const substitution = knownKeys.has(key) ? null : findSubstitutionMatch({ ingredientName: ingredient.rawName, ingredientKey: key, ownedKeys: knownKeys });
       byKey.set(key, {
         name: ingredient.rawName,
         canonicalName: ingredient.canonicalName,
         displayQuantity: ingredient.displayQuantity,
         prep: ingredient.prep,
-        status: knownKeys.has(key) ? 'alreadyHave' : 'needToBuy',
+        status: knownKeys.has(key) ? 'alreadyHave' : substitution ? 'optional' : 'needToBuy',
+        substitutionNote: substitution?.note,
       });
     });
 

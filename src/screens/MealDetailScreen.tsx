@@ -1,15 +1,17 @@
-import { ArrowLeft, Bookmark, CalendarPlus, CheckCircle2, Clock3, Flame, Lightbulb, Users } from 'lucide-react';
-import type { ReactNode } from 'react';
-import { MealIdea, RecipeStep, SeedMealIngredient, StoreSection } from '../types';
+import { ArrowLeft, Bookmark, CalendarPlus, CheckCircle2 } from 'lucide-react';
+import { KitchenInventoryItem, MealIdea, RecipeStep, SeedMealIngredient, StoreSection } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Pill } from '../components/Pill';
+import { getMealRankDetails } from '../services/mealGenerationService';
 
 export function MealDetailScreen({
   meal,
   saved,
   planned,
   made,
+  knownIngredients,
+  kitchenItems,
   onBack,
   onSave,
   onMakeThisWeek,
@@ -19,6 +21,8 @@ export function MealDetailScreen({
   saved: boolean;
   planned: boolean;
   made: boolean;
+  knownIngredients: string[];
+  kitchenItems: KitchenInventoryItem[];
   onBack: () => void;
   onSave: (meal: MealIdea) => void;
   onMakeThisWeek: (meal: MealIdea) => void;
@@ -27,6 +31,7 @@ export function MealDetailScreen({
   const coreIngredients = meal.structuredIngredients.filter((ingredient) => !ingredient.isPantry && !ingredient.isOptional);
   const pantryIngredients = meal.structuredIngredients.filter((ingredient) => ingredient.isPantry);
   const optionalIngredients = meal.structuredIngredients.filter((ingredient) => ingredient.isOptional);
+  const substitutionNotes = getMealRankDetails(meal, { knownIngredients, kitchenItems }).substitutionMatches.map((match) => match.note);
 
   return (
     <main className="screen-enter space-y-8">
@@ -61,21 +66,25 @@ export function MealDetailScreen({
         {optionalIngredients.length ? <IngredientList title="Optional upgrades" ingredients={optionalIngredients} /> : null}
       </Card>
 
+      {substitutionNotes.length ? (
+        <Card>
+          <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Substitutions</h2>
+          <div className="mt-3 space-y-2">
+            {substitutionNotes.map((note) => (
+              <p key={note} className="rounded-md bg-paper p-3 text-[14px] font-semibold leading-relaxed text-ink-soft">{note}</p>
+            ))}
+          </div>
+        </Card>
+      ) : null}
+
       <Card>
-        <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Cook it</h2>
+        <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Steps</h2>
         <ol className="mt-4 space-y-4">
           {meal.recipe.steps.map((step) => (
             <RecipeStepItem key={step.stepNumber} step={step} />
           ))}
         </ol>
       </Card>
-
-      <div className="grid gap-3">
-        <NoteCard icon={<Lightbulb className="h-5 w-5" strokeWidth={1.75} />} label="Why it works" body={meal.whyItWorks} />
-        <NoteCard icon={<Flame className="h-5 w-5" strokeWidth={1.75} />} label="Chef note" body={meal.chefNote} />
-        {meal.equipment.length ? <NoteCard icon={<Clock3 className="h-5 w-5" strokeWidth={1.75} />} label="Equipment" body={meal.equipment.join(', ')} /> : null}
-        {meal.leftoversNote ? <NoteCard icon={<Users className="h-5 w-5" strokeWidth={1.75} />} label="Leftovers" body={meal.leftoversNote} /> : null}
-      </div>
 
       <div className="grid gap-2">
         <Button icon={<CalendarPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onMakeThisWeek(meal)}>
@@ -86,7 +95,7 @@ export function MealDetailScreen({
             {saved ? 'Saved' : 'Save recipe'}
           </Button>
           <Button variant={made ? 'primary' : 'secondary'} icon={<CheckCircle2 className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onMarkMade(meal)}>
-            {made ? 'Made' : 'Mark made'}
+            {made ? 'Cooked' : 'Mark cooked'}
           </Button>
         </div>
       </div>
@@ -138,20 +147,6 @@ function RecipeStepItem({ step }: { step: RecipeStep }) {
         {step.visualCue ? <p className="mt-2 rounded-md bg-paper p-3 text-[13px] font-semibold leading-relaxed text-ink-soft">Look for: {step.visualCue}</p> : null}
       </div>
     </li>
-  );
-}
-
-function NoteCard({ icon, label, body }: { icon: ReactNode; label: string; body: string }) {
-  return (
-    <Card>
-      <div className="flex items-start gap-3">
-        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
-        <div>
-          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">{label}</p>
-          <p className="mt-2 text-[15px] font-semibold leading-relaxed text-ink">{body}</p>
-        </div>
-      </div>
-    </Card>
   );
 }
 
