@@ -12,7 +12,7 @@ import {
 } from '../types';
 import { Button } from '../components/Button';
 import { BackButton } from '../components/BackButton';
-import { MultiSelectChips, Select } from '../components/Select';
+import { MultiSelectDropdown, Select } from '../components/Select';
 import {
   cookingMethodOptions,
   cuisineOptions,
@@ -88,7 +88,7 @@ export function MealPreferencesScreen({
           options={cookingMethodOptions}
           onChange={(value) => update('cookingMethod', value as CookingMethodPreference)}
         />
-        <MultiSelectChips
+        <MultiSelectDropdown
           label="Allergies / restrictions"
           hint="Pick any that apply. We'll respect these in every suggestion."
           icon={<Leaf className="h-4 w-4" strokeWidth={2} />}
