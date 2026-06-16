@@ -24,7 +24,7 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 - Smart grocery list with live checkoff circles, Need to Buy, Already Have, ingredient deduping, and Used For meal metadata.
 - Receipt scanner flow with real `input type="file"` controls, `accept="image/*"`, and camera capture support.
 - Receipt OCR loading, extracted item review, edit/remove/not-grocery actions, and confirmation.
-- Fridge and pantry scanner flow with file upload, camera capture, mock recognition, confidence groups, and list update.
+- Fridge and pantry scanner flow with file upload, a live in-app camera viewfinder (`getUserMedia`) for scanning, mock recognition, confidence groups, and list update.
 - Scan tab with receipt scan, fridge or pantry scan, and manual item entry into Already Have or Need to Buy.
 - Settings/profile with privacy controls, receipt history, data export/delete placeholders, subscription placeholder, and Friend Rebuys preview.
 - Web-native WTF fridge logo treatment based on the provided blue fridge mark, used in the app header, auth screen, and PWA icon.
