@@ -2,9 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Apple, Mail } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { Eyebrow } from '../components/Eyebrow';
 import { Input } from '../components/Input';
-import { WelcomeFlowGraphic } from '../components/WelcomeFlowGraphic';
 
 export function AuthScreen({
   onApple,
@@ -45,25 +43,17 @@ export function AuthScreen({
   }
 
   return (
-    <main className="screen-enter app-scroll pb-8">
-      <section className="section-enter pt-1">
-        <WelcomeFlowGraphic />
-        <div className="mt-5">
-          <Eyebrow muted>What The Fridge</Eyebrow>
-          <h1 className="mt-2 font-display text-[34px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">A grocery list that knows what's in your fridge. A dinner plan that knows how you cook.</h1>
-          <p className="mt-4 text-[16px] font-medium leading-[1.45] text-ink-soft">
-            Take a picture of your fridge or a receipt. WTF builds your list, keeps track of what you have, and helps turn it into dinner.
-          </p>
-        </div>
+    <main className="screen-enter app-scroll flex min-h-full flex-col pb-8">
+      <section className="section-enter flex flex-col items-center px-2 pt-10 text-center">
+        <img src="/wtflogo2.png" alt="What The Fridge" className="h-24 w-24 rounded-[22px] shadow-md" />
+        <h1 className="mt-6 font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">What The Fridge</h1>
+        <p className="mt-3 max-w-[20rem] text-[15px] font-medium leading-[1.5] text-ink-soft">
+          Snap your fridge or a receipt. WTF builds your grocery list and turns it into dinner.
+        </p>
       </section>
 
-      <Card className="section-enter stagger-1 mt-7 space-y-3">
-        <Button
-          full
-          icon={<Apple className="h-5 w-5" strokeWidth={1.75} />}
-          disabled={busy !== null}
-          onClick={() => run('apple')}
-        >
+      <Card className="section-enter stagger-1 mt-8 space-y-3">
+        <Button full icon={<Apple className="h-5 w-5" strokeWidth={1.75} />} disabled={busy !== null} onClick={() => run('apple')}>
           {busy === 'apple' ? 'Connecting Apple ID' : 'Continue with Apple ID'}
         </Button>
         <Button
@@ -99,21 +89,11 @@ export function AuthScreen({
             {localError || errorMessage}
           </div>
         )}
+
         <Button full variant="ghost" disabled={busy !== null} onClick={() => run('guest')}>
           {busy === 'guest' ? 'Starting guest mode' : 'Continue as guest'}
         </Button>
         <p className="-mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">Guest mode is temporary. Nothing will save after you leave.</p>
-      </Card>
-
-      <Card className="section-enter stagger-2 mt-5">
-        <div className="grid grid-cols-3 gap-3">
-          {['Snap a receipt or your fridge', 'Your list fills itself', 'Get dinner ideas from it'].map((item, index) => (
-            <div key={item} className="min-w-0">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-pill bg-accent-soft text-[13px] font-semibold text-accent">{index + 1}</span>
-              <p className="mt-2 text-[13px] font-semibold leading-snug text-ink-soft">{item}</p>
-            </div>
-          ))}
-        </div>
       </Card>
     </main>
   );
