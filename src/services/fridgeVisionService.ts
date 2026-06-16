@@ -1,3 +1,4 @@
+import { fridgeScanItems } from '../data/mockData';
 import { Category, ScanConfidence, StoreSection, VisionItem } from '../types';
 import { isSupabaseConfigured, supabase } from './supabaseClient';
 
@@ -14,11 +15,9 @@ const CONFIDENCES: ScanConfidence[] = ['clearlySeen', 'maybeLow', 'couldNotTell'
  * sample items so the flow still works in local/demo mode.
  */
 export async function scanFridgeOrPantryImage(file?: File | null): Promise<VisionItem[]> {
-  // TEMPORARY DIAGNOSTIC: surface the exact failure reason on-screen instead of
-  // silently falling back to sample data. Revert once the pipeline is confirmed.
-  if (!file) return debug('no-file', 'scan called without an image');
-  if (!isSupabaseConfigured || !supabase) {
-    return debug('not-configured', `url=${Boolean(import.meta.env.VITE_SUPABASE_URL)} key=${Boolean(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)}`);
+  if (!file || !isSupabaseConfigured || !supabase) {
+    await wait(1200);
+    return fridgeScanItems;
   }
 
   try {
@@ -26,29 +25,12 @@ export async function scanFridgeOrPantryImage(file?: File | null): Promise<Visio
     const { data, error } = await supabase.functions.invoke('scan-fridge', {
       body: { image, mediaType: file.type || 'image/jpeg' },
     });
-    if (error) {
-      const status = (error as { context?: { status?: number } })?.context?.status;
-      return debug('invoke-error', `${error.message ?? String(error)}${status ? ` (status ${status})` : ''}`);
-    }
-    const items = normalizeItems(data?.items);
-    if (items.length === 0) return debug('empty-result', JSON.stringify(data).slice(0, 140));
-    return items;
+    if (error) throw error;
+    return normalizeItems(data?.items);
   } catch (error) {
-    return debug('threw', error instanceof Error ? error.message : String(error));
+    console.error('Fridge vision scan failed; using sample data.', error);
+    return fridgeScanItems;
   }
-}
-
-function debug(reason: string, detail: string): VisionItem[] {
-  return [
-    {
-      id: `debug-${reason}`,
-      name: `DEBUG: ${reason}`,
-      category: 'Other',
-      section: 'Other',
-      confidence: 'couldNotTell',
-      note: detail,
-    },
-  ];
 }
 
 function fileToBase64(file: File): Promise<string> {
@@ -83,4 +65,8 @@ function normalizeItems(raw: unknown): VisionItem[] {
       },
     ];
   });
+}
+
+function wait(ms: number): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
