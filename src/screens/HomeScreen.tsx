@@ -3,7 +3,6 @@ import { ReactNode } from 'react';
 import { GroceryList, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { Wordmark } from '../components/BrandMark';
 
 export function HomeScreen({
   plannedMeals,
@@ -26,15 +25,15 @@ export function HomeScreen({
 
   return (
     <main className="screen-enter space-y-6">
-      <div className="section-enter relative">
-        <Wordmark className="h-24 w-full rounded-2xl shadow-sm" />
+      <div className="section-enter flex items-center justify-between gap-3">
+        <h1 className="font-display text-[22px] font-extrabold tracking-[-0.03em] text-ink">What The Fridge</h1>
         <button
-          className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-md bg-paper/85 text-ink shadow-sm backdrop-blur transition active:scale-[0.98]"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
           onClick={onSettings}
           aria-label="Account"
           title="Account"
         >
-          <CircleUserRound className="h-5 w-5" strokeWidth={1.75} />
+          <CircleUserRound className="h-6 w-6" strokeWidth={1.75} />
         </button>
       </div>
 

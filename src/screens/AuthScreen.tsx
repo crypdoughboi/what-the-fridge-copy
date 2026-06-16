@@ -2,7 +2,6 @@ import { FormEvent, useState } from 'react';
 import { Apple, Mail } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { Wordmark } from '../components/BrandMark';
 import { Eyebrow } from '../components/Eyebrow';
 import { Input } from '../components/Input';
 import { WelcomeFlowGraphic } from '../components/WelcomeFlowGraphic';
@@ -48,7 +47,6 @@ export function AuthScreen({
   return (
     <main className="screen-enter app-scroll pb-8">
       <section className="section-enter pt-1">
-        <Wordmark className="h-28 w-full rounded-2xl shadow-sm" />
         <WelcomeFlowGraphic />
         <div className="mt-5">
           <Eyebrow muted>What The Fridge</Eyebrow>
