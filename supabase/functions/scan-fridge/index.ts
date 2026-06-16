@@ -127,6 +127,8 @@ Deno.serve(async (req: Request) => {
       return json({ items: [] });
     }
 
+    console.log('scan-fridge usage:', JSON.stringify(message.usage));
+
     const parsed = JSON.parse(textBlock.text);
     return json({ items: Array.isArray(parsed.items) ? parsed.items : [] });
   } catch (error) {
