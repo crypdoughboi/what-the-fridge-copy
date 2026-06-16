@@ -48,9 +48,7 @@ export function AuthScreen({
   return (
     <main className="screen-enter app-scroll pb-8">
       <section className="section-enter pt-1">
-        <div className="flex justify-center">
-          <Wordmark className="h-40 w-40 rounded-2xl shadow-md" />
-        </div>
+        <Wordmark className="h-28 w-full rounded-2xl shadow-sm" />
         <WelcomeFlowGraphic />
         <div className="mt-5">
           <Eyebrow muted>What The Fridge</Eyebrow>

@@ -16,7 +16,6 @@ import { MealDetailScreen } from './screens/MealDetailScreen';
 import { MealPreferencesScreen } from './screens/MealPreferencesScreen';
 import { MealsScreen } from './screens/MealsScreen';
 import { SavedMealsScreen } from './screens/SavedMealsScreen';
-import { OnboardingScreen, OnboardingSuccessScreen } from './screens/OnboardingScreen';
 import { ReceiptReviewScreen } from './screens/ReceiptReviewScreen';
 import { ReceiptScanScreen } from './screens/ReceiptScanScreen';
 import { ReceiptSuccessScreen } from './screens/ReceiptSuccessScreen';
@@ -204,15 +203,15 @@ export default function App() {
         <AuthScreen
           onApple={async () => {
             await app.createAccountWithApple();
-            setScreen('onboarding');
+            navigateTab('home');
           }}
           onGmail={async () => {
             await app.createAccountWithGmail();
-            setScreen('onboarding');
+            navigateTab('home');
           }}
           onEmail={async (email) => {
             await app.createAccountWithEmail(email);
-            setScreen('onboarding');
+            navigateTab('home');
           }}
           onGuest={() => {
             app.continueAsGuest();
@@ -221,21 +220,6 @@ export default function App() {
           errorMessage={app.authError}
         />
       );
-    }
-
-    if (!app.completedOnboarding && screen !== 'onboardingSuccess') {
-      return (
-        <OnboardingScreen
-          onComplete={(profile) => {
-            app.completeOnboarding(profile);
-            setScreen('onboardingSuccess');
-          }}
-        />
-      );
-    }
-
-    if (screen === 'onboardingSuccess') {
-      return <OnboardingSuccessScreen onContinue={() => navigateTab('home')} />;
     }
 
     if (screen === 'auth' || screen === 'home') {
@@ -429,7 +413,7 @@ export default function App() {
     return null;
   }
 
-  const showAppChrome = Boolean(app.account) && app.completedOnboarding && screen !== 'onboardingSuccess';
+  const showAppChrome = Boolean(app.account);
 
   return (
     <div className="phone-shell">
