@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { GroceryList, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { WtfFridgeIcon } from '../components/BrandMark';
 
 export function HomeScreen({
   plannedMeals,
@@ -26,7 +27,10 @@ export function HomeScreen({
   return (
     <main className="screen-enter space-y-6">
       <div className="section-enter flex items-center justify-between gap-3">
-        <h1 className="font-display text-[22px] font-extrabold tracking-[-0.03em] text-ink">What The Fridge</h1>
+        <div className="flex min-w-0 items-center gap-2.5">
+          <WtfFridgeIcon size="sm" />
+          <h1 className="truncate font-display text-[22px] font-extrabold tracking-[-0.03em] text-ink">What The Fridge</h1>
+        </div>
         <button
           className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
           onClick={onSettings}
