@@ -22,6 +22,7 @@ export function ScanScreen({
   const [item, setItem] = useState('');
   const [target, setTarget] = useState<'have' | 'need'>('have');
   const [fridgeCameraOpen, setFridgeCameraOpen] = useState(false);
+  const [receiptCameraOpen, setReceiptCameraOpen] = useState(false);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -82,7 +83,14 @@ export function ScanScreen({
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           <FileUploadButton label="Upload" onFile={onReceiptFile} />
-          <FileUploadButton label="Camera" onFile={onReceiptFile} camera />
+          <button
+            type="button"
+            onClick={() => setReceiptCameraOpen(true)}
+            className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-3 text-[15px] font-semibold text-ink shadow-sm transition duration-150 ease-out active:scale-[0.98]"
+          >
+            <Camera className="h-5 w-5" strokeWidth={1.75} />
+            Camera
+          </button>
         </div>
       </Card>
 
@@ -128,6 +136,18 @@ export function ScanScreen({
           onCapture={(file) => {
             setFridgeCameraOpen(false);
             onFridgeFile(file);
+          }}
+        />
+      )}
+
+      {receiptCameraOpen && (
+        <CameraCapture
+          title="Scan receipt"
+          hint="Fit the whole receipt in the frame, then tap the shutter."
+          onClose={() => setReceiptCameraOpen(false)}
+          onCapture={(file) => {
+            setReceiptCameraOpen(false);
+            onReceiptFile(file);
           }}
         />
       )}
