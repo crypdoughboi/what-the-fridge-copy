@@ -1,7 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Apple, Mail } from 'lucide-react';
 import { Button } from '../components/Button';
-import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 
 export function AuthScreen({
@@ -43,58 +42,79 @@ export function AuthScreen({
   }
 
   return (
-    <main className="screen-enter app-scroll flex min-h-full flex-col pb-8">
-      <section className="section-enter flex flex-col items-center px-2 pt-10 text-center">
-        <img src="/wtflogo2.png" alt="What The Fridge" className="h-24 w-24 rounded-[22px] shadow-md" />
-        <h1 className="mt-6 font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">What The Fridge</h1>
-        <p className="mt-3 max-w-[20rem] text-[15px] font-medium leading-[1.5] text-ink-soft">
-          Snap your fridge or a receipt. WTF builds your grocery list and turns it into dinner.
+    <main className="screen-enter flex h-[100dvh] flex-col overflow-y-auto bg-paper">
+      {/* Brand header — the wordmark PNG blends into the green via lighten */}
+      <header className="relative isolate flex justify-center overflow-hidden bg-[linear-gradient(160deg,#3a5e3c_0%,#2f5131_55%,#21301b_100%)] px-6 pb-24 pt-[calc(env(safe-area-inset-top)+40px)]">
+        <img
+          src="/wtftextheader.png"
+          alt="What The Fridge"
+          className="h-40 w-40 mix-blend-lighten"
+        />
+      </header>
+
+      {/* Overlapping card */}
+      <section className="relative z-10 -mt-16 flex-1 rounded-t-[30px] bg-paper px-6 pb-10 pt-8 shadow-[0_-10px_30px_rgba(34,52,32,0.14)]">
+        <h1 className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">Welcome</h1>
+        <p className="mt-2 text-[15px] font-medium leading-[1.5] text-ink-soft">
+          Sign in to turn your fridge into dinner.
         </p>
-      </section>
 
-      <Card className="section-enter stagger-1 mt-8 space-y-3">
-        <Button full icon={<Apple className="h-5 w-5" strokeWidth={1.75} />} disabled={busy !== null} onClick={() => run('apple')}>
-          {busy === 'apple' ? 'Connecting Apple ID' : 'Continue with Apple ID'}
-        </Button>
-        <Button
-          full
-          variant="secondary"
-          icon={<span className="grid h-5 w-5 place-items-center rounded-pill border border-line text-xs font-semibold text-ink">G</span>}
-          disabled={busy !== null}
-          onClick={() => run('gmail')}
-        >
-          {busy === 'gmail' ? 'Connecting Gmail' : 'Continue with Gmail'}
-        </Button>
-
-        <div className="flex items-center gap-3 py-1">
-          <div className="h-px flex-1 bg-line" />
-          <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">or</span>
-          <div className="h-px flex-1 bg-line" />
-        </div>
-
-        <form className="flex gap-2" onSubmit={submitEmail}>
+        <form className="mt-6 space-y-3" onSubmit={submitEmail}>
           <Input
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             placeholder="you@example.com"
-            className="min-w-0 flex-1"
+            className="w-full"
           />
-          <Button type="submit" variant="secondary" className="px-4" icon={<Mail className="h-5 w-5" strokeWidth={1.75} />} disabled={!email.trim() || busy !== null}>
-            {busy === 'email' ? 'Saving' : 'Email'}
+          <Button
+            full
+            type="submit"
+            icon={<Mail className="h-5 w-5" strokeWidth={1.75} />}
+            disabled={!email.trim() || busy !== null}
+          >
+            {busy === 'email' ? 'Sending link…' : 'Email me a sign-in link'}
           </Button>
         </form>
+
+        <div className="my-5 flex items-center gap-3">
+          <div className="h-px flex-1 bg-line" />
+          <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">or continue with</span>
+          <div className="h-px flex-1 bg-line" />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <Button
+            variant="secondary"
+            icon={<Apple className="h-5 w-5" strokeWidth={1.75} />}
+            disabled={busy !== null}
+            onClick={() => run('apple')}
+          >
+            {busy === 'apple' ? '…' : 'Apple'}
+          </Button>
+          <Button
+            variant="secondary"
+            icon={<span className="grid h-5 w-5 place-items-center rounded-pill border border-line text-xs font-semibold text-ink">G</span>}
+            disabled={busy !== null}
+            onClick={() => run('gmail')}
+          >
+            {busy === 'gmail' ? '…' : 'Google'}
+          </Button>
+        </div>
+
         {(localError || errorMessage) && (
-          <div className="rounded-md bg-paper px-4 py-3 text-sm font-semibold leading-relaxed text-ink-soft">
+          <div className="mt-4 rounded-md bg-paper px-4 py-3 text-sm font-semibold leading-relaxed text-ink-soft ring-1 ring-line">
             {localError || errorMessage}
           </div>
         )}
 
-        <Button full variant="ghost" disabled={busy !== null} onClick={() => run('guest')}>
+        <Button full variant="ghost" className="mt-5" disabled={busy !== null} onClick={() => run('guest')}>
           {busy === 'guest' ? 'Starting guest mode' : 'Continue as guest'}
         </Button>
-        <p className="-mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">Guest mode is temporary. Nothing will save after you leave.</p>
-      </Card>
+        <p className="mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">
+          Guest mode is temporary. Nothing will save after you leave.
+        </p>
+      </section>
     </main>
   );
 }
