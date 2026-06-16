@@ -1,7 +1,8 @@
 import { FormEvent, useState } from 'react';
-import { Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
+import { Camera, Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
+import { CameraCapture } from '../components/CameraCapture';
 import { FileUploadButton } from '../components/FileUploadButton';
 import { Input } from '../components/Input';
 import { SampleFridgeVisual, SampleReceiptVisual } from '../components/SampleVisuals';
@@ -20,6 +21,7 @@ export function ScanScreen({
 }) {
   const [item, setItem] = useState('');
   const [target, setTarget] = useState<'have' | 'need'>('have');
+  const [fridgeCameraOpen, setFridgeCameraOpen] = useState(false);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -54,7 +56,14 @@ export function ScanScreen({
         </div>
         <div className="mt-4 grid grid-cols-2 gap-2">
           <FileUploadButton label="Upload" onFile={onFridgeFile} />
-          <FileUploadButton label="Camera" onFile={onFridgeFile} camera />
+          <button
+            type="button"
+            onClick={() => setFridgeCameraOpen(true)}
+            className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-3 text-[15px] font-semibold text-ink shadow-sm transition duration-150 ease-out active:scale-[0.98]"
+          >
+            <Camera className="h-5 w-5" strokeWidth={1.75} />
+            Camera
+          </button>
         </div>
       </Card>
 
@@ -112,6 +121,16 @@ export function ScanScreen({
           </Button>
         </form>
       </Card>
+
+      {fridgeCameraOpen && (
+        <CameraCapture
+          onClose={() => setFridgeCameraOpen(false)}
+          onCapture={(file) => {
+            setFridgeCameraOpen(false);
+            onFridgeFile(file);
+          }}
+        />
+      )}
     </main>
   );
 }
