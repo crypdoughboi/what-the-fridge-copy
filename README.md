@@ -22,7 +22,7 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 - Four-tab navigation: Home, List, Meals, Scan. Spend is kept out of primary navigation for now.
 - Meals flow with dinner-lane picker, one-at-a-time meal ideas, Save, Skip, Make this week, ingredient review, This Week, Saved, and Made Before states.
 - Smart grocery list with live checkoff circles, Need to Buy, Already Have, ingredient deduping, and Used For meal metadata.
-- Receipt scanner flow with real `input type="file"` controls, `accept="image/*"`, and camera capture support.
+- Receipt scanner flow with file upload, a live in-app camera viewfinder (`getUserMedia`), and Claude vision OCR.
 - Receipt OCR loading, extracted item review, edit/remove/not-grocery actions, and confirmation.
 - Fridge and pantry scanner flow with file upload, a live in-app camera viewfinder (`getUserMedia`) for scanning, mock recognition, confidence groups, and list update.
 - Scan tab with receipt scan, fridge or pantry scan, and manual item entry into Already Have or Need to Buy.
@@ -125,12 +125,17 @@ Important behavior:
 
 Receipt OCR lives in `src/services/receiptOcrService.ts`.
 
-Good future options:
-- Google Vision
-- AWS Textract
-- Azure Form Recognizer
-- OpenAI vision
-- Dedicated receipt parser API
+Real OCR runs Claude vision in the `scan-receipt` Supabase Edge Function
+(`supabase/functions/scan-receipt/index.ts`), which keeps the Anthropic API key
+server-side and returns structured line items (rawName, price, isGrocery) plus
+store/date/total via structured outputs. The client runs the returned line items
+through the app's own `buildReceiptItems` so normalization/categorization matches
+the rest of the app, and falls back to sample data when Supabase or the key isn't
+configured.
+
+To enable it (shares the `ANTHROPIC_API_KEY` secret with `scan-fridge`):
+- `supabase functions deploy scan-receipt`
+- `supabase secrets set ANTHROPIC_API_KEY=sk-ant-...`
 
 Fridge and pantry recognition lives in `src/services/fridgeVisionService.ts`.
 

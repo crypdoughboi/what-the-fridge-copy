@@ -1,5 +1,7 @@
-import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowLeft, Camera } from 'lucide-react';
 import { Card } from '../components/Card';
+import { CameraCapture } from '../components/CameraCapture';
 import { FileUploadButton } from '../components/FileUploadButton';
 import { SampleReceiptVisual } from '../components/SampleVisuals';
 
@@ -12,6 +14,8 @@ export function ReceiptScanScreen({
   onBack: () => void;
   onFile: (file: File) => void;
 }) {
+  const [cameraOpen, setCameraOpen] = useState(false);
+
   return (
     <main className="screen-enter space-y-5">
       <button className="inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
@@ -34,9 +38,28 @@ export function ReceiptScanScreen({
         )}
         <div className="mt-4 grid grid-cols-2 gap-2">
           <FileUploadButton label="Upload" onFile={onFile} />
-          <FileUploadButton label="Camera" onFile={onFile} camera />
+          <button
+            type="button"
+            onClick={() => setCameraOpen(true)}
+            className="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-md border border-line bg-surface px-4 py-3 text-[15px] font-semibold text-ink shadow-sm transition duration-150 ease-out active:scale-[0.98]"
+          >
+            <Camera className="h-5 w-5" strokeWidth={1.75} />
+            Camera
+          </button>
         </div>
       </Card>
+
+      {cameraOpen && (
+        <CameraCapture
+          title="Scan receipt"
+          hint="Fit the whole receipt in the frame, then tap the shutter."
+          onClose={() => setCameraOpen(false)}
+          onCapture={(file) => {
+            setCameraOpen(false);
+            onFile(file);
+          }}
+        />
+      )}
     </main>
   );
 }
