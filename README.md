@@ -134,11 +134,21 @@ Good future options:
 
 Fridge and pantry recognition lives in `src/services/fridgeVisionService.ts`.
 
-Good future options:
-- OpenAI vision
-- Image classification
-- Structured JSON output with confidence labels
-- Household purchase and list history for conservative results
+Real recognition runs Claude vision in the `scan-fridge` Supabase Edge Function
+(`supabase/functions/scan-fridge/index.ts`), which keeps the Anthropic API key
+server-side and returns structured items (name, category, store section,
+confidence, note) via structured outputs. The client converts the captured photo
+to base64 and calls the function with `supabase.functions.invoke`. When Supabase
+or the key isn't configured, it falls back to sample data so the flow still works
+in local/demo mode.
+
+To enable it:
+- `supabase functions deploy scan-fridge`
+- `supabase secrets set ANTHROPIC_API_KEY=sk-ant-...`
+
+Possible future improvements:
+- Household purchase and list history for more conservative results
+- Confidence threshold tuning per item category
 
 Meal generation lives in `src/services/mealGenerationService.ts`.
 
