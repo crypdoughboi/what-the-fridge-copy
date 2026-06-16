@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { GroceryList, MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { Logo } from '../components/BrandMark';
+import { Wordmark } from '../components/BrandMark';
 
 export function HomeScreen({
   plannedMeals,
@@ -26,10 +26,10 @@ export function HomeScreen({
 
   return (
     <main className="screen-enter space-y-6">
-      <div className="section-enter flex items-center justify-between gap-3">
-        <Logo />
+      <div className="section-enter relative flex justify-center">
+        <Wordmark className="h-28 w-28 rounded-2xl shadow-md" />
         <button
-          className="grid h-12 w-12 shrink-0 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
+          className="absolute right-0 top-0 grid h-12 w-12 shrink-0 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
           onClick={onSettings}
           aria-label="Account"
           title="Account"
