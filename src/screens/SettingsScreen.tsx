@@ -3,11 +3,9 @@ import { ArrowLeft, Download, LogOut, Shield, Trash2, UserPlus } from 'lucide-re
 import { OnboardingProfile, UserAccount } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
-import { FriendRebuys } from '../components/FriendRebuys';
 import { Input } from '../components/Input';
 import { Pill } from '../components/Pill';
 import { SectionHeader } from '../components/SectionHeader';
-import { friendRebuys } from '../data/mockData';
 import { exportUserData, deleteUserData } from '../services/dataPrivacyService';
 import { inviteHouseholdMember } from '../services/householdSharingService';
 import { startSubscriptionCheckout } from '../services/subscriptionPaymentService';
@@ -15,21 +13,17 @@ import { startSubscriptionCheckout } from '../services/subscriptionPaymentServic
 export function SettingsScreen({
   account,
   profile,
-  recommendedItems,
+  profileConfigured,
+  receiptCount,
   onBack,
-  onRecommend,
-  onKeepPrivate,
-  onAddToList,
   onToast,
   onSignOut,
 }: {
   account: UserAccount;
   profile: OnboardingProfile;
-  recommendedItems: string[];
+  profileConfigured: boolean;
+  receiptCount: number;
   onBack: () => void;
-  onRecommend: (item: string) => void;
-  onKeepPrivate: (item: string) => void;
-  onAddToList: (item: string) => void;
   onToast: (message: string) => void;
   onSignOut: () => Promise<void>;
 }) {
@@ -86,6 +80,9 @@ export function SettingsScreen({
         <div className="mt-3 rounded-md bg-paper p-3">
           <p className="text-[15px] font-semibold text-ink">{account.email}</p>
           <p className="mt-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Signed in with {providerLabel}</p>
+          {account.provider !== 'guest' && (
+            <p className="mt-2 text-[13px] font-medium text-muted">Member since {formatMemberSince(account.createdAt)}</p>
+          )}
         </div>
         <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">
           {account.provider === 'guest'
@@ -94,35 +91,46 @@ export function SettingsScreen({
         </p>
       </Card>
 
-      <Card>
-        <SectionHeader eyebrow="Household" title={profile.householdSize} />
-        <p className="mt-2 text-[14px] font-medium text-ink-soft">Main stores: {profile.stores.length ? profile.stores.join(', ') : 'None selected yet'}.</p>
-        <div className="mt-4 flex gap-2">
-          <Input
-            value={inviteEmail}
-            onChange={(event) => setInviteEmail(event.target.value)}
-            placeholder="person@example.com"
-            className="min-w-0 flex-1"
-          />
-          <Button className="px-3" icon={<UserPlus className={`h-5 w-5 ${busy === 'invite' ? 'animate-pulse' : ''}`} strokeWidth={1.75} />} onClick={invite}>
-            Invite
-          </Button>
-        </div>
-      </Card>
+      {profileConfigured ? (
+        <>
+          <Card>
+            <SectionHeader eyebrow="Household" title={profile.householdSize} />
+            <p className="mt-2 text-[14px] font-medium text-ink-soft">Main stores: {profile.stores.length ? profile.stores.join(', ') : 'None selected yet'}.</p>
+            <div className="mt-4 flex gap-2">
+              <Input
+                value={inviteEmail}
+                onChange={(event) => setInviteEmail(event.target.value)}
+                placeholder="person@example.com"
+                className="min-w-0 flex-1"
+              />
+              <Button className="px-3" icon={<UserPlus className={`h-5 w-5 ${busy === 'invite' ? 'animate-pulse' : ''}`} strokeWidth={1.75} />} onClick={invite}>
+                Invite
+              </Button>
+            </div>
+          </Card>
 
-      <Card>
-        <SectionHeader eyebrow="Food" title="Preferences" />
-        <div className="mt-3 flex flex-wrap gap-2">
-          {profile.dietaryPreferences.map((preference) => (
-            <Pill key={preference} tone="green">
-              {preference}
-            </Pill>
-          ))}
-          <Pill>{profile.cookingStyle}</Pill>
-          <Pill>{profile.weeklyGoal}</Pill>
-        </div>
-        {profile.foodsToAvoid && <p className="mt-3 text-[14px] font-semibold text-ink-soft">Avoid: {profile.foodsToAvoid}</p>}
-      </Card>
+          <Card>
+            <SectionHeader eyebrow="Food" title="Preferences" />
+            <div className="mt-3 flex flex-wrap gap-2">
+              {profile.dietaryPreferences.map((preference) => (
+                <Pill key={preference} tone="green">
+                  {preference}
+                </Pill>
+              ))}
+              <Pill>{profile.cookingStyle}</Pill>
+              <Pill>{profile.weeklyGoal}</Pill>
+            </div>
+            {profile.foodsToAvoid && <p className="mt-3 text-[14px] font-semibold text-ink-soft">Avoid: {profile.foodsToAvoid}</p>}
+          </Card>
+        </>
+      ) : (
+        <Card>
+          <SectionHeader eyebrow="Preferences" title="No preferences saved yet" />
+          <p className="mt-3 text-[14px] font-medium leading-relaxed text-ink-soft">
+            Household, store, and food preferences will appear here after you add them.
+          </p>
+        </Card>
+      )}
 
       <Card>
         <div className="flex items-start gap-3">
@@ -144,22 +152,17 @@ export function SettingsScreen({
 
       <Card>
         <SectionHeader eyebrow="History" title="Receipt history" />
-        <div className="mt-3 space-y-2">
-          {["Trader Joe's - $86.42 - today", 'Whole Foods - $48.13 - 4 days ago', 'Target - $38.05 - 9 days ago'].map((receipt) => (
-            <div key={receipt} className="rounded-md bg-paper p-3 text-[14px] font-semibold text-ink">
-              {receipt}
-            </div>
-          ))}
+        <div className="mt-3 rounded-md bg-paper p-3">
+          <p className="text-[15px] font-semibold text-ink">
+            {receiptCount === 0 ? 'No receipts scanned yet' : `${receiptCount} ${receiptCount === 1 ? 'receipt' : 'receipts'} scanned`}
+          </p>
+          <p className="mt-2 text-[13px] font-medium leading-relaxed text-muted">
+            {receiptCount === 0
+              ? 'Your receipt activity will appear here after your first scan.'
+              : 'This count reflects receipts saved to your profile on this device.'}
+          </p>
         </div>
       </Card>
-
-      <FriendRebuys
-        items={friendRebuys}
-        recommendedItems={recommendedItems}
-        onRecommend={onRecommend}
-        onKeepPrivate={onKeepPrivate}
-        onAddToList={onAddToList}
-      />
 
       <Card>
         <SectionHeader eyebrow="Data" title="Data and subscription" />
@@ -182,4 +185,10 @@ export function SettingsScreen({
       </Button>
     </main>
   );
+}
+
+function formatMemberSince(createdAt: string): string {
+  const date = new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return 'your first sign-in';
+  return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date);
 }

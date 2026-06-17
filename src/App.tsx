@@ -245,10 +245,6 @@ export default function App() {
     if (!app.account) {
       return (
         <AuthScreen
-          onApple={async () => {
-            await app.createAccountWithApple();
-            navigateTab('home');
-          }}
           onGmail={async () => {
             await app.createAccountWithGmail();
             navigateTab('home');
@@ -458,11 +454,9 @@ export default function App() {
         <SettingsScreen
           account={app.account}
           profile={app.profile}
-          recommendedItems={app.recommendedItems}
+          profileConfigured={app.account.provider !== 'guest' && app.completedOnboarding}
+          receiptCount={app.receiptCount}
           onBack={() => goBack(activeTab)}
-          onRecommend={app.recommendItem}
-          onKeepPrivate={app.keepPrivate}
-          onAddToList={app.addManualItem}
           onToast={app.showToast}
           onSignOut={async () => {
             await app.signOutAccount();

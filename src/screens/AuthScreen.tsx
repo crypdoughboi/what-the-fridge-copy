@@ -1,31 +1,28 @@
 import { FormEvent, useState } from 'react';
-import { Apple, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
 export function AuthScreen({
-  onApple,
   onGmail,
   onEmail,
   onGuest,
   errorMessage,
 }: {
-  onApple: () => Promise<void>;
   onGmail: () => Promise<void>;
   onEmail: (email: string) => Promise<void>;
   onGuest: () => void;
   errorMessage?: string | null;
 }) {
   const [email, setEmail] = useState('');
-  const [busy, setBusy] = useState<'apple' | 'gmail' | 'email' | 'guest' | null>(null);
+  const [busy, setBusy] = useState<'gmail' | 'email' | 'guest' | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  async function run(provider: 'apple' | 'gmail' | 'email' | 'guest') {
+  async function run(provider: 'gmail' | 'email' | 'guest') {
     try {
       setLocalError(null);
       setBusy(provider);
-      if (provider === 'apple') await onApple();
       if (provider === 'gmail') await onGmail();
       if (provider === 'email') await onEmail(email);
       if (provider === 'guest') onGuest();
@@ -43,21 +40,19 @@ export function AuthScreen({
   }
 
   return (
-    <main className="screen-enter flex flex-1 flex-col overflow-y-auto bg-paper px-6 pb-10 pt-[calc(env(safe-area-inset-top)+56px)]">
-      {/* Brand */}
-      <div className="flex flex-col items-center">
-        <WtfFridgeIcon size="xl" />
-        <WordmarkText tone="light" className="mt-4 text-center" />
+    <main className="screen-enter flex flex-1 flex-col justify-center overflow-hidden bg-paper px-5 pb-[env(safe-area-inset-bottom)] pt-[calc(env(safe-area-inset-top)+12px)]">
+      <div className="flex items-center justify-center gap-3">
+        <WtfFridgeIcon size="sm" />
+        <WordmarkText tone="light" />
       </div>
 
-      {/* Card */}
-      <section className="mt-8 rounded-[24px] border border-line bg-surface px-6 pb-8 pt-7 shadow-md">
-        <h1 className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">Welcome</h1>
-        <p className="mt-2 text-[15px] font-medium leading-[1.5] text-ink-soft">
+      <section className="mt-3 rounded-[24px] border border-line bg-surface px-5 py-4 shadow-md">
+        <h1 className="font-display text-[28px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">Welcome</h1>
+        <p className="mt-1 text-[14px] font-medium leading-5 text-ink-soft">
           Sign in to turn your fridge into dinner.
         </p>
 
-        <form className="mt-6 space-y-3" onSubmit={submitEmail}>
+        <form className="mt-3 space-y-2" onSubmit={submitEmail}>
           <Input
             type="email"
             value={email}
@@ -75,41 +70,32 @@ export function AuthScreen({
           </Button>
         </form>
 
-        <div className="my-5 flex items-center gap-3">
+        <div className="my-3 flex items-center gap-3">
           <div className="h-px flex-1 bg-line" />
           <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-muted">or continue with</span>
           <div className="h-px flex-1 bg-line" />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <Button
-            variant="secondary"
-            icon={<Apple className="h-5 w-5" strokeWidth={1.75} />}
-            disabled={busy !== null}
-            onClick={() => run('apple')}
-          >
-            {busy === 'apple' ? '…' : 'Apple'}
-          </Button>
-          <Button
-            variant="secondary"
-            icon={<span className="grid h-5 w-5 place-items-center rounded-pill border border-line text-xs font-semibold text-ink">G</span>}
-            disabled={busy !== null}
-            onClick={() => run('gmail')}
-          >
-            {busy === 'gmail' ? '…' : 'Google'}
-          </Button>
-        </div>
+        <Button
+          full
+          variant="secondary"
+          icon={<span className="grid h-5 w-5 place-items-center rounded-pill border border-line text-xs font-semibold text-ink">G</span>}
+          disabled={busy !== null}
+          onClick={() => run('gmail')}
+        >
+          {busy === 'gmail' ? 'Opening Google…' : 'Continue with Google'}
+        </Button>
 
         {(localError || errorMessage) && (
-          <div className="mt-4 rounded-md bg-paper px-4 py-3 text-sm font-semibold leading-relaxed text-ink-soft ring-1 ring-line">
+          <div className="mt-3 rounded-md bg-paper px-3 py-2 text-[12px] font-semibold leading-4 text-ink-soft ring-1 ring-line">
             {localError || errorMessage}
           </div>
         )}
 
-        <Button full variant="ghost" className="mt-5" disabled={busy !== null} onClick={() => run('guest')}>
+        <Button full variant="ghost" className="mt-3" disabled={busy !== null} onClick={() => run('guest')}>
           {busy === 'guest' ? 'Starting guest mode' : 'Continue as guest'}
         </Button>
-        <p className="mt-1 text-center text-[12px] font-medium leading-relaxed text-muted">
+        <p className="mt-1 text-center text-[11px] font-medium leading-4 text-muted">
           Guest mode is temporary. Nothing will save after you leave.
         </p>
       </section>
