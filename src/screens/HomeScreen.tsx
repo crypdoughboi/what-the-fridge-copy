@@ -18,8 +18,8 @@ export function HomeScreen({
   onSettings: () => void;
 }) {
   return (
-    <div className="app-scroll-home screen-enter">
-      <header className="flex items-center justify-between">
+    <div className="app-scroll-home screen-enter flex flex-col">
+      <header className="flex shrink-0 items-center justify-between">
         <div className="flex items-center gap-2.5">
           <WtfFridgeIcon size="sm" />
           <WordmarkText tone="light" />
@@ -38,20 +38,20 @@ export function HomeScreen({
       <button
         type="button"
         onClick={onCook}
-        className="section-enter stagger-1 relative mt-5 block w-full overflow-hidden rounded-[28px] border border-line/60 bg-cream p-6 text-left shadow-md transition active:scale-[0.99]"
+        className="section-enter stagger-1 relative mt-4 block w-full shrink-0 overflow-hidden rounded-[28px] border border-line/60 bg-cream p-5 text-left shadow-md transition active:scale-[0.99]"
       >
-        <ProduceArt className="pointer-events-none absolute -right-4 top-1 h-44 w-44" />
+        <ProduceArt className="pointer-events-none absolute -right-4 top-1 h-40 w-40" />
         <div className="relative max-w-[64%]">
           <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-olive">Tonight</p>
-          <h1 className="mt-2 font-serif text-[40px] font-bold leading-[0.95] tracking-[-0.01em] text-ink">What should I make?</h1>
-          <span className="mt-5 inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-3 text-[15px] font-semibold text-surface shadow-sm">
+          <h1 className="mt-1.5 font-serif text-[34px] font-bold leading-[0.96] tracking-[-0.01em] text-ink">What should I make?</h1>
+          <span className="mt-4 inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-2.5 text-[15px] font-semibold text-surface shadow-sm">
             Cook now
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </span>
         </div>
       </button>
 
-      <div className="section-enter stagger-2 mt-4 grid grid-cols-2 gap-3.5">
+      <div className="section-enter stagger-2 mt-3 grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-3">
         <Tile iconColor="text-accent" icon={<NotebookText className="h-6 w-6" strokeWidth={1.75} />} title="Grocery List" onClick={onGoList} />
         <Tile iconColor="text-terracotta" icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />} title="Scan" onClick={onGoScan} />
         <Tile iconColor="text-olive" icon={<Boxes className="h-6 w-6" strokeWidth={1.75} />} title="Inventory" onClick={onInventory} />
@@ -66,7 +66,7 @@ function Tile({ icon, iconColor, title, onClick }: { icon: ReactNode; iconColor:
     <button
       type="button"
       onClick={onClick}
-      className="relative flex aspect-[7/6] flex-col justify-between overflow-hidden rounded-[22px] border border-line/70 bg-surface p-4 text-left shadow-sm transition active:scale-[0.98]"
+      className="relative flex h-full min-h-[96px] flex-col justify-between overflow-hidden rounded-[22px] border border-line/70 bg-surface p-4 text-left shadow-sm transition active:scale-[0.98]"
     >
       <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-paper ${iconColor}`}>{icon}</span>
       <span className="relative z-10 flex items-end justify-between">
