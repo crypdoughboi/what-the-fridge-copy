@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { Apple, Mail } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
+import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
 export function AuthScreen({
   onApple,
@@ -43,13 +44,10 @@ export function AuthScreen({
 
   return (
     <main className="screen-enter flex h-[100dvh] flex-col overflow-y-auto bg-paper">
-      {/* Brand header — the wordmark PNG blends into the green via lighten */}
-      <header className="relative isolate flex justify-center overflow-hidden bg-[linear-gradient(160deg,#3a5e3c_0%,#2f5131_55%,#21301b_100%)] px-6 pb-24 pt-[calc(env(safe-area-inset-top)+40px)]">
-        <img
-          src="/wtftextheader.png"
-          alt="What The Fridge"
-          className="h-40 w-40 mix-blend-lighten"
-        />
+      {/* Brand header */}
+      <header className="relative isolate flex flex-col items-center gap-4 overflow-hidden bg-[linear-gradient(160deg,#2C5036_0%,#1F3D2B_55%,#162E20_100%)] px-6 pb-24 pt-[calc(env(safe-area-inset-top)+48px)]">
+        <WtfFridgeIcon size="xl" />
+        <WordmarkText tone="dark" className="text-center" />
       </header>
 
       {/* Overlapping card */}

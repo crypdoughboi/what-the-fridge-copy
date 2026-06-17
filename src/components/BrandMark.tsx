@@ -1,45 +1,35 @@
 type LogoSize = 'sm' | 'md' | 'lg' | 'xl';
 
 const iconSizes = {
-  sm: 'h-11 w-11 rounded-md',
-  md: 'h-14 w-14 rounded-lg',
-  lg: 'h-16 w-16 rounded-lg',
-  xl: 'h-[58px] w-[58px] rounded-lg',
+  sm: 'h-11 w-11 rounded-[14px]',
+  md: 'h-14 w-14 rounded-2xl',
+  lg: 'h-16 w-16 rounded-2xl',
+  xl: 'h-20 w-20 rounded-[22px]',
 };
 
-export function WtfFridgeIcon({ size = 'md' }: { size?: LogoSize }) {
+export function WtfFridgeIcon({ size = 'md', className = '' }: { size?: LogoSize; className?: string }) {
+  return <img src="/wtf-logo.png" alt="What The Fridge logo" className={`shrink-0 object-cover shadow-md ${iconSizes[size]} ${className}`} />;
+}
+
+/**
+ * The "What The Fridge" wordmark as a stacked serif lockup.
+ * `tone` controls color for light (forest text) vs. dark (cream text) backgrounds.
+ */
+export function WordmarkText({ tone = 'light', className = '' }: { tone?: 'dark' | 'light'; className?: string }) {
+  const color = tone === 'dark' ? 'text-cream' : 'text-ink';
   return (
-    <img
-      src="/wtflogo2.png"
-      alt="What The Fridge logo"
-      className={`shrink-0 object-cover shadow-sm ${iconSizes[size]}`}
-    />
+    <div className={`font-serif leading-[0.86] ${color} ${className}`}>
+      <span className="block text-[15px] font-semibold tracking-[0.01em]">What The</span>
+      <span className="block text-[26px] font-bold tracking-[-0.01em]">Fridge</span>
+    </div>
   );
 }
 
-/** The "WHAT THE FRIDGE" wordmark lockup (raster art on its own tile). */
-export function Wordmark({ className = '' }: { className?: string }) {
-  return <img src="/wtftextheader.png" alt="What The Fridge" className={`object-cover ${className}`} />;
-}
-
-export function Logo({ compact = false, hero = false }: { compact?: boolean; hero?: boolean }) {
+export function Logo({ compact = false, tone = 'light' }: { compact?: boolean; tone?: 'dark' | 'light' }) {
   return (
-    <div className={`flex ${hero ? '-mx-3 w-[calc(100%+24px)] items-center gap-2' : 'items-center gap-3'}`}>
-      <WtfFridgeIcon size={hero ? 'xl' : 'sm'} />
-      {!compact && (
-        <div className={`${hero ? 'flex min-w-0 flex-1 items-center' : 'leading-tight'}`}>
-          {!hero && <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-accent">WTF</div>}
-          <div
-            className={
-              hero
-                ? 'w-full whitespace-nowrap font-brand text-[clamp(2.25rem,10.2vw,2.75rem)] font-extrabold leading-[0.9] tracking-[-0.07em] text-ink'
-                : 'font-brand text-[19px] font-extrabold tracking-[-0.04em] text-ink'
-            }
-          >
-            What The Fridge
-          </div>
-        </div>
-      )}
+    <div className="flex items-center gap-3">
+      <WtfFridgeIcon size="sm" />
+      {!compact && <WordmarkText tone={tone} />}
     </div>
   );
 }

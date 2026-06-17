@@ -269,12 +269,11 @@ export default function App() {
     if (screen === 'auth' || screen === 'home') {
       return (
         <HomeScreen
-          plannedMeals={app.plannedMeals}
-          list={app.groceryList}
-          onStartMealIdeas={() => openMealPreferences('scratch')}
+          onCook={() => openMealPreferences('scratch')}
           onGoList={() => navigateTab('list')}
-          onGoMeals={() => navigateTab('meals')}
           onGoScan={() => navigateTab('scan')}
+          onInventory={openFridgeScan}
+          onCompare={openDelivery}
           onSettings={() => pushScreen('settings')}
         />
       );
@@ -478,10 +477,12 @@ export default function App() {
   }
 
   const showAppChrome = Boolean(app.account);
+  // Home paints its own full-bleed forest canvas, so it skips the standard padded scroll wrapper.
+  const isHomeCanvas = showAppChrome && (screen === 'home' || screen === 'auth');
 
   return (
     <div className="phone-shell">
-      {showAppChrome ? <div className="app-scroll app-scroll-with-nav">{renderScreen()}</div> : renderScreen()}
+      {!showAppChrome || isHomeCanvas ? renderScreen() : <div className="app-scroll app-scroll-with-nav">{renderScreen()}</div>}
       {showAppChrome && <BottomNav activeTab={activeTab} onTabChange={navigateTab} />}
       <Toast message={app.toast} />
     </div>
