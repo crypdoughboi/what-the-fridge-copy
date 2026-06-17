@@ -921,6 +921,7 @@ export function useGroceryAppState() {
     hasGroceryData,
     knownIngredientNames,
     hasReceiptHistory: receiptCount > 0,
+    receiptCount,
     useSoon,
     deliveryLineItems,
     behavior,
