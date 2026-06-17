@@ -20,11 +20,15 @@ import { ReceiptReviewScreen } from './screens/ReceiptReviewScreen';
 import { ReceiptScanScreen } from './screens/ReceiptScanScreen';
 import { ReceiptSuccessScreen } from './screens/ReceiptSuccessScreen';
 import { ScanScreen } from './screens/ScanScreen';
+import { RecipeImportScreen } from './screens/RecipeImportScreen';
+import { RecipeReviewScreen } from './screens/RecipeReviewScreen';
+import { DeliveryScreen } from './screens/DeliveryScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SpendScreen } from './screens/SpendScreen';
 import { getMealNeededNames } from './services/mealGenerationService';
+import { importRecipeFromImage } from './services/recipeImportService';
 import { defaultMealPreferences, restrictionsFromProfile } from './data/mealPreferenceOptions';
-import { DeckMeal, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
+import { DeckMeal, DeliveryQuote, ImportedRecipe, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
 
 const receiptLoadingSteps = [
   'Reading the receipt...',
@@ -38,6 +42,13 @@ const fridgeLoadingSteps = [
   'Looking for things you already have...',
   "Building your don't-buy list...",
   'Finding dinner in the chaos...',
+];
+
+const recipeLoadingSteps = [
+  'Reading the recipe...',
+  'Pulling out the ingredients...',
+  'Sorting staples from groceries...',
+  'Matching it to your list...',
 ];
 
 const authLoadingSteps = ['Checking your account...', 'Loading your saved setup...', 'Keeping receipts private...'];
@@ -60,6 +71,9 @@ export default function App() {
   const [fridgePreviewUrl, setFridgePreviewUrl] = useState<string | null>(null);
   const [receiptLoading, setReceiptLoading] = useState(false);
   const [fridgeLoading, setFridgeLoading] = useState(false);
+  const [recipe, setRecipe] = useState<ImportedRecipe | null>(null);
+  const [recipePreviewUrl, setRecipePreviewUrl] = useState<string | null>(null);
+  const [recipeLoading, setRecipeLoading] = useState(false);
 
   const needToBuyNames = useMemo(
     () => [...app.groceryList.buyNow, ...app.groceryList.maybeBuy].map((entry) => entry.name),
@@ -122,6 +136,36 @@ export default function App() {
     setFridgeItems(items);
     setFridgeLoading(false);
     pushScreen('fridgeResult', 'scan');
+  }
+
+  function openRecipeImport() {
+    setRecipePreviewUrl(null);
+    pushScreen('recipeImport', 'scan');
+  }
+
+  async function startRecipeImport(file?: File | null) {
+    if (file) setRecipePreviewUrl(URL.createObjectURL(file));
+    setActiveTab('scan');
+    setScreen('recipeImport');
+    setRecipeLoading(true);
+    const imported = await importRecipeFromImage(file);
+    setRecipe(imported);
+    setRecipeLoading(false);
+    pushScreen('recipeReview', 'scan');
+  }
+
+  function addRecipeToList(recipeTitle: string, neededNames: string[]) {
+    app.addRecipeToList(recipeTitle, neededNames);
+    navigateTab('list');
+  }
+
+  function openDelivery() {
+    pushScreen('delivery', 'list');
+  }
+
+  function checkoutDelivery(quote: DeliveryQuote) {
+    window.open(quote.url, '_blank', 'noopener,noreferrer');
+    app.showToast(`Opening ${quote.providerName} to finish your order.`);
   }
 
   function confirmReceipt(extraction: ReceiptExtraction) {
@@ -249,6 +293,7 @@ export default function App() {
           onScanReceipt={openReceiptScan}
           onSnapFridge={openFridgeScan}
           onGoScan={() => navigateTab('scan')}
+          onGetDelivered={openDelivery}
           onStartMealIdeas={() => openMealPreferences('scratch')}
         />
       );
@@ -259,6 +304,7 @@ export default function App() {
         <ScanScreen
           onReceiptFile={startReceiptScan}
           onFridgeFile={startFridgeScan}
+          onImportRecipe={openRecipeImport}
           onAddNeed={app.addManualItem}
           onAddHave={app.addAlreadyHaveItem}
         />
@@ -291,6 +337,24 @@ export default function App() {
 
     if (screen === 'fridgeResult') {
       return <FridgeResultScreen items={fridgeItems} onBack={() => goBack('fridgeScan')} onUpdateList={updateFromFridge} onScanPantry={openFridgeScan} />;
+    }
+
+    if (screen === 'recipeImport') {
+      return recipeLoading ? (
+        <LoadingState title="Reading recipe" steps={recipeLoadingSteps} />
+      ) : (
+        <RecipeImportScreen previewUrl={recipePreviewUrl} onBack={() => goBack('scan')} onFile={startRecipeImport} />
+      );
+    }
+
+    if (screen === 'recipeReview' && recipe) {
+      return <RecipeReviewScreen recipe={recipe} onBack={() => goBack('recipeImport')} onAddToList={addRecipeToList} />;
+    }
+
+    if (screen === 'delivery') {
+      return (
+        <DeliveryScreen items={app.deliveryLineItems} onBack={() => goBack('list')} onGoList={() => navigateTab('list')} onCheckout={checkoutDelivery} />
+      );
     }
 
     if (screen === 'meals') {

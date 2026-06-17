@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Camera, ReceiptText, RefreshCcw, ScanLine } from 'lucide-react';
+import { Camera, ReceiptText, RefreshCcw, ScanLine, Truck } from 'lucide-react';
 import { GroceryList, GroceryListEntry } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -20,6 +20,7 @@ export function ListScreen({
   onScanReceipt,
   onSnapFridge,
   onGoScan,
+  onGetDelivered,
   onStartMealIdeas,
 }: {
   list: GroceryList;
@@ -32,6 +33,7 @@ export function ListScreen({
   onScanReceipt: () => void;
   onSnapFridge: () => void;
   onGoScan: () => void;
+  onGetDelivered: () => void;
   onStartMealIdeas: () => void;
 }) {
   const [manualItem, setManualItem] = useState('');
@@ -136,6 +138,11 @@ export function ListScreen({
           />
 
           <div className="grid gap-2">
+            {needToBuy.length > 0 && (
+              <Button icon={<Truck className="h-5 w-5" strokeWidth={1.75} />} onClick={onGetDelivered}>
+                Get it delivered — compare prices
+              </Button>
+            )}
             <button className="w-full rounded-md border border-line bg-surface px-4 py-4 text-center text-[15px] font-semibold text-ink shadow-sm" onClick={onStartMealIdeas}>
               Turn this list into dinner ideas
             </button>

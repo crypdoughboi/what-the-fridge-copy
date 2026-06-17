@@ -25,7 +25,9 @@ Then open the local URL from Vite. The app is designed around a 390px mobile vie
 - Receipt scanner flow with file upload, a live in-app camera viewfinder (`getUserMedia`), and Claude vision OCR.
 - Receipt OCR loading, extracted item review, edit/remove/not-grocery actions, and confirmation.
 - Fridge and pantry scanner flow with file upload, a live in-app camera viewfinder (`getUserMedia`) for scanning, mock recognition, confidence groups, and list update.
-- Scan tab with receipt scan, fridge or pantry scan, and manual item entry into Already Have or Need to Buy.
+- Import recipe flow: upload a screenshot or take a photo of any recipe, Claude vision extracts the title, ingredients, and steps, then a review screen lets the user mark each ingredient Need to Buy, Already Have, or Skip before adding the missing ones to the list.
+- Shopping delivery comparison: turn the Need to Buy list into a simple side-by-side price estimate across local curbside pickup, Instacart, DoorDash, and Uber Eats, sorted cheapest-first with delivery and service fees and an estimated ETA, then hand off to the chosen service.
+- Scan tab with receipt scan, fridge or pantry scan, recipe import, and manual item entry into Already Have or Need to Buy.
 - Settings/profile with privacy controls, receipt history, data export/delete placeholders, subscription placeholder, and Friend Rebuys preview.
 - Web-native WTF fridge logo treatment based on the provided blue fridge mark, used in the app header, auth screen, and PWA icon.
 
@@ -154,6 +156,31 @@ To enable it:
 Possible future improvements:
 - Household purchase and list history for more conservative results
 - Confidence threshold tuning per item category
+
+Recipe import lives in `src/services/recipeImportService.ts`.
+
+Real extraction runs Claude vision in the `import-recipe` Supabase Edge Function
+(`supabase/functions/import-recipe/index.ts`), which keeps the Anthropic API key
+server-side and returns the structured recipe (title, description, servings, total
+time, ingredients with `name`/`displayQuantity`/`optional`/`pantryStaple`, and
+steps) via structured outputs. The client maps each ingredient through the app's own
+normalization/categorization and defaults pantry staples to Already Have and
+garnishes to Skip. It falls back to a sample recipe when Supabase or the key isn't
+configured so the flow still works in local/demo mode.
+
+To enable it (shares the `ANTHROPIC_API_KEY` secret with `scan-receipt`/`scan-fridge`):
+- `supabase functions deploy import-recipe`
+- `supabase secrets set ANTHROPIC_API_KEY=sk-ant-...`
+
+Shopping delivery comparison lives in `src/services/deliveryComparisonService.ts`.
+
+This is a prototype price estimator: it builds a base in-store price per Need to Buy
+item from the user's own purchase history (with a category-average fallback), then
+applies each provider's typical item markup, delivery fee, and service fee to produce
+a comparable estimated total and ETA per provider. The "Continue to {provider}" action
+opens the provider's site to finish the order. The real version should call each
+provider's cart/quote API (Instacart, DoorDash, Uber Eats, retailer curbside) for live
+pricing, availability, and checkout/deep-link handoff.
 
 Meal generation lives in `src/services/mealGenerationService.ts`.
 
