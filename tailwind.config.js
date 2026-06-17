@@ -32,10 +32,10 @@ export default {
         hero: '0 18px 40px rgba(10,24,16,0.32)',
       },
       fontFamily: {
-        brand: ['"Fraunces"', '"Bricolage Grotesque"', 'ui-serif', 'Georgia', 'serif'],
+        brand: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
         serif: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
-        display: ['"Bricolage Grotesque"', '"Hanken Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['"Hanken Grotesk"', '"Bricolage Grotesque"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        display: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
+        sans: ['"Hanken Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         sm: '12px',

@@ -482,7 +482,13 @@ export default function App() {
 
   return (
     <div className="phone-shell">
-      {!showAppChrome || isHomeCanvas ? renderScreen() : <div className="app-scroll app-scroll-with-nav">{renderScreen()}</div>}
+      {!showAppChrome || isHomeCanvas ? (
+        renderScreen()
+      ) : (
+        <div className="app-scroll-inner">
+          <div className="app-sheet">{renderScreen()}</div>
+        </div>
+      )}
       {showAppChrome && <BottomNav activeTab={activeTab} onTabChange={navigateTab} />}
       <Toast message={app.toast} />
     </div>
