@@ -50,7 +50,6 @@ import {
 import {
   getCurrentUserAccount,
   listenForAuthChanges,
-  signInWithAppleId,
   signInWithEmailMagicLink,
   signInWithGmail,
   signOut,
@@ -269,11 +268,6 @@ export function useGroceryAppState() {
     fridgeScanCount,
     importCount,
   ]);
-
-  async function createAccountWithApple() {
-    setAuthError(null);
-    await signInWithAppleId();
-  }
 
   async function createAccountWithGmail() {
     setAuthError(null);
@@ -927,7 +921,6 @@ export function useGroceryAppState() {
     behavior,
     toast,
     showToast,
-    createAccountWithApple,
     createAccountWithGmail,
     createAccountWithEmail,
     continueAsGuest,

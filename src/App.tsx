@@ -245,10 +245,6 @@ export default function App() {
     if (!app.account) {
       return (
         <AuthScreen
-          onApple={async () => {
-            await app.createAccountWithApple();
-            navigateTab('home');
-          }}
           onGmail={async () => {
             await app.createAccountWithGmail();
             navigateTab('home');

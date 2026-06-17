@@ -2,17 +2,6 @@ import { User } from '@supabase/supabase-js';
 import { AuthProvider, UserAccount } from '../types';
 import { getAuthRedirectUrl, isSupabaseConfigured, supabase } from './supabaseClient';
 
-export async function signInWithAppleId(): Promise<void> {
-  const client = getSupabaseClient();
-  const { error } = await client.auth.signInWithOAuth({
-    provider: 'apple',
-    options: {
-      redirectTo: getAuthRedirectUrl(),
-    },
-  });
-  if (error) throw error;
-}
-
 export async function signInWithGmail(): Promise<void> {
   const client = getSupabaseClient();
   const { error } = await client.auth.signInWithOAuth({
