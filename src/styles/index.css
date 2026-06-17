@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -120,6 +120,28 @@ button {
   display: none;
 }
 
+/* Inner screens: a cream sheet floating on the forest canvas, to match Home. */
+.app-scroll-inner {
+  min-height: calc(100vh - 88px);
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  background: var(--color-forest);
+  padding: calc(env(safe-area-inset-top) + 14px) 12px 0;
+}
+
+.app-scroll-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.app-sheet {
+  min-height: 100%;
+  border-radius: 26px 26px 0 0;
+  background: var(--color-paper);
+  padding: 22px 18px 32px;
+  box-shadow: 0 -8px 24px rgba(10, 24, 16, 0.18);
+}
+
 @media (min-width: 520px) {
   .app-scroll {
     min-height: calc(100vh - 48px);
@@ -132,6 +154,11 @@ button {
   }
 
   .app-scroll-home {
+    min-height: calc(100vh - 136px);
+    max-height: calc(100vh - 136px);
+  }
+
+  .app-scroll-inner {
     min-height: calc(100vh - 136px);
     max-height: calc(100vh - 136px);
   }
