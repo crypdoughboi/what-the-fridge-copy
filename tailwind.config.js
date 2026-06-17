@@ -4,26 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Warm cream surfaces for inner screens.
-        paper: '#EFE6CE',
-        surface: '#FBF5E6',
+        // Soft tan canvas with cream surfaces.
+        paper: '#E9E1CE',
+        surface: '#FAF5E8',
         ink: '#1E3A2A',
         'ink-soft': '#4C5A46',
         muted: '#8A8870',
-        line: '#E0D6BB',
+        line: '#DCD1B6',
         accent: '#2C5733',
         'accent-soft': '#DEE7D2',
         sage: '#819378',
         'sage-soft': '#D6DED0',
         amber: '#9A6A24',
-        // Forest canvas + warm tile palette from the home redesign.
+        // Logo-derived accent colors, used sparingly (icons, small details).
         forest: '#1F3D2B',
         'forest-deep': '#162E20',
         'forest-soft': '#2C5036',
-        cream: '#F1E7CD',
+        cream: '#F4EDDB',
         terracotta: '#C24E2C',
-        mustard: '#E0A12E',
-        olive: '#647A3B',
+        mustard: '#D99A2B',
+        olive: '#6E7F49',
         leaf: '#3E6140',
       },
       boxShadow: {

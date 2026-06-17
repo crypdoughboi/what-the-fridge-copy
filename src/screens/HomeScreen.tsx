@@ -1,4 +1,4 @@
-import { ArrowRight, Boxes, CircleUserRound, NotebookText, Scale, ScanLine } from 'lucide-react';
+import { ArrowRight, Boxes, ChevronRight, CircleUserRound, NotebookText, Scale, ScanLine } from 'lucide-react';
 import { ReactNode } from 'react';
 import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
@@ -22,14 +22,14 @@ export function HomeScreen({
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <WtfFridgeIcon size="sm" />
-          <WordmarkText tone="dark" />
+          <WordmarkText tone="light" />
         </div>
         <button
           type="button"
           onClick={onSettings}
           aria-label="Account"
           title="Account"
-          className="grid h-10 w-10 place-items-center rounded-full bg-cream/15 text-cream ring-1 ring-cream/20 backdrop-blur-sm transition active:scale-95"
+          className="grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-ink shadow-sm transition active:scale-95"
         >
           <CircleUserRound className="h-6 w-6" strokeWidth={1.75} />
         </button>
@@ -38,13 +38,13 @@ export function HomeScreen({
       <button
         type="button"
         onClick={onCook}
-        className="section-enter stagger-1 relative mt-5 block w-full overflow-hidden rounded-[28px] bg-cream p-6 text-left shadow-hero transition active:scale-[0.99]"
+        className="section-enter stagger-1 relative mt-5 block w-full overflow-hidden rounded-[28px] border border-line/60 bg-cream p-6 text-left shadow-md transition active:scale-[0.99]"
       >
         <ProduceArt className="pointer-events-none absolute -right-4 top-1 h-44 w-44" />
         <div className="relative max-w-[64%]">
           <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-olive">Tonight</p>
-          <h1 className="mt-2 font-serif text-[40px] font-bold leading-[0.95] tracking-[-0.01em] text-forest">What should I make?</h1>
-          <span className="mt-5 inline-flex items-center gap-2 rounded-pill bg-forest px-5 py-3 text-[15px] font-semibold text-cream shadow-sm">
+          <h1 className="mt-2 font-serif text-[40px] font-bold leading-[0.95] tracking-[-0.01em] text-ink">What should I make?</h1>
+          <span className="mt-5 inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-3 text-[15px] font-semibold text-surface shadow-sm">
             Cook now
             <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
           </span>
@@ -52,26 +52,26 @@ export function HomeScreen({
       </button>
 
       <div className="section-enter stagger-2 mt-4 grid grid-cols-2 gap-3.5">
-        <Tile bg="bg-olive" icon={<NotebookText className="h-6 w-6" strokeWidth={1.75} />} title="Grocery List" onClick={onGoList} />
-        <Tile bg="bg-terracotta" icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />} title="Scan" onClick={onGoScan} />
-        <Tile bg="bg-mustard" icon={<Boxes className="h-6 w-6" strokeWidth={1.75} />} title="Inventory" onClick={onInventory} />
-        <Tile bg="bg-leaf" icon={<Scale className="h-6 w-6" strokeWidth={1.75} />} title="Compare" onClick={onCompare} />
+        <Tile iconColor="text-accent" icon={<NotebookText className="h-6 w-6" strokeWidth={1.75} />} title="Grocery List" onClick={onGoList} />
+        <Tile iconColor="text-terracotta" icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />} title="Scan" onClick={onGoScan} />
+        <Tile iconColor="text-olive" icon={<Boxes className="h-6 w-6" strokeWidth={1.75} />} title="Inventory" onClick={onInventory} />
+        <Tile iconColor="text-accent" icon={<Scale className="h-6 w-6" strokeWidth={1.75} />} title="Compare" onClick={onCompare} />
       </div>
     </div>
   );
 }
 
-function Tile({ bg, icon, title, onClick }: { bg: string; icon: ReactNode; title: string; onClick: () => void }) {
+function Tile({ icon, iconColor, title, onClick }: { icon: ReactNode; iconColor: string; title: string; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`relative flex aspect-[7/6] flex-col justify-between rounded-[22px] ${bg} p-4 text-left text-cream shadow-md transition active:scale-[0.98]`}
+      className="relative flex aspect-[7/6] flex-col justify-between overflow-hidden rounded-[22px] border border-line/70 bg-surface p-4 text-left shadow-sm transition active:scale-[0.98]"
     >
-      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-cream/15 text-cream">{icon}</span>
-      <span className="flex items-end justify-between">
-        <span className="text-[18px] font-bold leading-tight tracking-[-0.01em]">{title}</span>
-        <ArrowRight className="h-5 w-5 text-cream/75" strokeWidth={2} />
+      <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-paper ${iconColor}`}>{icon}</span>
+      <span className="relative z-10 flex items-end justify-between">
+        <span className="font-serif text-[18px] font-bold leading-tight tracking-[-0.01em] text-ink">{title}</span>
+        <ChevronRight className="h-5 w-5 text-muted" strokeWidth={2} />
       </span>
     </button>
   );

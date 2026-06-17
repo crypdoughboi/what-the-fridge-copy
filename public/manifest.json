@@ -4,8 +4,8 @@
   "description": "Dinner from what you already bought.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1F3D2B",
-  "theme_color": "#1F3D2B",
+  "background_color": "#E9E1CE",
+  "theme_color": "#E9E1CE",
   "icons": [
     {
       "src": "/wtf-logo.png",

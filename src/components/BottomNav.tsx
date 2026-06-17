@@ -10,15 +10,15 @@ const tabs: Array<{ id: Tab; label: string; Icon: typeof Home }> = [
 
 export function BottomNav({ activeTab, onTabChange }: { activeTab: Tab; onTabChange: (tab: Tab) => void }) {
   return (
-    <nav className="absolute inset-x-0 bottom-0 z-40 border-t border-line/70 bg-surface/98 px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-2 backdrop-blur-xl">
+    <nav className="z-40 shrink-0 border-t border-line bg-surface px-3 pb-[calc(env(safe-area-inset-bottom)+10px)] pt-2">
       <div className="grid grid-cols-4 gap-1">
         {tabs.map(({ id, label, Icon }) => {
           const active = id === activeTab;
           return (
             <button
               key={id}
-              className={`flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition duration-150 ease-out ${
-                active ? 'text-forest' : 'text-muted active:text-ink-soft'
+              className={`flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-xl text-[11px] font-semibold transition duration-150 ease-out ${
+                active ? 'text-accent' : 'text-muted active:text-ink-soft'
               }`}
               onClick={() => onTabChange(id)}
               aria-label={label}
