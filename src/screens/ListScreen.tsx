@@ -59,7 +59,7 @@ export function ListScreen({
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">List</p>
         <h1 className="mt-1 font-display text-[28px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Need to buy.</h1>
-        {hasItems && <p className="mt-1 text-[13px] font-medium leading-snug text-muted">Tap a circle to check items off. Tap a name for more.</p>}
+        {hasItems && <p className="mt-1 text-[13px] font-medium leading-snug text-muted">Tap a circle to check items off. Swipe left to delete.</p>}
       </section>
 
       <section className="section-enter stagger-1">
