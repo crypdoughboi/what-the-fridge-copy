@@ -1,143 +1,97 @@
-import { ArrowRight, CalendarDays, ChefHat, CircleUserRound, ListChecks, ScanLine } from 'lucide-react';
+import { ArrowRight, Boxes, CircleUserRound, NotebookText, Scale, ScanLine } from 'lucide-react';
 import { ReactNode } from 'react';
-import { GroceryList, MealIdea } from '../types';
-import { Button } from '../components/Button';
-import { Card } from '../components/Card';
-import { WtfFridgeIcon } from '../components/BrandMark';
+import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
 export function HomeScreen({
-  plannedMeals,
-  list,
-  onStartMealIdeas,
-  onGoMeals,
+  onCook,
   onGoList,
   onGoScan,
+  onInventory,
+  onCompare,
   onSettings,
 }: {
-  plannedMeals: MealIdea[];
-  list: GroceryList;
-  onStartMealIdeas: () => void;
-  onGoMeals: () => void;
+  onCook: () => void;
   onGoList: () => void;
   onGoScan: () => void;
+  onInventory: () => void;
+  onCompare: () => void;
   onSettings: () => void;
 }) {
-  const needCount = list.buyNow.length + list.maybeBuy.length;
-
   return (
-    <main className="screen-enter space-y-6">
-      <div className="section-enter flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-2.5">
+    <div className="app-scroll-home screen-enter">
+      <header className="flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
           <WtfFridgeIcon size="sm" />
-          <h1 className="truncate font-display text-[22px] font-extrabold tracking-[-0.03em] text-ink">What The Fridge</h1>
+          <WordmarkText tone="dark" />
         </div>
         <button
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-md border border-line bg-surface text-ink shadow-sm transition active:scale-[0.98]"
+          type="button"
           onClick={onSettings}
           aria-label="Account"
           title="Account"
+          className="grid h-10 w-10 place-items-center rounded-full bg-cream/15 text-cream ring-1 ring-cream/20 backdrop-blur-sm transition active:scale-95"
         >
           <CircleUserRound className="h-6 w-6" strokeWidth={1.75} />
         </button>
-      </div>
+      </header>
 
       <button
         type="button"
-        onClick={onStartMealIdeas}
-        className="section-enter stagger-1 block w-full overflow-hidden rounded-lg bg-[linear-gradient(140deg,#3a5e3c_0%,#2f5131_55%,#21301b_100%)] p-6 text-left shadow-md transition active:scale-[0.99]"
+        onClick={onCook}
+        className="section-enter stagger-1 relative mt-5 block w-full overflow-hidden rounded-[28px] bg-cream p-6 text-left shadow-hero transition active:scale-[0.99]"
       >
-        <div className="flex items-start gap-4">
-          <div className="grid h-14 w-14 shrink-0 place-items-center rounded-md bg-white/15 text-white">
-            <ChefHat className="h-7 w-7" strokeWidth={1.75} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-white/70">What to cook</p>
-            <h2 className="mt-1 font-display text-[26px] font-extrabold leading-[1.05] tracking-[-0.02em] text-white">WTF Should I Make?</h2>
-            <p className="mt-1.5 text-[15px] font-medium leading-snug text-white/85">Meal ideas plus a shopping list, built around what you like.</p>
-          </div>
-        </div>
-        <div className="mt-5 flex items-center justify-between rounded-md bg-white/15 px-4 py-3 text-white">
-          <span className="text-[15px] font-semibold">Show me meals</span>
-          <ArrowRight className="h-5 w-5" strokeWidth={2} />
+        <ProduceArt className="pointer-events-none absolute -right-4 top-1 h-44 w-44" />
+        <div className="relative max-w-[64%]">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-olive">Tonight</p>
+          <h1 className="mt-2 font-serif text-[40px] font-bold leading-[0.95] tracking-[-0.01em] text-forest">What should I make?</h1>
+          <span className="mt-5 inline-flex items-center gap-2 rounded-pill bg-forest px-5 py-3 text-[15px] font-semibold text-cream shadow-sm">
+            Cook now
+            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
+          </span>
         </div>
       </button>
 
-      <div className="section-enter stagger-2 grid grid-cols-2 gap-3">
-        <ActionTile
-          icon={<ListChecks className="h-6 w-6" strokeWidth={1.75} />}
-          eyebrow="Buy"
-          title="Grocery List"
-          subtitle={needCount ? `${needCount} to buy` : 'See what you need'}
-          onClick={onGoList}
-        />
-        <ActionTile
-          icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />}
-          eyebrow="Use"
-          title="Add Food"
-          subtitle="Scan or type"
-          onClick={onGoScan}
-        />
+      <div className="section-enter stagger-2 mt-4 grid grid-cols-2 gap-3.5">
+        <Tile bg="bg-olive" icon={<NotebookText className="h-6 w-6" strokeWidth={1.75} />} title="Grocery List" onClick={onGoList} />
+        <Tile bg="bg-terracotta" icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />} title="Scan" onClick={onGoScan} />
+        <Tile bg="bg-mustard" icon={<Boxes className="h-6 w-6" strokeWidth={1.75} />} title="Inventory" onClick={onInventory} />
+        <Tile bg="bg-leaf" icon={<Scale className="h-6 w-6" strokeWidth={1.75} />} title="Compare" onClick={onCompare} />
       </div>
-
-      <Card className="section-enter stagger-3">
-        <div className="flex items-center gap-2.5">
-          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-            <CalendarDays className="h-5 w-5" strokeWidth={1.75} />
-          </div>
-          <div className="min-w-0">
-            <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">This week</p>
-            <h2 className="font-display text-[19px] font-bold leading-tight tracking-[-0.02em] text-ink">
-              {plannedMeals.length ? `${plannedMeals.length} meal${plannedMeals.length === 1 ? '' : 's'} planned` : 'Nothing planned yet'}
-            </h2>
-          </div>
-        </div>
-
-        <div className="mt-4 space-y-2">
-          {plannedMeals.length ? (
-            plannedMeals.slice(0, 2).map((meal) => (
-              <div key={meal.id} className="rounded-md bg-paper p-3">
-                <p className="text-[15px] font-semibold text-ink">{meal.name}</p>
-                <p className="mt-0.5 line-clamp-2 text-[13px] font-medium leading-relaxed text-muted">{meal.description}</p>
-              </div>
-            ))
-          ) : (
-            <p className="rounded-md bg-paper p-3 text-[14px] font-medium leading-relaxed text-ink-soft">
-              Pick meals and we'll build the shopping list from what's missing.
-            </p>
-          )}
-        </div>
-
-        <Button className="mt-4" variant="secondary" full onClick={onGoMeals}>
-          {plannedMeals.length ? 'Go to Meals' : 'Plan this week'}
-        </Button>
-      </Card>
-    </main>
+    </div>
   );
 }
 
-function ActionTile({
-  icon,
-  eyebrow,
-  title,
-  subtitle,
-  onClick,
-}: {
-  icon: ReactNode;
-  eyebrow: string;
-  title: string;
-  subtitle: string;
-  onClick: () => void;
-}) {
+function Tile({ bg, icon, title, onClick }: { bg: string; icon: ReactNode; title: string; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex h-full flex-col rounded-lg border border-line bg-surface p-4 text-left shadow-sm transition active:scale-[0.98] active:bg-paper"
+      className={`relative flex aspect-[7/6] flex-col justify-between rounded-[22px] ${bg} p-4 text-left text-cream shadow-md transition active:scale-[0.98]`}
     >
-      <div className="grid h-11 w-11 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
-      <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.08em] text-muted">{eyebrow}</p>
-      <h3 className="mt-0.5 font-display text-[18px] font-bold leading-tight tracking-[-0.02em] text-ink">{title}</h3>
-      <p className="mt-1 text-[13px] font-medium leading-snug text-ink-soft">{subtitle}</p>
+      <span className="grid h-11 w-11 place-items-center rounded-2xl bg-cream/15 text-cream">{icon}</span>
+      <span className="flex items-end justify-between">
+        <span className="text-[18px] font-bold leading-tight tracking-[-0.01em]">{title}</span>
+        <ArrowRight className="h-5 w-5 text-cream/75" strokeWidth={2} />
+      </span>
     </button>
+  );
+}
+
+function ProduceArt({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 200" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* leaf */}
+      <path d="M150 90c23-7 41 3 46 24-23 9-43-1-46-24z" fill="#3E6140" />
+      <path d="M153 95c12 2 24 9 34 19" stroke="#2C4A2E" strokeWidth="2.4" strokeLinecap="round" />
+      {/* baguette */}
+      <g transform="rotate(-38 122 84)">
+        <rect x="74" y="62" width="100" height="40" rx="20" fill="#E3B055" />
+        <path d="M98 76l-8 12M114 74l-8 12M130 74l-8 12M146 76l-8 12" stroke="#B7842F" strokeWidth="3" strokeLinecap="round" />
+      </g>
+      {/* tomato */}
+      <circle cx="92" cy="122" r="38" fill="#CB4A2A" />
+      <circle cx="79" cy="109" r="11" fill="#DC6A4A" opacity="0.55" />
+      <path d="M92 86c-4-8-12-10-18-8 2 8 8 13 18 12 10-1 16-6 18-12-6-2-14 0-18 8z" fill="#4F7B3B" />
+    </svg>
   );
 }
