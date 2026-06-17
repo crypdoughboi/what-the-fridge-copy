@@ -39,8 +39,8 @@ export function HomeScreen({
         onClick={onCook}
         className="section-enter stagger-1 relative mt-4 block w-full shrink-0 overflow-hidden rounded-[28px] border border-line/60 bg-cream p-5 text-left shadow-md transition active:scale-[0.99]"
       >
-        <ProduceArt className="pointer-events-none absolute -right-4 top-1 h-40 w-40" />
-        <div className="relative max-w-[64%]">
+        <img src="/graphichome1.png" alt="" className="pointer-events-none absolute -right-2 top-1/2 h-36 w-36 -translate-y-1/2 object-contain" />
+        <div className="relative max-w-[62%]">
           <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-olive">Tonight</p>
           <h1 className="mt-1.5 font-serif text-[34px] font-bold leading-[0.96] tracking-[-0.01em] text-ink">What should I make?</h1>
           <span className="mt-4 inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-2.5 text-[15px] font-semibold text-surface shadow-sm">
@@ -73,24 +73,5 @@ function Tile({ iconSrc, title, onClick }: { iconSrc: string; title: string; onC
         <ChevronRight className="h-5 w-5 text-muted" strokeWidth={2} />
       </span>
     </button>
-  );
-}
-
-function ProduceArt({ className = '' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 200 200" className={className} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* leaf */}
-      <path d="M150 90c23-7 41 3 46 24-23 9-43-1-46-24z" fill="#3E6140" />
-      <path d="M153 95c12 2 24 9 34 19" stroke="#2C4A2E" strokeWidth="2.4" strokeLinecap="round" />
-      {/* baguette */}
-      <g transform="rotate(-38 122 84)">
-        <rect x="74" y="62" width="100" height="40" rx="20" fill="#E3B055" />
-        <path d="M98 76l-8 12M114 74l-8 12M130 74l-8 12M146 76l-8 12" stroke="#B7842F" strokeWidth="3" strokeLinecap="round" />
-      </g>
-      {/* tomato */}
-      <circle cx="92" cy="122" r="38" fill="#CB4A2A" />
-      <circle cx="79" cy="109" r="11" fill="#DC6A4A" opacity="0.55" />
-      <path d="M92 86c-4-8-12-10-18-8 2 8 8 13 18 12 10-1 16-6 18-12-6-2-14 0-18 8z" fill="#4F7B3B" />
-    </svg>
   );
 }
