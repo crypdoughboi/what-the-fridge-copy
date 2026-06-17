@@ -19,6 +19,9 @@ export type Screen =
   | 'receiptSuccess'
   | 'fridgeScan'
   | 'fridgeResult'
+  | 'recipeImport'
+  | 'recipeReview'
+  | 'delivery'
   | 'mealDetail';
 
 export type Category =
@@ -400,4 +403,53 @@ export type UserAccount = {
   email: string;
   provider: AuthProvider;
   createdAt: string;
+};
+
+// Recipe import (screenshot or photo of a recipe).
+export type ImportedRecipeIngredient = {
+  id: string;
+  rawText: string;
+  name: string;
+  displayQuantity?: string;
+  category: Category;
+  section: StoreSection;
+  status: IngredientReviewStatus;
+  optional: boolean;
+  pantryStaple: boolean;
+};
+
+export type ImportedRecipe = {
+  title: string;
+  description: string;
+  servings: number;
+  totalTimeMinutes: number;
+  ingredients: ImportedRecipeIngredient[];
+  steps: string[];
+  sourceNote?: string;
+};
+
+// Shopping delivery price comparison.
+export type DeliveryProviderId = 'curbside' | 'instacart' | 'doordash' | 'ubereats';
+
+export type DeliveryLineItem = {
+  name: string;
+  category: Category;
+  basePrice: number;
+  estimated: boolean;
+};
+
+export type DeliveryQuote = {
+  providerId: DeliveryProviderId;
+  providerName: string;
+  fulfillment: string;
+  itemsSubtotal: number;
+  deliveryFee: number;
+  serviceFee: number;
+  estimatedTotal: number;
+  etaMinutes: number;
+  itemCount: number;
+  note: string;
+  url: string;
+  isBestPrice: boolean;
+  isFastest: boolean;
 };

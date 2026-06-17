@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { Camera, Keyboard, ReceiptText, Refrigerator } from 'lucide-react';
+import { Camera, Keyboard, NotebookPen, ReceiptText, Refrigerator } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { CameraCapture } from '../components/CameraCapture';
@@ -11,11 +11,13 @@ import { parseManualItemNames } from '../utils/groceryLogic';
 export function ScanScreen({
   onReceiptFile,
   onFridgeFile,
+  onImportRecipe,
   onAddNeed,
   onAddHave,
 }: {
   onReceiptFile: (file: File) => void;
   onFridgeFile: (file: File) => void;
+  onImportRecipe: () => void;
   onAddNeed: (name: string) => void;
   onAddHave: (name: string) => void;
 }) {
@@ -91,6 +93,23 @@ export function ScanScreen({
             <Camera className="h-5 w-5" strokeWidth={1.75} />
             Camera
           </button>
+        </div>
+      </Card>
+
+      <Card className="section-enter stagger-3">
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <NotebookPen className="h-5 w-5" strokeWidth={1.75} />
+          </div>
+          <div>
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Import a recipe</h2>
+            <p className="mt-1 text-[14px] font-medium leading-relaxed text-ink-soft">Upload a screenshot or snap a photo. We pull the ingredients onto your list.</p>
+          </div>
+        </div>
+        <div className="mt-4">
+          <Button variant="secondary" full icon={<NotebookPen className="h-5 w-5" strokeWidth={1.75} />} onClick={onImportRecipe}>
+            Import a recipe
+          </Button>
         </div>
       </Card>
 

@@ -55,6 +55,7 @@ import {
   signInWithGmail,
   signOut,
 } from '../services/authService';
+import { buildDeliveryLineItems } from '../services/deliveryComparisonService';
 
 const legacyAccountStorageKey = 'wtf.account.v1';
 
@@ -159,6 +160,10 @@ export function useGroceryAppState() {
     [memory],
   );
   const useSoonNames = useMemo(() => useSoon.map((item) => item.name), [useSoon]);
+  const deliveryLineItems = useMemo(
+    () => buildDeliveryLineItems([...groceryList.buyNow, ...groceryList.maybeBuy], memory),
+    [groceryList.buyNow, groceryList.maybeBuy, memory],
+  );
 
   useEffect(() => {
     window.localStorage.removeItem(legacyAccountStorageKey);
@@ -693,6 +698,36 @@ export function useGroceryAppState() {
     showToast("Old list imported. We'll use this to learn your usuals.");
   }
 
+  function addRecipeToList(recipeTitle: string, neededNames: string[]) {
+    const names = filterNewNeedNames(neededNames);
+    if (names.length === 0) {
+      showToast(`${recipeTitle} ingredients are already on your list.`);
+      return;
+    }
+    setBehavior((current) => {
+      const nextUsedFor = { ...current.usedForMeals };
+      names.forEach((name) => {
+        const key = normalizeIngredientKey(name);
+        nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), recipeTitle]);
+      });
+      return {
+        ...addListTracking(current, names, 'recipe_import'),
+        mealAddedNames: unique([...current.mealAddedNames, ...names]),
+        usedForMeals: nextUsedFor,
+        addCounts: names.reduce(
+          (counts, name) => ({
+            ...counts,
+            [name.toLowerCase()]: (current.addCounts[name.toLowerCase()] ?? 0) + 1,
+          }),
+          current.addCounts,
+        ),
+      };
+    });
+    setImportCount((current) => current + 1);
+    names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'recipe_import'));
+    showToast(`Added ${names.length} item${names.length === 1 ? '' : 's'} from ${recipeTitle}.`);
+  }
+
   function saveMeal(mealId: string) {
     setSavedMealIds((current) => unique([...current, mealId]));
     showToast('Saved. Future you gets the assist.');
@@ -887,6 +922,7 @@ export function useGroceryAppState() {
     knownIngredientNames,
     hasReceiptHistory: receiptCount > 0,
     useSoon,
+    deliveryLineItems,
     behavior,
     toast,
     showToast,
@@ -920,6 +956,7 @@ export function useGroceryAppState() {
     confirmReceipt,
     updateListFromFridge,
     addImportedItems,
+    addRecipeToList,
     saveMeal,
     markMealCooked,
     saveMealIdea,
