@@ -20,7 +20,7 @@ export function ReceiptScanScreen({
     <main className="screen-enter space-y-5">
       <button className="inline-flex min-h-10 items-center gap-2 rounded-md text-[14px] font-semibold text-ink-soft" onClick={onBack}>
         <ArrowLeft className="h-5 w-5" strokeWidth={1.75} />
-        Back to List
+        Back
       </button>
       <section>
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Scan receipt</p>

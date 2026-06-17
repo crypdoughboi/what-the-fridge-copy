@@ -302,8 +302,8 @@ export default function App() {
     if (screen === 'scan') {
       return (
         <ScanScreen
-          onReceiptFile={startReceiptScan}
-          onFridgeFile={startFridgeScan}
+          onScanFridge={openFridgeScan}
+          onScanReceipt={openReceiptScan}
           onImportRecipe={openRecipeImport}
           onAddNeed={app.addManualItem}
           onAddHave={app.addAlreadyHaveItem}
