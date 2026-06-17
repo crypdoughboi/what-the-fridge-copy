@@ -1,5 +1,4 @@
-import { ArrowRight, Boxes, ChevronRight, CircleUserRound, NotebookText, Scale, ScanLine } from 'lucide-react';
-import { ReactNode } from 'react';
+import { ArrowRight, ChevronRight, CircleUserRound } from 'lucide-react';
 import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
 export function HomeScreen({
@@ -52,24 +51,24 @@ export function HomeScreen({
       </button>
 
       <div className="section-enter stagger-2 mt-3 grid min-h-0 flex-1 grid-cols-2 grid-rows-2 gap-3">
-        <Tile iconColor="text-accent" icon={<NotebookText className="h-6 w-6" strokeWidth={1.75} />} title="Grocery List" onClick={onGoList} />
-        <Tile iconColor="text-terracotta" icon={<ScanLine className="h-6 w-6" strokeWidth={1.75} />} title="Scan" onClick={onGoScan} />
-        <Tile iconColor="text-olive" icon={<Boxes className="h-6 w-6" strokeWidth={1.75} />} title="Inventory" onClick={onInventory} />
-        <Tile iconColor="text-accent" icon={<Scale className="h-6 w-6" strokeWidth={1.75} />} title="Compare" onClick={onCompare} />
+        <Tile iconSrc="/grocerylist-icon.png" title="Grocery List" onClick={onGoList} />
+        <Tile iconSrc="/scan-icon.png" title="Scan" onClick={onGoScan} />
+        <Tile iconSrc="/inventory-icon.png" title="Inventory" onClick={onInventory} />
+        <Tile iconSrc="/compare-icon.png" title="Compare" onClick={onCompare} />
       </div>
     </div>
   );
 }
 
-function Tile({ icon, iconColor, title, onClick }: { icon: ReactNode; iconColor: string; title: string; onClick: () => void }) {
+function Tile({ iconSrc, title, onClick }: { iconSrc: string; title: string; onClick: () => void }) {
   return (
     <button
       type="button"
       onClick={onClick}
       className="relative flex h-full min-h-[96px] flex-col justify-between overflow-hidden rounded-[22px] border border-line/70 bg-surface p-4 text-left shadow-sm transition active:scale-[0.98]"
     >
-      <span className={`inline-flex h-10 w-10 items-center justify-center rounded-xl bg-paper ${iconColor}`}>{icon}</span>
-      <span className="relative z-10 flex items-end justify-between">
+      <img src={iconSrc} alt="" className="-ml-1 -mt-1 h-14 w-14 object-contain" />
+      <span className="flex items-end justify-between">
         <span className="font-serif text-[18px] font-bold leading-tight tracking-[-0.01em] text-ink">{title}</span>
         <ChevronRight className="h-5 w-5 text-muted" strokeWidth={2} />
       </span>
