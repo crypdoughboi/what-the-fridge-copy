@@ -1,4 +1,5 @@
-import { Check, Minus, Plus, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
+import { Check, Utensils } from 'lucide-react';
 import { GroceryListEntry } from '../types';
 
 export function ListItemRow({
@@ -18,77 +19,66 @@ export function ListItemRow({
   checked?: boolean;
   context?: 'need' | 'have';
 }) {
+  const [open, setOpen] = useState(false);
   const isHave = context === 'have';
+  const filled = checked || isHave;
 
   return (
-    <div className={`rounded-md border p-3 transition ${checked || isHave ? 'border-accent/20 bg-accent-soft' : 'border-line bg-surface'}`}>
-      <div className="flex items-start gap-3">
+    <div className="border-b border-line/70 last:border-b-0">
+      <div className="flex items-center gap-3 py-2.5">
         <button
-          className={`mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition active:scale-95 ${
-            checked || isHave ? 'border-accent bg-accent text-surface' : 'border-ink-soft bg-surface text-transparent'
+          className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border-2 transition active:scale-90 ${
+            filled ? 'border-accent bg-accent text-surface' : 'border-ink-soft/55 bg-transparent text-transparent'
           }`}
           onClick={() => (checked ? onRemove(entry) : isHave ? onNeedToBuy?.(entry) : onBought(entry))}
-          aria-label={checked ? `Remove ${entry.name} from checked items` : isHave ? `Move ${entry.name} to Need to Buy` : `Mark ${entry.name} bought`}
-          title={checked ? 'Remove from checked items' : isHave ? 'Move to Need to Buy' : 'Mark bought'}
+          aria-label={checked ? `Uncheck ${entry.name}` : isHave ? `Move ${entry.name} to Need to Buy` : `Check off ${entry.name}`}
+          title={checked ? 'Uncheck' : isHave ? 'Move to Need to Buy' : 'Check off'}
         >
-          <Check className="h-4 w-4" strokeWidth={1.75} />
+          <Check className="h-3.5 w-3.5" strokeWidth={3} />
         </button>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-2">
-            <div className="min-w-0">
-              <p className={`text-[16px] font-semibold text-ink ${checked ? 'line-through decoration-accent/70 decoration-2' : ''}`}>{entry.name}</p>
-              <p className="mt-1 text-[13px] font-medium leading-relaxed text-muted">{entry.reason}</p>
-              {entry.usedForMeals?.length ? (
-                <div className="mt-2 rounded-sm bg-paper px-3 py-2 text-[12px] font-semibold leading-relaxed text-ink-soft">
-                  Used for: {entry.usedForMeals.join(', ')}
-                </div>
-              ) : null}
-            </div>
-            <span className="shrink-0 rounded-pill bg-paper px-2.5 py-1 text-[11px] font-semibold text-muted">{entry.section}</span>
-          </div>
-
-          {!checked && !isHave ? (
-            <div className="mt-3 flex gap-2">
-              <button
-                className="inline-flex min-h-9 flex-1 items-center justify-center gap-1.5 rounded-sm bg-paper px-2 text-[13px] font-semibold text-ink-soft active:bg-line/60"
-                onClick={() => onAlreadyHave(entry)}
-              >
-                <ShieldCheck className="h-4 w-4" strokeWidth={1.75} />
-                Already have
-              </button>
-              <button
-                className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-sm px-3 text-[13px] font-semibold text-muted active:bg-line/60"
-                onClick={() => onRemove(entry)}
-              >
-                <Minus className="h-4 w-4" strokeWidth={1.75} />
-                Remove
-              </button>
-            </div>
-          ) : isHave ? (
-            <div className="mt-3 flex gap-2">
-              <button
-                className="inline-flex min-h-9 flex-1 items-center justify-center gap-1.5 rounded-sm bg-surface px-2 text-[13px] font-semibold text-ink-soft active:bg-line/60"
-                onClick={() => onNeedToBuy?.(entry)}
-              >
-                <Plus className="h-4 w-4" strokeWidth={1.75} />
-                Need to buy
-              </button>
-              <button
-                className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-sm px-3 text-[13px] font-semibold text-muted active:bg-line/60"
-                onClick={() => onRemove(entry)}
-              >
-                <Minus className="h-4 w-4" strokeWidth={1.75} />
-                Remove
-              </button>
-            </div>
-          ) : (
-            <button className="mt-3 min-h-9 rounded-sm px-3 text-[13px] font-semibold text-muted active:bg-line/60" onClick={() => onRemove(entry)}>
-              Remove from checked
-            </button>
-          )}
-        </div>
+        <button type="button" onClick={() => setOpen((current) => !current)} className="flex min-w-0 flex-1 items-center gap-2 py-0.5 text-left">
+          <span className={`min-w-0 flex-1 truncate text-[16px] font-medium ${checked ? 'text-muted line-through decoration-muted/60' : 'text-ink'}`}>
+            {entry.name}
+          </span>
+          {entry.usedForMeals?.length ? <Utensils className="h-3.5 w-3.5 shrink-0 text-muted" strokeWidth={1.75} /> : null}
+        </button>
       </div>
+
+      {open ? (
+        <div className="pb-2.5 pl-9">
+          {entry.usedForMeals?.length ? (
+            <p className="mb-1.5 text-[12px] font-medium text-muted">Used for {entry.usedForMeals.join(', ')}</p>
+          ) : entry.reason ? (
+            <p className="mb-1.5 text-[12px] font-medium leading-snug text-muted">{entry.reason}</p>
+          ) : null}
+          <div className="flex flex-wrap gap-x-5 gap-y-1 text-[13px] font-semibold">
+            {checked ? (
+              <button className="text-ink-soft active:text-ink" onClick={() => onRemove(entry)}>
+                Remove from cart
+              </button>
+            ) : isHave ? (
+              <>
+                <button className="text-ink-soft active:text-ink" onClick={() => onNeedToBuy?.(entry)}>
+                  Move to Need to Buy
+                </button>
+                <button className="text-muted active:text-ink" onClick={() => onRemove(entry)}>
+                  Remove
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="text-ink-soft active:text-ink" onClick={() => onAlreadyHave(entry)}>
+                  Already have
+                </button>
+                <button className="text-muted active:text-ink" onClick={() => onRemove(entry)}>
+                  Remove
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
