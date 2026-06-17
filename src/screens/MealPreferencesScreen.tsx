@@ -1,32 +1,22 @@
 import { useState } from 'react';
-import { Beef, CookingPot, Globe, Leaf, Shuffle, Sparkles, Zap } from 'lucide-react';
+import { CookingPot, Globe, Leaf, Shuffle, Zap } from 'lucide-react';
 import {
   CookingMethodPreference,
   CuisinePreference,
   EffortPreference,
   FlexibilityPreference,
-  MainIngredientPreference,
   MealMode,
   MealPreferences,
-  VibePreference,
 } from '../types';
 import { Button } from '../components/Button';
 import { BackButton } from '../components/BackButton';
-import { MultiSelectDropdown, Select } from '../components/Select';
-import {
-  cookingMethodOptions,
-  cuisineOptions,
-  effortOptions,
-  flexibilityOptions,
-  mainIngredientOptions,
-  restrictionOptions,
-  vibeOptions,
-} from '../data/mealPreferenceOptions';
+import { ChoiceChips } from '../components/ChoiceChips';
+import { cookingMethodOptions, cuisineOptions, effortOptions, flexibilityOptions, restrictionOptions } from '../data/mealPreferenceOptions';
 
 const copy: Record<MealMode, { header: string; support: string; cta: string }> = {
   scratch: {
     header: 'WTF Should I Make?',
-    support: "Pick a few preferences. We'll give you meal ideas and a shopping list.",
+    support: "Tap a few preferences. We'll give you meal ideas and a shopping list.",
     cta: 'Show me meals',
   },
   inventory: {
@@ -73,59 +63,46 @@ export function MealPreferencesScreen({
         <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{support}</p>
       </section>
 
-      <div className="section-enter stagger-1 space-y-5">
-        <Select
+      <div className="section-enter stagger-1 space-y-6">
+        <ChoiceChips
           label="Effort"
           icon={<Zap className="h-4 w-4" strokeWidth={2} />}
-          value={preferences.effort}
           options={effortOptions}
-          onChange={(value) => update('effort', value as EffortPreference)}
+          selected={[preferences.effort]}
+          onSelect={(value) => update('effort', value as EffortPreference)}
         />
-        <Select
+        <ChoiceChips
           label="Cooking method"
           icon={<CookingPot className="h-4 w-4" strokeWidth={2} />}
-          value={preferences.cookingMethod}
           options={cookingMethodOptions}
-          onChange={(value) => update('cookingMethod', value as CookingMethodPreference)}
+          selected={[preferences.cookingMethod]}
+          onSelect={(value) => update('cookingMethod', value as CookingMethodPreference)}
         />
-        <MultiSelectDropdown
+        <ChoiceChips
+          label="Cuisine"
+          icon={<Globe className="h-4 w-4" strokeWidth={2} />}
+          options={cuisineOptions}
+          selected={[preferences.cuisine]}
+          onSelect={(value) => update('cuisine', value as CuisinePreference)}
+        />
+        {mode === 'inventory' ? (
+          <ChoiceChips
+            label="Flexibility"
+            icon={<Shuffle className="h-4 w-4" strokeWidth={2} />}
+            options={flexibilityOptions}
+            selected={[preferences.flexibility ?? 'Missing 1 item is okay']}
+            onSelect={(value) => update('flexibility', value as FlexibilityPreference)}
+          />
+        ) : null}
+        <ChoiceChips
           label="Allergies / restrictions"
           hint="Pick any that apply. We'll respect these in every suggestion."
           icon={<Leaf className="h-4 w-4" strokeWidth={2} />}
           options={restrictionOptions}
           selected={preferences.restrictions}
-          onToggle={toggleRestriction}
+          onSelect={toggleRestriction}
+          multiple
         />
-        <Select
-          label="What sounds good?"
-          icon={<Sparkles className="h-4 w-4" strokeWidth={2} />}
-          value={preferences.vibe}
-          options={vibeOptions}
-          onChange={(value) => update('vibe', value as VibePreference)}
-        />
-        <Select
-          label="Main ingredient"
-          icon={<Beef className="h-4 w-4" strokeWidth={2} />}
-          value={preferences.mainIngredient}
-          options={mainIngredientOptions}
-          onChange={(value) => update('mainIngredient', value as MainIngredientPreference)}
-        />
-        <Select
-          label="Cuisine"
-          icon={<Globe className="h-4 w-4" strokeWidth={2} />}
-          value={preferences.cuisine}
-          options={cuisineOptions}
-          onChange={(value) => update('cuisine', value as CuisinePreference)}
-        />
-        {mode === 'inventory' ? (
-          <Select
-            label="Flexibility"
-            icon={<Shuffle className="h-4 w-4" strokeWidth={2} />}
-            value={preferences.flexibility ?? 'Missing 1 item is okay'}
-            options={flexibilityOptions}
-            onChange={(value) => update('flexibility', value as FlexibilityPreference)}
-          />
-        ) : null}
       </div>
 
       <Button full onClick={() => onSubmit(preferences)}>

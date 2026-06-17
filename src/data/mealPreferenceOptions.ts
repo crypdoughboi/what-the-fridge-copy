@@ -3,9 +3,7 @@ import {
   CuisinePreference,
   EffortPreference,
   FlexibilityPreference,
-  MainIngredientPreference,
   MealPreferences,
-  VibePreference,
 } from '../types';
 
 export const effortOptions: EffortPreference[] = ['Anything easy', 'Bare minimum', 'Easy', 'Normal', 'I feel like cooking'];
@@ -44,39 +42,6 @@ export const restrictionOptions: string[] = [
   'Paleo',
   'Halal',
   'Kosher',
-];
-
-export const vibeOptions: VibePreference[] = [
-  'Surprise me',
-  'Healthy',
-  'Comfort food',
-  'Rice bowl energy',
-  'High-protein',
-  'Meat-heavy',
-  'Crispy',
-  'Creamy',
-  'Spicy',
-  'Light',
-  'Cheap',
-  'Date night',
-  'Family-friendly',
-  'Low-cleanup',
-];
-
-export const mainIngredientOptions: MainIngredientPreference[] = [
-  'Use what makes sense',
-  'Whatever expires first',
-  'Chicken',
-  'Beef',
-  'Ground turkey',
-  'Fish',
-  'Shrimp',
-  'Eggs',
-  'Tofu',
-  'Beans',
-  'Pasta',
-  'Rice',
-  'Vegetables',
 ];
 
 export const cuisineOptions: CuisinePreference[] = [
