@@ -477,18 +477,12 @@ export default function App() {
   }
 
   const showAppChrome = Boolean(app.account);
-  // Home paints its own full-bleed forest canvas, so it skips the standard padded scroll wrapper.
+  // Home provides its own scroll canvas; other signed-in screens get the standard padded one.
   const isHomeCanvas = showAppChrome && (screen === 'home' || screen === 'auth');
 
   return (
     <div className="phone-shell">
-      {!showAppChrome || isHomeCanvas ? (
-        renderScreen()
-      ) : (
-        <div className="app-scroll-inner">
-          <div className="app-sheet">{renderScreen()}</div>
-        </div>
-      )}
+      {!showAppChrome || isHomeCanvas ? renderScreen() : <div className="app-scroll-inner">{renderScreen()}</div>}
       {showAppChrome && <BottomNav activeTab={activeTab} onTabChange={navigateTab} />}
       <Toast message={app.toast} />
     </div>

@@ -5,18 +5,18 @@
 @tailwind utilities;
 
 :root {
-  --color-paper: #efe6ce;
-  --color-surface: #fbf5e6;
+  --color-paper: #e9e1ce;
+  --color-surface: #faf5e8;
   --color-ink: #1e3a2a;
   --color-ink-soft: #4c5a46;
   --color-muted: #8a8870;
-  --color-line: #e0d6bb;
+  --color-line: #dcd1b6;
   --color-accent: #2c5733;
   --color-accent-soft: #dee7d2;
   --color-amber: #9a6a24;
   --color-forest: #1f3d2b;
   --color-forest-deep: #162e20;
-  --color-cream: #f1e7cd;
+  --color-cream: #f4eddb;
   --shadow-sm: 0 1px 2px rgba(20, 40, 28, 0.05), 0 1px 3px rgba(20, 40, 28, 0.07);
   --shadow-md: 0 6px 16px rgba(20, 40, 28, 0.08), 0 2px 6px rgba(20, 40, 28, 0.05);
   color: var(--color-ink);
@@ -34,7 +34,7 @@
 html,
 body,
 #root {
-  min-height: 100%;
+  height: 100%;
   margin: 0;
 }
 
@@ -42,7 +42,8 @@ body {
   min-width: 320px;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: 'Hanken Grotesk', 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Hanken Grotesk', ui-sans-serif, system-ui, sans-serif;
+  overscroll-behavior: none;
 }
 
 body::before {
@@ -68,11 +69,16 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* The shell is a fixed-height flex column: a scroll region that grows, plus a
+   bottom nav that stays put. Using dvh (not vh) keeps it correct under Safari's
+   collapsing toolbar so the nav is never hidden behind it. */
 .phone-shell {
   width: 100%;
   max-width: 430px;
-  min-height: 100vh;
+  height: 100dvh;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
   background: var(--color-paper);
   position: relative;
   overflow: hidden;
@@ -85,87 +91,40 @@ button {
   }
 
   .phone-shell {
-    min-height: calc(100vh - 48px);
+    height: calc(100dvh - 48px);
     border: 1px solid var(--color-line);
     border-radius: 36px;
     box-shadow: 0 30px 90px rgba(20, 18, 10, 0.16);
   }
 }
 
-.app-scroll {
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  padding: calc(env(safe-area-inset-top) + 20px) 20px calc(env(safe-area-inset-bottom) + 104px);
-  scrollbar-width: none;
-}
-
-.app-scroll-with-nav {
-  min-height: calc(100vh - 88px);
-  max-height: calc(100vh - 88px);
-  padding-bottom: 24px;
-}
-
-/* Full-bleed forest-green canvas for the redesigned Home screen. */
-.app-scroll-home {
-  min-height: calc(100vh - 88px);
-  max-height: calc(100vh - 88px);
-  overflow-y: auto;
-  padding: calc(env(safe-area-inset-top) + 16px) 20px 28px;
-  scrollbar-width: none;
-  background: var(--color-forest);
-}
-
-.app-scroll-home::-webkit-scrollbar {
-  display: none;
-}
-
-/* Inner screens: a cream sheet floating on the forest canvas, to match Home. */
+/* The single scrollable region. Fills the space above the nav and owns all
+   scrolling; overscroll-behavior stops the document rubber-band/bounce. */
+.app-scroll,
+.app-scroll-home,
 .app-scroll-inner {
-  min-height: calc(100vh - 88px);
-  max-height: calc(100vh - 88px);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  background: var(--color-forest);
-  padding: calc(env(safe-area-inset-top) + 14px) 12px 0;
+  background: var(--color-paper);
 }
 
+.app-scroll::-webkit-scrollbar,
+.app-scroll-home::-webkit-scrollbar,
 .app-scroll-inner::-webkit-scrollbar {
   display: none;
 }
 
-.app-sheet {
-  min-height: 100%;
-  border-radius: 26px 26px 0 0;
-  background: var(--color-paper);
-  padding: 22px 18px 32px;
-  box-shadow: 0 -8px 24px rgba(10, 24, 16, 0.18);
+.app-scroll,
+.app-scroll-inner {
+  padding: calc(env(safe-area-inset-top) + 16px) 20px 24px;
 }
 
-@media (min-width: 520px) {
-  .app-scroll {
-    min-height: calc(100vh - 48px);
-    max-height: calc(100vh - 48px);
-  }
-
-  .app-scroll-with-nav {
-    min-height: calc(100vh - 136px);
-    max-height: calc(100vh - 136px);
-  }
-
-  .app-scroll-home {
-    min-height: calc(100vh - 136px);
-    max-height: calc(100vh - 136px);
-  }
-
-  .app-scroll-inner {
-    min-height: calc(100vh - 136px);
-    max-height: calc(100vh - 136px);
-  }
-}
-
-.app-scroll::-webkit-scrollbar {
-  display: none;
+.app-scroll-home {
+  padding: calc(env(safe-area-inset-top) + 16px) 20px 28px;
 }
 
 .screen-enter {

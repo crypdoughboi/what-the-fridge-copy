@@ -43,15 +43,15 @@ export function AuthScreen({
   }
 
   return (
-    <main className="screen-enter flex h-[100dvh] flex-col overflow-y-auto bg-paper">
-      {/* Brand header */}
-      <header className="relative isolate flex flex-col items-center gap-4 overflow-hidden bg-[linear-gradient(160deg,#2C5036_0%,#1F3D2B_55%,#162E20_100%)] px-6 pb-24 pt-[calc(env(safe-area-inset-top)+48px)]">
+    <main className="screen-enter flex flex-1 flex-col overflow-y-auto bg-paper px-6 pb-10 pt-[calc(env(safe-area-inset-top)+56px)]">
+      {/* Brand */}
+      <div className="flex flex-col items-center">
         <WtfFridgeIcon size="xl" />
-        <WordmarkText tone="dark" className="text-center" />
-      </header>
+        <WordmarkText tone="light" className="mt-4 text-center" />
+      </div>
 
-      {/* Overlapping card */}
-      <section className="relative z-10 -mt-16 flex-1 rounded-t-[30px] bg-paper px-6 pb-10 pt-8 shadow-[0_-10px_30px_rgba(34,52,32,0.14)]">
+      {/* Card */}
+      <section className="mt-8 rounded-[24px] border border-line bg-surface px-6 pb-8 pt-7 shadow-md">
         <h1 className="font-display text-[30px] font-extrabold leading-[1.1] tracking-[-0.02em] text-ink">Welcome</h1>
         <p className="mt-2 text-[15px] font-medium leading-[1.5] text-ink-soft">
           Sign in to turn your fridge into dinner.
