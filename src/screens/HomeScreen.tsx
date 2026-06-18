@@ -55,7 +55,7 @@ export function HomeScreen({
         <Tile iconSrc="/scan-icon.png" bgSrc="/cardbg-scan.png" title="Scan" onClick={onGoScan} />
         <Tile iconSrc="/inventory-icon.png" bgSrc="/cardbg-inventory.png" title="Inventory" onClick={onInventory} />
         <Tile
-          iconNode={<ShoppingCart className="h-9 w-9 text-olive" strokeWidth={1.6} />}
+          iconNode={<ShoppingCart className="h-11 w-11 text-olive" strokeWidth={1.6} />}
           bgSrc="/cardbg-compare.png"
           title="Shop My List"
           onClick={onCompare}
@@ -74,9 +74,9 @@ function Tile({ iconSrc, iconNode, bgSrc, title, onClick }: { iconSrc?: string; 
     >
       <img src={bgSrc} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
       {iconSrc ? (
-        <img src={iconSrc} alt="" className="relative z-10 -ml-1 -mt-1 h-14 w-14 object-contain" />
+        <img src={iconSrc} alt="" className="relative z-10 -ml-1 -mt-1 h-[68px] w-[68px] object-contain" />
       ) : (
-        <span className="relative z-10 grid h-14 w-14 place-items-center">{iconNode}</span>
+        <span className="relative z-10 grid h-[68px] w-[68px] place-items-center">{iconNode}</span>
       )}
       <span className="relative z-10 flex items-end justify-between">
         <span className="font-serif text-[18px] font-bold leading-tight tracking-[-0.01em] text-ink">{title}</span>
