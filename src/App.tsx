@@ -356,9 +356,11 @@ export default function App() {
       return (
         <MealsScreen
           savedCount={new Set([...app.savedMealIds, ...app.cookedMealIds, ...app.shoppingMealIds]).size}
+          savedPreview={app.likedMeals}
           onWtfScratch={() => openMealPreferences('scratch')}
           onUseWhatIHave={() => openMealPreferences('inventory')}
           onViewSaved={openSavedMeals}
+          onOpenMeal={openMealDetail}
         />
       );
     }
