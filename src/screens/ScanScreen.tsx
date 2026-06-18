@@ -104,9 +104,9 @@ function SourceRow({ icon, title, subtitle, onClick }: { icon: ReactNode; title:
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-lg border border-line bg-surface p-4 text-left shadow-sm transition duration-150 ease-out active:scale-[0.99] active:bg-paper"
+      className="flex w-full items-center gap-3 rounded-[22px] border border-line bg-surface p-4 text-left shadow-sm transition duration-150 ease-out active:scale-[0.99] active:bg-paper"
     >
-      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">{icon}</div>
+      <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">{icon}</div>
       <div className="min-w-0 flex-1">
         <h2 className="font-display text-[18px] font-bold tracking-[-0.02em] text-ink">{title}</h2>
         <p className="mt-0.5 text-[13px] font-medium leading-snug text-ink-soft">{subtitle}</p>

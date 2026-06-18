@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronRight, Heart, Refrigerator, Utensils } from 'lucide-react';
+import { ArrowRight, ChefHat, ChevronRight, Heart, Refrigerator, Utensils } from 'lucide-react';
 import { ReactNode } from 'react';
 import { MealIdea } from '../types';
 
@@ -30,17 +30,17 @@ export function MealsScreen({
       <button
         type="button"
         onClick={onWtfScratch}
-        className="section-enter stagger-1 relative block w-full overflow-hidden rounded-[28px] border border-line/60 bg-cream p-5 text-left shadow-md transition active:scale-[0.99]"
+        className="section-enter stagger-1 flex w-full items-center gap-4 rounded-[24px] border border-line/60 bg-cream p-5 text-left shadow-md transition active:scale-[0.99]"
       >
-        <img src="/graphichome1.png" alt="" className="pointer-events-none absolute -right-2 top-1/2 h-36 w-36 -translate-y-1/2 object-contain" />
-        <div className="relative max-w-[62%]">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-olive">Start fresh</p>
-          <h2 className="mt-1.5 font-serif text-[30px] font-bold leading-[0.96] tracking-[-0.01em] text-ink">WTF should I make?</h2>
-          <span className="mt-4 inline-flex items-center gap-2 rounded-pill bg-accent px-5 py-2.5 text-[15px] font-semibold text-surface shadow-sm">
-            Show me meals
-            <ArrowRight className="h-4 w-4" strokeWidth={2.25} />
-          </span>
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-accent text-surface shadow-sm">
+          <ChefHat className="h-7 w-7" strokeWidth={1.6} />
         </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-olive">Start fresh</p>
+          <h2 className="mt-0.5 font-serif text-[23px] font-bold leading-[1.0] tracking-[-0.01em] text-ink">WTF should I make?</h2>
+          <p className="mt-1 text-[13px] font-medium leading-snug text-ink-soft">Meal ideas plus a shopping list from your picks.</p>
+        </div>
+        <ArrowRight className="h-5 w-5 shrink-0 text-accent" strokeWidth={2.25} />
       </button>
 
       <div className="section-enter stagger-2 grid grid-cols-2 gap-3.5">
