@@ -19,17 +19,17 @@ export function HomeScreen({
 }) {
   return (
     <div className="app-scroll-home screen-enter flex flex-col">
-      <header className="-mx-5 -mt-[calc(env(safe-area-inset-top)+16px)] mb-1 flex shrink-0 items-center justify-between bg-[#13351E] px-5 pb-4 pt-[calc(env(safe-area-inset-top)+14px)] shadow-sm">
+      <header className="-mx-5 -mt-[calc(env(safe-area-inset-top)+16px)] mb-4 flex shrink-0 items-center justify-between border-b border-line bg-paper px-5 pb-3 pt-[calc(env(safe-area-inset-top)+14px)] shadow-[0_8px_16px_-10px_rgba(20,40,28,0.25)]">
         <div className="flex items-center gap-2.5">
           <WtfFridgeIcon size="sm" />
-          <WordmarkText tone="dark" />
+          <WordmarkText tone="light" />
         </div>
         <button
           type="button"
           onClick={onSettings}
           aria-label="Account"
           title="Account"
-          className="grid h-10 w-10 place-items-center rounded-full border border-cream/25 bg-cream/10 text-cream backdrop-blur-sm transition active:scale-95"
+          className="grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-ink shadow-sm transition active:scale-95"
         >
           <CircleUserRound className="h-6 w-6" strokeWidth={1.75} />
         </button>
