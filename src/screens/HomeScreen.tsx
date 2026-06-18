@@ -1,4 +1,5 @@
-import { ArrowRight, ChevronRight, CircleUserRound } from 'lucide-react';
+import { ArrowRight, ChevronRight, CircleUserRound, ShoppingCart } from 'lucide-react';
+import { ReactNode } from 'react';
 import { WordmarkText, WtfFridgeIcon } from '../components/BrandMark';
 
 export function HomeScreen({
@@ -53,13 +54,18 @@ export function HomeScreen({
         <Tile iconSrc="/grocerylist-icon.png" bgSrc="/cardbg-grocerylist.png" title="Grocery List" onClick={onGoList} />
         <Tile iconSrc="/scan-icon.png" bgSrc="/cardbg-scan.png" title="Scan" onClick={onGoScan} />
         <Tile iconSrc="/inventory-icon.png" bgSrc="/cardbg-inventory.png" title="Inventory" onClick={onInventory} />
-        <Tile iconSrc="/compare-icon.png" bgSrc="/cardbg-compare.png" title="Compare" onClick={onCompare} />
+        <Tile
+          iconNode={<ShoppingCart className="h-9 w-9 text-olive" strokeWidth={1.6} />}
+          bgSrc="/cardbg-compare.png"
+          title="Shop My List"
+          onClick={onCompare}
+        />
       </div>
     </div>
   );
 }
 
-function Tile({ iconSrc, bgSrc, title, onClick }: { iconSrc: string; bgSrc: string; title: string; onClick: () => void }) {
+function Tile({ iconSrc, iconNode, bgSrc, title, onClick }: { iconSrc?: string; iconNode?: ReactNode; bgSrc: string; title: string; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -67,7 +73,11 @@ function Tile({ iconSrc, bgSrc, title, onClick }: { iconSrc: string; bgSrc: stri
       className="relative flex h-full min-h-[96px] flex-col justify-between overflow-hidden rounded-[22px] border border-line/70 bg-surface p-4 text-left shadow-sm transition active:scale-[0.98]"
     >
       <img src={bgSrc} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
-      <img src={iconSrc} alt="" className="relative z-10 -ml-1 -mt-1 h-14 w-14 object-contain" />
+      {iconSrc ? (
+        <img src={iconSrc} alt="" className="relative z-10 -ml-1 -mt-1 h-14 w-14 object-contain" />
+      ) : (
+        <span className="relative z-10 grid h-14 w-14 place-items-center">{iconNode}</span>
+      )}
       <span className="relative z-10 flex items-end justify-between">
         <span className="font-serif text-[18px] font-bold leading-tight tracking-[-0.01em] text-ink">{title}</span>
         <ChevronRight className="h-5 w-5 text-muted" strokeWidth={2} />
