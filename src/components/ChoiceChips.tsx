@@ -42,7 +42,7 @@ export function ChoiceChips({
         {label}
       </span>
       {hint ? <span className="mt-1 block text-[13px] font-medium leading-snug text-ink-soft">{hint}</span> : null}
-      <div className="mt-2 flex flex-wrap gap-2" role={multiple ? 'group' : 'radiogroup'}>
+      <div className="mt-1.5 flex flex-wrap gap-1.5" role={multiple ? 'group' : 'radiogroup'}>
         {visible.map((option) => {
           const active = selected.includes(option);
           return (
@@ -52,7 +52,7 @@ export function ChoiceChips({
               role={multiple ? 'checkbox' : 'radio'}
               aria-checked={active}
               onClick={() => onSelect(option)}
-              className={`min-h-10 rounded-pill border px-3.5 text-[14px] font-semibold transition active:scale-[0.98] ${
+              className={`min-h-9 rounded-pill border px-3 text-[13px] font-semibold transition active:scale-[0.98] ${
                 active ? 'border-ink bg-ink text-paper shadow-sm' : 'border-line bg-paper text-ink-soft'
               }`}
             >
@@ -64,9 +64,9 @@ export function ChoiceChips({
           <button
             type="button"
             onClick={() => setExpanded(true)}
-            className="inline-flex min-h-10 items-center gap-1 rounded-pill border border-dashed border-line bg-paper px-3.5 text-[14px] font-semibold text-accent transition active:scale-[0.98]"
+            className="inline-flex min-h-9 items-center gap-1 rounded-pill border border-dashed border-line bg-paper px-3 text-[13px] font-semibold text-accent transition active:scale-[0.98]"
           >
-            <Plus className="h-4 w-4" strokeWidth={2.25} />
+            <Plus className="h-3.5 w-3.5" strokeWidth={2.25} />
             {hiddenCount} more
           </button>
         ) : null}
@@ -74,7 +74,7 @@ export function ChoiceChips({
           <button
             type="button"
             onClick={() => setExpanded(false)}
-            className="min-h-10 rounded-pill border border-dashed border-line bg-paper px-3.5 text-[14px] font-semibold text-muted transition active:scale-[0.98]"
+            className="min-h-9 rounded-pill border border-dashed border-line bg-paper px-3 text-[13px] font-semibold text-muted transition active:scale-[0.98]"
           >
             Show less
           </button>

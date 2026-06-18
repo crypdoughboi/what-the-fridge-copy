@@ -16,12 +16,12 @@ import { cookingMethodOptions, cuisineOptions, effortOptions, flexibilityOptions
 const copy: Record<MealMode, { header: string; support: string; cta: string }> = {
   scratch: {
     header: 'WTF Should I Make?',
-    support: "Tap a few preferences. We'll give you meal ideas and a shopping list.",
+    support: 'Tap a few preferences.',
     cta: 'Show me meals',
   },
   inventory: {
     header: 'Use What I Have',
-    support: "We'll use your kitchen first and only suggest missing ingredients if needed.",
+    support: "We'll cook from your kitchen first.",
     cta: 'Find meals from my kitchen',
   },
 };
@@ -54,16 +54,16 @@ export function MealPreferencesScreen({
   }
 
   return (
-    <main className="screen-enter space-y-6">
-      <BackButton onClick={onBack} label="Back to Meals" />
+    <main className="screen-enter flex h-full flex-col">
+      <BackButton onClick={onBack} label="Back to Meals" className="shrink-0 self-start" />
 
-      <section className="section-enter">
+      <section className="section-enter mt-3 shrink-0">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Preferences</p>
-        <h1 className="mt-2 font-display text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{header}</h1>
-        <p className="mt-3 text-[16px] font-medium leading-[1.45] text-ink-soft">{support}</p>
+        <h1 className="mt-1 font-display text-[26px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">{header}</h1>
+        <p className="mt-0.5 text-[13px] font-medium leading-snug text-ink-soft">{support}</p>
       </section>
 
-      <div className="section-enter stagger-1 space-y-6">
+      <div className="section-enter stagger-1 mt-3 flex-1 space-y-3 overflow-y-auto [min-height:0] [scrollbar-width:none]">
         <ChoiceChips
           label="Effort"
           icon={<Zap className="h-4 w-4" strokeWidth={2} />}
@@ -96,7 +96,6 @@ export function MealPreferencesScreen({
         ) : null}
         <ChoiceChips
           label="Allergies / restrictions"
-          hint="Pick any that apply. We'll respect these in every suggestion."
           icon={<Leaf className="h-4 w-4" strokeWidth={2} />}
           options={restrictionOptions}
           selected={preferences.restrictions}
@@ -105,7 +104,7 @@ export function MealPreferencesScreen({
         />
       </div>
 
-      <Button full onClick={() => onSubmit(preferences)}>
+      <Button full className="mt-3 shrink-0" onClick={() => onSubmit(preferences)}>
         {cta}
       </Button>
     </main>
