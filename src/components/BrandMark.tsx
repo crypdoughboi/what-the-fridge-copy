@@ -18,7 +18,7 @@ export function WtfFridgeIcon({ size = 'md', className = '' }: { size?: LogoSize
 export function WordmarkText({ tone = 'light', className = '' }: { tone?: 'dark' | 'light'; className?: string }) {
   const color = tone === 'dark' ? 'text-cream' : 'text-ink';
   return (
-    <span className={`whitespace-nowrap font-serif text-[clamp(20px,6.2vw,26px)] font-bold leading-none tracking-[-0.01em] ${color} ${className}`}>
+    <span className={`whitespace-nowrap font-lazydog text-[clamp(24px,7.4vw,32px)] uppercase leading-none tracking-[0.01em] ${color} ${className}`}>
       What The Fridge
     </span>
   );

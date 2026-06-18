@@ -32,6 +32,7 @@ export default {
         hero: '0 18px 40px rgba(10,24,16,0.32)',
       },
       fontFamily: {
+        lazydog: ['"Lazydog"', 'ui-rounded', 'cursive'],
         brand: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
         serif: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
         display: ['"Fraunces"', 'ui-serif', 'Georgia', 'serif'],
