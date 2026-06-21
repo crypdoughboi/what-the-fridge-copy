@@ -177,10 +177,24 @@ Shopping delivery comparison lives in `src/services/deliveryComparisonService.ts
 This is a prototype price estimator: it builds a base in-store price per Need to Buy
 item from the user's own purchase history (with a category-average fallback), then
 applies each provider's typical item markup, delivery fee, and service fee to produce
-a comparable estimated total and ETA per provider. The "Continue to {provider}" action
-opens the provider's site to finish the order. The real version should call each
-provider's cart/quote API (Instacart, DoorDash, Uber Eats, retailer curbside) for live
-pricing, availability, and checkout/deep-link handoff.
+a comparable estimated total and ETA per provider. Curbside/DoorDash/Uber Eats still
+open the provider's site; a fuller version would call each provider's cart/quote API.
+
+Instacart is a real integration. "Continue to Instacart" builds an actual Instacart
+shopping list/cart from the user's Need to Buy items via the Instacart Developer
+Platform "Create shopping list page" API (`POST /idp/v1/products/products_link`). The
+API key is kept server-side in the `instacart-list` Supabase Edge Function
+(`supabase/functions/instacart-list/index.ts`), which returns the `products_link_url`;
+the client (`src/services/instacartService.ts`) opens it. When Supabase or the key
+isn't configured, it falls back to opening instacart.com.
+
+To enable it:
+- `supabase functions deploy instacart-list`
+- `supabase secrets set INSTACART_API_KEY=keys.xxxxx`  (dev key) or your production key
+- Optional (defaults to production `https://connect.instacart.com`):
+  `supabase secrets set INSTACART_API_BASE=https://connect.dev.instacart.tools`
+
+Docs: https://docs.instacart.com/developer_platform_api/api/products/create_shopping_list_page
 
 Meal generation lives in `src/services/mealGenerationService.ts`.
 

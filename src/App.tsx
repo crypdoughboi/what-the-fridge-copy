@@ -27,6 +27,7 @@ import { SettingsScreen } from './screens/SettingsScreen';
 import { SpendScreen } from './screens/SpendScreen';
 import { getMealNeededNames } from './services/mealGenerationService';
 import { importRecipeFromImage } from './services/recipeImportService';
+import { createInstacartListUrl } from './services/instacartService';
 import { defaultMealPreferences, restrictionsFromProfile } from './data/mealPreferenceOptions';
 import { DeckMeal, DeliveryQuote, ImportedRecipe, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
 
@@ -163,7 +164,19 @@ export default function App() {
     pushScreen('delivery', 'list');
   }
 
-  function checkoutDelivery(quote: DeliveryQuote) {
+  async function checkoutDelivery(quote: DeliveryQuote) {
+    // Instacart: build a real Instacart cart from the list via the Developer Platform API.
+    if (quote.providerId === 'instacart') {
+      // Open the tab synchronously (before the await) so it isn't blocked as a popup.
+      const tab = window.open('about:blank', '_blank');
+      app.showToast('Building your Instacart cart…');
+      const url = await createInstacartListUrl(app.deliveryLineItems);
+      const destination = url ?? quote.url;
+      if (tab && !tab.closed) tab.location.href = destination;
+      else window.location.href = destination;
+      app.showToast(url ? 'Your Instacart cart is ready.' : 'Opening Instacart.');
+      return;
+    }
     window.open(quote.url, '_blank', 'noopener,noreferrer');
     app.showToast(`Opening ${quote.providerName} to finish your order.`);
   }
