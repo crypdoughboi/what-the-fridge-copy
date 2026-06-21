@@ -34,7 +34,7 @@ const PROVIDERS: ProviderConfig[] = [
     deliveryFee: 3.99,
     serviceFeePct: 0.05,
     etaMinutes: 60,
-    note: 'Builds a real Instacart cart from your list — pick a store and check out. Fees and tip apply.',
+    note: 'Sends your list to Instacart — pick a store, add items, and check out. Fees and tip apply.',
     url: 'https://www.instacart.com',
   },
   {
