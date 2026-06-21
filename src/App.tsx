@@ -165,20 +165,40 @@ export default function App() {
   }
 
   async function checkoutDelivery(quote: DeliveryQuote) {
-    // Instacart: build a real Instacart cart from the list via the Developer Platform API.
+    // Instacart: build a real Instacart cart from the list via the Developer Platform API
+    // when an API key is configured. Without a key, fall back to copying the list to the
+    // clipboard and opening Instacart so the user can add the items quickly.
     if (quote.providerId === 'instacart') {
       // Open the tab synchronously (before the await) so it isn't blocked as a popup.
       const tab = window.open('about:blank', '_blank');
       app.showToast('Building your Instacart cart…');
       const url = await createInstacartListUrl(app.deliveryLineItems);
-      const destination = url ?? quote.url;
-      if (tab && !tab.closed) tab.location.href = destination;
-      else window.location.href = destination;
-      app.showToast(url ? 'Your Instacart cart is ready.' : 'Opening Instacart.');
+      if (url) {
+        if (tab && !tab.closed) tab.location.href = url;
+        else window.location.href = url;
+        app.showToast('Your Instacart cart is ready.');
+        return;
+      }
+      // No API key configured: copy the list so it's one paste per item on Instacart.
+      const copied = await copyListToClipboard(app.deliveryLineItems);
+      if (tab && !tab.closed) tab.location.href = quote.url;
+      else window.location.href = quote.url;
+      app.showToast(copied ? 'List copied — paste each item on Instacart.' : 'Opening Instacart.');
       return;
     }
     window.open(quote.url, '_blank', 'noopener,noreferrer');
     app.showToast(`Opening ${quote.providerName} to finish your order.`);
+  }
+
+  async function copyListToClipboard(items: Array<{ name: string }>): Promise<boolean> {
+    const text = items.map((item) => item.name).filter(Boolean).join('\n');
+    if (!text) return false;
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   function confirmReceipt(extraction: ReceiptExtraction) {
