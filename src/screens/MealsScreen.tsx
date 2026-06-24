@@ -20,7 +20,7 @@ export function MealsScreen({
   const preview = savedPreview.slice(0, 3);
 
   return (
-    <main className="screen-enter space-y-5">
+    <main className="screen-enter flex min-h-full flex-col gap-5">
       <section className="section-enter">
         <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Meals</p>
         <h1 className="mt-1.5 font-serif text-[30px] font-bold leading-[1.02] tracking-[-0.01em] text-ink">What's for dinner?</h1>
@@ -48,21 +48,41 @@ export function MealsScreen({
         <Tile iconColor="text-terracotta" icon={<Heart className="h-7 w-7" strokeWidth={1.6} />} title="Saved Meals" badge={savedCount > 0 ? savedCount : undefined} onClick={onViewSaved} />
       </div>
 
-      {preview.length > 0 && (
-        <section className="section-enter stagger-3 space-y-3">
-          <div className="flex items-baseline justify-between">
-            <h3 className="font-serif text-[20px] font-bold tracking-[-0.01em] text-ink">Saved meals</h3>
-            <button type="button" onClick={onViewSaved} className="text-[13px] font-semibold text-accent active:opacity-70">
-              View all{savedCount > 0 ? ` (${savedCount})` : ''}
+      <section className="section-enter stagger-3 flex flex-1 flex-col">
+        {preview.length > 0 ? (
+          <>
+            <div className="flex items-baseline justify-between">
+              <h3 className="font-serif text-[20px] font-bold tracking-[-0.01em] text-ink">Saved meals</h3>
+              <button type="button" onClick={onViewSaved} className="text-[13px] font-semibold text-accent active:opacity-70">
+                View all{savedCount > 0 ? ` (${savedCount})` : ''}
+              </button>
+            </div>
+            <div className="mt-3 space-y-2.5">
+              {preview.map((meal) => (
+                <SavedMealQuick key={meal.id} meal={meal} onClick={() => onOpenMeal(meal)} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-1 flex-col items-center justify-center rounded-[24px] border border-dashed border-line bg-surface/60 px-6 py-10 text-center">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-accent-soft text-accent">
+              <Heart className="h-7 w-7" strokeWidth={1.6} />
+            </div>
+            <h3 className="mt-4 font-serif text-[20px] font-bold tracking-[-0.01em] text-ink">No saved meals yet</h3>
+            <p className="mt-1.5 max-w-[260px] text-[13px] font-medium leading-snug text-ink-soft">
+              Swipe through ideas and tap Like — the ones you save land right here.
+            </p>
+            <button
+              type="button"
+              onClick={onWtfScratch}
+              className="mt-5 inline-flex items-center gap-2 rounded-pill bg-ink px-5 py-2.5 text-[14px] font-semibold text-surface shadow-sm transition active:scale-[0.98]"
+            >
+              <ChefHat className="h-4 w-4" strokeWidth={1.9} />
+              Browse meal ideas
             </button>
           </div>
-          <div className="space-y-2.5">
-            {preview.map((meal) => (
-              <SavedMealQuick key={meal.id} meal={meal} onClick={() => onOpenMeal(meal)} />
-            ))}
-          </div>
-        </section>
-      )}
+        )}
+      </section>
     </main>
   );
 }
