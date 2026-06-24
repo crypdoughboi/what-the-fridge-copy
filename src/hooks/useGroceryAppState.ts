@@ -744,9 +744,10 @@ export function useGroceryAppState() {
     showToast("Old list imported. We'll use this to learn your usuals.");
   }
 
-  function addRecipeToList(recipeTitle: string, neededNames: string[]) {
+  function addRecipeToList(recipeTitle: string, neededNames: string[], haveNames: string[] = []) {
     const names = filterNewNeedNames(neededNames);
-    if (names.length === 0) {
+    const ownedNames = unique(haveNames.map((name) => normalizeReceiptItemName(name)).filter(Boolean));
+    if (names.length === 0 && ownedNames.length === 0) {
       showToast(`${recipeTitle} ingredients are already on your list.`);
       return;
     }
@@ -756,9 +757,12 @@ export function useGroceryAppState() {
         const key = normalizeIngredientKey(name);
         nextUsedFor[key] = unique([...(nextUsedFor[key] ?? []), recipeTitle]);
       });
+      // Items the user marked (or we detected as) already-have go to Already Have, checked off.
+      const ownedTracked = addOwnedTracking(cleanupFoodByNames(current, ownedNames), ownedNames, 'recipe_import');
       return {
-        ...addListTracking(current, names, 'recipe_import'),
-        mealAddedNames: unique([...current.mealAddedNames, ...names]),
+        ...addListTracking(ownedTracked, names, 'recipe_import'),
+        mealAddedNames: unique([...ownedTracked.mealAddedNames, ...names]),
+        alreadyHaveNames: unique([...ownedTracked.alreadyHaveNames, ...ownedNames]),
         usedForMeals: nextUsedFor,
         addCounts: names.reduce(
           (counts, name) => ({
@@ -771,7 +775,12 @@ export function useGroceryAppState() {
     });
     setImportCount((current) => current + 1);
     names.forEach((name) => void upsertGroceryItem(remoteUserId, name, undefined, undefined, 'recipe_import'));
-    showToast(`Added ${names.length} item${names.length === 1 ? '' : 's'} from ${recipeTitle}.`);
+    ownedNames.forEach((name) => void upsertUserIngredient(remoteUserId, name, 'recipe_import'));
+    if (names.length === 0) {
+      showToast(`${recipeTitle}: everything's already in your kitchen.`);
+    } else {
+      showToast(`Added ${names.length} item${names.length === 1 ? '' : 's'} from ${recipeTitle}.`);
+    }
   }
 
   function saveMeal(mealId: string) {

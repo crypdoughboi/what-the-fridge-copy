@@ -243,14 +243,20 @@ export function generateGroceryList(items: GroceryMemoryItem[], behavior: Behavi
     }
   });
 
+  // Anything already owned — whether flagged by name, seen in a receipt/fridge scan
+  // (now living in `probablyAlreadyHave` as a memory item), or marked by hand — should
+  // suppress a meal/manual item for the same ingredient so a scan checks it off even when
+  // the wording differs (e.g. "jasmine rice" reconciles against an owned "rice").
+  const ownedKeys = new Set<string>([...alreadyHaveKeys, ...probablyAlreadyHave.map((entry) => normalizeIngredientKey(entry.name))]);
+
   behavior.manuallyAddedNames.forEach((name) => {
-    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
+    if (!ownedKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
       buyNow.push(entryFromName(name, 'manual', 'Added by you.', 95, usedFor(name)));
     }
   });
 
   behavior.mealAddedNames.forEach((name) => {
-    if (!alreadyHaveKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
+    if (!ownedKeys.has(normalizeIngredientKey(name)) && !hasName(buyNow, name) && !hasName(maybeBuy, name) && !hasName(probablyAlreadyHave, name)) {
       buyNow.push(entryFromName(name, 'meal', 'Needed for a dinner you picked.', 90, usedFor(name)));
     }
   });

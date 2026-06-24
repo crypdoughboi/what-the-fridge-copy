@@ -62,13 +62,29 @@ export function ListScreen({
         {hasItems && <p className="mt-1 text-[13px] font-medium leading-snug text-muted">Tap a circle to check items off. Swipe left to delete.</p>}
       </section>
 
-      <section className="section-enter stagger-1">
+      <section className="section-enter stagger-1 space-y-2">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Input value={manualItem} onChange={(event) => setManualItem(event.target.value)} placeholder="Add lemon, rice, paper towels" className="min-w-0 flex-1" />
           <Button type="submit" className="px-4" disabled={!manualItem.trim()}>
             Add
           </Button>
         </form>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md border border-line bg-surface px-3 text-[13px] font-semibold text-ink-soft shadow-sm active:scale-[0.98]"
+            onClick={onScanReceipt}
+          >
+            <ReceiptText className="h-4 w-4" strokeWidth={1.75} />
+            Scan receipt
+          </button>
+          <button
+            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-md border border-line bg-surface px-3 text-[13px] font-semibold text-ink-soft shadow-sm active:scale-[0.98]"
+            onClick={onSnapFridge}
+          >
+            <Camera className="h-4 w-4" strokeWidth={1.75} />
+            Snap fridge
+          </button>
+        </div>
       </section>
 
       {!hasItems ? (

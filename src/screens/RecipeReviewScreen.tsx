@@ -5,27 +5,37 @@ import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Pill } from '../components/Pill';
 import { BackButton } from '../components/BackButton';
+import { normalizeIngredientKey } from '../utils/groceryLogic';
 
 export function RecipeReviewScreen({
   recipe,
+  knownIngredients,
   onBack,
   onAddToList,
 }: {
   recipe: ImportedRecipe;
+  knownIngredients: string[];
   onBack: () => void;
-  onAddToList: (recipeTitle: string, neededNames: string[]) => void;
+  onAddToList: (recipeTitle: string, neededNames: string[], haveNames: string[]) => void;
 }) {
   const [ingredients, setIngredients] = useState<ImportedRecipeIngredient[]>(recipe.ingredients);
 
+  // Pre-check anything we already know the user has so it lands in Already Have, not Need to Buy.
   useEffect(() => {
-    setIngredients(recipe.ingredients);
-  }, [recipe]);
+    const knownKeys = new Set(knownIngredients.map(normalizeIngredientKey));
+    setIngredients(
+      recipe.ingredients.map((item) =>
+        knownKeys.has(normalizeIngredientKey(item.name)) ? { ...item, status: 'alreadyHave' as IngredientReviewStatus } : item,
+      ),
+    );
+  }, [recipe, knownIngredients]);
 
   function setStatus(id: string, status: IngredientReviewStatus) {
     setIngredients((current) => current.map((item) => (item.id === id ? { ...item, status } : item)));
   }
 
   const needNames = ingredients.filter((item) => item.status === 'needToBuy').map((item) => item.name);
+  const haveNames = ingredients.filter((item) => item.status === 'alreadyHave').map((item) => item.name);
 
   return (
     <main className="screen-enter space-y-6">
@@ -102,8 +112,16 @@ export function RecipeReviewScreen({
       {recipe.sourceNote && <p className="text-[12px] font-medium leading-relaxed text-muted">{recipe.sourceNote}</p>}
 
       <div className="grid gap-2">
-        <Button icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onAddToList(recipe.title, needNames)} disabled={needNames.length === 0}>
-          {needNames.length > 0 ? `Add ${needNames.length} item${needNames.length === 1 ? '' : 's'} to list` : 'Nothing left to buy'}
+        <Button
+          icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />}
+          onClick={() => onAddToList(recipe.title, needNames, haveNames)}
+          disabled={needNames.length === 0 && haveNames.length === 0}
+        >
+          {needNames.length > 0
+            ? `Add ${needNames.length} item${needNames.length === 1 ? '' : 's'} to list`
+            : haveNames.length > 0
+              ? 'Save what you already have'
+              : 'Nothing to add'}
         </Button>
         <Button variant="ghost" onClick={onBack}>
           Import a different recipe
