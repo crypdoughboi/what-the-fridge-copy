@@ -169,8 +169,8 @@ export default function App() {
     pushScreen('recipeReview', 'scan');
   }
 
-  function addRecipeToList(recipeTitle: string, neededNames: string[]) {
-    app.addRecipeToList(recipeTitle, neededNames);
+  function addRecipeToList(recipeTitle: string, neededNames: string[], haveNames: string[] = []) {
+    app.addRecipeToList(recipeTitle, neededNames, haveNames);
     navigateTab('list');
   }
 
@@ -397,7 +397,14 @@ export default function App() {
     }
 
     if (screen === 'recipeReview' && recipe) {
-      return <RecipeReviewScreen recipe={recipe} onBack={() => goBack('recipeImport')} onAddToList={addRecipeToList} />;
+      return (
+        <RecipeReviewScreen
+          recipe={recipe}
+          knownIngredients={app.knownIngredientNames}
+          onBack={() => goBack('recipeImport')}
+          onAddToList={addRecipeToList}
+        />
+      );
     }
 
     if (screen === 'delivery') {
