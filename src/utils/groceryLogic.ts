@@ -59,55 +59,154 @@ export function parseManualItemNames(value: string): string[] {
     });
 }
 
+// Synonyms, regional spellings, and varietals that mean the same ingredient. Curated on
+// purpose: it maps look-alikes onto a shared key (so a scan checks off the list item even
+// when the words differ) WITHOUT collapsing genuinely different foods. Note the deliberate
+// non-merges, e.g. "sweet potato" stays distinct from "potato" and "green onion" (a scallion)
+// stays distinct from "onion".
+const ingredientSynonyms: Record<string, string> = {
+  // Plurals / simple forms.
+  lemons: 'lemon',
+  limes: 'lime',
+  tomatoes: 'tomato',
+  potatoes: 'potato',
+  carrots: 'carrot',
+  cucumbers: 'cucumber',
+  scallions: 'scallion',
+  onions: 'onion',
+  peppers: 'pepper',
+  berries: 'berry',
+  eggs: 'egg',
+  noodles: 'noodle',
+  tortillas: 'tortilla',
+  olives: 'olive',
+  mushrooms: 'mushroom',
+  // Proteins.
+  thighs: 'chicken',
+  'chicken thighs': 'chicken',
+  'chicken thigh': 'chicken',
+  'chicken cutlets': 'chicken',
+  'chicken cutlet': 'chicken',
+  'chicken breast': 'chicken',
+  'chicken breasts': 'chicken',
+  'chicken tenders': 'chicken',
+  'chicken tender': 'chicken',
+  'ground chicken': 'chicken',
+  'ground turkey': 'turkey',
+  'ground beef': 'ground beef',
+  'minced beef': 'ground beef',
+  'ground meat': 'ground beef',
+  hamburger: 'ground beef',
+  'hamburger meat': 'ground beef',
+  prawn: 'shrimp',
+  prawns: 'shrimp',
+  // Produce: regional names and varietals that fold to the base ingredient.
+  'green onion': 'scallion',
+  'green onions': 'scallion',
+  'spring onion': 'scallion',
+  'spring onions': 'scallion',
+  'red onion': 'onion',
+  'yellow onion': 'onion',
+  'white onion': 'onion',
+  aubergine: 'eggplant',
+  courgette: 'zucchini',
+  capsicum: 'bell pepper',
+  'bell peppers': 'bell pepper',
+  'red bell pepper': 'bell pepper',
+  'green bell pepper': 'bell pepper',
+  'yellow bell pepper': 'bell pepper',
+  'orange bell pepper': 'bell pepper',
+  'sweet pepper': 'bell pepper',
+  garbanzo: 'chickpea',
+  'garbanzo bean': 'chickpea',
+  'garbanzo beans': 'chickpea',
+  chickpeas: 'chickpea',
+  cilantro: 'cilantro',
+  coriander: 'cilantro',
+  'coriander leaves': 'cilantro',
+  yam: 'sweet potato',
+  yams: 'sweet potato',
+  cremini: 'mushroom',
+  'cremini mushroom': 'mushroom',
+  'baby bella': 'mushroom',
+  'button mushroom': 'mushroom',
+  'white mushroom': 'mushroom',
+  portobello: 'mushroom',
+  'roma tomato': 'tomato',
+  'plum tomato': 'tomato',
+  'vine tomato': 'tomato',
+  'cherry tomato': 'tomato',
+  'grape tomato': 'tomato',
+  // Pantry / dairy.
+  'jasmine rice': 'rice',
+  'frozen jasmine rice': 'rice',
+  'basmati rice': 'rice',
+  'white rice': 'rice',
+  'brown rice': 'rice',
+  'all purpose flour': 'flour',
+  'allpurpose flour': 'flour',
+  'plain flour': 'flour',
+  'ap flour': 'flour',
+  'kosher salt': 'salt',
+  'sea salt': 'salt',
+  'table salt': 'salt',
+  'olive oil': 'olive oil',
+  'extra virgin olive oil': 'olive oil',
+  evoo: 'olive oil',
+  'unsalted butter': 'butter',
+  'salted butter': 'butter',
+  'whole milk': 'milk',
+  'skim milk': 'milk',
+  '2 milk': 'milk',
+  '2 percent milk': 'milk',
+  'greek yogurt': 'greek yogurt',
+  'greek yoghurt': 'greek yogurt',
+  yoghurt: 'yogurt',
+  'black beans': 'black bean',
+  'cheddar cheese': 'cheddar',
+  'sharp cheddar': 'cheddar',
+  'parmesan cheese': 'parmesan',
+  parmigiano: 'parmesan',
+  'parmigiano reggiano': 'parmesan',
+  'soy sauce': 'soy sauce',
+  shoyu: 'soy sauce',
+  'light soy sauce': 'soy sauce',
+  'dark soy sauce': 'soy sauce',
+};
+
+function singularizeWord(word: string): string {
+  if (word.length > 4 && word.endsWith('ies')) return `${word.slice(0, -3)}y`;
+  if (word.length > 4 && (word.endsWith('oes') || word.endsWith('ses') || word.endsWith('xes') || word.endsWith('hes'))) return word.slice(0, -2);
+  if (word.length > 3 && word.endsWith('s') && !word.endsWith('ss') && !word.endsWith('us')) return word.slice(0, -1);
+  return word;
+}
+
+function singularizeWords(value: string): string {
+  return value
+    .split(' ')
+    .filter(Boolean)
+    .map(singularizeWord)
+    .join(' ');
+}
+
 export function normalizeIngredientKey(name: string): string {
-  const normalized = normalizeReceiptItemName(name)
+  // Strip descriptors that don't change which ingredient it is (prep, size, packaging).
+  // Colors and words like "sweet"/"green" are deliberately NOT stripped here — those can
+  // distinguish ingredients (sweet potato, green onion) and are handled by the map above.
+  const stripped = normalizeReceiptItemName(name)
     .toLowerCase()
     .replace(
-      /\b(optional|fresh|whole|large|small|mini|quick|herby|toasted|grated|sliced|diced|chopped|organic|org|plain|ripe|bag|bunch|pack|package|pkg|carton|container|bottle|box|jar|dozen|dz|boneless|skinless|low fat|nonfat|full fat)\b/g,
+      /\b(optional|fresh|whole|large|small|mini|quick|herby|toasted|grated|sliced|diced|chopped|minced|shredded|crushed|peeled|halved|cubed|crumbled|canned|jarred|frozen|thawed|baby|seedless|pitted|softened|melted|finely|coarsely|thinly|organic|org|plain|ripe|bag|bunch|pack|package|pkg|carton|container|bottle|box|jar|dozen|dz|boneless|skinless|low fat|lowfat|reduced fat|part skim|nonfat|full fat)\b/g,
       '',
     )
     .replace(/\b(cutlets|thighs|breasts)\b/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 
-  const direct: Record<string, string> = {
-    lemons: 'lemon',
-    limes: 'lime',
-    tomatoes: 'tomato',
-    potatoes: 'potato',
-    carrots: 'carrot',
-    cucumbers: 'cucumber',
-    scallions: 'scallion',
-    onions: 'onion',
-    peppers: 'pepper',
-    berries: 'berry',
-    eggs: 'egg',
-    noodles: 'noodle',
-    tortillas: 'tortilla',
-    olives: 'olive',
-    thighs: 'chicken',
-    'chicken thighs': 'chicken',
-    'chicken cutlets': 'chicken',
-    'chicken breast': 'chicken',
-    'chicken breasts': 'chicken',
-    'ground chicken': 'chicken',
-    'ground turkey': 'turkey',
-    'jasmine rice': 'rice',
-    'frozen jasmine rice': 'rice',
-    'greek yogurt': 'greek yogurt',
-    'greek yoghurt': 'greek yogurt',
-    'yoghurt': 'yogurt',
-    'black beans': 'black bean',
-    'red onion': 'onion',
-    'yellow onion': 'onion',
-    'white onion': 'onion',
-  };
-
-  if (direct[normalized]) return direct[normalized];
-  if (normalized.endsWith('ies') && normalized.length > 4) return `${normalized.slice(0, -3)}y`;
-  if (normalized.endsWith('es') && normalized.length > 4) return normalized.slice(0, -2);
-  if (normalized.endsWith('s') && normalized.length > 3 && !normalized.endsWith('ss')) return normalized.slice(0, -1);
-  return normalized;
+  if (ingredientSynonyms[stripped]) return ingredientSynonyms[stripped];
+  const singular = singularizeWords(stripped);
+  if (ingredientSynonyms[singular]) return ingredientSynonyms[singular];
+  return singular;
 }
 
 export function categorizingRules(name: string): Category {
