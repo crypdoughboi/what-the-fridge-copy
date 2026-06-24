@@ -208,6 +208,56 @@ The real version should pass:
 
 Smart list generation lives in `src/services/groceryListService.ts` and `src/utils/groceryLogic.ts`.
 
+## Creator Growth And Sharing
+
+Creator-growth and viral-sharing features live across a few small modules:
+
+- Analytics: `src/services/analyticsService.ts` exposes `track(event, props)` and
+  `setAnalyticsContext({ userId, referralCode })`. It always logs events to the console
+  in dev and, when Supabase is configured, inserts them into `analytics_events`
+  (fire-and-forget so it never blocks a user action). Tracked events: `app_opened`,
+  `meal_swipe_started`, `meal_liked`, `meal_saved`, `grocery_items_added_from_meal`,
+  `grocery_list_opened`, `referral_code_entered`, `share_meal_card_clicked`.
+- Referral codes: `src/services/referralService.ts` stores the FIRST code a user enters
+  (unique on `user_id`, inserts ignore conflicts) so a later code never overwrites it;
+  clearing is the only way to change it. The code is entered from Settings, persisted
+  locally and to the `referrals` table, and attached to every analytics event for
+  attribution.
+- Shareable meal cards: `src/services/shareService.ts` builds a clean card from the app's
+  own meal metadata only (title, subtitle, key ingredients, missing items, a WTF branding
+  line — no external/copyrighted recipe text). The `ShareMealSheet` component previews it
+  and shares via the native share sheet, falling back to copying to the clipboard. A
+  "Share" button sits on every saved meal.
+
+Supabase schema lives in `supabase/migrations/202606240001_creator_growth.sql`:
+
+- `analytics_events`: raw events (anon/authenticated can insert; users read only their own).
+- `referrals`: one row per user holding the first referral code entered.
+- `creators`: admin-managed directory of `creator_name`, `platform`, `referral_code`,
+  `campaign`, `created_at` (RLS on, no policies — service-role/admin only).
+- `creator_attribution` (view): per-creator rollup with `signup_count`,
+  `first_saved_meal_count`, and `grocery_add_count`, read by an admin via the service role
+  (e.g. in the Supabase SQL editor or dashboard).
+
+To enable the backend (otherwise everything still works in local/demo mode, events just
+log to the console):
+
+- Apply the migration in the Supabase SQL editor, or with the Supabase CLI.
+- No new environment variables are required — it reuses the existing
+  `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`.
+- Seed creators for attribution, e.g.:
+
+```sql
+insert into public.creators (creator_name, platform, referral_code, campaign)
+values ('Chef Ramsay', 'tiktok', 'WTFCHEF', 'spring-launch');
+```
+
+Then read the rollup:
+
+```sql
+select * from public.creator_attribution order by signup_count desc;
+```
+
 ## Backend Later
 
 Supabase or Firebase can plug in behind:

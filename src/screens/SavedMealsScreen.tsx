@@ -1,4 +1,4 @@
-import { BookOpen, ChefHat, Heart, ListPlus, Trash2, Utensils } from 'lucide-react';
+import { BookOpen, ChefHat, Heart, ListPlus, Share2, Trash2, Utensils } from 'lucide-react';
 import { MealIdea } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -17,6 +17,7 @@ export function SavedMealsScreen({
   onBrowse,
   onCook,
   onAddToShopping,
+  onShare,
   onRemove,
 }: {
   liked: MealIdea[];
@@ -27,6 +28,7 @@ export function SavedMealsScreen({
   onBrowse: () => void;
   onCook: (meal: MealIdea) => void;
   onAddToShopping: (meal: MealIdea) => void;
+  onShare: (meal: MealIdea) => void;
   onRemove: (meal: MealIdea) => void;
 }) {
   const isEmpty = liked.length === 0 && cooked.length === 0 && shopping.length === 0;
@@ -63,6 +65,7 @@ export function SavedMealsScreen({
             knownIngredients={knownIngredients}
             onCook={onCook}
             onAddToShopping={onAddToShopping}
+            onShare={onShare}
             onRemove={onRemove}
           />
           <SavedGroup
@@ -72,6 +75,7 @@ export function SavedMealsScreen({
             knownIngredients={knownIngredients}
             onCook={onCook}
             onAddToShopping={onAddToShopping}
+            onShare={onShare}
             onRemove={onRemove}
           />
           <SavedGroup
@@ -81,6 +85,7 @@ export function SavedMealsScreen({
             knownIngredients={knownIngredients}
             onCook={onCook}
             onAddToShopping={onAddToShopping}
+            onShare={onShare}
             onRemove={onRemove}
           />
         </>
@@ -96,6 +101,7 @@ function SavedGroup({
   knownIngredients,
   onCook,
   onAddToShopping,
+  onShare,
   onRemove,
 }: {
   eyebrow: string;
@@ -104,6 +110,7 @@ function SavedGroup({
   knownIngredients: string[];
   onCook: (meal: MealIdea) => void;
   onAddToShopping: (meal: MealIdea) => void;
+  onShare: (meal: MealIdea) => void;
   onRemove: (meal: MealIdea) => void;
 }) {
   if (meals.length === 0) return null;
@@ -119,6 +126,7 @@ function SavedGroup({
             needed={getMealNeededNames(meal, knownIngredients)}
             onCook={() => onCook(meal)}
             onAddToShopping={() => onAddToShopping(meal)}
+            onShare={() => onShare(meal)}
             onRemove={() => onRemove(meal)}
           />
         ))}
@@ -132,12 +140,14 @@ function SavedMealCard({
   needed,
   onCook,
   onAddToShopping,
+  onShare,
   onRemove,
 }: {
   meal: MealIdea;
   needed: string[];
   onCook: () => void;
   onAddToShopping: () => void;
+  onShare: () => void;
   onRemove: () => void;
 }) {
   return (
@@ -181,6 +191,9 @@ function SavedMealCard({
               Add to list
             </Button>
           </div>
+          <Button variant="secondary" icon={<Share2 className="h-5 w-5" strokeWidth={1.75} />} onClick={onShare}>
+            Share
+          </Button>
           <Button variant="ghost" className="min-h-10" icon={<Trash2 className="h-5 w-5" strokeWidth={1.75} />} onClick={onRemove}>
             Remove
           </Button>

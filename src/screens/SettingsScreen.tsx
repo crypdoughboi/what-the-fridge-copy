@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Download, LogOut, Shield, Trash2, UserPlus } from 'lucide-react';
+import { ArrowLeft, Download, Gift, LogOut, Shield, Trash2, UserPlus } from 'lucide-react';
 import { OnboardingProfile, UserAccount } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -15,6 +15,9 @@ export function SettingsScreen({
   profile,
   profileConfigured,
   receiptCount,
+  referralCode,
+  onEnterReferralCode,
+  onClearReferralCode,
   onBack,
   onToast,
   onSignOut,
@@ -23,12 +26,22 @@ export function SettingsScreen({
   profile: OnboardingProfile;
   profileConfigured: boolean;
   receiptCount: number;
+  referralCode: string | null;
+  onEnterReferralCode: (code: string) => void;
+  onClearReferralCode: () => void;
   onBack: () => void;
   onToast: (message: string) => void;
   onSignOut: () => Promise<void>;
 }) {
   const [inviteEmail, setInviteEmail] = useState('');
+  const [referralInput, setReferralInput] = useState('');
   const [busy, setBusy] = useState<string | null>(null);
+
+  function applyReferral() {
+    if (!referralInput.trim()) return;
+    onEnterReferralCode(referralInput);
+    setReferralInput('');
+  }
 
   async function invite() {
     if (!inviteEmail.trim()) return;
@@ -89,6 +102,45 @@ export function SettingsScreen({
             ? 'Guest sessions are temporary. Create an account when you want WTF to save your list, meals, and scans.'
             : 'Receipts, usuals, saved meals, and list behavior are saved to this profile on this device.'}
         </p>
+      </Card>
+
+      <Card>
+        <div className="flex items-start gap-3">
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
+            <Gift className="h-5 w-5" strokeWidth={1.75} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h2 className="font-display text-[21px] font-bold tracking-[-0.02em] text-ink">Referral code</h2>
+            {referralCode ? (
+              <>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-ink-soft">
+                  You're attributed to <span className="font-bold text-ink">{referralCode}</span>. The first code entered sticks until you clear it.
+                </p>
+                <Button variant="secondary" className="mt-3" onClick={onClearReferralCode}>
+                  Clear code
+                </Button>
+              </>
+            ) : (
+              <>
+                <p className="mt-2 text-[14px] font-medium leading-relaxed text-ink-soft">
+                  Got a code from a creator or friend? Enter it so they get credit for sending you here.
+                </p>
+                <div className="mt-3 flex gap-2">
+                  <Input
+                    value={referralInput}
+                    onChange={(event) => setReferralInput(event.target.value)}
+                    placeholder="WTFCHEF"
+                    autoCapitalize="characters"
+                    className="min-w-0 flex-1 uppercase"
+                  />
+                  <Button className="px-4" onClick={applyReferral}>
+                    Apply
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
       </Card>
 
       {profileConfigured ? (

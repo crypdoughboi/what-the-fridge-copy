@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BottomNav } from './components/BottomNav';
 import { LoadingState } from './components/LoadingState';
 import { Toast } from './components/Toast';
+import { ShareMealSheet } from './components/ShareMealSheet';
+import { track } from './services/analyticsService';
 import { useGroceryAppState } from './hooks/useGroceryAppState';
 import { scanFridgeOrPantryImage } from './services/fridgeVisionService';
 import { normalizeReceiptItems, scanReceiptImage } from './services/receiptOcrService';
@@ -75,6 +77,12 @@ export default function App() {
   const [recipe, setRecipe] = useState<ImportedRecipe | null>(null);
   const [recipePreviewUrl, setRecipePreviewUrl] = useState<string | null>(null);
   const [recipeLoading, setRecipeLoading] = useState(false);
+  const [shareMeal, setShareMeal] = useState<MealIdea | null>(null);
+
+  // One app_opened event per session load.
+  useEffect(() => {
+    track('app_opened');
+  }, []);
 
   const needToBuyNames = useMemo(
     () => [...app.groceryList.buyNow, ...app.groceryList.maybeBuy].map((entry) => entry.name),
@@ -85,6 +93,12 @@ export default function App() {
     setActiveTab(tab);
     setScreen(tab);
     setScreenHistory([]);
+    if (tab === 'list') track('grocery_list_opened');
+  }
+
+  function openShareMeal(meal: MealIdea) {
+    track('share_meal_card_clicked', { mealId: meal.id, mealName: meal.name });
+    setShareMeal(meal);
   }
 
   function pushScreen(nextScreen: Screen, tab?: Tab) {
@@ -229,6 +243,7 @@ export default function App() {
     setMealPreferences(preferences);
     setDeckIndex(0);
     pushScreen('mealDeck', 'meals');
+    track('meal_swipe_started', { mode });
     if (mode === 'inventory' && app.knownIngredientNames.length === 0) {
       setDeck([]);
       setDeckLoading(false);
@@ -243,6 +258,7 @@ export default function App() {
   }
 
   function deckLike(deckMeal: DeckMeal) {
+    track('meal_liked', { mealId: deckMeal.meal.id, mealName: deckMeal.meal.name });
     app.saveMealIdea(deckMeal.meal);
   }
 
@@ -252,6 +268,9 @@ export default function App() {
 
   function deckAddToShopping(deckMeal: DeckMeal) {
     app.addMealToShopping(deckMeal.meal, deckMeal.need);
+    track('grocery_items_added_from_meal', { mealId: deckMeal.meal.id, source: 'deck', itemCount: deckMeal.need.length });
+    // Jump to the list so the update is visible — the key beat of the demo flow.
+    navigateTab('list');
   }
 
   function openIngredientReview(meal: MealIdea) {
@@ -266,6 +285,8 @@ export default function App() {
 
   function addReviewedIngredients(meal: MealIdea, reviewed: ReviewedIngredient[]) {
     app.planMealWithIngredients(meal, reviewed);
+    const needCount = reviewed.filter((item) => item.status === 'needToBuy').length;
+    track('grocery_items_added_from_meal', { mealId: meal.id, source: 'ingredient_review', itemCount: needCount });
     setReviewMeal(null);
     navigateTab('list');
   }
@@ -440,6 +461,7 @@ export default function App() {
           onBrowse={() => openMealPreferences('scratch')}
           onCook={openMealDetail}
           onAddToShopping={(meal) => app.addMealToShopping(meal, getMealNeededNames(meal, app.knownIngredientNames))}
+          onShare={openShareMeal}
           onRemove={(meal) => app.removeSavedMeal(meal.id)}
         />
       );
@@ -453,7 +475,10 @@ export default function App() {
           planned={app.plannedMealIds.includes(detailMeal.id)}
           made={app.cookedMealIds.includes(detailMeal.id)}
           onBack={() => goBack('meals')}
-          onSave={app.saveMealIdea}
+          onSave={(meal) => {
+            track('meal_saved', { mealId: meal.id, mealName: meal.name });
+            app.saveMealIdea(meal);
+          }}
           onMakeThisWeek={openIngredientReview}
           onMarkMade={(meal) => app.markMealCooked(meal.id)}
         />
@@ -491,6 +516,9 @@ export default function App() {
           profile={app.profile}
           profileConfigured={app.account.provider !== 'guest' && app.completedOnboarding}
           receiptCount={app.receiptCount}
+          referralCode={app.referralCode}
+          onEnterReferralCode={app.enterReferralCode}
+          onClearReferralCode={app.clearReferralCode}
           onBack={() => goBack(activeTab)}
           onToast={app.showToast}
           onSignOut={async () => {
@@ -513,6 +541,14 @@ export default function App() {
     <div className="phone-shell">
       {!showAppChrome || isHomeCanvas ? renderScreen() : <div className="app-scroll-inner">{renderScreen()}</div>}
       {showAppChrome && <BottomNav activeTab={activeTab} onTabChange={navigateTab} />}
+      {shareMeal && (
+        <ShareMealSheet
+          meal={shareMeal}
+          missingItems={getMealNeededNames(shareMeal, app.knownIngredientNames)}
+          onClose={() => setShareMeal(null)}
+          onToast={app.showToast}
+        />
+      )}
       <Toast message={app.toast} />
     </div>
   );

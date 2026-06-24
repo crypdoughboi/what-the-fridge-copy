@@ -336,7 +336,7 @@ export function MealDeckScreen({
           Cook this
         </Button>
         <Button variant="secondary" icon={<ListPlus className="h-5 w-5" strokeWidth={1.75} />} onClick={() => onAddToShopping(deckMeal)}>
-          Add to list
+          Add to Grocery List
         </Button>
       </div>
 

@@ -55,6 +55,13 @@ import {
   signOut,
 } from '../services/authService';
 import { buildDeliveryLineItems } from '../services/deliveryComparisonService';
+import { setAnalyticsContext, track } from '../services/analyticsService';
+import {
+  clearReferralCode as clearRemoteReferralCode,
+  fetchReferralCode,
+  normalizeReferralCode,
+  saveReferralCode,
+} from '../services/referralService';
 
 const legacyAccountStorageKey = 'wtf.account.v1';
 
@@ -71,6 +78,7 @@ type PersonalizedState = {
   receiptCount: number;
   fridgeScanCount: number;
   importCount: number;
+  referralCode: string | null;
 };
 
 const emptyBehavior: BehaviorState = {
@@ -116,6 +124,7 @@ export function useGroceryAppState() {
   const [receiptCount, setReceiptCount] = useState(0);
   const [fridgeScanCount, setFridgeScanCount] = useState(0);
   const [importCount, setImportCount] = useState(0);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -252,6 +261,7 @@ export function useGroceryAppState() {
       receiptCount,
       fridgeScanCount,
       importCount,
+      referralCode,
     });
   }, [
     account,
@@ -267,7 +277,27 @@ export function useGroceryAppState() {
     receiptCount,
     fridgeScanCount,
     importCount,
+    referralCode,
   ]);
+
+  // Keep analytics attribution in sync with who's signed in and their referral code.
+  useEffect(() => {
+    setAnalyticsContext({ userId: remoteUserId, referralCode });
+  }, [remoteUserId, referralCode]);
+
+  // Hydrate the referral code from Supabase for signed-in users, without clobbering a
+  // code already entered locally (the first code always wins).
+  useEffect(() => {
+    if (!remoteUserId) return;
+    let mounted = true;
+    fetchReferralCode(remoteUserId).then((remoteCode) => {
+      if (!mounted || !remoteCode) return;
+      setReferralCode((current) => current ?? remoteCode);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, [remoteUserId]);
 
   async function createAccountWithGmail() {
     setAuthError(null);
@@ -330,6 +360,28 @@ export function useGroceryAppState() {
     setReceiptCount(state.receiptCount ?? 0);
     setFridgeScanCount(state.fridgeScanCount ?? 0);
     setImportCount(state.importCount ?? 0);
+    setReferralCode(state.referralCode ?? null);
+  }
+
+  function enterReferralCode(rawCode: string) {
+    const normalized = normalizeReferralCode(rawCode);
+    if (!normalized) return;
+    if (referralCode) {
+      showToast(`Referral code ${referralCode} is already saved.`);
+      return;
+    }
+    setReferralCode(normalized);
+    void saveReferralCode(remoteUserId, normalized);
+    setAnalyticsContext({ userId: remoteUserId, referralCode: normalized });
+    track('referral_code_entered', { code: normalized });
+    showToast(`Referral code ${normalized} applied.`);
+  }
+
+  function clearReferralCode() {
+    setReferralCode(null);
+    setAnalyticsContext({ userId: remoteUserId, referralCode: null });
+    void clearRemoteReferralCode(remoteUserId);
+    showToast('Referral code cleared. You can enter a new one.');
   }
 
   function completeOnboarding(nextProfile: OnboardingProfile) {
@@ -935,6 +987,9 @@ export function useGroceryAppState() {
     shoppingMeals,
     likedMeals,
     recommendedItems,
+    referralCode,
+    enterReferralCode,
+    clearReferralCode,
     completeOnboarding,
     setProfile,
     markEntryAlreadyHave,
@@ -1067,6 +1122,7 @@ function defaultPersonalizedState(): PersonalizedState {
     receiptCount: 0,
     fridgeScanCount: 0,
     importCount: 0,
+    referralCode: null,
   };
 }
 
