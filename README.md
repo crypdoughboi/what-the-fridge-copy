@@ -112,6 +112,36 @@ Do not expose the service-role key in Vercel or in the browser. It is only for l
 
 The seed data lives in `src/data/seedMealTemplates.ts`. It includes the 100-meal starter library, ingredient quantities/prep text, equipment, notes, and 7 to 8 meal-specific recipe steps per meal. The current app still maps those templates into UI-friendly `MealIdea` objects through `src/data/mealIdeas.ts`.
 
+### Growing the meal library (AI content pipeline)
+
+The swipe deck is library-first: a deep, pre-vetted recipe set keeps swiping instant
+and offline-capable, with no per-swipe AI cost. To deepen it, new recipes go in
+`src/data/expansionMealTemplates.ts` (kept separate from the curated 100). `mealIdeas.ts`
+merges both into `allMealTemplates`, and the Supabase seeder pushes both.
+
+Generate more recipes with Claude as an offline batch pipeline (talks to the Anthropic
+Messages API over `fetch`, so there is no new dependency):
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-... npm run generate:meals -- --count 40
+# options: --batch N (per call, default 8), --dry-run, MODEL=... (default claude-sonnet-5)
+```
+
+Each generated recipe is validated (shape, enums, required fields) and deduped (by slug
+and by core-ingredient set) against the existing library before it is appended. Then:
+
+```bash
+npm run validate:meals   # check shape + duplicates across the whole library
+npm run build            # type-check + build with the new recipes
+npm run seed:meals       # push the expanded library to Supabase (so it's live for everyone)
+```
+
+The local/guest fallback uses the merged library immediately; signed-in users read meals
+from Supabase, so run `npm run seed:meals` to make new recipes live for them. Generated
+content is original (no copyrighted recipe text), and `canonicalName` values follow the
+app's `normalizeIngredientKey` conventions so inventory matching and list reconciliation
+keep working.
+
 Runtime Supabase logic lives in `src/services/mealStateService.ts`.
 
 Important behavior:
