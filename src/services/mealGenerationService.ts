@@ -138,7 +138,11 @@ export function generateMealDeck({
 }: GenerateDeckParams): DeckMeal[] {
   const inventoryKeys = new Set(inventory.map(normalizeIngredientKey));
   const expiringKeys = new Set(expiringSoon.map(normalizeIngredientKey));
-  const hiddenMealIds = new Set([...skippedMealIds, ...savedMealIds, ...plannedMealIds, ...madeMealIds]);
+  // Saved/planned/made are hidden (you've already acted on them). Skipped meals are NOT
+  // hidden — they're recycled to the back of the deck so they resurface once you've gone
+  // through the fresh ideas, instead of shrinking the deck forever.
+  const hiddenMealIds = new Set([...savedMealIds, ...plannedMealIds, ...madeMealIds]);
+  const skippedSet = new Set(skippedMealIds);
   const likedSet = new Set(likedTags);
   const dislikedSet = new Set(dislikedTags);
   const activeRestrictions = preferences.restrictions.filter((restriction) => restriction !== 'No restrictions');
@@ -148,13 +152,15 @@ export function generateMealDeck({
     .filter((meal) => activeRestrictions.every((restriction) => !violatesRestriction(meal, restriction)))
     .filter((meal) => matchesMainIngredient(meal, preferences.mainIngredient))
     .filter((meal) => matchesCuisine(meal, preferences.cuisine))
-    .map((meal, index) => {
+    .map((meal) => {
       const core = getCoreIngredients(meal);
       const have = core.filter((ingredient) => inventoryKeys.has(ingredient.key));
       const missing = core.filter((ingredient) => !inventoryKeys.has(ingredient.key));
       const expiringHits = core.filter((ingredient) => expiringKeys.has(ingredient.key)).length;
 
-      let score = index % 5;
+      // Random jitter (not a positional index) so equally-good meals shuffle run-to-run
+      // instead of always appearing in the same order.
+      let score = Math.random() * 8;
       score += effortScore(preferences.effort, meal.effort);
       score += hintScore(meal, cookingMethodHints[preferences.cookingMethod]);
       score += hintScore(meal, vibeHints[preferences.vibe]);
@@ -169,6 +175,9 @@ export function generateMealDeck({
         score -= missing.length * missingPenalty;
       }
 
+      // Recycle skipped meals to the back: still in the deck, but only after fresh ideas.
+      if (skippedSet.has(meal.id)) score -= 1000;
+
       return {
         meal,
         score,
@@ -180,7 +189,7 @@ export function generateMealDeck({
     .filter((entry) => (mode === 'inventory' ? withinFlexibility(entry.missingCount, preferences.flexibility) : true))
     .sort((a, b) => b.score - a.score);
 
-  return scored.map((entry) => {
+  return withWildcards(scored).map((entry) => {
     const need = mode === 'inventory' ? entry.missing : getCoreIngredients(entry.meal).map((ingredient) => ingredient.name);
     return {
       meal: entry.meal,
@@ -239,6 +248,28 @@ export function getCoreIngredients(meal: MealIdea): { name: string; key: string 
     seen.add(ingredient.key);
     return true;
   });
+}
+
+// Sprinkle "discovery" picks into the score-sorted deck: keep two strong, relevant
+// openers, then every few cards surface a random pick from deeper down so people see
+// variety instead of only the top matches. Pure UI ordering — relevance still drives it.
+function withWildcards<T>(sorted: T[]): T[] {
+  if (sorted.length <= 4) return sorted;
+  const pool = [...sorted];
+  const result: T[] = [];
+  const wildcardEvery = 5;
+  let position = 0;
+  while (pool.length) {
+    if (position > 1 && position % wildcardEvery === 0 && pool.length > 3) {
+      const from = Math.floor(pool.length / 2);
+      const index = from + Math.floor(Math.random() * (pool.length - from));
+      result.push(pool.splice(index, 1)[0]);
+    } else {
+      result.push(pool.shift() as T);
+    }
+    position += 1;
+  }
+  return result;
 }
 
 function withinFlexibility(missingCount: number, flexibility: MealPreferences['flexibility']): boolean {
