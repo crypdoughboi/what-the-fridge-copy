@@ -1,7 +1,5 @@
-import fs from 'node:fs';
-import vm from 'node:vm';
-import ts from 'typescript';
 import { createClient } from '@supabase/supabase-js';
+import { loadAllTemplates } from './lib/mealTemplates.mjs';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -11,22 +9,8 @@ if (!supabaseUrl || !serviceRoleKey) {
   process.exit(1);
 }
 
-const source = fs.readFileSync(new URL('../src/data/seedMealTemplates.ts', import.meta.url), 'utf8');
-const transpiled = ts.transpileModule(source, {
-  compilerOptions: {
-    module: ts.ModuleKind.CommonJS,
-    target: ts.ScriptTarget.ES2020,
-  },
-}).outputText;
-
-const moduleObject = { exports: {} };
-vm.runInNewContext(transpiled, {
-  module: moduleObject,
-  exports: moduleObject.exports,
-  require: () => ({}),
-});
-
-const seedMealTemplates = moduleObject.exports.seedMealTemplates;
+// The original curated 100 plus the growing expansion set.
+const seedMealTemplates = loadAllTemplates();
 if (!Array.isArray(seedMealTemplates) || seedMealTemplates.length === 0) {
   console.error('No seed meal templates found.');
   process.exit(1);

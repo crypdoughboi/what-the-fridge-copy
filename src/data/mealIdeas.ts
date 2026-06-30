@@ -1,7 +1,11 @@
 import { MealIdea, SeedMealTemplate } from '../types';
 import { seedMealTemplates } from './seedMealTemplates';
+import { expansionMealTemplates } from './expansionMealTemplates';
 
-export const seedMealIdeas: MealIdea[] = seedMealTemplates.map((template) => templateToMealIdea(template));
+// The full library: the original 100 curated templates plus the growing expansion set.
+export const allMealTemplates: SeedMealTemplate[] = [...seedMealTemplates, ...expansionMealTemplates];
+
+export const seedMealIdeas: MealIdea[] = allMealTemplates.map((template) => templateToMealIdea(template));
 
 export function templateToMealIdea(template: SeedMealTemplate, id = template.slug): MealIdea {
   return {
