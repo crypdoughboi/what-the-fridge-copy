@@ -41,7 +41,7 @@ const getArg = (name, fallback) => {
 const target = Number(getArg('--count', '24'));
 const batchSize = Number(getArg('--batch', '8'));
 const dryRun = args.includes('--dry-run');
-const model = process.env.MODEL || 'claude-sonnet-5';
+const model = process.env.MODEL || 'claude-opus-4-8';
 const MAX_BATCHES = Math.ceil((target / batchSize) * 3) + 2; // headroom for rejects
 
 const existing = loadAllTemplates();
