@@ -124,7 +124,9 @@ Messages API over `fetch`, so there is no new dependency):
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-... npm run generate:meals -- --count 40
-# options: --batch N (per call, default 8), --dry-run, MODEL=... (default claude-sonnet-5)
+# options: --batch N (per call, default 8), --dry-run
+# MODEL=... overrides the model (default claude-opus-4-8; use claude-haiku-4-5 or
+# claude-sonnet-5 for cheaper/faster bulk runs)
 ```
 
 Each generated recipe is validated (shape, enums, required fields) and deduped (by slug
