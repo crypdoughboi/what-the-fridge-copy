@@ -385,6 +385,8 @@ export type MealPreferences = {
   flexibility?: FlexibilityPreference;
 };
 
+export type MealSource = 'static' | 'ai_generated' | 'ai_reranked';
+
 export type DeckMeal = {
   meal: MealIdea;
   mode: MealMode;
@@ -393,6 +395,36 @@ export type DeckMeal = {
   pantry: string[];
   missingCount: number;
   reason: string;
+  source?: MealSource;
+  confidence?: number;
+  substitutionNotes?: string[];
+};
+
+export type SubstitutionType = 'direct' | 'close' | 'stretch' | 'not_recommended';
+
+export type SubstitutionUseCase = 'cooking' | 'baking' | 'raw' | 'garnish' | 'sauce' | 'marinade';
+
+export type SubstitutionSuggestion = {
+  original: string;
+  substitute: string;
+  type: SubstitutionType;
+  ratio: string;
+  explanation: string;
+  recipeImpact: string;
+  confidence: number;
+  warnings: string[];
+  shouldBuyOriginal: boolean;
+  userHasIt: boolean;
+  source: 'deterministic' | 'ai';
+};
+
+export type SubstitutionRequest = {
+  ingredient: string;
+  recipeContext?: string;
+  otherIngredients?: string[];
+  inventory: string[];
+  restrictions: string[];
+  useCase: SubstitutionUseCase;
 };
 
 export type AuthProvider = 'apple' | 'gmail' | 'email' | 'guest';

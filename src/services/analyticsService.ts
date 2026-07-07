@@ -12,7 +12,11 @@ export type AnalyticsEventName =
   | 'grocery_items_added_from_meal'
   | 'grocery_list_opened'
   | 'referral_code_entered'
-  | 'share_meal_card_clicked';
+  | 'share_meal_card_clicked'
+  | 'ai_meals_requested'
+  | 'ai_meals_merged'
+  | 'substitution_opened'
+  | 'substitution_applied';
 
 type AnalyticsContext = { userId?: string; referralCode?: string | null };
 

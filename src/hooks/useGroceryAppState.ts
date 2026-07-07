@@ -15,6 +15,7 @@ import {
   ReceiptExtraction,
   ReviewedIngredient,
   ScanConfidence,
+  SubstitutionSuggestion,
   UserAccount,
   VisionItem,
 } from '../types';
@@ -35,6 +36,7 @@ import {
   getMealsForMode,
   getRankedMealIdeas,
 } from '../services/mealGenerationService';
+import { aiMealCardToDeckMeal, assessDeckStrength, fetchAiMealCards } from '../services/aiMealFeedService';
 import {
   fetchRemoteMealIdeas,
   fetchRemoteUserState,
@@ -915,6 +917,87 @@ export function useGroceryAppState() {
     });
   }
 
+  function registerAiMealIdeas(meals: MealIdea[]) {
+    setMealIdeas((current) => {
+      const knownIds = new Set(current.map((meal) => meal.id));
+      const fresh = meals.filter((meal) => !knownIds.has(meal.id));
+      return fresh.length ? [...current, ...fresh] : current;
+    });
+  }
+
+  /**
+   * AI layer for the swipe deck. Returns extra DeckMeals to merge into the static
+   * deck — or [] when the static deck is already strong (unless forced), Supabase
+   * isn't configured, or the call fails. New AI meals are registered into mealIdeas
+   * so like/cook/shopping flows resolve them like any other meal.
+   */
+  async function fetchAiDeckMeals(
+    mode: MealMode,
+    preferences: MealPreferences,
+    staticDeck: DeckMeal[],
+    options: { force?: boolean } = {},
+  ): Promise<DeckMeal[]> {
+    const inventory = knownIngredientNames;
+    if (!options.force) {
+      const strength = assessDeckStrength({ deck: staticDeck, inventory, expiringSoon: useSoonNames, mode });
+      if (!strength.weak) return [];
+    }
+    const dislikedMealNames = Object.entries(behavior.mealFeedback)
+      .filter(([, feedback]) => feedback.rating === 'Not again')
+      .map(([mealId]) => getMealIdeaById(mealId, mealIdeas)?.name)
+      .filter((name): name is string => Boolean(name));
+
+    const cards = await fetchAiMealCards({
+      inventory,
+      expiringSoon: useSoonNames,
+      preferences,
+      mode,
+      staticDeck,
+      avoidMealNames: dislikedMealNames,
+    });
+    const deckMeals = cards.map((card) => aiMealCardToDeckMeal(card, inventory, mode));
+    if (deckMeals.length) registerAiMealIdeas(deckMeals.map((deckMeal) => deckMeal.meal));
+    return deckMeals;
+  }
+
+  /**
+   * Apply a chosen substitution to the grocery list: the original entry comes off,
+   * and the substitute goes on unless the user already has it at home.
+   */
+  function swapListEntry(entry: GroceryListEntry, substitution: SubstitutionSuggestion) {
+    const key = normalizeIngredientKey(entry.name);
+    const matchingMemoryIds = memoryIdsForEntry(entry);
+    const mealNames = behavior.usedForMeals[key] ?? [];
+    const substituteName = normalizeReceiptItemName(substitution.substitute);
+
+    setBehavior((current) => {
+      const removedBase = entry.itemId
+        ? {
+            ...updateLocalStateAfterUserAction(current, 'removed', entry.itemId),
+            removedIds: unique([...current.removedIds, ...matchingMemoryIds]),
+          }
+        : current;
+      const next = cleanupEntryByName(removedBase, entry);
+      if (substitution.userHasIt) return next;
+
+      const subKey = normalizeIngredientKey(substituteName);
+      const nextUsedFor = { ...next.usedForMeals };
+      if (mealNames.length) nextUsedFor[subKey] = unique([...(nextUsedFor[subKey] ?? []), ...mealNames]);
+      return {
+        ...addListTracking(next, [substituteName], 'substitution'),
+        manuallyAddedNames: unique([...next.manuallyAddedNames, substituteName]),
+        usedForMeals: nextUsedFor,
+      };
+    });
+    void removeUserFoodState(remoteUserId, entry.name);
+    if (!substitution.userHasIt) void upsertGroceryItem(remoteUserId, substituteName, undefined, undefined, 'substitution');
+    showToast(
+      substitution.userHasIt
+        ? `Using your ${substitution.substitute} instead of ${entry.name}.`
+        : `Swapped ${entry.name} for ${substituteName}.`,
+    );
+  }
+
   function addMealToShopping(meal: MealIdea, neededNames: string[]) {
     setShoppingMealIds((current) => unique([...current, meal.id]));
     const names = filterNewNeedNames(neededNames);
@@ -1025,6 +1108,8 @@ export function useGroceryAppState() {
     rateMeal,
     rankMealIdeas,
     generateMealDeck,
+    fetchAiDeckMeals,
+    swapListEntry,
     addMealToShopping,
     removeSavedMeal,
     recommendItem,

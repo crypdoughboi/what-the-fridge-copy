@@ -117,6 +117,9 @@ const ingredientSynonyms: Record<string, string> = {
   'yellow bell pepper': 'bell pepper',
   'orange bell pepper': 'bell pepper',
   'sweet pepper': 'bell pepper',
+  'garlic clove': 'garlic',
+  'clove garlic': 'garlic',
+  'clove of garlic': 'garlic',
   garbanzo: 'chickpea',
   'garbanzo bean': 'chickpea',
   'garbanzo beans': 'chickpea',
@@ -189,7 +192,19 @@ function singularizeWords(value: string): string {
     .join(' ');
 }
 
+// Pure and called in hot loops (deck scoring × inventory), so memoize.
+const ingredientKeyCache = new Map<string, string>();
+
 export function normalizeIngredientKey(name: string): string {
+  const cached = ingredientKeyCache.get(name);
+  if (cached !== undefined) return cached;
+  const key = computeIngredientKey(name);
+  if (ingredientKeyCache.size > 4000) ingredientKeyCache.clear();
+  ingredientKeyCache.set(name, key);
+  return key;
+}
+
+function computeIngredientKey(name: string): string {
   // Strip descriptors that don't change which ingredient it is (prep, size, packaging).
   // Colors and words like "sweet"/"green" are deliberately NOT stripped here — those can
   // distinguish ingredients (sweet potato, green onion) and are handled by the map above.

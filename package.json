@@ -11,7 +11,8 @@
     "preview": "vite preview --host 0.0.0.0",
     "seed:meals": "node scripts/seedMealTemplates.mjs",
     "validate:meals": "node scripts/validateMealTemplates.mjs",
-    "generate:meals": "node scripts/generateMealTemplates.mjs"
+    "generate:meals": "node scripts/generateMealTemplates.mjs",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",
@@ -33,6 +34,7 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.10"
   }
 }

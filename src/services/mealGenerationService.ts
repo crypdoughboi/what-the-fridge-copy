@@ -12,6 +12,8 @@ import {
   OnboardingProfile,
 } from '../types';
 import { normalizeIngredientKey } from '../utils/groceryLogic';
+import { findCloseMatches } from '../utils/ingredientIntelligence';
+import { fetchAiMealCards, isAiFeedAvailable } from './aiMealFeedService';
 import {
   cookingMethodHints,
   cuisineKeywords,
@@ -30,18 +32,49 @@ import {
 } from '../data/mealPreferenceOptions';
 
 export async function generateMealsFromGroceryMemory(
-  _memory: GroceryMemoryItem[],
+  memory: GroceryMemoryItem[],
   _list: GroceryList,
   mode: ChefMode,
-  _profile: OnboardingProfile,
+  profile: OnboardingProfile,
 ): Promise<MealSuggestion[]> {
-  // Future integration points:
-  // - AI model with chef rules, not generic recipe filler.
-  // - User preference profile and dietary constraints.
-  // - Household purchase and list history, recent receipt data, and fridge scan data.
-  // - Structured output with ingredients, steps, chef note, and missing items.
-  await wait(500);
-  return getMealsForMode(mode);
+  const inventory = memory.filter((item) => item.likelyStillHave).map((item) => item.name);
+  if (!isAiFeedAvailable || inventory.length < 3) {
+    await wait(500);
+    return getMealsForMode(mode);
+  }
+
+  const preferences: MealPreferences = {
+    effort: 'Anything easy',
+    cookingMethod: 'Any method',
+    restrictions: profile.dietaryPreferences,
+    vibe: 'Surprise me',
+    mainIngredient: 'Use what makes sense',
+    cuisine: 'Any cuisine',
+  };
+  const cards = await fetchAiMealCards({ inventory, preferences, mode: 'inventory', staticDeck: [], maxMeals: 5 });
+  if (!cards.length) return getMealsForMode(mode);
+
+  const inventoryKeys = new Set(inventory.map(normalizeIngredientKey));
+  return cards.map((card, index): MealSuggestion => {
+    const uses = card.coreIngredients.filter((name) => inventoryKeys.has(normalizeIngredientKey(name)));
+    const buy = card.coreIngredients.filter((name) => !inventoryKeys.has(normalizeIngredientKey(name)));
+    return {
+      id: `ai-suggestion-${index}-${normalizeIngredientKey(card.name).replace(/[^a-z0-9]+/g, '-')}`,
+      name: card.name,
+      mode,
+      flavorFamily: card.cuisine,
+      time: `${card.timeMinutes} min`,
+      effort: card.effort,
+      healthAngle: card.tags.find((tag) => ['healthy', 'high-protein', 'light', 'veggie-forward'].includes(tag)) ?? '',
+      uses,
+      buy,
+      whyThisWorks: card.whyItFits,
+      chefNote: '',
+      steps: card.steps,
+      substitutions: card.substitutionNotes,
+      priority: Math.round(card.confidence * 100),
+    };
+  });
 }
 
 export function getMealsForMode(mode: ChefMode): MealSuggestion[] {
@@ -169,10 +202,24 @@ export function generateMealDeck({
 
       if (preferences.mainIngredient === 'Whatever expires first') score += expiringHits * 14;
 
+      // Long-tail intelligence: a missing ingredient the user can cover with a close
+      // stand-in (crushed vs diced tomatoes, kale for spinach) shouldn't sink the meal.
+      // Only checked for nearly-complete meals so the pass stays cheap on a big library.
+      let substitutionNotes: string[] = [];
+      if (mode === 'inventory' && inventory.length && missing.length >= 1 && missing.length <= 3) {
+        substitutionNotes = missing.flatMap((ingredient) => {
+          const match = findCloseMatches(ingredient.name, inventory)[0];
+          if (!match || match.relation === 'function') return [];
+          return [`No ${ingredient.name.toLowerCase()}? Your ${match.inventoryName.toLowerCase()} can stand in.`];
+        });
+      }
+
       if (mode === 'inventory') {
         score += have.length * 12;
         const missingPenalty = preferences.flexibility === "I'm shopping anyway" ? 2 : 6;
         score -= missing.length * missingPenalty;
+        // Refund most of the penalty for missing items a close stand-in covers.
+        score += substitutionNotes.length * missingPenalty * 0.6;
       }
 
       // Recycle skipped meals to the back: still in the deck, but only after fresh ideas.
@@ -184,6 +231,7 @@ export function generateMealDeck({
         have: have.map((ingredient) => ingredient.name),
         missing: missing.map((ingredient) => ingredient.name),
         missingCount: missing.length,
+        substitutionNotes: substitutionNotes.slice(0, 2),
       };
     })
     .filter((entry) => (mode === 'inventory' ? withinFlexibility(entry.missingCount, preferences.flexibility) : true))
@@ -199,6 +247,8 @@ export function generateMealDeck({
       pantry: entry.meal.pantryIngredients,
       missingCount: entry.missingCount,
       reason: entry.meal.whyItWorks || entry.meal.description,
+      source: 'static' as const,
+      substitutionNotes: entry.substitutionNotes.length ? entry.substitutionNotes : undefined,
     };
   });
 }

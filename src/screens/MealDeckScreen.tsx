@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type Dispatch, type PointerEvent, type ReactNode, type SetStateAction } from 'react';
-import { BookOpen, Heart, ListPlus, Plus, RotateCcw, SlidersHorizontal, X } from 'lucide-react';
+import { BookOpen, Heart, ListPlus, Plus, Repeat, RotateCcw, SlidersHorizontal, Sparkles, X } from 'lucide-react';
 import { DeckMeal, MealMode } from '../types';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
@@ -30,6 +30,8 @@ export function MealDeckScreen({
   onAddToShopping,
   onAddIngredients,
   onStartFromScratch,
+  onSmartIdeas,
+  aiLoading = false,
 }: {
   deck: DeckMeal[];
   index: number;
@@ -44,6 +46,8 @@ export function MealDeckScreen({
   onAddToShopping: (deckMeal: DeckMeal) => void;
   onAddIngredients: () => void;
   onStartFromScratch: () => void;
+  onSmartIdeas?: () => void;
+  aiLoading?: boolean;
 }) {
   const [drag, setDrag] = useState<DragState | null>(null);
   const [dragX, setDragX] = useState(0);
@@ -218,6 +222,11 @@ export function MealDeckScreen({
         <Button full icon={<SlidersHorizontal className="h-5 w-5" strokeWidth={1.75} />} onClick={onBack}>
           Adjust preferences
         </Button>
+        {mode === 'inventory' && onSmartIdeas ? (
+          <Button full variant="secondary" icon={<Sparkles className="h-5 w-5" strokeWidth={1.75} />} onClick={onSmartIdeas} disabled={aiLoading}>
+            {aiLoading ? 'Thinking up ideas…' : 'Get smarter ideas'}
+          </Button>
+        ) : null}
         {mode === 'inventory' ? (
           <Button full variant="secondary" onClick={onStartFromScratch}>
             Start from scratch
@@ -233,6 +242,11 @@ export function MealDeckScreen({
         <Button full icon={<SlidersHorizontal className="h-5 w-5" strokeWidth={1.75} />} onClick={onBack}>
           Adjust preferences
         </Button>
+        {mode === 'inventory' && onSmartIdeas ? (
+          <Button full variant="secondary" icon={<Sparkles className="h-5 w-5" strokeWidth={1.75} />} onClick={onSmartIdeas} disabled={aiLoading}>
+            {aiLoading ? 'Thinking up ideas…' : 'Get smarter ideas'}
+          </Button>
+        ) : null}
         <Button full variant="secondary" onClick={() => onIndexChange(0)}>
           Start over
         </Button>
@@ -284,7 +298,17 @@ export function MealDeckScreen({
           </div>
 
           <div className="flex items-center justify-between gap-3">
-            <Pill tone="green">{meal.timeMinutes} min</Pill>
+            <div className="flex items-center gap-2">
+              <Pill tone="green">{meal.timeMinutes} min</Pill>
+              {deckMeal.source === 'ai_generated' || deckMeal.source === 'ai_reranked' ? (
+                <Pill>
+                  <span className="inline-flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" strokeWidth={2} />
+                    Smart pick
+                  </span>
+                </Pill>
+              ) : null}
+            </div>
             <span className="text-[13px] font-semibold text-muted">
               {safeIndex + 1} of {deck.length}
             </span>
@@ -312,6 +336,16 @@ export function MealDeckScreen({
               ) : (
                 <p className="mt-5 rounded-md bg-accent-soft p-3 text-[14px] font-semibold text-accent">You have everything for this one.</p>
               )}
+              {deckMeal.substitutionNotes?.length ? (
+                <div className="mt-3 space-y-1">
+                  {deckMeal.substitutionNotes.map((note) => (
+                    <p key={note} className="flex items-start gap-1.5 rounded-md bg-paper p-2.5 text-[13px] font-medium leading-snug text-ink-soft">
+                      <Repeat className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" strokeWidth={1.75} />
+                      <span>{note}</span>
+                    </p>
+                  ))}
+                </div>
+              ) : null}
             </>
           ) : (
             <>

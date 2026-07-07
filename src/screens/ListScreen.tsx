@@ -13,6 +13,7 @@ export function ListScreen({
   onAlreadyHave,
   onNeedToBuy,
   onRemove,
+  onSwap,
   onAddManual,
   onRebuild,
   onScanReceipt,
@@ -26,6 +27,7 @@ export function ListScreen({
   onAlreadyHave: (entry: GroceryListEntry) => void;
   onNeedToBuy: (entry: GroceryListEntry) => void;
   onRemove: (entry: GroceryListEntry) => void;
+  onSwap: (entry: GroceryListEntry) => void;
   onAddManual: (name: string) => void;
   onRebuild: () => void;
   onScanReceipt: () => void;
@@ -106,6 +108,7 @@ export function ListScreen({
               onAlreadyHave={onAlreadyHave}
               onNeedToBuy={onNeedToBuy}
               onRemove={onRemove}
+              onSwap={onSwap}
             />
 
             {list.checkedOff.length > 0 && (
@@ -174,6 +177,7 @@ function ListSection({
   onAlreadyHave,
   onNeedToBuy,
   onRemove,
+  onSwap,
   checked = false,
   context = 'need',
 }: {
@@ -185,6 +189,7 @@ function ListSection({
   onAlreadyHave: (entry: GroceryListEntry) => void;
   onNeedToBuy: (entry: GroceryListEntry) => void;
   onRemove: (entry: GroceryListEntry) => void;
+  onSwap?: (entry: GroceryListEntry) => void;
   checked?: boolean;
   context?: 'need' | 'have';
 }) {
@@ -216,6 +221,7 @@ function ListSection({
                     onAlreadyHave={onAlreadyHave}
                     onNeedToBuy={onNeedToBuy}
                     onRemove={onRemove}
+                    onSwap={onSwap}
                     checked={checked}
                     context={context}
                   />

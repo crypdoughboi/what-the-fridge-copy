@@ -9,6 +9,7 @@ export function ListItemRow({
   onAlreadyHave,
   onNeedToBuy,
   onRemove,
+  onSwap,
   checked = false,
   context = 'need',
 }: {
@@ -17,6 +18,7 @@ export function ListItemRow({
   onAlreadyHave: (entry: GroceryListEntry) => void;
   onNeedToBuy?: (entry: GroceryListEntry) => void;
   onRemove: (entry: GroceryListEntry) => void;
+  onSwap?: (entry: GroceryListEntry) => void;
   checked?: boolean;
   context?: 'need' | 'have';
 }) {
@@ -73,6 +75,11 @@ export function ListItemRow({
                   <button className="text-ink-soft active:text-ink" onClick={() => onAlreadyHave(entry)}>
                     Already have
                   </button>
+                  {onSwap ? (
+                    <button className="text-ink-soft active:text-ink" onClick={() => onSwap(entry)}>
+                      Swap it
+                    </button>
+                  ) : null}
                   <button className="text-muted active:text-ink" onClick={() => onRemove(entry)}>
                     Remove
                   </button>

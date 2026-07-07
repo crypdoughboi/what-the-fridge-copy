@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BottomNav } from './components/BottomNav';
 import { LoadingState } from './components/LoadingState';
 import { Toast } from './components/Toast';
 import { ShareMealSheet } from './components/ShareMealSheet';
+import { SubstitutionSheet } from './components/SubstitutionSheet';
 import { track } from './services/analyticsService';
 import { useGroceryAppState } from './hooks/useGroceryAppState';
 import { scanFridgeOrPantryImage } from './services/fridgeVisionService';
@@ -28,10 +29,11 @@ import { DeliveryScreen } from './screens/DeliveryScreen';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { SpendScreen } from './screens/SpendScreen';
 import { getMealNeededNames } from './services/mealGenerationService';
+import { isAiFeedAvailable, mergeAiIntoDeck } from './services/aiMealFeedService';
 import { importRecipeFromImage } from './services/recipeImportService';
 import { createInstacartListUrl } from './services/instacartService';
 import { defaultMealPreferences, restrictionsFromProfile } from './data/mealPreferenceOptions';
-import { DeckMeal, DeliveryQuote, ImportedRecipe, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, Tab, VisionItem } from './types';
+import { DeckMeal, DeliveryQuote, GroceryListEntry, ImportedRecipe, MealIdea, MealMode, MealPreferences, ReceiptExtraction, ReviewedIngredient, Screen, SubstitutionSuggestion, Tab, VisionItem } from './types';
 
 const receiptLoadingSteps = [
   'Reading the receipt...',
@@ -66,6 +68,11 @@ export default function App() {
   const [deck, setDeck] = useState<DeckMeal[]>([]);
   const [deckIndex, setDeckIndex] = useState(0);
   const [deckLoading, setDeckLoading] = useState(false);
+  const [aiDeckLoading, setAiDeckLoading] = useState(false);
+  const [swapEntry, setSwapEntry] = useState<GroceryListEntry | null>(null);
+  // Guards against stale AI results landing in a deck the user has since regenerated.
+  const deckGeneration = useRef(0);
+  const deckIndexRef = useRef(0);
   const [reviewMeal, setReviewMeal] = useState<MealIdea | null>(null);
   const [detailMeal, setDetailMeal] = useState<MealIdea | null>(null);
   const [receiptExtraction, setReceiptExtraction] = useState<ReceiptExtraction | null>(null);
@@ -83,6 +90,12 @@ export default function App() {
   useEffect(() => {
     track('app_opened');
   }, []);
+
+  // AI results can land while the user is mid-swipe; the merge needs the live index
+  // without re-running anything, so mirror it into a ref.
+  useEffect(() => {
+    deckIndexRef.current = deckIndex;
+  }, [deckIndex]);
 
   const needToBuyNames = useMemo(
     () => [...app.groceryList.buyNow, ...app.groceryList.maybeBuy].map((entry) => entry.name),
@@ -250,11 +263,52 @@ export default function App() {
       return;
     }
     setDeckLoading(true);
+    deckGeneration.current += 1;
     window.setTimeout(() => {
-      setDeck(app.generateMealDeck(mode, preferences));
+      const staticDeck = app.generateMealDeck(mode, preferences);
+      setDeck(staticDeck);
       setDeckIndex(0);
       setDeckLoading(false);
+      // The static deck always renders first; AI cards merge into the unseen tail
+      // only when the deterministic matches are weak for this inventory.
+      void enhanceDeckWithAi(staticDeck, mode, preferences, { force: false });
     }, 450);
+  }
+
+  async function enhanceDeckWithAi(staticDeck: DeckMeal[], mode: MealMode, preferences: MealPreferences, options: { force: boolean }) {
+    if (!isAiFeedAvailable || mode !== 'inventory' || aiDeckLoading) return;
+    const generation = deckGeneration.current;
+    setAiDeckLoading(true);
+    try {
+      const aiMeals = await app.fetchAiDeckMeals(mode, preferences, staticDeck, options);
+      if (generation !== deckGeneration.current) return;
+      if (aiMeals.length) {
+        track('ai_meals_merged', { count: aiMeals.length, forced: options.force });
+        setDeck((current) => mergeAiIntoDeck(current, aiMeals, deckIndexRef.current));
+        app.showToast(`Added ${aiMeals.length} smart idea${aiMeals.length === 1 ? '' : 's'} for your kitchen.`);
+      } else if (options.force) {
+        app.showToast('No new ideas this time — try loosening a preference.');
+      }
+    } finally {
+      setAiDeckLoading(false);
+    }
+  }
+
+  function requestSmartIdeas() {
+    track('ai_meals_requested', { mode: mealMode });
+    void enhanceDeckWithAi(deck, mealMode, mealPreferences, { force: true });
+  }
+
+  function openSwapSheet(entry: GroceryListEntry) {
+    track('substitution_opened', { itemName: entry.name });
+    setSwapEntry(entry);
+  }
+
+  function applySwap(suggestion: SubstitutionSuggestion) {
+    if (!swapEntry) return;
+    track('substitution_applied', { original: suggestion.original, substitute: suggestion.substitute, type: suggestion.type });
+    app.swapListEntry(swapEntry, suggestion);
+    setSwapEntry(null);
   }
 
   function deckLike(deckMeal: DeckMeal) {
@@ -337,6 +391,7 @@ export default function App() {
           onAlreadyHave={app.markEntryAlreadyHave}
           onNeedToBuy={app.markEntryNeedToBuy}
           onRemove={app.removeEntry}
+          onSwap={openSwapSheet}
           onAddManual={app.addManualItem}
           onRebuild={app.rebuildList}
           onScanReceipt={openReceiptScan}
@@ -453,6 +508,8 @@ export default function App() {
           onAddToShopping={deckAddToShopping}
           onAddIngredients={() => navigateTab('scan')}
           onStartFromScratch={() => openMealPreferences('scratch')}
+          onSmartIdeas={isAiFeedAvailable && mealMode === 'inventory' ? requestSmartIdeas : undefined}
+          aiLoading={aiDeckLoading}
         />
       );
     }
@@ -548,6 +605,19 @@ export default function App() {
     <div className="phone-shell">
       {!showAppChrome || isHomeCanvas ? renderScreen() : <div className="app-scroll-inner">{renderScreen()}</div>}
       {showAppChrome && <BottomNav activeTab={activeTab} onTabChange={navigateTab} />}
+      {swapEntry && (
+        <SubstitutionSheet
+          request={{
+            ingredient: swapEntry.name,
+            recipeContext: swapEntry.usedForMeals?.length ? `For ${swapEntry.usedForMeals.join(', ')}` : undefined,
+            inventory: app.knownIngredientNames,
+            restrictions: app.profile.dietaryPreferences,
+            useCase: 'cooking',
+          }}
+          onApply={applySwap}
+          onClose={() => setSwapEntry(null)}
+        />
+      )}
       {shareMeal && (
         <ShareMealSheet
           meal={shareMeal}
