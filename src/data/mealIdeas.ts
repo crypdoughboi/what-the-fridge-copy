@@ -1,9 +1,11 @@
 import { MealIdea, SeedMealTemplate } from '../types';
 import { seedMealTemplates } from './seedMealTemplates';
 import { expansionMealTemplates } from './expansionMealTemplates';
+import { importedMealTemplates } from './importedMealTemplates';
 
-// The full library: the original 100 curated templates plus the growing expansion set.
-export const allMealTemplates: SeedMealTemplate[] = [...seedMealTemplates, ...expansionMealTemplates];
+// The full library: the original 100 curated templates, the growing expansion set,
+// and the owner-compiled imported recipes (see scripts/importedRecipes.mjs).
+export const allMealTemplates: SeedMealTemplate[] = [...seedMealTemplates, ...expansionMealTemplates, ...importedMealTemplates];
 
 export const seedMealIdeas: MealIdea[] = allMealTemplates.map((template) => templateToMealIdea(template));
 

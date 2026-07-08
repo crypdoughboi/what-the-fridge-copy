@@ -1,13 +1,15 @@
 // Validate every meal template (curated + expansion) and report problems and
 // duplicates. Run with: npm run validate:meals
-import { loadSeedTemplates, loadExpansionTemplates, validateTemplate, templateKey } from './lib/mealTemplates.mjs';
+import { loadSeedTemplates, loadExpansionTemplates, loadImportedTemplates, validateTemplate, templateKey } from './lib/mealTemplates.mjs';
 
 const seed = loadSeedTemplates();
 const expansion = loadExpansionTemplates();
-const all = [...seed, ...expansion];
+const imported = loadImportedTemplates();
+const all = [...seed, ...expansion, ...imported];
 
 console.log(`Curated templates:   ${seed.length}`);
 console.log(`Expansion templates: ${expansion.length}`);
+console.log(`Imported templates:  ${imported.length}`);
 console.log(`Total:               ${all.length}\n`);
 
 let problems = 0;

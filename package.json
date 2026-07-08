@@ -12,7 +12,8 @@
     "seed:meals": "node scripts/seedMealTemplates.mjs",
     "validate:meals": "node scripts/validateMealTemplates.mjs",
     "generate:meals": "node scripts/generateMealTemplates.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:imported-meals": "node scripts/buildImportedTemplates.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.107.0",

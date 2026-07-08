@@ -12,6 +12,7 @@ const COMPONENTS = ['prep', 'sauce', 'base', 'protein', 'vegetables', 'assembly'
 
 const SEED_PATH = new URL('../../src/data/seedMealTemplates.ts', import.meta.url);
 const EXPANSION_PATH = new URL('../../src/data/expansionMealTemplates.ts', import.meta.url);
+const IMPORTED_PATH = new URL('../../src/data/importedMealTemplates.ts', import.meta.url);
 
 // Evaluate a `.ts` data file (type-only imports, one exported const array) and
 // return the named export. Mirrors how the seeder reads seedMealTemplates.ts.
@@ -34,8 +35,13 @@ export function loadExpansionTemplates() {
   return loadExport(EXPANSION_PATH, 'expansionMealTemplates') ?? [];
 }
 
+export function loadImportedTemplates() {
+  if (!fs.existsSync(IMPORTED_PATH)) return [];
+  return loadExport(IMPORTED_PATH, 'importedMealTemplates') ?? [];
+}
+
 export function loadAllTemplates() {
-  return [...loadSeedTemplates(), ...loadExpansionTemplates()];
+  return [...loadSeedTemplates(), ...loadExpansionTemplates(), ...loadImportedTemplates()];
 }
 
 export const expansionFilePath = EXPANSION_PATH;
