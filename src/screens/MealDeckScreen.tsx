@@ -32,6 +32,7 @@ export function MealDeckScreen({
   onStartFromScratch,
   onSmartIdeas,
   aiLoading = false,
+  source = 'kitchen',
 }: {
   deck: DeckMeal[];
   index: number;
@@ -48,6 +49,7 @@ export function MealDeckScreen({
   onStartFromScratch: () => void;
   onSmartIdeas?: () => void;
   aiLoading?: boolean;
+  source?: 'kitchen' | 'list';
 }) {
   const [drag, setDrag] = useState<DragState | null>(null);
   const [dragX, setDragX] = useState(0);
@@ -203,11 +205,15 @@ export function MealDeckScreen({
     return (
       <DeckMessage
         onBack={onBack}
-        title="No ingredients saved yet"
-        body="You don't have any ingredients saved yet. Add a few items or start from scratch."
+        title={source === 'list' ? 'Nothing cookable on your list yet' : 'No ingredients saved yet'}
+        body={
+          source === 'list'
+            ? 'Add some food items to your list first, then turn it into dinner ideas.'
+            : "You don't have any ingredients saved yet. Add a few items or start from scratch."
+        }
       >
         <Button full icon={<Plus className="h-5 w-5" strokeWidth={1.75} />} onClick={onAddIngredients}>
-          Add ingredients
+          {source === 'list' ? 'Add items to your list' : 'Add ingredients'}
         </Button>
         <Button full variant="secondary" onClick={onStartFromScratch}>
           Start from scratch
@@ -222,7 +228,7 @@ export function MealDeckScreen({
         <Button full icon={<SlidersHorizontal className="h-5 w-5" strokeWidth={1.75} />} onClick={onBack}>
           Adjust preferences
         </Button>
-        {mode === 'inventory' && onSmartIdeas ? (
+        {onSmartIdeas ? (
           <Button full variant="secondary" icon={<Sparkles className="h-5 w-5" strokeWidth={1.75} />} onClick={onSmartIdeas} disabled={aiLoading}>
             {aiLoading ? 'Thinking up ideas…' : 'Get smarter ideas'}
           </Button>
@@ -242,7 +248,7 @@ export function MealDeckScreen({
         <Button full icon={<SlidersHorizontal className="h-5 w-5" strokeWidth={1.75} />} onClick={onBack}>
           Adjust preferences
         </Button>
-        {mode === 'inventory' && onSmartIdeas ? (
+        {onSmartIdeas ? (
           <Button full variant="secondary" icon={<Sparkles className="h-5 w-5" strokeWidth={1.75} />} onClick={onSmartIdeas} disabled={aiLoading}>
             {aiLoading ? 'Thinking up ideas…' : 'Get smarter ideas'}
           </Button>
@@ -263,7 +269,7 @@ export function MealDeckScreen({
       <BackButton onClick={onBack} label="Back to preferences" />
 
       <section className="section-enter">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">{mode === 'inventory' ? 'From your kitchen' : 'Meal ideas'}</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">{mode === 'inventory' ? (source === 'list' ? 'From your list' : 'From your kitchen') : 'Meal ideas'}</p>
         <h1 className="mt-2 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Swipe to build dinner.</h1>
         <p className="mt-2 text-[15px] font-medium leading-[1.45] text-ink-soft">Swipe right or tap Like to save. Swipe left or tap Pass to skip.</p>
       </section>

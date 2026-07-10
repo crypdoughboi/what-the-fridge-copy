@@ -967,6 +967,9 @@ export function useGroceryAppState() {
       mode,
       staticDeck,
       avoidMealNames: dislikedMealNames,
+      // Thin scratch decks (narrow cuisine/method combos) need more new ideas
+      // per batch than an inventory top-up does.
+      maxMeals: mode === 'scratch' ? 6 : 4,
     });
     const deckMeals = cards.map((card) => aiMealCardToDeckMeal(card, inventory, mode));
     if (deckMeals.length) registerAiMealIdeas(deckMeals.map((deckMeal) => deckMeal.meal));

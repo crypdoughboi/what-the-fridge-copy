@@ -47,9 +47,10 @@ export type DeckStrength = {
 export const isAiFeedAvailable = isSupabaseConfigured;
 
 /**
- * Decide whether the deterministic deck is a weak match for this inventory.
- * Pure so it's directly testable. Only inventory mode auto-triggers AI; from
- * scratch the static library is always adequate and AI runs on request only.
+ * Decide whether the deterministic deck is weak enough to bring in AI.
+ * Pure so it's directly testable. Inventory mode looks at match quality against
+ * the user's items; scratch mode only flags a thin deck (a narrow cuisine or
+ * method combination the static library can't cover).
  */
 export function assessDeckStrength({
   deck,
@@ -62,7 +63,10 @@ export function assessDeckStrength({
   expiringSoon?: string[];
   mode: MealMode;
 }): DeckStrength {
-  if (mode !== 'inventory' || inventory.length === 0) return { weak: false, reasons: [] };
+  if (mode === 'scratch') {
+    return deck.length < 8 ? { weak: true, reasons: ['thin_scratch_deck'] } : { weak: false, reasons: [] };
+  }
+  if (inventory.length === 0) return { weak: false, reasons: [] };
 
   const reasons: string[] = [];
   const strongMatches = deck.filter((entry) => entry.missingCount <= 1).length;
@@ -267,9 +271,11 @@ function writeCache(key: string, cards: AiMealCard[]): void {
 /**
  * Fetch AI meal cards for the current kitchen state. Returns [] when Supabase
  * isn't configured or the call fails — callers always have the static deck.
+ * An empty inventory is allowed: the Edge Function then generates purely from
+ * preferences (the thin-cuisine/scratch case).
  */
 export async function fetchAiMealCards(params: AiFeedParams): Promise<AiMealCard[]> {
-  if (!isSupabaseConfigured || !supabase || params.inventory.length === 0) return [];
+  if (!isSupabaseConfigured || !supabase) return [];
 
   const cacheKey = buildFeedCacheKey(params);
   const cached = readCache(cacheKey);

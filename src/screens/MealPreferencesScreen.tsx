@@ -26,19 +26,29 @@ const copy: Record<MealMode, { header: string; support: string; cta: string }> =
   },
 };
 
+// The inventory flow can be fed by the kitchen (default) or by the grocery
+// list ("Turn this list into dinner ideas") — same mechanics, different story.
+const listCopy = {
+  header: 'Cook From Your List',
+  support: "We'll build dinner ideas around what you're buying.",
+  cta: 'Find meals from my list',
+};
+
 export function MealPreferencesScreen({
   mode,
+  source = 'kitchen',
   initialPreferences,
   onBack,
   onSubmit,
 }: {
   mode: MealMode;
+  source?: 'kitchen' | 'list';
   initialPreferences: MealPreferences;
   onBack: () => void;
   onSubmit: (preferences: MealPreferences) => void;
 }) {
   const [preferences, setPreferences] = useState<MealPreferences>(initialPreferences);
-  const { header, support, cta } = copy[mode];
+  const { header, support, cta } = source === 'list' ? listCopy : copy[mode];
 
   function update<K extends keyof MealPreferences>(key: K, value: MealPreferences[K]) {
     setPreferences((current) => ({ ...current, [key]: value }));

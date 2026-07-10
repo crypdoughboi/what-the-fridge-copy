@@ -107,9 +107,15 @@ describe('aiMealCardToDeckMeal', () => {
 });
 
 describe('assessDeckStrength', () => {
-  it('never flags scratch mode or an empty inventory', () => {
-    expect(assessDeckStrength({ deck: [], inventory: ['eggs'], mode: 'scratch' }).weak).toBe(false);
+  it('never flags an empty kitchen in inventory mode', () => {
     expect(assessDeckStrength({ deck: [], inventory: [], mode: 'inventory' }).weak).toBe(false);
+  });
+
+  it('flags a thin scratch deck (narrow cuisine/method combos) but not a full one', () => {
+    const thin = Array.from({ length: 4 }, (_, index) => deckMealStub(`meal-${index}`, [], 0));
+    expect(assessDeckStrength({ deck: thin, inventory: [], mode: 'scratch' })).toEqual({ weak: true, reasons: ['thin_scratch_deck'] });
+    const full = Array.from({ length: 20 }, (_, index) => deckMealStub(`meal-${index}`, [], 0));
+    expect(assessDeckStrength({ deck: full, inventory: [], mode: 'scratch' }).weak).toBe(false);
   });
 
   it('flags a thin deck with few high-confidence matches', () => {

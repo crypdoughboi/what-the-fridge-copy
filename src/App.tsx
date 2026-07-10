@@ -281,7 +281,7 @@ export default function App() {
   }
 
   async function enhanceDeckWithAi(staticDeck: DeckMeal[], mode: MealMode, preferences: MealPreferences, options: { force: boolean }) {
-    if (!isAiFeedAvailable || mode !== 'inventory' || aiDeckLoading) return;
+    if (!isAiFeedAvailable || aiDeckLoading) return;
     const generation = deckGeneration.current;
     setAiDeckLoading(true);
     try {
@@ -490,6 +490,7 @@ export default function App() {
       return (
         <MealPreferencesScreen
           mode={mealMode}
+          source={deckInventory ? 'list' : 'kitchen'}
           initialPreferences={mealPreferences}
           onBack={() => goBack('meals')}
           onSubmit={(preferences) => generateDeck(mealMode, preferences)}
@@ -513,8 +514,9 @@ export default function App() {
           onAddToShopping={deckAddToShopping}
           onAddIngredients={() => navigateTab('scan')}
           onStartFromScratch={() => openMealPreferences('scratch')}
-          onSmartIdeas={isAiFeedAvailable && mealMode === 'inventory' ? requestSmartIdeas : undefined}
+          onSmartIdeas={isAiFeedAvailable ? requestSmartIdeas : undefined}
           aiLoading={aiDeckLoading}
+          source={deckInventory ? 'list' : 'kitchen'}
         />
       );
     }

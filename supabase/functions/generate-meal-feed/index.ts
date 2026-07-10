@@ -126,10 +126,10 @@ Deno.serve(async (req: Request) => {
     return json({ error: 'Invalid JSON body.' }, 400);
   }
 
+  // Inventory may be empty: the client also uses this function for
+  // preference-driven generation when a narrow cuisine/method combination has
+  // too few static matches ("thin scratch deck").
   const inventory = stringList(body.inventory, 120);
-  if (!inventory.length) {
-    return json({ error: 'Missing "inventory" in request body.' }, 400);
-  }
   const expiringSoon = stringList(body.expiringSoon, 20);
   const restrictions = stringList(body.restrictions, 12);
   const avoidMealNames = stringList(body.avoidMealNames, 40);
@@ -142,8 +142,14 @@ Deno.serve(async (req: Request) => {
   const userPrompt = [
     `Mode: ${mode === 'inventory' ? 'cook from what the user has' : 'open to shopping'}. Return up to ${maxMeals} meals.`,
     '',
-    `INVENTORY (the ONLY items the user has):`,
-    inventory.map((item) => `- ${item}`).join('\n'),
+    inventory.length
+      ? `INVENTORY (the ONLY items the user has):\n${inventory.map((item) => `- ${item}`).join('\n')}`
+      : [
+          'INVENTORY: none shared. Generate purely from the preferences below.',
+          'Treat the preferences (especially cuisine and cooking method) as the brief: authentic, delicious-sounding,',
+          'chef-caliber dishes a home cook can make from a normal supermarket. Leave substitutionNotes empty,',
+          'set every meal source to "ai_generated", and list everything each dish needs in its ingredients.',
+        ].join(' '),
     expiringSoon.length ? `\nUSE SOON (perishable, prioritize these):\n${expiringSoon.map((item) => `- ${item}`).join('\n')}` : '',
     ingredientContext.length ? `\nINGREDIENT NOTES (how some inventory items can flex):\n${ingredientContext.map((item) => `- ${item}`).join('\n')}` : '',
     restrictions.length ? `\nDIETARY RESTRICTIONS (absolute):\n${restrictions.map((item) => `- ${item}`).join('\n')}` : '',
