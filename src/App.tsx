@@ -69,6 +69,9 @@ export default function App() {
   const [deckIndex, setDeckIndex] = useState(0);
   const [deckLoading, setDeckLoading] = useState(false);
   const [aiDeckLoading, setAiDeckLoading] = useState(false);
+  // When set, the deck cooks from these names (the grocery list) instead of the
+  // saved kitchen inventory. Set by "Turn this list into dinner ideas".
+  const [deckInventory, setDeckInventory] = useState<string[] | null>(null);
   const [swapEntry, setSwapEntry] = useState<GroceryListEntry | null>(null);
   // Guards against stale AI results landing in a deck the user has since regenerated.
   const deckGeneration = useRef(0);
@@ -238,7 +241,8 @@ export default function App() {
     navigateTab('list');
   }
 
-  function openMealPreferences(mode: MealMode) {
+  function openMealPreferences(mode: MealMode, inventoryOverride: string[] | null = null) {
+    setDeckInventory(inventoryOverride);
     setMealMode(mode);
     setMealPreferences((current) => {
       const isDefaultRestrictions = current.restrictions.length === 1 && current.restrictions[0] === 'No restrictions';
@@ -257,7 +261,8 @@ export default function App() {
     setDeckIndex(0);
     pushScreen('mealDeck', 'meals');
     track('meal_swipe_started', { mode });
-    if (mode === 'inventory' && app.knownIngredientNames.length === 0) {
+    const activeInventory = deckInventory ?? app.knownIngredientNames;
+    if (mode === 'inventory' && activeInventory.length === 0) {
       setDeck([]);
       setDeckLoading(false);
       return;
@@ -265,7 +270,7 @@ export default function App() {
     setDeckLoading(true);
     deckGeneration.current += 1;
     window.setTimeout(() => {
-      const staticDeck = app.generateMealDeck(mode, preferences);
+      const staticDeck = app.generateMealDeck(mode, preferences, deckInventory ?? undefined);
       setDeck(staticDeck);
       setDeckIndex(0);
       setDeckLoading(false);
@@ -280,7 +285,7 @@ export default function App() {
     const generation = deckGeneration.current;
     setAiDeckLoading(true);
     try {
-      const aiMeals = await app.fetchAiDeckMeals(mode, preferences, staticDeck, options);
+      const aiMeals = await app.fetchAiDeckMeals(mode, preferences, staticDeck, { ...options, inventoryOverride: deckInventory ?? undefined });
       if (generation !== deckGeneration.current) return;
       if (aiMeals.length) {
         track('ai_meals_merged', { count: aiMeals.length, forced: options.force });
@@ -398,7 +403,7 @@ export default function App() {
           onSnapFridge={openFridgeScan}
           onGoScan={() => navigateTab('scan')}
           onGetDelivered={openDelivery}
-          onStartMealIdeas={() => openMealPreferences('scratch')}
+          onStartMealIdeas={() => openMealPreferences('inventory', app.listIngredientNames)}
         />
       );
     }
@@ -500,7 +505,7 @@ export default function App() {
           onIndexChange={setDeckIndex}
           mode={mealMode}
           loading={deckLoading}
-          hasInventory={app.knownIngredientNames.length > 0}
+          hasInventory={(deckInventory ?? app.knownIngredientNames).length > 0}
           onBack={() => goBack('mealPreferences')}
           onLike={deckLike}
           onPass={deckPass}

@@ -137,6 +137,19 @@ export function useGroceryAppState() {
   const groceryList = useMemo(() => generateGroceryList(memory, behavior, baseMeals), [memory, behavior, baseMeals]);
   const usuals = useMemo(() => detectUsuals(memory), [memory]);
   const knownIngredientNames = useMemo(() => getKnownIngredientNames(memory, behavior), [memory, behavior]);
+  // "Turn this list into dinner ideas": the ingredient pool is everything on the
+  // shopping list (to buy or in cart) plus what's already owned. Household items
+  // can't be cooked, so they're dropped.
+  const listIngredientNames = useMemo(
+    () =>
+      unique(
+        [...groceryList.buyNow, ...groceryList.maybeBuy, ...groceryList.checkedOff]
+          .filter((entry) => entry.category !== 'Household')
+          .map((entry) => entry.name)
+          .concat(knownIngredientNames),
+      ),
+    [groceryList.buyNow, groceryList.maybeBuy, groceryList.checkedOff, knownIngredientNames],
+  );
   const plannedMeals = useMemo(() => idsToMealIdeas(plannedMealIds, mealIdeas), [plannedMealIds, mealIdeas]);
   const savedMeals = useMemo(
     () => idsToMealIdeas(savedMealIds, mealIdeas).filter((meal) => !plannedMealIds.includes(meal.id) && !cookedMealIds.includes(meal.id)),
@@ -901,12 +914,12 @@ export function useGroceryAppState() {
     });
   }
 
-  function generateMealDeck(mode: MealMode, preferences: MealPreferences): DeckMeal[] {
+  function generateMealDeck(mode: MealMode, preferences: MealPreferences, inventoryOverride?: string[]): DeckMeal[] {
     return buildMealDeck({
       mode,
       preferences,
       mealIdeas,
-      inventory: mode === 'inventory' ? knownIngredientNames : [],
+      inventory: mode === 'inventory' ? inventoryOverride ?? knownIngredientNames : [],
       expiringSoon: useSoonNames,
       likedTags: behavior.likedTags,
       dislikedTags: behavior.dislikedTags,
@@ -935,9 +948,9 @@ export function useGroceryAppState() {
     mode: MealMode,
     preferences: MealPreferences,
     staticDeck: DeckMeal[],
-    options: { force?: boolean } = {},
+    options: { force?: boolean; inventoryOverride?: string[] } = {},
   ): Promise<DeckMeal[]> {
-    const inventory = knownIngredientNames;
+    const inventory = options.inventoryOverride ?? knownIngredientNames;
     if (!options.force) {
       const strength = assessDeckStrength({ deck: staticDeck, inventory, expiringSoon: useSoonNames, mode });
       if (!strength.weak) return [];
@@ -1058,6 +1071,7 @@ export function useGroceryAppState() {
     spendingInsight,
     hasGroceryData,
     knownIngredientNames,
+    listIngredientNames,
     hasReceiptHistory: receiptCount > 0,
     receiptCount,
     useSoon,
