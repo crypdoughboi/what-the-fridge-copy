@@ -397,6 +397,36 @@ export const vibeHints: Record<string, VibeHint> = {
   'Low-cleanup': { tags: ['sheet pan', 'one-pan', 'skillet', 'one-pot'], formats: ['sheet pan', 'skillet', 'stew', 'curry', 'rice pot'] },
 };
 
+// Hard filters for the cooking-method preference. Unlike cookingMethodHints
+// (soft scoring), picking a specific method RESTRICTS the deck to meals that can
+// actually be made that way. Matching is against the meal's format string, plus
+// name/equipment ("haystack") for appliance methods, plus tags where formats
+// alone can't tell (grilled dishes). "Stovetop" works by exclusion: anything
+// that doesn't need an oven, grill, or appliance counts.
+export type CookingMethodFilter = {
+  formats?: string[];
+  tags?: string[];
+  haystack?: string[];
+  // When set, a haystack hit only counts if the format ALSO matches one of
+  // these — stops a skillet recipe from matching "Sheet pan" just because its
+  // equipment list mentions one for a side.
+  haystackFormats?: string[];
+  excludeFormats?: string[];
+};
+
+export const cookingMethodFilters: Record<string, CookingMethodFilter> = {
+  'Air fryer': { formats: ['air fryer'], haystack: ['air fryer'] },
+  'Sheet pan': { formats: ['sheet pan'], haystack: ['sheet pan'], haystackFormats: ['roast', 'bake', 'pizza'] },
+  'One-pan': { formats: ['skillet', 'sheet pan', 'one-pan', 'quesadilla', 'air fryer'] },
+  'One-pot': { formats: ['one-pot', 'stew', 'curry', 'braise', 'soup', 'rice pot', 'simmered'] },
+  Stovetop: { excludeFormats: ['sheet pan', 'bake', 'roast', 'grill', 'air fryer', 'pizza', 'platter', 'salad'] },
+  Oven: { formats: ['bake', 'roast', 'sheet pan', 'pizza'] },
+  Grill: { formats: ['grill'], tags: ['grilled'], haystack: ['grill or grill pan'] },
+  'No-cook': { formats: ['salad'], tags: ['no-cook', 'chilled'] },
+  'Slow cooker': { formats: ['stew', 'braise'], haystack: ['slow cooker'] },
+  'Instant Pot': { formats: ['braise'], haystack: ['instant pot', 'pressure cooker'] },
+};
+
 export const cookingMethodHints: Record<string, VibeHint> = {
   'Air fryer': { formats: ['sheet pan'], tags: ['crispy', 'crunchy'] },
   'Sheet pan': { formats: ['sheet pan', 'roast', 'bake'], tags: ['sheet pan', 'roasted'] },

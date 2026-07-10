@@ -15,6 +15,7 @@ import { normalizeIngredientKey } from '../utils/groceryLogic';
 import { findCloseMatches } from '../utils/ingredientIntelligence';
 import { fetchAiMealCards, isAiFeedAvailable } from './aiMealFeedService';
 import {
+  cookingMethodFilters,
   cookingMethodHints,
   cuisineKeywords,
   dairyFalsePositivePhrases,
@@ -185,6 +186,7 @@ export function generateMealDeck({
     .filter((meal) => activeRestrictions.every((restriction) => !violatesRestriction(meal, restriction)))
     .filter((meal) => matchesMainIngredient(meal, preferences.mainIngredient))
     .filter((meal) => matchesCuisine(meal, preferences.cuisine))
+    .filter((meal) => matchesCookingMethod(meal, preferences.cookingMethod))
     .map((meal) => {
       const core = getCoreIngredients(meal);
       const have = core.filter((ingredient) => inventoryKeys.has(ingredient.key));
@@ -437,6 +439,30 @@ function matchesMainIngredient(meal: MealIdea, mainIngredient: MealPreferences['
   const keywords = mainIngredientKeywords[mainIngredient];
   if (!keywords) return true;
   return haystacksMatch(coreHaystacks(meal), keywords);
+}
+
+/**
+ * Hard filter for the cooking-method preference. "Any method" passes everything;
+ * a specific method restricts the deck to meals that can actually be made that
+ * way (format first, then name/equipment for appliances, then tags for grilled).
+ * Exported for tests.
+ */
+export function matchesCookingMethod(meal: MealIdea, method: MealPreferences['cookingMethod']): boolean {
+  if (method === 'Any method') return true;
+  const filter = cookingMethodFilters[method];
+  if (!filter) return true;
+  const format = meal.format.toLowerCase();
+  if (filter.excludeFormats) return !filter.excludeFormats.some((value) => format.includes(value));
+  if (filter.formats?.some((value) => format.includes(value))) return true;
+  if (filter.tags?.some((tag) => meal.tags.includes(tag))) return true;
+  if (filter.haystack) {
+    const haystackAllowed = !filter.haystackFormats || filter.haystackFormats.some((value) => format.includes(value));
+    if (haystackAllowed) {
+      const haystack = `${meal.name} ${meal.equipment.join(' ')}`.toLowerCase();
+      if (filter.haystack.some((value) => haystack.includes(value))) return true;
+    }
+  }
+  return false;
 }
 
 function matchesCuisine(meal: MealIdea, cuisine: MealPreferences['cuisine']): boolean {
