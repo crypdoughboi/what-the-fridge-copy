@@ -11,7 +11,10 @@
 
 import Anthropic from 'npm:@anthropic-ai/sdk@0.69.0';
 
-const MODEL = 'claude-opus-4-8';
+// Sonnet keeps feed/substitution latency in the seconds range (Opus with
+// thinking can take a minute-plus here, which reads as "broken" in the UI and
+// risks Edge Function time limits). The vision functions stay on Opus.
+const MODEL = 'claude-sonnet-5';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -167,7 +170,7 @@ Deno.serve(async (req: Request) => {
   try {
     const message = await client.messages.create({
       model: MODEL,
-      max_tokens: 8192,
+      max_tokens: 12000,
       system: SYSTEM_PROMPT,
       thinking: { type: 'adaptive' },
       output_config: {

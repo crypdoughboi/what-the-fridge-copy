@@ -285,12 +285,14 @@ export default function App() {
     const generation = deckGeneration.current;
     setAiDeckLoading(true);
     try {
-      const aiMeals = await app.fetchAiDeckMeals(mode, preferences, staticDeck, { ...options, inventoryOverride: deckInventory ?? undefined });
+      const { meals: aiMeals, failed } = await app.fetchAiDeckMeals(mode, preferences, staticDeck, { ...options, inventoryOverride: deckInventory ?? undefined });
       if (generation !== deckGeneration.current) return;
       if (aiMeals.length) {
         track('ai_meals_merged', { count: aiMeals.length, forced: options.force });
         setDeck((current) => mergeAiIntoDeck(current, aiMeals, deckIndexRef.current));
         app.showToast(`Added ${aiMeals.length} smart idea${aiMeals.length === 1 ? '' : 's'} for your kitchen.`);
+      } else if (failed) {
+        app.showToast("Smart ideas couldn't load — try again in a moment.");
       } else if (options.force) {
         app.showToast('No new ideas this time — try loosening a preference.');
       }
@@ -411,6 +413,8 @@ export default function App() {
     if (screen === 'scan') {
       return (
         <ScanScreen
+          inventory={app.knownIngredientNames}
+          onRemoveInventory={app.removeInventoryItem}
           onScanFridge={openFridgeScan}
           onScanReceipt={openReceiptScan}
           onImportRecipe={openRecipeImport}

@@ -500,7 +500,7 @@ export function useGroceryAppState() {
       });
     }
     void moveGroceryItemToUserIngredients(remoteUserId, entry.name, 'bought');
-    showToast(`${entry.name} marked bought. WTF updated your list.`);
+    showToast(`${entry.name} is In Cart — it'll be in your inventory.`);
   }
 
   function removeEntry(entry: GroceryListEntry) {
@@ -930,6 +930,27 @@ export function useGroceryAppState() {
     });
   }
 
+  /**
+   * Drop an item from the kitchen inventory (the Inventory tab's chip list).
+   * Covers every source an owned item can come from: memory (receipts/bought),
+   * manual "already have" names, and fridge-scan sightings.
+   */
+  function removeInventoryItem(name: string) {
+    const key = normalizeIngredientKey(name);
+    const matchingIds = memory.filter((item) => normalizeIngredientKey(item.name) === key).map((item) => item.id);
+    setMemory((current) =>
+      current.map((item) => (normalizeIngredientKey(item.name) === key ? { ...item, likelyStillHave: false, confidence: 'low' as const } : item)),
+    );
+    setBehavior((current) => ({
+      ...current,
+      alreadyHaveIds: current.alreadyHaveIds.filter((id) => !matchingIds.includes(id)),
+      alreadyHaveNames: current.alreadyHaveNames.filter((item) => normalizeIngredientKey(item) !== key),
+      fridgeSeen: removeFridgeSeenByKey(current.fridgeSeen, key),
+    }));
+    void removeUserFoodState(remoteUserId, name);
+    showToast(`${name} removed from your inventory.`);
+  }
+
   function registerAiMealIdeas(meals: MealIdea[]) {
     setMealIdeas((current) => {
       const knownIds = new Set(current.map((meal) => meal.id));
@@ -949,18 +970,18 @@ export function useGroceryAppState() {
     preferences: MealPreferences,
     staticDeck: DeckMeal[],
     options: { force?: boolean; inventoryOverride?: string[] } = {},
-  ): Promise<DeckMeal[]> {
+  ): Promise<{ meals: DeckMeal[]; failed: boolean }> {
     const inventory = options.inventoryOverride ?? knownIngredientNames;
     if (!options.force) {
       const strength = assessDeckStrength({ deck: staticDeck, inventory, expiringSoon: useSoonNames, mode });
-      if (!strength.weak) return [];
+      if (!strength.weak) return { meals: [], failed: false };
     }
     const dislikedMealNames = Object.entries(behavior.mealFeedback)
       .filter(([, feedback]) => feedback.rating === 'Not again')
       .map(([mealId]) => getMealIdeaById(mealId, mealIdeas)?.name)
       .filter((name): name is string => Boolean(name));
 
-    const cards = await fetchAiMealCards({
+    const { cards, failed } = await fetchAiMealCards({
       inventory,
       expiringSoon: useSoonNames,
       preferences,
@@ -973,7 +994,7 @@ export function useGroceryAppState() {
     });
     const deckMeals = cards.map((card) => aiMealCardToDeckMeal(card, inventory, mode));
     if (deckMeals.length) registerAiMealIdeas(deckMeals.map((deckMeal) => deckMeal.meal));
-    return deckMeals;
+    return { meals: deckMeals, failed };
   }
 
   /**
@@ -1126,6 +1147,7 @@ export function useGroceryAppState() {
     rankMealIdeas,
     generateMealDeck,
     fetchAiDeckMeals,
+    removeInventoryItem,
     swapListEntry,
     addMealToShopping,
     removeSavedMeal,

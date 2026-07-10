@@ -12,7 +12,10 @@
 
 import Anthropic from 'npm:@anthropic-ai/sdk@0.69.0';
 
-const MODEL = 'claude-opus-4-8';
+// Sonnet keeps feed/substitution latency in the seconds range (Opus with
+// thinking can take a minute-plus here, which reads as "broken" in the UI and
+// risks Edge Function time limits). The vision functions stay on Opus.
+const MODEL = 'claude-sonnet-5';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',

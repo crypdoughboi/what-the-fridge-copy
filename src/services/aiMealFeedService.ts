@@ -44,6 +44,13 @@ export type DeckStrength = {
   reasons: string[];
 };
 
+export type AiFeedResult = {
+  cards: AiMealCard[];
+  // True when the Edge Function call itself failed (network, 4xx/5xx, bad
+  // output) — distinct from a successful call that produced nothing new.
+  failed: boolean;
+};
+
 export const isAiFeedAvailable = isSupabaseConfigured;
 
 /**
@@ -274,12 +281,12 @@ function writeCache(key: string, cards: AiMealCard[]): void {
  * An empty inventory is allowed: the Edge Function then generates purely from
  * preferences (the thin-cuisine/scratch case).
  */
-export async function fetchAiMealCards(params: AiFeedParams): Promise<AiMealCard[]> {
-  if (!isSupabaseConfigured || !supabase) return [];
+export async function fetchAiMealCards(params: AiFeedParams): Promise<AiFeedResult> {
+  if (!isSupabaseConfigured || !supabase) return { cards: [], failed: false };
 
   const cacheKey = buildFeedCacheKey(params);
   const cached = readCache(cacheKey);
-  if (cached) return cached;
+  if (cached) return { cards: cached, failed: false };
 
   const staticCandidates = params.staticDeck.slice(0, 10).map((entry) => ({
     id: entry.meal.id,
@@ -312,13 +319,14 @@ export async function fetchAiMealCards(params: AiFeedParams): Promise<AiMealCard
       },
     });
     if (error) throw error;
+    if (data?.error) throw new Error(String(data.error));
     const avoidKeys = new Set(shownNameKeys.map(normalizeIngredientKey));
     const cards = normalizeAiMealCards(data?.meals, avoidKeys);
     if (cards.length) writeCache(cacheKey, cards);
-    return cards;
+    return { cards, failed: false };
   } catch (error) {
     console.error('AI meal feed failed; keeping the static deck.', error);
-    return [];
+    return { cards: [], failed: true };
   }
 }
 

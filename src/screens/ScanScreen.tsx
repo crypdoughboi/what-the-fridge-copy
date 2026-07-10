@@ -1,17 +1,21 @@
 import { FormEvent, ReactNode, useState } from 'react';
-import { ChevronRight, Keyboard, NotebookPen, ReceiptText, Refrigerator } from 'lucide-react';
+import { ChevronRight, Keyboard, NotebookPen, ReceiptText, Refrigerator, X } from 'lucide-react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { Input } from '../components/Input';
 import { parseManualItemNames } from '../utils/groceryLogic';
 
 export function ScanScreen({
+  inventory,
+  onRemoveInventory,
   onScanFridge,
   onScanReceipt,
   onImportRecipe,
   onAddNeed,
   onAddHave,
 }: {
+  inventory: string[];
+  onRemoveInventory: (name: string) => void;
   onScanFridge: () => void;
   onScanReceipt: () => void;
   onImportRecipe: () => void;
@@ -34,10 +38,39 @@ export function ScanScreen({
   return (
     <main className="screen-enter space-y-5">
       <section className="section-enter">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Scan</p>
-        <h1 className="mt-2 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">Add food fast.</h1>
-        <p className="mt-2 text-[15px] font-medium leading-[1.4] text-ink-soft">Snap, scan, import, or type.</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent">Inventory</p>
+        <h1 className="mt-2 font-display text-[30px] font-extrabold leading-[1.05] tracking-[-0.02em] text-ink">What's in your kitchen.</h1>
+        <p className="mt-2 text-[15px] font-medium leading-[1.4] text-ink-soft">
+          Everything WTF knows you have. Meals and your grocery list both work off this.
+        </p>
       </section>
+
+      <Card className="section-enter stagger-1 p-4">
+        <div className="flex items-baseline justify-between">
+          <h2 className="font-display text-[18px] font-bold tracking-[-0.02em] text-ink">In your kitchen</h2>
+          <span className="text-[13px] font-semibold text-muted">{inventory.length}</span>
+        </div>
+        {inventory.length ? (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {inventory.map((name) => (
+              <span key={name} className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-paper py-1.5 pl-3 pr-1.5 text-[13px] font-semibold text-ink">
+                {name}
+                <button
+                  className="grid h-5 w-5 place-items-center rounded-full text-muted active:bg-line/50 active:text-ink"
+                  aria-label={`Remove ${name} from inventory`}
+                  onClick={() => onRemoveInventory(name)}
+                >
+                  <X className="h-3.5 w-3.5" strokeWidth={2} />
+                </button>
+              </span>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-2 text-[14px] font-medium leading-snug text-muted">
+            Nothing tracked yet. Add items below, snap your fridge, or scan a receipt — checked-off list items land here too.
+          </p>
+        )}
+      </Card>
 
       <div className="section-enter stagger-1 space-y-3">
         <SourceRow

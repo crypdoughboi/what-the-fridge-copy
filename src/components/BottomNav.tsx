@@ -1,11 +1,11 @@
-import { Home, ListChecks, ScanLine, Utensils } from 'lucide-react';
+import { Home, ListChecks, Refrigerator, Utensils } from 'lucide-react';
 import { Tab } from '../types';
 
 const tabs: Array<{ id: Tab; label: string; Icon: typeof Home }> = [
   { id: 'home', label: 'Home', Icon: Home },
   { id: 'meals', label: 'Meals', Icon: Utensils },
   { id: 'list', label: 'List', Icon: ListChecks },
-  { id: 'scan', label: 'Scan', Icon: ScanLine },
+  { id: 'scan', label: 'Inventory', Icon: Refrigerator },
 ];
 
 export function BottomNav({ activeTab, onTabChange }: { activeTab: Tab; onTabChange: (tab: Tab) => void }) {

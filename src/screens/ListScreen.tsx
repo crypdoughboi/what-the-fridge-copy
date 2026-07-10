@@ -152,7 +152,7 @@ export function ListScreen({
                 Fridge
               </Button>
               <Button variant="secondary" className="px-2 text-[14px]" icon={<ScanLine className="h-5 w-5" strokeWidth={1.75} />} onClick={onGoScan}>
-                Scan
+                Inventory
               </Button>
             </div>
             <button className="w-full rounded-md border border-line bg-surface px-4 py-3 text-center text-[15px] font-semibold text-ink shadow-sm" onClick={onStartMealIdeas}>

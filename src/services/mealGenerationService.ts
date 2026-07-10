@@ -52,7 +52,7 @@ export async function generateMealsFromGroceryMemory(
     mainIngredient: 'Use what makes sense',
     cuisine: 'Any cuisine',
   };
-  const cards = await fetchAiMealCards({ inventory, preferences, mode: 'inventory', staticDeck: [], maxMeals: 5 });
+  const { cards } = await fetchAiMealCards({ inventory, preferences, mode: 'inventory', staticDeck: [], maxMeals: 5 });
   if (!cards.length) return getMealsForMode(mode);
 
   const inventoryKeys = new Set(inventory.map(normalizeIngredientKey));
